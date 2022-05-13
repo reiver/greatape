@@ -1,6 +1,8 @@
 package main
 
 import (
+	_ "github.com/reiver/greatape/greataped/arg"
+
 	"fmt"
 )
 
