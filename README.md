@@ -1,5 +1,5 @@
-# Great Ape
+# GʀᴇᴀᴛAᴘᴇ
 
-**Great Ape** is a free **social audio & video** social-media platform that can be used via an app.
+**greatape** is a free **social audio & video** social-media platform that can be used via an app.
 
-**Great Ape** is a Fediverse technology that supports Federation via ActivityPub.
+**greatape** is a Fediverse technology that supports Federation via ActivityPub.
