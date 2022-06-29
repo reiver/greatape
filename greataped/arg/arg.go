@@ -19,7 +19,7 @@ var (
 )
 
 var (
-	Help bool
+	help bool
 )
 
 
@@ -31,14 +31,14 @@ func init() {
 	flag.BoolVar(&VeryVeryVeryVeryVerbose,     "vvvvv",  false,      "very very very very verbose logs outputted")
 	flag.BoolVar(&VeryVeryVeryVeryVeryVerbose, "vvvvvv", false, "very very very very very verbose logs outputted")
 
-	flag.BoolVar(&Help, "help", false, "outputs help message")
+	flag.BoolVar(&help, "help", false, "outputs help message")
 
 	flag.Parse()
 
 	Values = flag.Args()
 
 	// --help
-	if Help {
+	if help {
 		flag.PrintDefaults()
 		os.Exit(0)
 	}
