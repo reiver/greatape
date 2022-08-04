@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ .Title }}</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+      crossorigin="anonymous"
+    />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+      ul li em {
+        font-size: .85em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col mb-2">
+          <h1 class="display-1">{{ .Title }}</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <form id="frmProfile" action="/" method="post">
+            <div class="mb-3">
+              <label for="display_name" class="form-label">Display Name</label>
+              <input
+                type="text"
+                name="display_name"
+                id="display_name"
+                class="form-control"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="bio" class="form-label">Bio</label>
+              <input type="text" name="bio" id="bio" class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label for="github" class="form-label">Github</label>
+              <input
+                type="text"
+                name="github"
+                id="github"
+                class="form-control"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="avatar" class="form-label">Avatar</label>
+              <input
+                type="text"
+                name="avatar"
+                id="avatar"
+                class="form-control"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="banner" class="form-label">Banner</label>
+              <input
+                type="text"
+                name="banner"
+                id="banner"
+                class="form-control"
+              />
+            </div>
+            <div
+              id="message"
+              class="alert alert-danger"
+              style="display: none"
+              role="alert"
+            ></div>
+            <input type="submit" value="Update" class="btn btn-primary" />
+          </form>
+          <br />
+          <hr />
+          <br />
+          <form id="frmFollow" action="/" method="get">
+            <div class="mb-3">
+              <label for="account" class="form-label">Account</label>
+              <input
+                type="email"
+                name="acct"
+                id="account"
+                class="form-control"
+              />
+            </div>
+            <div
+              id="message"
+              class="alert alert-danger"
+              style="display: none"
+              role="alert"
+            ></div>
+            <input
+              type="submit"
+              value="Remote Follow"
+              class="btn btn-primary"
+            />
+          </form>
+        </div>
+        <div class="col-5">
+          <div class="alert alert-primary" role="alert">
+            <pre id="actor"></pre>
+          </div>
+          <div class="alert alert-primary" role="alert" style="display: none">
+            <pre id="apiKey"></pre>
+          </div>
+          <div class="alert alert-primary" role="alert">
+            <pre id="webfinger"></pre>
+          </div>
+        </div>
+        <div class="col-4">
+          <h2>Outbox</h2>
+          <form id="frmPost" action="/" method="get">
+            <div class="mb-3">
+              <label for="to" class="form-label">To</label>
+              <input type="text" name="to" id="to" class="form-control" />
+              <label for="note" class="form-label">Message</label>
+              <textarea
+                style="height: 200px"
+                name="note"
+                id="note"
+                class="form-control"
+              ></textarea>
+            </div>
+            <div
+              id="fmtPostMessage"
+              class="alert alert-danger"
+              style="display: none"
+              role="alert"
+            ></div>
+            <input type="submit" value="Post" class="btn btn-primary" />
+          </form>
+          <hr />
+          <h2>Inbox</h2>
+          <ul class="list-group" id="inbox"></ul>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.onload = function () {
+        let host = "{{ .Protocol }}://{{ .Domain }}:{{ .Port }}";
+        let username;
+        document.getElementById("frmProfile").onsubmit = function () {
+          axios({
+            method: "post",
+            url: "/api/v1/profile",
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+            data: {
+              display_name: document.getElementById("display_name").value,
+              bio: document.getElementById("bio").value,
+              github: document.getElementById("github").value,
+              avatar: document.getElementById("avatar").value,
+              banner: document.getElementById("banner").value,
+            },
+          })
+            .then(function (response) {})
+            .catch(function (err) {
+              document.getElementById("message").innerHTML = err.response.data;
+              document.getElementById("message").style.display = "block";
+            });
+
+          return false;
+        };
+
+        function refreshInbox() {
+          axios({
+            method: "get",
+            url: "/u/" + username + "/inbox",
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }).then(function (response) {
+            const inbox = document.getElementById("inbox");
+            inbox.innerHTML = "";
+            for (let i = 0; i < response.data.length; i++) {
+              let item = document.createElement("li");
+              item.innerHTML =
+                "<article><em>From: " +
+                response.data[i].from +
+                "</em><br><em>To: " +
+                response.data[i].to +
+                "</em><hr><p>" +
+                response.data[i].content +
+                "</p></article>";
+              item.className = "list-group-item";
+              inbox.appendChild(item);
+            }
+          });
+        }
+
+        document.getElementById("frmPost").onsubmit = function () {
+          axios({
+            method: "post",
+            url: document.getElementById("frmPost").action,
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+            data: {
+              "@context": "https://www.w3.org/ns/activitystreams",
+              type: "Note",
+              to: [document.getElementById("to").value],
+              attributedTo: host + "/u/" + username + "/",
+              content: document.getElementById("note").value,
+            },
+          }).then(function (response) {
+            refreshInbox();
+          });
+
+          return false;
+        };
+
+        axios({
+          method: "get",
+          url: "/api/v1/profile",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }).then(function (response) {
+          username = response.data.username;
+          document.getElementById("display_name").value =
+            response.data.display_name;
+          document.getElementById("bio").value = response.data.bio;
+          document.getElementById("github").value = response.data.github;
+          document.getElementById("avatar").value = response.data.avatar;
+          document.getElementById("banner").value = response.data.banner;
+          document.getElementById("actor").innerHTML = response.data.actor;
+          document.getElementById("apiKey").innerHTML = response.data.api_key;
+          document.getElementById("webfinger").innerHTML =
+            response.data.webfinger;
+          document.getElementById("frmFollow").action =
+            "/u/" + username + "/follow";
+          document.getElementById("frmPost").action =
+            "/u/" + username + "/outbox";
+          refreshInbox();
+        });
+      };
+    </script>
+  </body>
+</html>

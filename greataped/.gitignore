@@ -1,1 +1,5 @@
-greataped
+.DS_Store
+.vscode/
+tools/
+tmp/
+*.sqlite

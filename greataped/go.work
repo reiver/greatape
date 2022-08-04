@@ -1,0 +1,11 @@
+go 1.18
+
+use (
+	./app
+	./config
+	./contracts
+	./db
+	./log
+	./server
+	./utility
+)

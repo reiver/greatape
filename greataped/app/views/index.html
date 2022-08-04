@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ .Title }}</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+      crossorigin="anonymous"
+    />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col mb-3">
+          <h1 class="display-1">{{ .Title }}</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5 p-2">
+          <form id="frmLogin" action="/api/v1/login" method="post">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input
+                type="email"
+                name="email"
+                id="loginEmail"
+                class="form-control"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                name="password"
+                id="loginPassword"
+                class="form-control"
+              />
+            </div>
+            <div
+              id="loginMessage"
+              class="alert alert-danger"
+              style="display: none"
+              role="alert"
+            ></div>
+            <input type="submit" value="Login" class="btn btn-primary" />
+          </form>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-5">
+          <form id="frmSignup" action="/api/v1/signup" method="post">
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" name="username" id="username" class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                class="form-control"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                class="form-control"
+              />
+            </div>
+            <div
+              id="signupMessage"
+              class="alert alert-danger"
+              style="display: none"
+              role="alert"
+            ></div>
+            <button id="btnSignup" type="submit" class="btn btn-primary">
+              Signup
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.onload = function () {
+        document.getElementById("frmLogin").onsubmit = function () {
+          axios({
+            method: "post",
+            url: "/api/v1/login",
+            data: {
+              email: document.getElementById("loginEmail").value,
+              password: document.getElementById("loginPassword").value,
+            },
+          })
+            .then(function (response) {
+              window.location.href = "/profile";
+              localStorage.setItem("token", response.data.auth.token);
+            })
+            .catch(function (err) {
+              document.getElementById("loginMessage").innerHTML =
+                err.response.data;
+              document.getElementById("loginMessage").style.display = "block";
+            });
+
+          return false;
+        };
+
+        document.getElementById("frmSignup").onsubmit = function () {
+          axios({
+            method: "post",
+            url: "/api/v1/signup",
+            data: {
+              username: document.getElementById("username").value,
+              email: document.getElementById("email").value,
+              password: document.getElementById("password").value,
+            },
+          })
+            .then(function (response) {
+              localStorage.setItem("token", response.data.auth.token);
+              window.location.href = "/profile";
+            })
+            .catch(function (err) {
+              document.getElementById("signupMessage").innerHTML =
+                err.response.data;
+              document.getElementById("signupMessage").style.display = "block";
+            });
+
+          return false;
+        };
+      };
+    </script>
+  </body>
+</html>
