@@ -15,8 +15,8 @@ import (
 var Profile = route.New(HttpGet, "/profile", func(x IContext) error {
 	return x.Render("profile", ViewData{
 		"Title":    "Profile",
-		"Protocol": config.EXTERNAL_PROTOCOL,
-		"Domain":   config.EXTERNAL_DOMAIN,
+		"Protocol": config.PROTOCOL,
+		"Domain":   config.DOMAIN,
 	})
 })
 

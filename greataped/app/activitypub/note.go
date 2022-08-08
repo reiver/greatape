@@ -22,9 +22,9 @@ func (note *Note) Wrap(username string) *Activity {
 	return &Activity{
 		Context: ActivityStreams,
 		Type:    TypeCreate,
-		ID:      fmt.Sprintf("%s://%s/u/%s/posts/%s", config.EXTERNAL_PROTOCOL, config.EXTERNAL_DOMAIN, username, uuid.New().String()),
+		ID:      fmt.Sprintf("%s://%s/u/%s/posts/%s", config.PROTOCOL, config.DOMAIN, username, uuid.New().String()),
 		To:      note.To,
-		Actor:   fmt.Sprintf("%s://%s/u/%s", config.EXTERNAL_PROTOCOL, config.EXTERNAL_DOMAIN, username),
+		Actor:   fmt.Sprintf("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username),
 		Object:  note,
 	}
 }

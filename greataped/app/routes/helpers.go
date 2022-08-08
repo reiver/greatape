@@ -21,7 +21,7 @@ func createApiKey() (string, error) {
 }
 
 func createActor(user *repos.User) *activitypub.Actor {
-	id := fmt.Sprintf("%s://%s/u/%s", config.EXTERNAL_PROTOCOL, config.EXTERNAL_DOMAIN, user.Username)
+	id := fmt.Sprintf("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, user.Username)
 
 	return &activitypub.Actor{
 		Context: []interface{}{
@@ -61,10 +61,10 @@ func createActor(user *repos.User) *activitypub.Actor {
 }
 
 func createWebfinger(user *repos.User) *activitypub.Webfinger {
-	subject := fmt.Sprintf("acct:%s@%s", user.Username, config.EXTERNAL_DOMAIN)
-	href := fmt.Sprintf("%s://%s/u/%s", config.EXTERNAL_PROTOCOL, config.EXTERNAL_DOMAIN, user.Username)
+	subject := fmt.Sprintf("acct:%s@%s", user.Username, config.DOMAIN)
+	href := fmt.Sprintf("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, user.Username)
 	_type := "application/activity+json"
-	template := fmt.Sprintf("%s://%s/authorize_interaction?uri={uri}", config.EXTERNAL_PROTOCOL, config.EXTERNAL_DOMAIN)
+	template := fmt.Sprintf("%s://%s/authorize_interaction?uri={uri}", config.PROTOCOL, config.DOMAIN)
 
 	return &activitypub.Webfinger{
 		Aliases: []string{

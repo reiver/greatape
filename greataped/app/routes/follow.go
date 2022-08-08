@@ -48,7 +48,7 @@ var Follow = route.New(HttpGet, "/u/:name/follow", func(x IContext) error {
 		x.BadRequest("There was an error looking up the remote account")
 	}
 
-	uri := url.QueryEscape(x.StringUtil().Format("https://%s/u/%s", config.EXTERNAL_DOMAIN, username))
+	uri := url.QueryEscape(x.StringUtil().Format("https://%s/u/%s", config.DOMAIN, username))
 	template = x.StringUtil().Replace(template, "{uri}", uri, 01)
 
 	return x.Redirect(template)

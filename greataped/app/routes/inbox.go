@@ -30,7 +30,7 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 		return x.NotFound("No record found for %s.", username)
 	}
 
-	keyId := x.StringUtil().Format("https://%s/u/%s#main-key", config.DOMAIN, username)
+	keyId := x.StringUtil().Format("%s://%s/u/%s#main-key", config.PROTOCOL, config.DOMAIN, username)
 
 	switch object.Type {
 	case activitypub.TypeFollow:
@@ -55,9 +55,9 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 			{
 				data, _ := json.Marshal(&activitypub.Activity{
 					Context: "https://www.w3.org/ns/activitystreams",
-					ID:      x.StringUtil().Format("https://%s/%s", config.DOMAIN, x.GUID()),
+					ID:      x.StringUtil().Format("%s://%s/%s", config.PROTOCOL, config.DOMAIN, x.GUID()),
 					Type:    activitypub.TypeAccept,
-					Actor:   x.StringUtil().Format("https://%s/u/%s", config.DOMAIN, username),
+					Actor:   x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username),
 					Object:  activity,
 				})
 
@@ -114,7 +114,7 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 
 var InboxGet = route.New(HttpGet, "/u/:username/inbox", func(x IContext) error {
 	user := x.Request().Params("username")
-	actor := x.StringUtil().Format("%s://%s/u/%s", config.EXTERNAL_PROTOCOL, config.EXTERNAL_DOMAIN, user)
+	actor := x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, user)
 
 	messages := &[]types.MessageResponse{}
 	err := repos.FindIncomingActivitiesForUser(messages, actor).Error

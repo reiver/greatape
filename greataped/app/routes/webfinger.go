@@ -18,7 +18,7 @@ var WebFinger = route.New(HttpGet, "/.well-known/webfinger", func(x IContext) er
 	}
 
 	name := x.StringUtil().Replace(resource, "acct:", "", -1)
-	name = x.StringUtil().Replace(name, fmt.Sprintf("@%s", config.EXTERNAL_DOMAIN), "", -1)
+	name = x.StringUtil().Replace(name, fmt.Sprintf("@%s", config.DOMAIN), "", -1)
 
 	user := &repos.User{}
 	if err := repos.FindUserByUsername(user, name).Error; err != nil {

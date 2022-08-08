@@ -28,7 +28,7 @@ var OutboxPost = route.New(HttpPost, "/u/:username/outbox", func(x IContext) err
 		return x.NotFound("No record found for %s.", username)
 	}
 
-	keyId := x.StringUtil().Format("https://%s/u/%s#main-key", config.DOMAIN, username)
+	keyId := x.StringUtil().Format("%s://%s/u/%s#main-key", config.PROTOCOL, config.DOMAIN, username)
 
 	switch object.Type {
 	case activitypub.TypeNote:
@@ -72,7 +72,7 @@ var OutboxPost = route.New(HttpPost, "/u/:username/outbox", func(x IContext) err
 
 var OutboxGet = route.New(HttpGet, "/u/:username/outbox", func(x IContext) error {
 	user := x.Request().Params("username")
-	actor := x.StringUtil().Format("https://%s/u/%s", config.DOMAIN, user)
+	actor := x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, user)
 
 	messages := &[]types.MessageResponse{}
 	err := repos.FindOutgoingActivitiesByUser(messages, actor).Error
