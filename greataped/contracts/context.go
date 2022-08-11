@@ -17,7 +17,7 @@ type (
 		Redirect(location string, status ...int) error
 		Render(name string, bind interface{}, layouts ...string) error
 
-		GetActivityStream(url, keyId, privateKey string, output interface{}) error
+		GetActivityStream(url, keyId, privateKey string, data []byte, output interface{}) error
 		PostActivityStream(url, keyId, privateKey string, data []byte, output interface{}) error
 
 		// Error(int, string, ...any) IServerError

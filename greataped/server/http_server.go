@@ -61,7 +61,13 @@ func New() IServer {
 
 	framework.Use(
 		cors.New(),
-		logger.New(),
+		logger.New(logger.Config{
+			Next:         nil,
+			Format:       "[${time}] ${status} - ${latency} ${method} ${path} ${body}\n",
+			TimeFormat:   "15:04:05",
+			TimeZone:     "Local",
+			TimeInterval: 500 * time.Millisecond,
+		}),
 		recover.New(),
 		helmet.New(),
 		// csrf.New(),

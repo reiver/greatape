@@ -3,8 +3,11 @@ package server
 import (
 	"bytes"
 	. "contracts"
+	"crypto/sha256"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"time"
 	"utility"
@@ -120,62 +123,44 @@ func (context *httpServerContext) Conflict(format string, args ...any) IServerEr
 	return context.Error(StatusConflict, format, args...)
 }
 
-func (context *httpServerContext) GetActivityStream(url string, keyId, privateKey string, output interface{}) error {
+func (context *httpServerContext) signRequest(keyId, privateKey string, data []byte, req *http.Request) error {
 	privKey, err := httpsig.ParseRsaPrivateKeyFromPemStr(privateKey)
 	if err != nil {
 		return err
 	}
 
 	signer := httpsig.NewRSASHA256Signer(keyId, privKey, []string{"Date", "Digest"})
-
-	req, err := http.NewRequest(http.MethodGet, url, nil)
-	if err != nil {
-		return err
+	if data != nil {
+		hasher := sha256.New()
+		hasher.Write(data)
+		sum := hasher.Sum(nil)
+		encodedHash := base64.StdEncoding.EncodeToString(sum)
+		digest := fmt.Sprintf("sha-256=%s", encodedHash)
+		req.Header.Set("Content-Type", "application/activity+json; charset=UTF-8")
+		req.Header.Set("Digest", digest)
 	}
 
 	req.Header.Set("Accept", "application/activity+json")
 
 	if err := signer.Sign(req); err != nil {
-		return err
-	}
-
-	res, err := context.httpClient.Do(req)
-	if err != nil {
-		return err
-	}
-
-	if res.Body != nil {
-		defer res.Body.Close()
-	}
-
-	if res.StatusCode != http.StatusOK {
-		return fmt.Errorf("%s", res.Status)
-	}
-
-	if err := json.NewDecoder(res.Body).Decode(output); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (context *httpServerContext) PostActivityStream(url, keyId, privateKey string, data []byte, output interface{}) error {
-	privKey, err := httpsig.ParseRsaPrivateKeyFromPemStr(privateKey)
+func (context *httpServerContext) requestActivityStream(method, url, keyId, privateKey string, data []byte, output interface{}) error {
+	var reader io.Reader
+	if data != nil {
+		reader = bytes.NewBuffer(data)
+	}
+
+	req, err := http.NewRequest(method, url, reader)
 	if err != nil {
 		return err
 	}
 
-	signer := httpsig.NewRSASHA256Signer(keyId, privKey, []string{"Date", "Digest"})
-
-	req, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(data))
-	if err != nil {
-		return err
-	}
-
-	req.Header.Set("Content-Type", "application/activity+json; charset=UTF-8")
-	req.Header.Set("Accept", "application/activity+json")
-
-	if err := signer.Sign(req); err != nil {
+	if err := context.signRequest(keyId, privateKey, data, req); err != nil {
 		return err
 	}
 
@@ -192,5 +177,19 @@ func (context *httpServerContext) PostActivityStream(url, keyId, privateKey stri
 		return fmt.Errorf("%s", res.Status)
 	}
 
+	if output != nil {
+		if err := json.NewDecoder(res.Body).Decode(output); err != nil {
+			return err
+		}
+	}
+
 	return nil
+}
+
+func (context *httpServerContext) GetActivityStream(url, keyId, privateKey string, data []byte, output interface{}) error {
+	return context.requestActivityStream(http.MethodGet, url, keyId, privateKey, data, output)
+}
+
+func (context *httpServerContext) PostActivityStream(url, keyId, privateKey string, data []byte, output interface{}) error {
+	return context.requestActivityStream(http.MethodPost, url, keyId, privateKey, data, output)
 }

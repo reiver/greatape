@@ -41,7 +41,7 @@ var OutboxPost = route.New(HttpPost, "/u/:username/outbox", func(x IContext) err
 			activity := note.Wrap(username)
 
 			recipient := &activitypub.Actor{}
-			if err := x.GetActivityStream(activity.To.([]string)[0], keyId, key.PrivateKey, recipient); err != nil {
+			if err := x.GetActivityStream(activity.To.([]string)[0], keyId, key.PrivateKey, nil, recipient); err != nil {
 				return x.InternalServerError(err.Error())
 			}
 

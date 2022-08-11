@@ -8,7 +8,6 @@ import (
 	. "contracts"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"server/route"
 	"time"
 
@@ -45,7 +44,7 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 
 			{
 				actor := &activitypub.Actor{}
-				if err := x.GetActivityStream(url, keyId, key.PrivateKey, actor); err != nil {
+				if err := x.GetActivityStream(url, keyId, key.PrivateKey, nil, actor); err != nil {
 					return x.InternalServerError(err.Error())
 				}
 
@@ -68,8 +67,6 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 				if err := x.PostActivityStream(inbox, keyId, key.PrivateKey, data, output); err != nil {
 					return x.InternalServerError(err.Error())
 				}
-
-				fmt.Println("RESULT", output)
 			}
 
 			return x.Nothing()

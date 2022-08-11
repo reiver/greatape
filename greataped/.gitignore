@@ -3,3 +3,4 @@
 tools/
 tmp/
 *.sqlite
+__debug_bin
