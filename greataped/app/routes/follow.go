@@ -4,7 +4,7 @@ import (
 	"app/activitypub"
 	"config"
 	. "contracts"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"server/route"
@@ -26,7 +26,7 @@ var Follow = route.New(HttpGet, "/u/:name/follow", func(x IContext) error {
 		x.InternalServerError(err.Error())
 	}
 
-	data, err := ioutil.ReadAll(resp.Body)
+	data, err := io.ReadAll(resp.Body)
 	if err != nil {
 		x.InternalServerError(err.Error())
 	}

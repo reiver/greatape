@@ -11,16 +11,16 @@ import (
 	"gorm.io/gorm"
 )
 
-var User = route.New(HttpGet, "/u/:name", func(x IContext) error {
-	name := x.Request().Params("name")
-	if name == "" {
+var User = route.New(HttpGet, "/u/:username", func(x IContext) error {
+	username := x.Request().Params("username")
+	if username == "" {
 		return x.BadRequest("Bad request")
 	}
 
 	user := &repos.User{}
-	err := repos.FindUserByUsername(user, name).Error
+	err := repos.FindUserByUsername(user, username).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return x.NotFound("No record found for %s.", name)
+		return x.NotFound("No record found for %s.", username)
 	}
 
 	actor := createActor(user)
@@ -30,20 +30,22 @@ var User = route.New(HttpGet, "/u/:name", func(x IContext) error {
 		return x.WriteString(string(json))
 	} else {
 		return x.Render("user", ViewData{
-			"Actor": actor,
+			"Title":    fmt.Sprintf("%s's Public Profile", user.DisplayName),
+			"Username": user.Username,
+			"Actor":    actor,
 		})
 	}
 })
 
-var _Followers = route.New(HttpPost, "/u/:name/:followers", func(x IContext) error {
-	name := x.Request().Params("name")
-	if name == "" {
+var _ = route.New(HttpPost, "/u/:username/:followers", func(x IContext) error {
+	username := x.Request().Params("username")
+	if username == "" {
 		return x.BadRequest("Bad request")
 	}
 
 	storage := x.Storage()
 	domain := x.Config().Get("domain")
-	result := storage.Prepare("select followers from accounts where name = ?").Param(fmt.Sprintf("%s@%s", name, domain))
+	result := storage.Prepare("select followers from accounts where name = ?").Param(fmt.Sprintf("%s@%s", username, domain))
 	if result.Get("followers") == nil {
 		result.Set("followers", "[]")
 	}
@@ -63,7 +65,7 @@ var _Followers = route.New(HttpPost, "/u/:name/:followers", func(x IContext) err
 		},
 		"@context":["https://www.w3.org/ns/activitystreams"]
 	}
-	`, domain, name, followers.Length())
+	`, domain, username, followers.Length())
 
 	return x.JSON(followersCollection)
 })

@@ -115,12 +115,9 @@
           </div>
         </div>
         <div class="col-md-4">
-          <h2>Outbox</h2>
           <form id="frmPost" action="/" method="get">
             <div class="mb-3">
-              <label for="to" class="form-label">To</label>
-              <input type="text" name="to" id="to" class="form-control" />
-              <label for="note" class="form-label">Message</label>
+              <input type="text" name="to" id="to" class="form-control" value="https://www.w3.org/ns/activitystreams#Public" style="display:none;" />
               <textarea
                 style="height: 200px"
                 name="note"
@@ -137,14 +134,14 @@
             <input type="submit" value="Post" class="btn btn-primary" />
           </form>
           <hr />
-          <h2>Inbox</h2>
-          <ul class="list-group" id="inbox"></ul>
+          <h2>Feed</h2>
+          <ul class="list-group" id="feed"></ul>
         </div>
       </div>
     </div>
     <script>
       window.onload = function () {
-        let host = "{{ .Protocol }}://{{ .Domain }}:{{ .Port }}";
+        let host = "{{ .Protocol }}://{{ .Domain }}";
         let username;
         document.getElementById("frmProfile").onsubmit = function () {
           axios({
@@ -170,28 +167,27 @@
           return false;
         };
 
-        function refreshInbox() {
+        function refreshFeed() {
           axios({
             method: "get",
-            url: "/u/" + username + "/inbox",
+            url: "/u/" + username + "/outbox",
             headers: {
               Authorization: "Bearer " + localStorage.getItem("token"),
             },
           }).then(function (response) {
-            const inbox = document.getElementById("inbox");
-            inbox.innerHTML = "";
-            for (let i = 0; i < response.data.length; i++) {
+            console.log(response);
+            const feed = document.getElementById("feed");
+            feed.innerHTML = "";
+            for (let i = 0; i < response.data.orderedItems.length; i++) {
               let item = document.createElement("li");
               item.innerHTML =
                 "<article><em>From: " +
-                response.data[i].from +
-                "</em><br><em>To: " +
-                response.data[i].to +
+                response.data.orderedItems[i].object.attributedTo +
                 "</em><hr><p>" +
-                response.data[i].content +
+                response.data.orderedItems[i].object.content +
                 "</p></article>";
               item.className = "list-group-item";
-              inbox.appendChild(item);
+              feed.appendChild(item);
             }
           });
         }
@@ -207,11 +203,11 @@
               "@context": "https://www.w3.org/ns/activitystreams",
               type: "Note",
               to: [document.getElementById("to").value],
-              attributedTo: host + "/u/" + username + "/",
+              attributedTo: host + "/u/" + username,
               content: document.getElementById("note").value,
             },
           }).then(function (response) {
-            refreshInbox();
+            refreshFeed();
           });
 
           return false;
@@ -239,7 +235,7 @@
             "/u/" + username + "/follow";
           document.getElementById("frmPost").action =
             "/u/" + username + "/outbox";
-          refreshInbox();
+          refreshFeed();
         });
       };
     </script>

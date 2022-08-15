@@ -40,21 +40,27 @@ var OutboxPost = route.New(HttpPost, "/u/:username/outbox", func(x IContext) err
 
 			activity := note.Wrap(username)
 
-			recipient := &activitypub.Actor{}
-			if err := x.GetActivityStream(activity.To.([]string)[0], keyId, key.PrivateKey, nil, recipient); err != nil {
-				return x.InternalServerError(err.Error())
-			}
+			to := activity.To.([]string)[0]
 
-			data, _ := json.Marshal(activity)
-			output := &struct{}{}
-			if err := x.PostActivityStream(recipient.Inbox, keyId, key.PrivateKey, data, output); err != nil {
-				return x.InternalServerError(err.Error())
+			if to != activitypub.Public {
+				recipient := &activitypub.Actor{}
+				if err := x.GetActivityStream(to, keyId, key.PrivateKey, nil, recipient); err != nil {
+					return x.InternalServerError(err.Error())
+				}
+
+				to = recipient.ID
+
+				data, _ := json.Marshal(activity)
+				output := &struct{}{}
+				if err := x.PostActivityStream(recipient.Inbox, keyId, key.PrivateKey, data, output); err != nil {
+					return x.InternalServerError(err.Error())
+				}
 			}
 
 			message := &repos.OutgoingActivity{
 				Timestamp: time.Now().UnixNano(),
 				From:      note.AttributedTo,
-				To:        recipient.ID,
+				To:        to,
 				Guid:      x.GUID(),
 				Content:   note.Content,
 			}
@@ -71,8 +77,9 @@ var OutboxPost = route.New(HttpPost, "/u/:username/outbox", func(x IContext) err
 })
 
 var OutboxGet = route.New(HttpGet, "/u/:username/outbox", func(x IContext) error {
-	user := x.Request().Params("username")
-	actor := x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, user)
+	username := x.Request().Params("username")
+	actor := x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username)
+	id := x.StringUtil().Format("%s://%s/u/%s/outbox", config.PROTOCOL, config.DOMAIN, username)
 
 	messages := &[]types.MessageResponse{}
 	err := repos.FindOutgoingActivitiesByUser(messages, actor).Error
@@ -80,5 +87,31 @@ var OutboxGet = route.New(HttpGet, "/u/:username/outbox", func(x IContext) error
 		x.InternalServerError("internal server error")
 	}
 
-	return x.JSON(messages)
+	items := []*activitypub.Activity{}
+	for _, message := range *messages {
+		note := &activitypub.Note{
+			Context: "https://www.w3.org/ns/activitystreams",
+			To: []string{
+				"https://www.w3.org/ns/activitystreams#Public",
+			},
+			Content:      message.Content,
+			Type:         "Note",
+			AttributedTo: actor,
+		}
+
+		activity := note.Wrap(username)
+		items = append(items, activity)
+	}
+
+	outbox := &activitypub.Outbox{
+		Context:      "https://www.w3.org/ns/activitystreams",
+		ID:           id,
+		Type:         "OrderedCollection",
+		TotalItems:   len(items),
+		OrderedItems: items,
+	}
+
+	json, _ := outbox.Marshal()
+	x.Response().Header("Content-Type", "application/activity+json; charset=utf-8")
+	return x.WriteString(string(json))
 })

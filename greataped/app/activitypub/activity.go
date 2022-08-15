@@ -1,5 +1,9 @@
 package activitypub
 
+import "time"
+
+const Public = "https://www.w3.org/ns/activitystreams#Public"
+
 type Activity struct {
 	Context   string      `json:"@context"`
 	ID        string      `json:"id,omitempty"`
@@ -10,4 +14,5 @@ type Activity struct {
 	To        interface{} `json:"to,omitempty"`
 	InReplyTo string      `json:"inReplyTo,omitempty"`
 	Content   string      `json:"content,omitempty"`
+	Published time.Time   `json:"published,omitempty"`
 }
