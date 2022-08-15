@@ -173,7 +173,8 @@ func (context *httpServerContext) requestActivityStream(method, url, keyId, priv
 		defer res.Body.Close()
 	}
 
-	if res.StatusCode != http.StatusOK {
+	if res.StatusCode != http.StatusOK &&
+		res.StatusCode != http.StatusAccepted {
 		return fmt.Errorf("%s", res.Status)
 	}
 
