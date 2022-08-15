@@ -9,10 +9,16 @@ import (
 // Follower struct defines a follower
 type Follower struct {
 	gorm.Model
+	Target string `gorm:"not null"`
 	Handle string `gorm:"not null"`
 }
 
 // CreateFollower creates a new entry in the followers's table
 func CreateFollower(follower *Follower) *gorm.DB {
 	return db.DB.Create(follower)
+}
+
+// FindFollowers finds the user's followers
+func FindFollowers(dest interface{}, userIden interface{}) *gorm.DB {
+	return db.DB.Model(&Follower{}).Find(dest, "`target` = ?", userIden)
 }

@@ -1,11 +1,11 @@
 package types
 
-type FollowerDTO struct {
+type FollowingDTO struct {
 	Target string `json:"target" validate:"required"`
 	Handle string `json:"handle" validate:"required"`
 }
 
-type FollowerResponse struct {
+type FollowingResponse struct {
 	Target string `json:"target"`
 	Handle string `json:"handle"`
 }

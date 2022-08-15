@@ -40,6 +40,7 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 			}
 
 			url := activity.Actor
+			follower := activity.Actor
 			var inbox string
 
 			{
@@ -60,12 +61,15 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 					Object:  activity,
 				})
 
-				output := &struct {
-					content string
-				}{}
-
-				if err := x.PostActivityStream(inbox, keyId, key.PrivateKey, data, output); err != nil {
+				if err := x.PostActivityStream(inbox, keyId, key.PrivateKey, data, nil); err != nil {
 					return x.InternalServerError(err.Error())
+				}
+
+				if err := repos.CreateFollower(&repos.Follower{
+					Target: x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username),
+					Handle: follower,
+				}); err.Error != nil {
+					return x.Conflict(err.Error.Error())
 				}
 			}
 

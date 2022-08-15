@@ -22,7 +22,9 @@
     <div class="container">
       <div class="row">
         <div class="col mb-3">
-          <h1 class="display-3">{{ .Title }}</h1>
+          <br />
+          <h1 class="display-5">{{ .Title }}</h1>
+          <br />
           <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
               <button
@@ -87,7 +89,7 @@
             >
               <div class="container">
                 <br />
-                Followers
+                <ul id="followers"></ul>
               </div>
             </div>
             <div
@@ -98,14 +100,14 @@
               tabindex="0"
             >
               <br />
-              Following
+              <ul id="following"></ul>
             </div>
           </div>
         </div>
       </div>
     </div>
     <script>
-      function refreshFeed() {
+      function refresh() {
         axios({
           method: "get",
           url: "/u/{{ .Username }}/outbox",
@@ -113,9 +115,8 @@
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         }).then(function (response) {
-          console.log(response);
-          const feed = document.getElementById("feed");
-          feed.innerHTML = "";
+          const list = document.getElementById("feed");
+          list.innerHTML = "";
           for (let i = 0; i < response.data.orderedItems.length; i++) {
             let item = document.createElement("li");
             item.innerHTML =
@@ -124,13 +125,54 @@
               "</em><hr><p>" +
               response.data.orderedItems[i].object.content +
               "</p></article>";
-            item.className = "list-group-item";
-            feed.appendChild(item);
+            list.appendChild(item);
+          }
+        });
+
+        axios({
+          method: "get",
+          url: "/u/{{ .Username }}/followers",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }).then(function (response) {
+          const list = document.getElementById("followers");
+          list.innerHTML = "";
+          for (let i = 0; i < response.data.orderedItems.length; i++) {
+            let item = document.createElement("li");
+            item.innerHTML =
+              '<article><p><a href="' +
+              response.data.orderedItems[i] +
+              '">' +
+              response.data.orderedItems[i] +
+              "</a></p></article>";
+            list.appendChild(item);
+          }
+        });
+
+        axios({
+          method: "get",
+          url: "/u/{{ .Username }}/following",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }).then(function (response) {
+          const list = document.getElementById("following");
+          list.innerHTML = "";
+          for (let i = 0; i < response.data.orderedItems.length; i++) {
+            let item = document.createElement("li");
+            item.innerHTML =
+              '<article><p><a href="' +
+              response.data.orderedItems[i] +
+              '">' +
+              response.data.orderedItems[i] +
+              "</a></p></article>";
+            list.appendChild(item);
           }
         });
       }
 
-      refreshFeed();
+      refresh();
     </script>
   </body>
 </html>
