@@ -14,7 +14,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <style>
       ul li em {
-        font-size: .85em;
+        font-size: 0.85em;
       }
     </style>
   </head>
@@ -101,7 +101,7 @@
               class="btn btn-primary"
             />
           </form>
-          <br>
+          <br />
         </div>
         <div class="col-md-5">
           <div class="alert alert-primary" role="alert">
@@ -117,7 +117,14 @@
         <div class="col-md-4">
           <form id="frmPost" action="/" method="get">
             <div class="mb-3">
-              <input type="text" name="to" id="to" class="form-control" value="https://www.w3.org/ns/activitystreams#Public" style="display:none;" />
+              <input
+                type="text"
+                name="to"
+                id="to"
+                class="form-control"
+                value="https://www.w3.org/ns/activitystreams#Public"
+                style="display: none"
+              />
               <textarea
                 style="height: 200px"
                 name="note"
@@ -261,9 +268,14 @@
             "/u/" + username + "/follow";
           document.getElementById("frmPost").action =
             "/u/" + username + "/outbox";
-          
+
+          var refresh = function () {
             refreshFeed();
             refreshInbox();
+            setTimeout(refresh, 5000);
+          };
+
+          refresh();
         });
       };
     </script>
