@@ -5,7 +5,7 @@ import "time"
 const Public = "https://www.w3.org/ns/activitystreams#Public"
 
 type Activity struct {
-	Context   string      `json:"@context"`
+	Context   interface{} `json:"@context"`
 	ID        string      `json:"id,omitempty"`
 	Type      string      `json:"type,omitempty"`
 	Actor     string      `json:"actor,omitempty"`

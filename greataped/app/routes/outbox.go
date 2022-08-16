@@ -84,7 +84,7 @@ var OutboxGet = route.New(HttpGet, "/u/:username/outbox", func(x IContext) error
 	messages := &[]types.MessageResponse{}
 	err := repos.FindOutgoingActivitiesByUser(messages, actor).Error
 	if err != nil {
-		x.InternalServerError("internal server error")
+		x.InternalServerError("internal_server_error")
 	}
 
 	items := []*activitypub.Activity{}

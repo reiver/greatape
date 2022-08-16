@@ -136,6 +136,9 @@
           <hr />
           <h2>Feed</h2>
           <ul class="list-group" id="feed"></ul>
+          <hr />
+          <h2>Direct Messages</h2>
+          <ul class="list-group" id="inbox"></ul>
         </div>
       </div>
     </div>
@@ -175,8 +178,31 @@
               Authorization: "Bearer " + localStorage.getItem("token"),
             },
           }).then(function (response) {
-            console.log(response);
             const feed = document.getElementById("feed");
+            feed.innerHTML = "";
+            for (let i = 0; i < response.data.orderedItems.length; i++) {
+              let item = document.createElement("li");
+              item.innerHTML =
+                "<article><em>From: " +
+                response.data.orderedItems[i].object.attributedTo +
+                "</em><hr><p>" +
+                response.data.orderedItems[i].object.content +
+                "</p></article>";
+              item.className = "list-group-item";
+              feed.appendChild(item);
+            }
+          });
+        }
+
+        function refreshInbox() {
+          axios({
+            method: "get",
+            url: "/u/" + username + "/inbox",
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }).then(function (response) {
+            const feed = document.getElementById("inbox");
             feed.innerHTML = "";
             for (let i = 0; i < response.data.orderedItems.length; i++) {
               let item = document.createElement("li");
@@ -235,7 +261,9 @@
             "/u/" + username + "/follow";
           document.getElementById("frmPost").action =
             "/u/" + username + "/outbox";
-          refreshFeed();
+          
+            refreshFeed();
+            refreshInbox();
         });
       };
     </script>

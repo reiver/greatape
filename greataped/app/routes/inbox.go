@@ -79,7 +79,7 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 		{
 			activity := &activitypub.Activity{}
 			if err := x.ParseBodyAndValidate(activity); err != nil {
-				return x.BadRequest("bar_request")
+				return x.BadRequest("bad_request")
 			}
 
 			switch activity.Object.(map[string]interface{})["type"] {
@@ -114,14 +114,41 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 })
 
 var InboxGet = route.New(HttpGet, "/u/:username/inbox", func(x IContext) error {
-	user := x.Request().Params("username")
-	actor := x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, user)
+	username := x.Request().Params("username")
+	actor := x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username)
+	id := x.StringUtil().Format("%s://%s/u/%s/inbox", config.PROTOCOL, config.DOMAIN, username)
 
 	messages := &[]types.MessageResponse{}
 	err := repos.FindIncomingActivitiesForUser(messages, actor).Error
 	if err != nil {
-		x.InternalServerError("internal server error")
+		x.InternalServerError("internal_server_error")
 	}
 
-	return x.JSON(messages)
+	items := []*activitypub.Activity{}
+	for _, message := range *messages {
+		note := &activitypub.Note{
+			Context: "https://www.w3.org/ns/activitystreams",
+			To: []string{
+				"https://www.w3.org/ns/activitystreams#Public",
+			},
+			Content:      message.Content,
+			Type:         "Note",
+			AttributedTo: message.From,
+		}
+
+		activity := note.Wrap(username)
+		items = append(items, activity)
+	}
+
+	outbox := &activitypub.Outbox{
+		Context:      "https://www.w3.org/ns/activitystreams",
+		ID:           id,
+		Type:         "OrderedCollection",
+		TotalItems:   len(items),
+		OrderedItems: items,
+	}
+
+	json, _ := outbox.Marshal()
+	x.Response().Header("Content-Type", "application/activity+json; charset=utf-8")
+	return x.WriteString(string(json))
 })
