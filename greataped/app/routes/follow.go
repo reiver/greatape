@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"app/activitypub"
+	"activitypub"
 	"config"
 	. "contracts"
 	"io"

@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"app/activitypub"
+	"activitypub"
 	"app/models/repos"
 	"config"
 	"encoding/hex"

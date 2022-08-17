@@ -1,6 +1,6 @@
 module server
 
-go 1.18
+go 1.19
 
 require (
 	github.com/gofiber/fiber/v2 v2.35.0
