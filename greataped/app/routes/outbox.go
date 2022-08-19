@@ -103,13 +103,7 @@ var OutboxGet = route.New(HttpGet, "/u/:username/outbox", func(x IContext) error
 		items = append(items, activity)
 	}
 
-	outbox := &activitypub.Outbox{
-		Context:      "https://www.w3.org/ns/activitystreams",
-		ID:           id,
-		Type:         "OrderedCollection",
-		TotalItems:   len(items),
-		OrderedItems: items,
-	}
+	outbox := activitypub.NewOrderedCollection(id, items, len(items))
 
 	json, _ := outbox.Marshal()
 	x.Response().Header("Content-Type", "application/activity+json; charset=utf-8")

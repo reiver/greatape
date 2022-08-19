@@ -25,13 +25,7 @@ var Following = route.New(HttpGet, "/u/:username/following", func(x IContext) er
 		items = append(items, following.Target)
 	}
 
-	result := &activitypub.Followers{
-		Context:      "https://www.w3.org/ns/activitystreams",
-		ID:           id,
-		Type:         "OrderedCollection",
-		TotalItems:   len(items),
-		OrderedItems: items,
-	}
+	result := activitypub.NewOrderedCollection(id, items, len(items))
 
 	json, _ := result.Marshal()
 	x.Response().Header("Content-Type", "application/activity+json; charset=utf-8")
