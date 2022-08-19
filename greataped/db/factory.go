@@ -9,8 +9,10 @@ import (
 var Executor *gorm.DB
 
 const (
-	SqliteStorage StorageType = 0
-	MySQLStorage  StorageType = 1
+	SqliteStorage     StorageType = 0
+	MySQLStorage      StorageType = 1
+	MariaDBStorage    StorageType = 2
+	PostgreSQLStorage StorageType = 3
 )
 
 func CreateStorage(componentType StorageType) IStorage {
@@ -19,6 +21,10 @@ func CreateStorage(componentType StorageType) IStorage {
 		return NewSqliteStorage()
 	case MySQLStorage:
 		return NewMySQLStorage()
+	case MariaDBStorage:
+		return NewMySQLStorage()
+	case PostgreSQLStorage:
+		return NewPostgreSQLStorage()
 	default:
 		panic("unknown_storage_type")
 	}
