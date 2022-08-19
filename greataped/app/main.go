@@ -26,25 +26,7 @@ func main() {
 	app := server.New()
 	app.SetStorageProvider(storage)
 	app.SetLogger(logger)
-
-	app.Bind(
-		routes.Root,
-		routes.Profile,
-		routes.Signup,
-		routes.Login,
-		routes.GetProfile,
-		routes.UpdateProfile,
-		routes.WebFinger,
-		routes.User,
-		routes.Message,
-		routes.InboxPost,
-		routes.InboxGet,
-		routes.OutboxPost,
-		routes.OutboxGet,
-		routes.Followers,
-		routes.Follow,
-		routes.Authorize,
-	)
+	app.Bind(routes.All...)
 
 	app.Listen(fmt.Sprintf(":%s", config.PORT))
 }
