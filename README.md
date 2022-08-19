@@ -1,6 +1,6 @@
 # GʀᴇᴀᴛAᴘᴇ
 
-![image](https://img.shields.io/badge/Go-00A7D0?style=for-the-badge&logo=go&logoColor=white) ![image](https://img.shields.io/badge/ActivityPub-DD307D?style=for-the-badge&logoColor=white) ![image](https://img.shields.io/badge/JSON--LD-FF6600?style=for-the-badge&logo=json&logoColor=white) ![image](https://img.shields.io/badge/Sqlite-449A45?style=for-the-badge&logo=sqlite&logoColor=white) ![image](https://img.shields.io/badge/MySQL-32738C?style=for-the-badge&logo=mysql&logoColor=white)
+[![image](https://img.shields.io/badge/Go-00A7D0?style=for-the-badge&logo=go&logoColor=white)](https://go.dev) [![image](https://img.shields.io/badge/ActivityPub-DD307D?style=for-the-badge&logoColor=white)](https://www.w3.org/TR/activitypub/) [![image](https://img.shields.io/badge/JSON--LD-FF6600?style=for-the-badge&logo=json&logoColor=white)](https://json-ld.org) [![image](https://img.shields.io/badge/Sqlite-449A45?style=for-the-badge&logo=sqlite&logoColor=white)](https://sqlite.org/index.html) [![image](https://img.shields.io/badge/MySQL-32738C?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com)
 
 **greatape** is a free **social audio & video** social-media platform that can be used via an app.
 
