@@ -24,12 +24,12 @@ type User struct {
 
 // CreateUser create a user entry in the user's table
 func CreateUser(user *User) *gorm.DB {
-	return db.DB.Create(user)
+	return db.Executor.Create(user)
 }
 
 // FindUser searches the user's table with the condition given
 func FindUser(dest interface{}, conds ...interface{}) *gorm.DB {
-	return db.DB.Model(&User{}).Take(dest, conds...)
+	return db.Executor.Model(&User{}).Take(dest, conds...)
 }
 
 // FindUserById searches the user's table with the id given
@@ -49,5 +49,5 @@ func FindUserByUsername(dest interface{}, name string) *gorm.DB {
 
 // UpdateProfile updates the user's profile with the info given
 func UpdateProfile(userId interface{}, data interface{}) *gorm.DB {
-	return db.DB.Model(&User{}).Where("id = ?", userId).Updates(data)
+	return db.Executor.Model(&User{}).Where("id = ?", userId).Updates(data)
 }

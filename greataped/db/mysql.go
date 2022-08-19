@@ -6,26 +6,26 @@ import (
 	"time"
 
 	_ "github.com/mattn/go-sqlite3"
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
 
-type sqliteStorage struct {
+type mysqlStorage struct {
 	// Underlying database connection
 	database *gorm.DB
-	path     string
+	dsn      string
 }
 
-func NewSqliteStorage() contracts.IStorage {
-	return &sqliteStorage{}
+func NewMySQLStorage() contracts.IStorage {
+	return &mysqlStorage{}
 }
 
 // Connect initiate the database connection and migrate all the tables
-func (storage *sqliteStorage) Connect(path string) {
-	storage.path = path
+func (storage *mysqlStorage) Connect(dsn string) {
+	storage.dsn = dsn
 
-	database, err := gorm.Open(sqlite.Open(storage.path), &gorm.Config{
+	database, err := gorm.Open(mysql.Open(storage.dsn), &gorm.Config{
 		NowFunc: func() time.Time { return time.Now().Local() },
 		Logger:  logger.Default.LogMode(logger.Info),
 	})
@@ -42,10 +42,10 @@ func (storage *sqliteStorage) Connect(path string) {
 }
 
 // Migrate migrates all the database tables
-func (storage *sqliteStorage) Migrate(tables ...interface{}) error {
+func (storage *mysqlStorage) Migrate(tables ...interface{}) error {
 	return storage.database.AutoMigrate(tables...)
 }
 
-func (storage *sqliteStorage) Prepare(string) contracts.IQuery {
+func (storage *mysqlStorage) Prepare(string) contracts.IQuery {
 	return nil
 }

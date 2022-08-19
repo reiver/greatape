@@ -18,18 +18,18 @@ type IncomingActivity struct {
 
 // CreateIncomingActivity creates an activity entry in the incoming activities table
 func CreateIncomingActivity(activity *IncomingActivity) *gorm.DB {
-	return db.DB.Create(activity)
+	return db.Executor.Create(activity)
 }
 
 // FindIncomingActivitiesForUser finds the activities posted to user
 func FindIncomingActivitiesForUser(dest interface{}, userIden interface{}) *gorm.DB {
-	return db.DB.Model(&IncomingActivity{}).Find(dest, "`to` = ?", userIden)
+	return db.Executor.Model(&IncomingActivity{}).Find(dest, "`to` = ?", userIden)
 }
 
 // FindIncomingActivity searches the incoming activities table with the condition given
 // and returns a single record.
 func FindIncomingActivity(dest interface{}, conds ...interface{}) *gorm.DB {
-	return db.DB.Model(&IncomingActivity{}).Take(dest, conds...)
+	return db.Executor.Model(&IncomingActivity{}).Take(dest, conds...)
 }
 
 // FindIncomingActivityById searches the incoming activities table with the id given

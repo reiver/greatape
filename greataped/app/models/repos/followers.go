@@ -16,15 +16,15 @@ type Follower struct {
 
 // CreateFollower creates a new entry in the followers's table
 func CreateFollower(follower *Follower) *gorm.DB {
-	return db.DB.Create(follower)
+	return db.Executor.Create(follower)
 }
 
 // FindFollowers finds the user's followers
 func FindFollowers(dest interface{}, userIden interface{}) *gorm.DB {
-	return db.DB.Model(&Follower{}).Find(dest, "`target` = ?", userIden)
+	return db.Executor.Model(&Follower{}).Find(dest, "`target` = ?", userIden)
 }
 
 // AcceptFollower accepts a follow request
 func AcceptFollower(id interface{}) *gorm.DB {
-	return db.DB.Model(&Follower{}).Where("id = ?", id).Update("accepted", true)
+	return db.Executor.Model(&Follower{}).Where("id = ?", id).Update("accepted", true)
 }

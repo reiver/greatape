@@ -15,10 +15,10 @@ type Following struct {
 
 // CreateFollowing creates a new entry in the following's table
 func CreateFollowing(following *Following) *gorm.DB {
-	return db.DB.Create(following)
+	return db.Executor.Create(following)
 }
 
 // FindFollowing finds what accounts the user is following
 func FindFollowing(dest interface{}, userIden interface{}) *gorm.DB {
-	return db.DB.Model(&Follower{}).Find(dest, "`handle` = ?", userIden)
+	return db.Executor.Model(&Follower{}).Find(dest, "`handle` = ?", userIden)
 }
