@@ -8,5 +8,6 @@ use (
 	./db
 	./logging
 	./server
+	./tests
 	./utility
 )
