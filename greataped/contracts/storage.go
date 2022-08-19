@@ -1,20 +1,24 @@
 package contracts
 
-type IStorage interface {
-	// Connect initiate the database connection
-	Connect(path string)
-	// Migrate migrates all the database tables
-	Migrate(...interface{}) error
-	Prepare(string) IQuery
-}
+type (
+	StorageType int
 
-type IQuery interface {
-	Param(string) IResult
-	Params(...string) IResult
-}
+	IStorage interface {
+		// Connect initiate the database connection
+		Connect(path string)
+		// Migrate migrates all the database tables
+		Migrate(...interface{}) error
+		Prepare(string) IQuery
+	}
 
-type IResult interface {
-	Get(string) any
-	Set(string, string)
-	Length() int
-}
+	IQuery interface {
+		Param(string) IResult
+		Params(...string) IResult
+	}
+
+	IResult interface {
+		Get(string) any
+		Set(string, string)
+		Length() int
+	}
+)

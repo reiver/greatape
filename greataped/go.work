@@ -6,7 +6,7 @@ use (
 	./config
 	./contracts
 	./db
-	./log
+	./logging
 	./server
 	./utility
 )

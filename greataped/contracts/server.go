@@ -91,6 +91,7 @@ type (
 		Listen(address string)
 
 		SetStorageProvider(IStorage)
+		SetLogger(ILogger)
 	}
 
 	IRouter interface {

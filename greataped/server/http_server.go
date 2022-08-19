@@ -19,6 +19,7 @@ import (
 type httpServer struct {
 	framework *fiber.App
 	storage   IStorage
+	logger    ILogger
 }
 
 func authorization(c *fiber.Ctx) error {
@@ -85,6 +86,10 @@ func New() IServer {
 
 func (server *httpServer) SetStorageProvider(storage IStorage) {
 	server.storage = storage
+}
+
+func (server *httpServer) SetLogger(logger ILogger) {
+	server.logger = logger
 }
 
 func (server *httpServer) Bind(routes ...IRoute) {

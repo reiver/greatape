@@ -6,11 +6,14 @@ import (
 	"config"
 	"db"
 	"fmt"
+	"logging"
 	"server"
 )
 
 func main() {
-	storage := db.NewSqliteStorage()
+	logger := logging.CreateLogger(logging.StdIOLogger)
+
+	storage := db.CreateStorage(db.SqliteStorage)
 	storage.Connect(config.SQLITE_DB)
 	storage.Migrate(
 		&repos.User{},
@@ -22,6 +25,7 @@ func main() {
 
 	app := server.New()
 	app.SetStorageProvider(storage)
+	app.SetLogger(logger)
 
 	app.Bind(
 		routes.Root,
