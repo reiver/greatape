@@ -37,3 +37,14 @@ var Followers = route.New(HttpGet, "/u/:username/followers", func(x IContext) er
 	x.Response().Header("Content-Type", "application/activity+json; charset=utf-8")
 	return x.WriteString(string(json))
 })
+
+var AcceptFollowRequest = route.New(HttpPut, "/u/:username/followers/:id/accept", func(x IContext) error {
+	id := x.Request().Params("id")
+
+	err := repos.AcceptFollower(id).Error
+	if err != nil {
+		return x.InternalServerError(err.Error())
+	}
+
+	return x.Nothing()
+})

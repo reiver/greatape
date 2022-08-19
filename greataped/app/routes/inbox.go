@@ -66,8 +66,9 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 				}
 
 				if err := repos.CreateFollower(&repos.Follower{
-					Target: x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username),
-					Handle: follower,
+					Target:   x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username),
+					Handle:   follower,
+					Accepted: true,
 				}); err.Error != nil {
 					return x.Conflict(err.Error.Error())
 				}
