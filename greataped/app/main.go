@@ -15,13 +15,7 @@ func main() {
 
 	storage := db.CreateStorage(db.SqliteStorage)
 	storage.Connect(config.SQLITE_DB)
-	storage.Migrate(
-		&repos.User{},
-		&repos.IncomingActivity{},
-		&repos.OutgoingActivity{},
-		&repos.Follower{},
-		&repos.Following{},
-	)
+	storage.Migrate(repos.All...)
 
 	app := server.New()
 	app.SetStorageProvider(storage)

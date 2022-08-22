@@ -23,8 +23,8 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 		return x.BadRequest("Bad request")
 	}
 
-	key := &types.KeyResponse{}
-	err := repos.FindUserByUsername(key, username).Error
+	user := &repos.User{}
+	err := repos.FindUserByUsername(user, username).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return x.NotFound("No record found for %s.", username)
 	}
@@ -40,19 +40,35 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 			}
 
 			url := activity.Actor
-			follower := activity.Actor
 			var inbox string
 
 			{
 				actor := &activitypub.Actor{}
-				if err := x.GetActivityStream(url, keyId, key.PrivateKey, nil, actor); err != nil {
+				if err := x.GetActivityStream(url, keyId, user.PrivateKey, nil, actor); err != nil {
 					return x.InternalServerError(err.Error())
 				}
 
 				inbox = actor.Inbox
 			}
 
-			{
+			data, err := json.Marshal(activity)
+			if err != nil {
+				return x.InternalServerError(err.Error())
+			}
+
+			follower := &repos.Follower{
+				Target:      x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username),
+				Handle:      activity.Actor,
+				HandleInbox: inbox,
+				Activity:    string(data),
+				Accepted:    false,
+			}
+
+			if err := repos.CreateFollower(follower); err.Error != nil {
+				return x.Conflict(err.Error.Error())
+			}
+
+			if user.Access == repos.ACCESS_PUBLIC {
 				data, _ := json.Marshal(&activitypub.Activity{
 					Context: "https://www.w3.org/ns/activitystreams",
 					ID:      x.StringUtil().Format("%s://%s/%s", config.PROTOCOL, config.DOMAIN, x.GUID()),
@@ -61,16 +77,13 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 					Object:  activity,
 				})
 
-				if err := x.PostActivityStream(inbox, keyId, key.PrivateKey, data, nil); err != nil {
+				if err := x.PostActivityStream(inbox, keyId, user.PrivateKey, data, nil); err != nil {
 					return x.InternalServerError(err.Error())
 				}
 
-				if err := repos.CreateFollower(&repos.Follower{
-					Target:   x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username),
-					Handle:   follower,
-					Accepted: true,
-				}); err.Error != nil {
-					return x.Conflict(err.Error.Error())
+				err := repos.AcceptFollower(follower.ID).Error
+				if err != nil {
+					return x.InternalServerError(err.Error())
 				}
 			}
 
@@ -127,16 +140,7 @@ var InboxGet = route.New(HttpGet, "/u/:username/inbox", func(x IContext) error {
 
 	items := []*activitypub.Activity{}
 	for _, message := range *messages {
-		note := &activitypub.Note{
-			Context: "https://www.w3.org/ns/activitystreams",
-			To: []string{
-				"https://www.w3.org/ns/activitystreams#Public",
-			},
-			Content:      message.Content,
-			Type:         "Note",
-			AttributedTo: message.From,
-		}
-
+		note := activitypub.NewPublicNote(message.From, message.Content)
 		activity := note.Wrap(username)
 		items = append(items, activity)
 	}

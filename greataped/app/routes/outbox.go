@@ -89,16 +89,7 @@ var OutboxGet = route.New(HttpGet, "/u/:username/outbox", func(x IContext) error
 
 	items := []*activitypub.Activity{}
 	for _, message := range *messages {
-		note := &activitypub.Note{
-			Context: "https://www.w3.org/ns/activitystreams",
-			To: []string{
-				"https://www.w3.org/ns/activitystreams#Public",
-			},
-			Content:      message.Content,
-			Type:         "Note",
-			AttributedTo: actor,
-		}
-
+		note := activitypub.NewPublicNote(actor, message.Content)
 		activity := note.Wrap(username)
 		items = append(items, activity)
 	}

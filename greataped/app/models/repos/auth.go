@@ -6,6 +6,13 @@ import (
 	"gorm.io/gorm"
 )
 
+type Access int64
+
+const (
+	ACCESS_PUBLIC Access = iota
+	ACCESS_PRIVATE
+)
+
 // User struct defines the user
 type User struct {
 	gorm.Model
@@ -20,6 +27,7 @@ type User struct {
 	PublicKey   string
 	Avatar      string
 	Banner      string
+	Access      Access
 }
 
 // CreateUser create a user entry in the user's table
