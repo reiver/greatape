@@ -2,8 +2,6 @@ package activitypub
 
 import "time"
 
-const Public = "https://www.w3.org/ns/activitystreams#Public"
-
 type Activity struct {
 	Context   interface{} `json:"@context"`
 	ID        string      `json:"id,omitempty"`

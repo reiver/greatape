@@ -31,9 +31,9 @@ var Followers = route.New(HttpGet, "/u/:username/followers", func(x IContext) er
 	}
 
 	result := &activitypub.Followers{
-		Context:      "https://www.w3.org/ns/activitystreams",
+		Context:      activitypub.ActivityStreams,
 		ID:           id,
-		Type:         "OrderedCollection",
+		Type:         activitypub.TypeOrderedCollection,
 		TotalItems:   len(items),
 		OrderedItems: items,
 	}
@@ -55,7 +55,7 @@ var AcceptFollowRequest = route.New(HttpPut, "/u/:username/followers/:id/accept"
 	}
 
 	data, _ := json.Marshal(&activitypub.Activity{
-		Context: "https://www.w3.org/ns/activitystreams",
+		Context: activitypub.ActivityStreams,
 		ID:      x.StringUtil().Format("%s://%s/%s", config.PROTOCOL, config.DOMAIN, x.GUID()),
 		Type:    activitypub.TypeAccept,
 		Actor:   x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username),

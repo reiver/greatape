@@ -2,8 +2,6 @@ package activitypub
 
 import "encoding/json"
 
-const ActivityStreams = "https://www.w3.org/ns/activitystreams"
-
 type Object struct {
 	Context interface{} `json:"@context"`
 	Type    string      `json:"type"`

@@ -26,7 +26,7 @@ func createActor(user *repos.User) *activitypub.Actor {
 
 	return &activitypub.Actor{
 		Context: []interface{}{
-			"https://www.w3.org/ns/activitystreams",
+			activitypub.ActivityStreams,
 			"https://w3id.org/security/v1",
 		},
 		Followers:         id + "/followers",

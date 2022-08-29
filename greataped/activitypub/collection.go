@@ -12,9 +12,9 @@ type OrderedCollection struct {
 
 func NewOrderedCollection(id string, items interface{}, length int) *OrderedCollection {
 	return &OrderedCollection{
-		Context:      "https://www.w3.org/ns/activitystreams",
+		Context:      ActivityStreams,
 		ID:           id,
-		Type:         "OrderedCollection",
+		Type:         TypeOrderedCollection,
 		TotalItems:   length,
 		OrderedItems: items,
 	}

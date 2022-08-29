@@ -70,7 +70,7 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 
 			if user.Access == repos.ACCESS_PUBLIC {
 				data, _ := json.Marshal(&activitypub.Activity{
-					Context: "https://www.w3.org/ns/activitystreams",
+					Context: activitypub.ActivityStreams,
 					ID:      x.StringUtil().Format("%s://%s/%s", config.PROTOCOL, config.DOMAIN, x.GUID()),
 					Type:    activitypub.TypeAccept,
 					Actor:   x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username),
@@ -146,9 +146,9 @@ var InboxGet = route.New(HttpGet, "/u/:username/inbox", func(x IContext) error {
 	}
 
 	outbox := &activitypub.Outbox{
-		Context:      "https://www.w3.org/ns/activitystreams",
+		Context:      activitypub.ActivityStreams,
 		ID:           id,
-		Type:         "OrderedCollection",
+		Type:         activitypub.TypeOrderedCollection,
 		TotalItems:   len(items),
 		OrderedItems: items,
 	}

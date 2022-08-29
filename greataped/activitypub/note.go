@@ -21,16 +21,16 @@ type Note struct {
 
 func NewNote(from, to, content string) *Note {
 	return &Note{
-		Context:      "https://www.w3.org/ns/activitystreams",
+		Context:      ActivityStreams,
 		To:           []string{to},
 		Content:      content,
-		Type:         "Note",
+		Type:         TypeNote,
 		AttributedTo: from,
 	}
 }
 
 func NewPublicNote(from, content string) *Note {
-	return NewNote(from, "https://www.w3.org/ns/activitystreams#Public", content)
+	return NewNote(from, Public, content)
 }
 
 func (note *Note) Wrap(username string) *Activity {

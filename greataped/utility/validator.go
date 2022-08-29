@@ -1,6 +1,7 @@
 package utility
 
 import (
+	"activitypub"
 	"errors"
 	"fmt"
 	"regexp"
@@ -50,5 +51,5 @@ var _ = validate.RegisterValidation("password", func(fl validator.FieldLevel) bo
 })
 
 var _ = validate.RegisterValidation("activitystream", func(fl validator.FieldLevel) bool {
-	return fl.Field().String() == "https://www.w3.org/ns/activitystreams"
+	return fl.Field().String() == activitypub.ActivityStreams
 })
