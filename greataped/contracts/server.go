@@ -90,8 +90,9 @@ type (
 		Bind(...IRoute)
 		Listen(address string)
 
-		SetStorageProvider(IStorage)
+		SetStorage(IStorage)
 		SetLogger(ILogger)
+		SetCache(ICache)
 	}
 
 	IRouter interface {

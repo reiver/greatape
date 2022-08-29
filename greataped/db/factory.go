@@ -9,10 +9,10 @@ import (
 var Executor *gorm.DB
 
 const (
-	SqliteStorage     StorageType = 0
-	MySQLStorage      StorageType = 1
-	MariaDBStorage    StorageType = 2
-	PostgreSQLStorage StorageType = 3
+	SqliteStorage StorageType = iota
+	MySQLStorage
+	MariaDBStorage
+	PostgreSQLStorage
 )
 
 func CreateStorage(componentType StorageType) IStorage {

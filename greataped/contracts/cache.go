@@ -1,6 +1,10 @@
 package contracts
 
-type ICache interface {
-	Put(string, interface{})
-	Get(string) interface{}
-}
+type (
+	CacheType int
+
+	ICache interface {
+		Put(string, interface{})
+		Get(string) interface{}
+	}
+)

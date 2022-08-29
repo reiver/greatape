@@ -1,15 +1,15 @@
 package logging
 
-import "contracts"
+import . "contracts"
 
 const (
-	StdIOLogger contracts.LoggerType = 0
+	StdIOLogger LoggerType = iota
 )
 
-func CreateLogger(componentType contracts.LoggerType) contracts.ILogger {
+func CreateLogger(componentType LoggerType) ILogger {
 	switch componentType {
 	case StdIOLogger:
-		return New(true)
+		return NewStdIOLogger(true)
 	default:
 		panic("unknown_logger_type")
 	}

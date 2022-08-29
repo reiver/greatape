@@ -9,7 +9,7 @@ type stdioLogger struct {
 	verbose bool
 }
 
-func New(verbose bool) contracts.ILogger {
+func NewStdIOLogger(verbose bool) contracts.ILogger {
 	return &stdioLogger{
 		verbose: verbose,
 	}
@@ -18,6 +18,7 @@ func New(verbose bool) contracts.ILogger {
 func (logger *stdioLogger) Info(args ...any) {
 	log.Println(args...)
 }
+
 func (logger *stdioLogger) Debug(args ...any) {
 	if !logger.verbose {
 		return
@@ -25,6 +26,7 @@ func (logger *stdioLogger) Debug(args ...any) {
 
 	log.Println(args...)
 }
+
 func (logger *stdioLogger) Error(args ...any) {
 	log.Fatal(args...)
 }

@@ -5,7 +5,6 @@ import (
 	"log"
 	"time"
 
-	_ "github.com/mattn/go-sqlite3"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
