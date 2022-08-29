@@ -5,6 +5,7 @@ import (
 	. "contracts"
 	"errors"
 	"fmt"
+	"server/mime"
 	"server/route"
 	"strings"
 
@@ -24,9 +25,9 @@ var User = route.New(HttpGet, "/u/:username", func(x IContext) error {
 	}
 
 	actor := createActor(user)
-	if strings.Contains(x.Request().Header("Accept"), "application/activity+json") {
+	if strings.Contains(x.Request().Header("Accept"), mime.ActivityJson) {
 		json, _ := actor.Marshal()
-		x.Response().Header("Content-Type", "application/activity+json; charset=utf-8")
+		x.Response().Header("Content-Type", mime.ActivityJsonUtf8)
 		return x.WriteString(string(json))
 	} else {
 		return x.Render("user", ViewData{

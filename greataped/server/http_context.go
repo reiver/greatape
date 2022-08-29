@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"server/mime"
 	"time"
 	"utility"
 	"utility/httpsig"
@@ -136,11 +137,11 @@ func (context *httpServerContext) signRequest(keyId, privateKey string, data []b
 		sum := hasher.Sum(nil)
 		encodedHash := base64.StdEncoding.EncodeToString(sum)
 		digest := fmt.Sprintf("sha-256=%s", encodedHash)
-		req.Header.Set("Content-Type", "application/activity+json; charset=UTF-8")
+		req.Header.Set("Content-Type", mime.ActivityJsonUtf8)
 		req.Header.Set("Digest", digest)
 	}
 
-	req.Header.Set("Accept", "application/activity+json")
+	req.Header.Set("Accept", mime.ActivityJson)
 
 	if err := signer.Sign(req); err != nil {
 		return err

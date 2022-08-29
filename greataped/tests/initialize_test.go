@@ -13,6 +13,7 @@ import (
 	"net/url"
 	"os"
 	"server"
+	"server/mime"
 	"testing"
 )
 
@@ -66,7 +67,7 @@ func Post(path string, payload interface{}) (*http.Response, error) {
 		return nil, err
 	}
 
-	resp, err := http.DefaultClient.Post(path, "application/json", bytes.NewReader(data))
+	resp, err := http.DefaultClient.Post(path, mime.ActivityJsonUtf8, bytes.NewReader(data))
 	if err != nil {
 		return nil, err
 	}
