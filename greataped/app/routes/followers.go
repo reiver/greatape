@@ -8,6 +8,7 @@ import (
 	. "contracts"
 	"encoding/json"
 	"errors"
+	"server/mime"
 	"server/route"
 	"strconv"
 
@@ -39,7 +40,7 @@ var Followers = route.New(HttpGet, "/u/:username/followers", func(x IContext) er
 	}
 
 	json, _ := result.Marshal()
-	x.Response().Header("Content-Type", "application/activity+json; charset=utf-8")
+	x.Response().Header("Content-Type", mime.ActivityJsonUtf8)
 	return x.WriteString(string(json))
 })
 

@@ -8,6 +8,7 @@ import (
 	. "contracts"
 	"encoding/json"
 	"errors"
+	"server/mime"
 	"server/route"
 	"time"
 
@@ -154,6 +155,6 @@ var InboxGet = route.New(HttpGet, "/u/:username/inbox", func(x IContext) error {
 	}
 
 	json, _ := outbox.Marshal()
-	x.Response().Header("Content-Type", "application/activity+json; charset=utf-8")
+	x.Response().Header("Content-Type", mime.ActivityJsonUtf8)
 	return x.WriteString(string(json))
 })

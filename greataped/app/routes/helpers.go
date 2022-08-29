@@ -6,6 +6,7 @@ import (
 	"config"
 	"encoding/hex"
 	"fmt"
+	"server/mime"
 	"time"
 
 	"github.com/mazen160/go-random"
@@ -63,7 +64,7 @@ func createActor(user *repos.User) *activitypub.Actor {
 func createWebfinger(user *repos.User) *activitypub.Webfinger {
 	subject := fmt.Sprintf("acct:%s@%s", user.Username, config.DOMAIN)
 	href := fmt.Sprintf("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, user.Username)
-	_type := "application/activity+json"
+	_type := mime.ActivityJson
 	template := fmt.Sprintf("%s://%s/authorize_interaction?uri={uri}", config.PROTOCOL, config.DOMAIN)
 
 	return &activitypub.Webfinger{
@@ -77,7 +78,7 @@ func createWebfinger(user *repos.User) *activitypub.Webfinger {
 				Type: &_type,
 			},
 			{
-				Rel:      "http://ostatus.org/schema/1.0/subscribe",
+				Rel:      OStatusSubscription,
 				Template: &template,
 			},
 		},

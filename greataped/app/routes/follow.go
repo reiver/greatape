@@ -38,7 +38,7 @@ var Follow = route.New(HttpGet, "/u/:name/follow", func(x IContext) error {
 
 	template := ""
 	for _, link := range webfinger.Links {
-		if link.Rel == "http://ostatus.org/schema/1.0/subscribe" {
+		if link.Rel == OStatusSubscription {
 			template = *link.Template
 			break
 		}
