@@ -17,6 +17,8 @@ import (
 	"testing"
 )
 
+type Payload map[string]interface{}
+
 const (
 	DOMAIN = "domain.social"
 	ROOT   = "http://localhost"

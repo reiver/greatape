@@ -1,7 +1,6 @@
 package tests
 
 import (
-	"app/models/types"
 	"fmt"
 	"net/http"
 	"testing"
@@ -11,15 +10,12 @@ import (
 
 func TestSignup(t *testing.T) {
 	id := uuid.New().String()
-	payload := types.SignupDTO{
-		LoginDTO: types.LoginDTO{
-			Email:    fmt.Sprintf("%s@%s", id, DOMAIN),
-			Password: "123456",
-		},
-		Username: id,
-	}
 
-	resp, err := Post("/api/v1/signup", payload)
+	resp, err := Post("/api/v1/signup", Payload{
+		"email":    fmt.Sprintf("%s@%s", id, DOMAIN),
+		"password": "123456",
+		"username": id,
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
