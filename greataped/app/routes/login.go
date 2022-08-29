@@ -37,7 +37,7 @@ var Login = route.New(HttpPost, "/api/v1/login", func(x IContext) error {
 
 	actor, _ := json.MarshalIndent(createActor(u), "", "  ")
 	webfinger, _ := json.MarshalIndent(createWebfinger(u), "", "  ")
-	return x.JSON(&types.AuthResponse{
+	return x.Json(&types.AuthResponse{
 		User: &types.UserResponse{
 			ID:          u.ID,
 			Username:    u.Username,

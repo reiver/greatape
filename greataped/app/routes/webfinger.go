@@ -29,5 +29,6 @@ var WebFinger = route.New(HttpGet, "/.well-known/webfinger", func(x IContext) er
 		}
 	}
 
-	return x.JSON(createWebfinger(user))
+	webfinger := createWebfinger(user)
+	return x.Json(webfinger)
 })

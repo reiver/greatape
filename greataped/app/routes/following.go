@@ -6,7 +6,6 @@ import (
 	"app/models/types"
 	"config"
 	. "contracts"
-	"server/mime"
 	"server/route"
 )
 
@@ -27,8 +26,5 @@ var Following = route.New(HttpGet, "/u/:username/following", func(x IContext) er
 	}
 
 	result := activitypub.NewOrderedCollection(id, items, len(items))
-
-	json, _ := result.Marshal()
-	x.Response().Header("Content-Type", mime.ActivityJsonUtf8)
-	return x.WriteString(string(json))
+	return x.Activity(result)
 })

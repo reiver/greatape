@@ -8,7 +8,6 @@ import (
 	. "contracts"
 	"encoding/json"
 	"errors"
-	"server/mime"
 	"server/route"
 	"time"
 
@@ -96,8 +95,5 @@ var OutboxGet = route.New(HttpGet, "/u/:username/outbox", func(x IContext) error
 	}
 
 	outbox := activitypub.NewOrderedCollection(id, items, len(items))
-
-	json, _ := outbox.Marshal()
-	x.Response().Header("Content-Type", mime.ActivityJsonUtf8)
-	return x.WriteString(string(json))
+	return x.Activity(outbox)
 })

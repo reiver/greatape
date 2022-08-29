@@ -42,12 +42,22 @@ func (context *httpServerContext) GUID() string {
 	return uuid.New().String()
 }
 
-func (context *httpServerContext) WriteString(data any) error {
-	return context.underlyingContext.SendString(data.(string))
+func (context *httpServerContext) String(payload any) error {
+	return context.underlyingContext.SendString(payload.(string))
 }
 
-func (context *httpServerContext) JSON(data interface{}) error {
-	return context.underlyingContext.JSON(data)
+func (context *httpServerContext) Json(payload interface{}) error {
+	return context.underlyingContext.JSON(payload)
+}
+
+func (context *httpServerContext) Activity(payload interface{}) error {
+	data, err := json.Marshal(payload)
+	if err != nil {
+		return err
+	}
+
+	context.underlyingContext.Response().Header.Add("Content-Type", mime.ActivityJsonUtf8)
+	return context.underlyingContext.Send(data)
 }
 
 func (context *httpServerContext) Nothing() error {

@@ -22,5 +22,5 @@ var Message = route.New(HttpGet, "/m/:guid", func(x IContext) error {
 		return x.NotFound("Message not found")
 	}
 
-	return x.WriteString(response.Content)
+	return x.String(response.Content)
 })

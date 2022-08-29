@@ -8,14 +8,16 @@ type (
 		Request() IRequest
 		Response() IResponse
 		StringUtil() IStringUtil
-		WriteString(interface{}) error
-		JSON(interface{}) error
 		Nothing() error
 		ParseJson(interface{}) IResult
 		ParseBodyAndValidate(body interface{}) error
 		GetUser() uint
 		Redirect(location string, status ...int) error
 		Render(name string, bind interface{}, layouts ...string) error
+
+		String(interface{}) error
+		Json(interface{}) error
+		Activity(interface{}) error
 
 		GetActivityStream(url, keyId, privateKey string, data []byte, output interface{}) error
 		PostActivityStream(url, keyId, privateKey string, data []byte, output interface{}) error

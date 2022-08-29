@@ -26,9 +26,7 @@ var User = route.New(HttpGet, "/u/:username", func(x IContext) error {
 
 	actor := createActor(user)
 	if strings.Contains(x.Request().Header("Accept"), mime.ActivityJson) {
-		json, _ := actor.Marshal()
-		x.Response().Header("Content-Type", mime.ActivityJsonUtf8)
-		return x.WriteString(string(json))
+		return x.Activity(actor)
 	} else {
 		return x.Render("user", ViewData{
 			"Title":    fmt.Sprintf("%s's Public Profile", user.DisplayName),
@@ -68,5 +66,5 @@ var _ = route.New(HttpPost, "/u/:username/:followers", func(x IContext) error {
 	}
 	`, domain, username, followers.Length())
 
-	return x.JSON(followersCollection)
+	return x.Json(followersCollection)
 })

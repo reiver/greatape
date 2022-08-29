@@ -8,7 +8,6 @@ import (
 	. "contracts"
 	"encoding/json"
 	"errors"
-	"server/mime"
 	"server/route"
 	"strconv"
 
@@ -39,9 +38,7 @@ var Followers = route.New(HttpGet, "/u/:username/followers", func(x IContext) er
 		OrderedItems: items,
 	}
 
-	json, _ := result.Marshal()
-	x.Response().Header("Content-Type", mime.ActivityJsonUtf8)
-	return x.WriteString(string(json))
+	return x.Activity(result)
 })
 
 var AcceptFollowRequest = route.New(HttpPut, "/u/:username/followers/:id/accept", func(x IContext) error {

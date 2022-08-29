@@ -34,7 +34,7 @@ var GetProfile = route.New(HttpGet, "/api/v1/profile", func(x IContext) error {
 
 	actor, _ := json.MarshalIndent(createActor(user), "", "  ")
 	webfinger, _ := json.MarshalIndent(createWebfinger(user), "", "  ")
-	return x.JSON(&types.UserResponse{
+	return x.Json(&types.UserResponse{
 		Username:       user.Username,
 		DisplayName:    user.DisplayName,
 		Bio:            user.Bio,

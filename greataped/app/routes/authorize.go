@@ -7,7 +7,7 @@ import (
 
 var Authorize = route.New(HttpGet, "/authorize_interaction", func(x IContext) error {
 	uri := x.Request().Query("uri")
-	return x.JSON(struct {
+	return x.Json(struct {
 		Uri     string
 		Success bool `json:"success"`
 	}{

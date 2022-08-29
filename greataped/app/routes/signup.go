@@ -51,7 +51,7 @@ var Signup = route.New(HttpPost, "/api/v1/signup", func(x IContext) error {
 		ID: user.ID,
 	})
 
-	return x.JSON(&types.AuthResponse{
+	return x.Json(&types.AuthResponse{
 		User: &types.UserResponse{
 			ID:          user.ID,
 			DisplayName: user.Username,
