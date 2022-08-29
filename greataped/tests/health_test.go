@@ -6,7 +6,7 @@ import (
 )
 
 func TestHealth(t *testing.T) {
-	resp, err := http.DefaultClient.Get(Root + "/health")
+	resp, err := Get("/health")
 	if err != nil {
 		t.Fatal(err)
 	}
