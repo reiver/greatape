@@ -4,6 +4,7 @@ import "contracts"
 
 var All = []contracts.IRoute{
 	Health,
+	Error,
 	Root,
 	Profile,
 	Signup,
