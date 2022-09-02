@@ -31,9 +31,9 @@ func TestError(t *testing.T) {
 		}
 
 		data := &struct {
-			Type    string
-			Version int
-			Payload any
+			Type    string `json:"type"`
+			Version int    `json:"version"`
+			Payload any    `json:"payload"`
 		}{}
 
 		if err := json.Unmarshal(body, data); err != nil {
