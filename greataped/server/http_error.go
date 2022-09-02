@@ -8,9 +8,9 @@ import (
 
 func newError(code int, message string) *fiber.Error {
 	data, _ := json.Marshal(struct {
-		Type    string
-		Version int
-		Payload any
+		Type    string `json:"type"`
+		Version int    `json:"version"`
+		Payload any    `json:"payload"`
 	}{
 		Type:    "server_error",
 		Version: 1,
