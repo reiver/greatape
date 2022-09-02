@@ -16,6 +16,10 @@ var (
 	// Should be time.ParseDuration string. Source: https://golang.org/pkg/time/#ParseDuration
 	// default: 10h
 	TOKENEXP = getEnv("TOKEN_EXP", "10h")
+
+	// Maximum allowed upload file size in megabytes.
+	MAX_UPLOAD_SIZE = getEnv("MAX_UPLOAD_SIZE", "1")
+	UPLOAD_PATH     = getEnv("UPLOAD_PATH", "./upload")
 )
 
 func getEnv(name string, fallback string) string {

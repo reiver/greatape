@@ -3,9 +3,10 @@ package routes
 import "contracts"
 
 var All = []contracts.IRoute{
+	Root,
 	Health,
 	Error,
-	Root,
+	Upload,
 	Profile,
 	Signup,
 	Login,

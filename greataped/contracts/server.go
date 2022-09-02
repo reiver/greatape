@@ -1,5 +1,7 @@
 package contracts
 
+import "mime/multipart"
+
 type HttpMethod int64
 
 const (
@@ -111,6 +113,7 @@ type (
 		Query(string) string
 		Params(string) string
 		FormValue(string) string
+		FormFile(key string) (*multipart.FileHeader, error)
 		Header(string) string
 	}
 

@@ -1,5 +1,7 @@
 package contracts
 
+import "mime/multipart"
+
 type (
 	IContext interface {
 		GUID() string
@@ -11,6 +13,7 @@ type (
 		Nothing() error
 		ParseJson(interface{}) IResult
 		ParseBodyAndValidate(body interface{}) error
+		SaveFile(file *multipart.FileHeader, path string) error
 		GetUser() uint
 		Redirect(location string, status ...int) error
 		Render(name string, bind interface{}, layouts ...string) error
@@ -18,6 +21,7 @@ type (
 		String(interface{}) error
 		Json(interface{}) error
 		Activity(interface{}) error
+		File(string) error
 
 		GetActivityStream(url, keyId, privateKey string, data []byte, output interface{}) error
 		PostActivityStream(url, keyId, privateKey string, data []byte, output interface{}) error

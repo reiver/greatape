@@ -102,6 +102,30 @@
             />
           </form>
           <br />
+          <hr />
+          <br />
+          <form id="frmUpload" action="/upload" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+              <input
+                type="file"
+                name="file"
+                id="file"
+                class="form-control"
+              />
+            </div>
+            <div
+              id="uploadMessage"
+              class="alert alert-danger"
+              style="display: none"
+              role="alert"
+            ></div>
+            <input
+              type="submit"
+              value="Upload"
+              class="btn btn-primary"
+            />
+          </form>
+          <br />
         </div>
         <div class="col-md-5">
           <div class="alert alert-primary" role="alert">

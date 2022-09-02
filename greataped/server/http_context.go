@@ -2,13 +2,16 @@ package server
 
 import (
 	"bytes"
+	"config"
 	. "contracts"
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io"
+	"mime/multipart"
 	"net/http"
+	"path"
 	"server/mime"
 	"time"
 	"utility"
@@ -60,6 +63,12 @@ func (context *httpServerContext) Activity(payload interface{}) error {
 	return context.underlyingContext.Send(data)
 }
 
+func (context *httpServerContext) File(key string) error {
+	// TODO: Compress the response
+	filePath := path.Join(config.UPLOAD_PATH, key)
+	return context.underlyingContext.SendFile(filePath)
+}
+
 func (context *httpServerContext) Nothing() error {
 	return context.underlyingContext.JSON(&struct{}{})
 }
@@ -102,6 +111,10 @@ func (context *httpServerContext) ParseBodyAndValidate(body interface{}) error {
 	}
 
 	return utility.Validate(body)
+}
+
+func (context *httpServerContext) SaveFile(f *multipart.FileHeader, path string) error {
+	return context.underlyingContext.SaveFile(f, path)
 }
 
 func (context *httpServerContext) GetUser() uint {

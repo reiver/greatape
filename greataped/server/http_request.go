@@ -2,6 +2,7 @@ package server
 
 import (
 	"contracts"
+	"mime/multipart"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -35,4 +36,8 @@ func (request *httpRequest) Params(key string) string {
 
 func (request *httpRequest) FormValue(key string) string {
 	return request.context.FormValue(key, "")
+}
+
+func (request *httpRequest) FormFile(key string) (*multipart.FileHeader, error) {
+	return request.context.FormFile(key)
 }

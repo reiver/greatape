@@ -1,7 +1,9 @@
 package server
 
 import (
+	"config"
 	. "contracts"
+	"strconv"
 	"strings"
 	"time"
 	"utility/jwt"
@@ -52,15 +54,23 @@ func authorization(c *fiber.Ctx) error {
 }
 
 func New() IServer {
+	maxFileSize, err := strconv.ParseInt(config.MAX_UPLOAD_SIZE, 10, 64)
+	if err != nil {
+		panic(err)
+	}
+
+	bodyLimit := maxFileSize * 1024 * 1024
+
 	framework := fiber.New(fiber.Config{
 		DisableStartupMessage: true,
 		Views:                 html.New("./views", ".html"),
+		BodyLimit:             int(bodyLimit),
 	})
 
+	framework.Static("/media", config.UPLOAD_PATH)
 	// framework.Get("/u/:name/inbox").Use(authorization)
 	// framework.Post("/u/:name/outbox").Use(authorization)
 	framework.Group("/api/v1/profile").Use(authorization)
-
 	framework.Use(
 		cors.New(),
 		logger.New(logger.Config{
