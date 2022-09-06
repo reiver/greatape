@@ -81,7 +81,6 @@ func New() IServer {
 	framework.Static("/media", config.UPLOAD_PATH)
 	// framework.Get("/u/:name/inbox").Use(authorization)
 	// framework.Post("/u/:name/outbox").Use(authorization)
-	framework.Group("/api/v1/profile").Use(authorization)
 	framework.Use(
 		cors.New(),
 		logger.New(logger.Config{
@@ -100,6 +99,8 @@ func New() IServer {
 			LimiterMiddleware: limiter.SlidingWindow{},
 		}),
 	)
+
+	framework.Group("/api/v1/profile").Use(authorization)
 
 	return &httpServer{
 		framework: framework,
