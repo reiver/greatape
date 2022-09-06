@@ -65,6 +65,17 @@ func New() IServer {
 		DisableStartupMessage: true,
 		Views:                 html.New("./views", ".html"),
 		BodyLimit:             int(bodyLimit),
+		ErrorHandler: func(ctx *fiber.Ctx, err error) error {
+			code := fiber.StatusInternalServerError
+
+			if e, ok := err.(*fiber.Error); ok {
+				code = e.Code
+			}
+
+			ctx.Set(fiber.HeaderContentType, fiber.MIMEApplicationJSONCharsetUTF8)
+
+			return ctx.Status(code).SendString(err.Error())
+		},
 	})
 
 	framework.Static("/media", config.UPLOAD_PATH)
