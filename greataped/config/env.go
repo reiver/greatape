@@ -2,6 +2,7 @@ package config
 
 import (
 	"os"
+	"strconv"
 )
 
 var (
@@ -28,4 +29,13 @@ func getEnv(name string, fallback string) string {
 	}
 
 	return fallback
+}
+
+func BodyLimit() int {
+	maxFileSize, err := strconv.ParseInt(MAX_UPLOAD_SIZE, 10, 32)
+	if err != nil {
+		panic(err)
+	}
+
+	return int(maxFileSize) * 1024 * 1024
 }

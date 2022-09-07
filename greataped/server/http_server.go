@@ -3,14 +3,11 @@ package server
 import (
 	"config"
 	. "contracts"
-	"strconv"
-	"strings"
+	"server/authorize"
 	"time"
-	"utility/jwt"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	_ "github.com/gofiber/fiber/v2/middleware/csrf"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
@@ -25,82 +22,47 @@ type httpServer struct {
 	cache     ICache
 }
 
-func authorization(c *fiber.Ctx) error {
-	h := c.Get("Authorization")
-
-	if h == "" {
-		return fiber.ErrUnauthorized
-	}
-
-	// Spliting the header
-	chunks := strings.Split(h, " ")
-
-	// If header signature is not like `Bearer <token>`, then throw
-	// This is also required, otherwise chunks[1] will throw out of bound error
-	if len(chunks) < 2 {
-		return fiber.ErrUnauthorized
-	}
-
-	// Verify the token which is in the chunks
-	user, err := jwt.Verify(chunks[1])
-
-	if err != nil {
-		return fiber.ErrUnauthorized
-	}
-
-	c.Locals("USER", user.ID)
-
-	return c.Next()
-}
-
 func New() IServer {
-	maxFileSize, err := strconv.ParseInt(config.MAX_UPLOAD_SIZE, 10, 64)
-	if err != nil {
-		panic(err)
-	}
+	framework := fiber.
+		New(fiber.Config{
+			DisableStartupMessage: true,
+			Views:                 html.New("./views", ".html"),
+			BodyLimit:             config.BodyLimit(),
+			ErrorHandler: func(ctx *fiber.Ctx, err error) error {
+				code := fiber.StatusInternalServerError
+				if e, ok := err.(*fiber.Error); ok {
+					code = e.Code
+				}
 
-	bodyLimit := maxFileSize * 1024 * 1024
+				ctx.Set(fiber.HeaderContentType, fiber.MIMEApplicationJSONCharsetUTF8)
+				return ctx.Status(code).SendString(err.Error())
+			},
+		})
 
-	framework := fiber.New(fiber.Config{
-		DisableStartupMessage: true,
-		Views:                 html.New("./views", ".html"),
-		BodyLimit:             int(bodyLimit),
-		ErrorHandler: func(ctx *fiber.Ctx, err error) error {
-			code := fiber.StatusInternalServerError
-
-			if e, ok := err.(*fiber.Error); ok {
-				code = e.Code
-			}
-
-			ctx.Set(fiber.HeaderContentType, fiber.MIMEApplicationJSONCharsetUTF8)
-
-			return ctx.Status(code).SendString(err.Error())
-		},
-	})
+	framework.
+		Use(
+			cors.New(),
+			recover.New(),
+			helmet.New(),
+			// csrf.New(),
+			limiter.New(limiter.Config{
+				Max:               20,
+				Expiration:        30 * time.Second,
+				LimiterMiddleware: limiter.SlidingWindow{},
+			}),
+			logger.New(logger.Config{
+				Next:         nil,
+				Format:       "[${time}] ${status} - ${latency} ${method} ${path} ${body}\n",
+				TimeFormat:   "15:04:05",
+				TimeZone:     "Local",
+				TimeInterval: 500 * time.Millisecond,
+			}),
+		)
 
 	framework.Static("/media", config.UPLOAD_PATH)
-	// framework.Get("/u/:name/inbox").Use(authorization)
-	// framework.Post("/u/:name/outbox").Use(authorization)
-	framework.Use(
-		cors.New(),
-		logger.New(logger.Config{
-			Next:         nil,
-			Format:       "[${time}] ${status} - ${latency} ${method} ${path} ${body}\n",
-			TimeFormat:   "15:04:05",
-			TimeZone:     "Local",
-			TimeInterval: 500 * time.Millisecond,
-		}),
-		recover.New(),
-		helmet.New(),
-		// csrf.New(),
-		limiter.New(limiter.Config{
-			Max:               20,
-			Expiration:        30 * time.Second,
-			LimiterMiddleware: limiter.SlidingWindow{},
-		}),
-	)
-
-	framework.Group("/api/v1/profile").Use(authorization)
+	framework.Group("/api/v1/profile").Use(authorize.New())
+	// framework.Get("/u/:name/inbox").Use(authorize.New())
+	// framework.Post("/u/:name/outbox").Use(authorize.New())
 
 	return &httpServer{
 		framework: framework,
