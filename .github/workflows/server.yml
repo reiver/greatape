@@ -23,7 +23,3 @@ jobs:
       - name: Build
         working-directory: greataped/app
         run: go build -v ./...
-
-      - name: Test
-        working-directory: greataped/tests
-        run: go test -v ./...
