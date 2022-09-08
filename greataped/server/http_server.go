@@ -36,7 +36,15 @@ func New() IServer {
 				}
 
 				ctx.Set(fiber.HeaderContentType, fiber.MIMEApplicationJSONCharsetUTF8)
-				return ctx.Status(code).SendString(err.Error())
+				return ctx.Status(code).JSON(struct {
+					Type    string `json:"type"`
+					Version int    `json:"version"`
+					Payload any    `json:"payload"`
+				}{
+					Type:    "server_error",
+					Version: 1,
+					Payload: err.Error(),
+				})
 			},
 		})
 
