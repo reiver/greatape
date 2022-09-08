@@ -6,11 +6,11 @@ import (
 )
 
 var (
-	PROTOCOL = getEnv("PROTOCOL", "http")
-	DOMAIN   = getEnv("DOMAIN", "localhost")
-	PORT     = getEnv("PORT", "80")
-
+	PROTOCOL  = getEnv("PROTOCOL", "http")
+	DOMAIN    = getEnv("DOMAIN", "localhost")
+	PORT      = getEnv("PORT", "80")
 	SQLITE_DB = getEnv("SQLITE_DB", "db.sqlite")
+
 	// TOKENKEY returns the jwt token secret
 	TOKENKEY = getEnv("TOKEN_KEY", "put-your-secure-jwt-secret-key-here")
 	// TOKENEXP returns the jwt token expiration duration.
@@ -21,6 +21,8 @@ var (
 	// Maximum allowed upload file size in megabytes.
 	MAX_UPLOAD_SIZE = getEnv("MAX_UPLOAD_SIZE", "1")
 	UPLOAD_PATH     = getEnv("UPLOAD_PATH", "./upload")
+	CSRF_PROTECTION = getEnv("CSRF_PROTECTION", "false")
+	RATE_LIMITER    = getEnv("RATE_LIMITER", "false")
 )
 
 func getEnv(name string, fallback string) string {
@@ -29,6 +31,14 @@ func getEnv(name string, fallback string) string {
 	}
 
 	return fallback
+}
+
+func CsrfProtection() bool {
+	return CSRF_PROTECTION == "true"
+}
+
+func RateLimiter() bool {
+	return RATE_LIMITER == "true"
 }
 
 func BodyLimit() int {

@@ -8,6 +8,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/csrf"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
@@ -44,12 +45,6 @@ func New() IServer {
 			cors.New(),
 			recover.New(),
 			helmet.New(),
-			// csrf.New(),
-			limiter.New(limiter.Config{
-				Max:               20,
-				Expiration:        30 * time.Second,
-				LimiterMiddleware: limiter.SlidingWindow{},
-			}),
 			logger.New(logger.Config{
 				Next:         nil,
 				Format:       "[${time}] ${status} - ${latency} ${method} ${path} ${body}\n",
@@ -58,6 +53,20 @@ func New() IServer {
 				TimeInterval: 500 * time.Millisecond,
 			}),
 		)
+
+	if config.CsrfProtection() {
+		framework.Use(csrf.New())
+	}
+
+	if config.RateLimiter() {
+		framework.Use(
+			limiter.New(limiter.Config{
+				Max:               20,
+				Expiration:        30 * time.Second,
+				LimiterMiddleware: limiter.SlidingWindow{},
+			}),
+		)
+	}
 
 	framework.Static("/media", config.UPLOAD_PATH)
 	framework.Group("/api/v1/profile").Use(authorize.New())
