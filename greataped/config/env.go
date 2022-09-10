@@ -6,10 +6,11 @@ import (
 )
 
 var (
-	PROTOCOL  = getEnv("PROTOCOL", "http")
-	DOMAIN    = getEnv("DOMAIN", "localhost")
-	PORT      = getEnv("PORT", "80")
-	SQLITE_DB = getEnv("SQLITE_DB", "db.sqlite")
+	PORT          = getEnv("PORT", "80")
+	PROTOCOL      = getEnv("PROTOCOL", "http")
+	DOMAIN        = getEnv("DOMAIN", "localhost")
+	CLIENT_DOMAIN = getEnv("CLIENT_DOMAIN", "localhost")
+	SQLITE_DB     = getEnv("SQLITE_DB", "db.sqlite")
 
 	// TOKENKEY returns the jwt token secret
 	TOKENKEY = getEnv("TOKEN_KEY", "put-your-secure-jwt-secret-key-here")
