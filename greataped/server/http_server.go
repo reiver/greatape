@@ -27,7 +27,7 @@ func New() IServer {
 	framework := fiber.
 		New(fiber.Config{
 			DisableStartupMessage: true,
-			Views:                 html.New("./views", ".html"),
+			Views:                 html.New("../app/views", ".html"),
 			BodyLimit:             config.BodyLimit(),
 			ErrorHandler: func(ctx *fiber.Ctx, err error) error {
 				code := fiber.StatusInternalServerError
