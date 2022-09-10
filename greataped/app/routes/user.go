@@ -2,6 +2,7 @@ package routes
 
 import (
 	"app/models/repos"
+	"config"
 	. "contracts"
 	"errors"
 	"fmt"
@@ -27,11 +28,14 @@ var User = route.New(HttpGet, "/u/:username", func(x IContext) error {
 	actor := createActor(user)
 	if strings.Contains(x.Request().Header("Accept"), mime.ActivityJson) {
 		return x.Activity(actor)
-	} else {
+	} else if config.DOMAIN == config.CLIENT_DOMAIN {
 		return x.Render("user", ViewData{
 			"Title":    fmt.Sprintf("%s's Public Profile", user.DisplayName),
 			"Username": user.Username,
 			"Actor":    actor,
 		})
+	} else {
+		client := x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.CLIENT_DOMAIN, user.Username)
+		return x.Redirect(client)
 	}
 })
