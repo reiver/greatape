@@ -184,8 +184,14 @@ func (context *httpServerContext) requestActivityStream(method, url, keyId, priv
 		return err
 	}
 
-	if err := context.signRequest(keyId, privateKey, data, req); err != nil {
-		return err
+	if privateKey != "" {
+		if err := context.signRequest(keyId, privateKey, data, req); err != nil {
+			return err
+		}
+	}
+
+	if keyId == "activitystream" {
+		req.Header.Add("Accept", "application/activity+json")
 	}
 
 	res, err := context.httpClient.Do(req)
@@ -202,10 +208,18 @@ func (context *httpServerContext) requestActivityStream(method, url, keyId, priv
 		return fmt.Errorf("%s", res.Status)
 	}
 
+	j, err := io.ReadAll(res.Body)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(string(j))
+
 	if output != nil {
-		if err := json.NewDecoder(res.Body).Decode(output); err != nil {
+		if err := json.Unmarshal(j, output); err != nil {
 			return err
 		}
+
 	}
 
 	return nil

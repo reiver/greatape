@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"activitypub"
 	"app/models/repos"
 	"config"
 	. "contracts"
@@ -17,6 +18,23 @@ var User = route.New(HttpGet, "/u/:username", func(x IContext) error {
 	username := x.Request().Params("username")
 	if username == "" {
 		return x.BadRequest("Bad request")
+	}
+
+	if x.StringUtil().Contains(username, "@") {
+		parts := x.StringUtil().Split(username, "@")
+		url := x.StringUtil().Format("https://%s/.well-known/webfinger?resource=acct:%s", parts[1], username)
+
+		webfinger := activitypub.Webfinger{}
+		if err := x.GetActivityStream(url, "", "", nil, &webfinger); err != nil {
+			return x.InternalServerError(err.Error())
+		}
+
+		actor := activitypub.Actor{}
+		if err := x.GetActivityStream(webfinger.Aliases[0], "activitystream", "", nil, &actor); err != nil {
+			return x.InternalServerError(err.Error())
+		}
+
+		return x.Activity(actor)
 	}
 
 	user := &repos.User{}
