@@ -25,7 +25,7 @@ var WebFinger = route.New(HttpGet, "/.well-known/webfinger", func(x IContext) er
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return x.NotFound("No record found for %s.", name)
 		} else {
-			return x.InternalServerError(err.Error())
+			return x.InternalServerError(err)
 		}
 	}
 

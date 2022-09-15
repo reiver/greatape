@@ -44,8 +44,8 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 
 			{
 				actor := &activitypub.Actor{}
-				if err := x.GetActivityStream(url, keyId, user.PrivateKey, nil, actor); err != nil {
-					return x.InternalServerError(err.Error())
+				if err := x.GetActivityStreamSigned(url, keyId, user.PrivateKey, nil, actor); err != nil {
+					return x.InternalServerError(err)
 				}
 
 				inbox = actor.Inbox
@@ -53,7 +53,7 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 
 			data, err := json.Marshal(activity)
 			if err != nil {
-				return x.InternalServerError(err.Error())
+				return x.InternalServerError(err)
 			}
 
 			follower := &repos.Follower{
@@ -65,7 +65,7 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 			}
 
 			if err := repos.CreateFollower(follower); err.Error != nil {
-				return x.Conflict(err.Error.Error())
+				return x.Conflict(err.Error)
 			}
 
 			if user.Access == repos.ACCESS_PUBLIC {
@@ -77,13 +77,13 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 					Object:  activity,
 				})
 
-				if err := x.PostActivityStream(inbox, keyId, user.PrivateKey, data, nil); err != nil {
-					return x.InternalServerError(err.Error())
+				if err := x.PostActivityStreamSigned(inbox, keyId, user.PrivateKey, data, nil); err != nil {
+					return x.InternalServerError(err)
 				}
 
 				err := repos.AcceptFollower(follower.ID).Error
 				if err != nil {
-					return x.InternalServerError(err.Error())
+					return x.InternalServerError(err)
 				}
 			}
 
@@ -112,7 +112,7 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 				}
 
 				if err := repos.CreateIncomingActivity(message); err.Error != nil {
-					return x.Conflict(err.Error.Error())
+					return x.Conflict(err.Error)
 				}
 
 				return x.Nothing()

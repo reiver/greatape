@@ -123,27 +123,34 @@ func (context *httpServerContext) GetUser() uint {
 }
 
 // Error create a server error with status code and message
-func (context *httpServerContext) Error(code int, format string, args ...any) IServerError {
-	return newError(code, fmt.Sprintf(format, args...))
+func (context *httpServerContext) Error(code int, format interface{}, args ...any) IServerError {
+	switch arg := format.(type) {
+	case string:
+		return newError(code, fmt.Sprintf(arg, args...))
+	case error:
+		return newError(code, arg.Error())
+	default:
+		return newError(code, fmt.Sprintf("%v", arg))
+	}
 }
 
-func (context *httpServerContext) BadRequest(format string, args ...any) IServerError {
+func (context *httpServerContext) BadRequest(format interface{}, args ...any) IServerError {
 	return context.Error(StatusBadRequest, format, args...)
 }
 
-func (context *httpServerContext) NotFound(format string, args ...any) IServerError {
+func (context *httpServerContext) NotFound(format interface{}, args ...any) IServerError {
 	return context.Error(StatusNotFound, format, args...)
 }
 
-func (context *httpServerContext) InternalServerError(format string, args ...any) IServerError {
+func (context *httpServerContext) InternalServerError(format interface{}, args ...any) IServerError {
 	return context.Error(StatusInternalServerError, format, args...)
 }
 
-func (context *httpServerContext) Unauthorized(format string, args ...any) IServerError {
+func (context *httpServerContext) Unauthorized(format interface{}, args ...any) IServerError {
 	return context.Error(StatusUnauthorized, format, args...)
 }
 
-func (context *httpServerContext) Conflict(format string, args ...any) IServerError {
+func (context *httpServerContext) Conflict(format interface{}, args ...any) IServerError {
 	return context.Error(StatusConflict, format, args...)
 }
 
@@ -164,8 +171,6 @@ func (context *httpServerContext) signRequest(keyId, privateKey string, data []b
 		req.Header.Set("Digest", digest)
 	}
 
-	req.Header.Set("Accept", mime.ActivityJson)
-
 	if err := signer.Sign(req); err != nil {
 		return err
 	}
@@ -184,14 +189,12 @@ func (context *httpServerContext) requestActivityStream(method, url, keyId, priv
 		return err
 	}
 
+	req.Header.Set("Accept", mime.ActivityJson)
+
 	if privateKey != "" {
 		if err := context.signRequest(keyId, privateKey, data, req); err != nil {
 			return err
 		}
-	}
-
-	if keyId == "activitystream" {
-		req.Header.Add("Accept", "application/activity+json")
 	}
 
 	res, err := context.httpClient.Do(req)
@@ -208,27 +211,27 @@ func (context *httpServerContext) requestActivityStream(method, url, keyId, priv
 		return fmt.Errorf("%s", res.Status)
 	}
 
-	j, err := io.ReadAll(res.Body)
-	if err != nil {
-		return err
-	}
-
-	fmt.Println(string(j))
-
 	if output != nil {
-		if err := json.Unmarshal(j, output); err != nil {
+		if err := json.NewDecoder(res.Body).Decode(output); err != nil {
 			return err
 		}
-
 	}
 
 	return nil
 }
 
-func (context *httpServerContext) GetActivityStream(url, keyId, privateKey string, data []byte, output interface{}) error {
+func (context *httpServerContext) GetActivityStream(url string, data []byte, output interface{}) error {
+	return context.requestActivityStream(http.MethodGet, url, "", "", data, output)
+}
+
+func (context *httpServerContext) PostActivityStream(url string, data []byte, output interface{}) error {
+	return context.requestActivityStream(http.MethodPost, url, "", "", data, output)
+}
+
+func (context *httpServerContext) GetActivityStreamSigned(url, keyId, privateKey string, data []byte, output interface{}) error {
 	return context.requestActivityStream(http.MethodGet, url, keyId, privateKey, data, output)
 }
 
-func (context *httpServerContext) PostActivityStream(url, keyId, privateKey string, data []byte, output interface{}) error {
+func (context *httpServerContext) PostActivityStreamSigned(url, keyId, privateKey string, data []byte, output interface{}) error {
 	return context.requestActivityStream(http.MethodPost, url, keyId, privateKey, data, output)
 }

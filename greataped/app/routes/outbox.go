@@ -19,7 +19,7 @@ var OutboxPost = route.New(HttpPost, "/u/:username/outbox", func(x IContext) err
 
 	object := &activitypub.Object{}
 	if err := x.ParseBodyAndValidate(object); err != nil {
-		return x.BadRequest(err.Error())
+		return x.BadRequest(err)
 	}
 
 	key := &types.KeyResponse{}
@@ -35,7 +35,7 @@ var OutboxPost = route.New(HttpPost, "/u/:username/outbox", func(x IContext) err
 		{
 			note := &activitypub.Note{}
 			if err := x.ParseBodyAndValidate(note); err != nil {
-				return x.BadRequest(err.Error())
+				return x.BadRequest(err)
 			}
 
 			activity := note.Wrap(username)
@@ -44,16 +44,16 @@ var OutboxPost = route.New(HttpPost, "/u/:username/outbox", func(x IContext) err
 
 			if to != activitypub.Public {
 				recipient := &activitypub.Actor{}
-				if err := x.GetActivityStream(to, keyId, key.PrivateKey, nil, recipient); err != nil {
-					return x.InternalServerError(err.Error())
+				if err := x.GetActivityStreamSigned(to, keyId, key.PrivateKey, nil, recipient); err != nil {
+					return x.InternalServerError(err)
 				}
 
 				to = recipient.ID
 
 				data, _ := json.Marshal(activity)
 				output := &struct{}{}
-				if err := x.PostActivityStream(recipient.Inbox, keyId, key.PrivateKey, data, output); err != nil {
-					return x.InternalServerError(err.Error())
+				if err := x.PostActivityStreamSigned(recipient.Inbox, keyId, key.PrivateKey, data, output); err != nil {
+					return x.InternalServerError(err)
 				}
 			}
 
@@ -66,7 +66,7 @@ var OutboxPost = route.New(HttpPost, "/u/:username/outbox", func(x IContext) err
 			}
 
 			if err := repos.CreateOutgoingActivity(message); err.Error != nil {
-				return x.Conflict(err.Error.Error())
+				return x.Conflict(err.Error)
 			}
 
 			return x.Nothing()

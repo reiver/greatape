@@ -3,6 +3,8 @@ package server
 import (
 	"contracts"
 	"mime/multipart"
+	"server/mime"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -40,4 +42,8 @@ func (request *httpRequest) FormValue(key string) string {
 
 func (request *httpRequest) FormFile(key string) (*multipart.FileHeader, error) {
 	return request.context.FormFile(key)
+}
+
+func (request *httpRequest) AcceptsActivityStream() bool {
+	return strings.Contains(request.Header("Accept"), mime.ActivityJson)
 }

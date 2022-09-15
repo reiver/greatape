@@ -22,7 +22,7 @@ var Followers = route.New(HttpGet, "/u/:username/followers", func(x IContext) er
 	followers := &[]types.FollowerResponse{}
 	err := repos.FindFollowers(followers, actor).Error
 	if err != nil {
-		x.InternalServerError(err.Error())
+		x.InternalServerError(err)
 	}
 
 	items := []string{}
@@ -51,7 +51,7 @@ var AcceptFollowRequest = route.New(HttpPut, "/u/:username/followers/:id/accept"
 
 	follower := &repos.Follower{}
 	if err := repos.FindFollowerById(follower, followerId).Error; err != nil {
-		return x.InternalServerError(err.Error())
+		return x.InternalServerError(err)
 	}
 
 	data, _ := json.Marshal(&activitypub.Activity{
@@ -70,12 +70,12 @@ var AcceptFollowRequest = route.New(HttpPut, "/u/:username/followers/:id/accept"
 
 	keyId := x.StringUtil().Format("%s://%s/u/%s#main-key", config.PROTOCOL, config.DOMAIN, username)
 
-	if err := x.PostActivityStream(follower.HandleInbox, keyId, user.PrivateKey, data, nil); err != nil {
-		return x.InternalServerError(err.Error())
+	if err := x.PostActivityStreamSigned(follower.HandleInbox, keyId, user.PrivateKey, data, nil); err != nil {
+		return x.InternalServerError(err)
 	}
 
 	if err := repos.AcceptFollower(follower.ID).Error; err != nil {
-		return x.InternalServerError(err.Error())
+		return x.InternalServerError(err)
 	}
 
 	return x.Nothing()

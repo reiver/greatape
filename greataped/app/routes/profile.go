@@ -28,7 +28,7 @@ var GetProfile = route.New(HttpGet, "/api/v1/profile", func(x IContext) error {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return x.Unauthorized("not_found")
 		} else {
-			return x.InternalServerError(err.Error())
+			return x.InternalServerError(err)
 		}
 	}
 

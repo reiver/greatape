@@ -23,14 +23,15 @@ type (
 		Activity(interface{}) error
 		File(string) error
 
-		GetActivityStream(url, keyId, privateKey string, data []byte, output interface{}) error
-		PostActivityStream(url, keyId, privateKey string, data []byte, output interface{}) error
+		GetActivityStream(url string, data []byte, output interface{}) error
+		PostActivityStream(url string, data []byte, output interface{}) error
+		GetActivityStreamSigned(url, keyId, privateKey string, data []byte, output interface{}) error
+		PostActivityStreamSigned(url, keyId, privateKey string, data []byte, output interface{}) error
 
-		// Error(int, string, ...any) IServerError
-		BadRequest(string, ...any) IServerError
-		NotFound(string, ...any) IServerError
-		InternalServerError(string, ...any) IServerError
-		Unauthorized(string, ...any) IServerError
-		Conflict(string, ...any) IServerError
+		BadRequest(interface{}, ...any) IServerError
+		NotFound(interface{}, ...any) IServerError
+		InternalServerError(interface{}, ...any) IServerError
+		Unauthorized(interface{}, ...any) IServerError
+		Conflict(interface{}, ...any) IServerError
 	}
 )

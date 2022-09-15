@@ -17,7 +17,7 @@ var Following = route.New(HttpGet, "/u/:username/following", func(x IContext) er
 	followings := &[]types.FollowerResponse{}
 	err := repos.FindFollowing(followings, actor).Error
 	if err != nil {
-		x.InternalServerError(err.Error())
+		x.InternalServerError(err)
 	}
 
 	items := []string{}

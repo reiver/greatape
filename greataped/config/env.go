@@ -50,3 +50,7 @@ func BodyLimit() int {
 
 	return int(maxFileSize) * 1024 * 1024
 }
+
+func ExternalClient() bool {
+	return DOMAIN != CLIENT_DOMAIN
+}

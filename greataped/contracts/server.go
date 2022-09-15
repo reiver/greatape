@@ -115,6 +115,7 @@ type (
 		FormValue(string) string
 		FormFile(key string) (*multipart.FileHeader, error)
 		Header(string) string
+		AcceptsActivityStream() bool
 	}
 
 	IResponse interface {

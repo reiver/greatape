@@ -24,3 +24,15 @@ type Link struct {
 	Type     *string `json:"type,omitempty"`
 	Template *string `json:"template,omitempty"`
 }
+
+func (webfinger *Webfinger) Self() string {
+	self := ""
+	for _, link := range webfinger.Links {
+		if link.Rel == "self" && link.Type != nil && *link.Type == "application/activity+json" {
+			self = *link.Href
+			break
+		}
+	}
+
+	return self
+}
