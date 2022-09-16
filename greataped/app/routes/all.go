@@ -20,6 +20,7 @@ var All = []contracts.IRoute{
 	OutboxPost,
 	OutboxGet,
 	Followers,
+	Following,
 	Follow,
 	Authorize,
 }

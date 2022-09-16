@@ -8,6 +8,7 @@ type OrderedCollection struct {
 	Type         string      `json:"type,omitempty"`
 	TotalItems   int         `json:"totalItems"`
 	OrderedItems interface{} `json:"orderedItems,omitempty"`
+	First        string      `json:"first,omitempty"`
 }
 
 func NewOrderedCollection(id string, items interface{}, length int) *OrderedCollection {

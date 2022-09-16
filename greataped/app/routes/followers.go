@@ -2,6 +2,7 @@ package routes
 
 import (
 	"activitypub"
+	"app/models/domain"
 	"app/models/repos"
 	"app/models/types"
 	"config"
@@ -15,30 +16,53 @@ import (
 )
 
 var Followers = route.New(HttpGet, "/u/:username/followers", func(x IContext) error {
-	username := x.Request().Params("username")
-	actor := x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username)
-	id := x.StringUtil().Format("%s://%s/u/%s/followers", config.PROTOCOL, config.DOMAIN, username)
-
-	followers := &[]types.FollowerResponse{}
-	err := repos.FindFollowers(followers, actor).Error
-	if err != nil {
-		x.InternalServerError(err)
+	username := domain.Username(x.Request().Params("username"))
+	if username.IsEmpty() {
+		return x.BadRequest("username required.")
 	}
 
-	items := []string{}
-	for _, follower := range *followers {
-		items = append(items, follower.Handle)
-	}
+	if username.IsFederated() {
+		webfinger := activitypub.Webfinger{}
+		if err := x.GetActivityStream(username.Webfinger(), nil, &webfinger); err != nil {
+			return x.InternalServerError(err)
+		}
 
-	result := &activitypub.Followers{
-		Context:      activitypub.ActivityStreams,
-		ID:           id,
-		Type:         activitypub.TypeOrderedCollection,
-		TotalItems:   len(items),
-		OrderedItems: items,
-	}
+		actor := activitypub.Actor{}
+		if err := x.GetActivityStream(webfinger.Self(), nil, &actor); err != nil {
+			return x.InternalServerError(err)
+		}
 
-	return x.Activity(result)
+		followers := activitypub.OrderedCollection{}
+		if err := x.GetActivityStream(actor.Followers, nil, &followers); err != nil {
+			return x.InternalServerError(err)
+		}
+
+		return x.Activity(followers)
+	} else {
+		actor := x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username)
+		id := x.StringUtil().Format("%s://%s/u/%s/followers", config.PROTOCOL, config.DOMAIN, username)
+
+		followers := &[]types.FollowerResponse{}
+		err := repos.FindFollowers(followers, actor).Error
+		if err != nil {
+			x.InternalServerError(err)
+		}
+
+		items := []string{}
+		for _, follower := range *followers {
+			items = append(items, follower.Handle)
+		}
+
+		result := &activitypub.Followers{
+			Context:      activitypub.ActivityStreams,
+			ID:           id,
+			Type:         activitypub.TypeOrderedCollection,
+			TotalItems:   len(items),
+			OrderedItems: items,
+		}
+
+		return x.Activity(result)
+	}
 })
 
 var AcceptFollowRequest = route.New(HttpPut, "/u/:username/followers/:id/accept", func(x IContext) error {
