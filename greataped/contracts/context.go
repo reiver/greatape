@@ -1,6 +1,10 @@
 package contracts
 
-import "mime/multipart"
+import (
+	"activitypub"
+	"app/models/domain"
+	"mime/multipart"
+)
 
 type (
 	IContext interface {
@@ -27,6 +31,10 @@ type (
 		PostActivityStream(url string, data []byte, output interface{}) error
 		GetActivityStreamSigned(url, keyId, privateKey string, data []byte, output interface{}) error
 		PostActivityStreamSigned(url, keyId, privateKey string, data []byte, output interface{}) error
+
+		GetWebFinger(username domain.Username) (activitypub.Webfinger, error)
+		GetActor(activitypub.Webfinger) (activitypub.Actor, error)
+		GetOrderedCollection(url string) (activitypub.OrderedCollection, error)
 
 		BadRequest(interface{}, ...any) IServerError
 		NotFound(interface{}, ...any) IServerError

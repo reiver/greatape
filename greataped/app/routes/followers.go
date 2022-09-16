@@ -22,18 +22,18 @@ var Followers = route.New(HttpGet, "/u/:username/followers", func(x IContext) er
 	}
 
 	if username.IsFederated() {
-		webfinger := activitypub.Webfinger{}
-		if err := x.GetActivityStream(username.Webfinger(), nil, &webfinger); err != nil {
+		webfinger, err := x.GetWebFinger(username)
+		if err != nil {
 			return x.InternalServerError(err)
 		}
 
-		actor := activitypub.Actor{}
-		if err := x.GetActivityStream(webfinger.Self(), nil, &actor); err != nil {
+		actor, err := x.GetActor(webfinger)
+		if err != nil {
 			return x.InternalServerError(err)
 		}
 
-		followers := activitypub.OrderedCollection{}
-		if err := x.GetActivityStream(actor.Followers, nil, &followers); err != nil {
+		followers, err := x.GetOrderedCollection(actor.Followers)
+		if err != nil {
 			return x.InternalServerError(err)
 		}
 

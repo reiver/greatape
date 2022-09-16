@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"activitypub"
 	"app/models/domain"
 	"app/models/repos"
 	"config"
@@ -19,13 +18,13 @@ var User = route.New(contracts.HttpGet, "/u/:username", func(x contracts.IContex
 	}
 
 	if username.IsFederated() {
-		webfinger := activitypub.Webfinger{}
-		if err := x.GetActivityStream(username.Webfinger(), nil, &webfinger); err != nil {
+		webfinger, err := x.GetWebFinger(username)
+		if err != nil {
 			return x.InternalServerError(err)
 		}
 
-		actor := activitypub.Actor{}
-		if err := x.GetActivityStream(webfinger.Self(), nil, &actor); err != nil {
+		actor, err := x.GetActor(webfinger)
+		if err != nil {
 			return x.InternalServerError(err)
 		}
 

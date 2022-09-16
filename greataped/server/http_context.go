@@ -1,6 +1,8 @@
 package server
 
 import (
+	"activitypub"
+	"app/models/domain"
 	"bytes"
 	"config"
 	. "contracts"
@@ -234,4 +236,27 @@ func (context *httpServerContext) GetActivityStreamSigned(url, keyId, privateKey
 
 func (context *httpServerContext) PostActivityStreamSigned(url, keyId, privateKey string, data []byte, output interface{}) error {
 	return context.requestActivityStream(http.MethodPost, url, keyId, privateKey, data, output)
+}
+
+func (context *httpServerContext) GetWebFinger(username domain.Username) (activitypub.Webfinger, error) {
+	result, err := context.GetObject(username.Webfinger(), &activitypub.Webfinger{})
+	return result.(activitypub.Webfinger), err
+}
+
+func (context *httpServerContext) GetActor(webfinger activitypub.Webfinger) (activitypub.Actor, error) {
+	result, err := context.GetObject(webfinger.Self(), &activitypub.Actor{})
+	return result.(activitypub.Actor), err
+}
+
+func (context *httpServerContext) GetOrderedCollection(url string) (activitypub.OrderedCollection, error) {
+	result, err := context.GetObject(url, &activitypub.OrderedCollection{})
+	return result.(activitypub.OrderedCollection), err
+}
+
+func (context *httpServerContext) GetObject(url string, result interface{}) (interface{}, error) {
+	if err := context.GetActivityStream(url, nil, &result); err != nil {
+		return result, err
+	}
+
+	return result, nil
 }
