@@ -8,11 +8,8 @@ import (
 	"config"
 	. "contracts"
 	"encoding/json"
-	"errors"
 	"server/route"
 	"strconv"
-
-	"gorm.io/gorm"
 )
 
 var Followers = route.New(HttpGet, "/u/:username/followers", func(x IContext) error {
@@ -24,17 +21,17 @@ var Followers = route.New(HttpGet, "/u/:username/followers", func(x IContext) er
 	if username.IsFederated() {
 		webfinger, err := x.GetWebFinger(username)
 		if err != nil {
-			return x.InternalServerError(err)
+			return err
 		}
 
 		actor, err := x.GetActor(webfinger)
 		if err != nil {
-			return x.InternalServerError(err)
+			return err
 		}
 
 		followers, err := x.GetOrderedCollection(actor.Followers)
 		if err != nil {
-			return x.InternalServerError(err)
+			return err
 		}
 
 		return x.Activity(followers)
@@ -45,7 +42,7 @@ var Followers = route.New(HttpGet, "/u/:username/followers", func(x IContext) er
 		followers := &[]types.FollowerResponse{}
 		err := repos.FindFollowers(followers, actor).Error
 		if err != nil {
-			x.InternalServerError(err)
+			return err
 		}
 
 		items := []string{}
@@ -75,7 +72,7 @@ var AcceptFollowRequest = route.New(HttpPut, "/u/:username/followers/:id/accept"
 
 	follower := &repos.Follower{}
 	if err := repos.FindFollowerById(follower, followerId).Error; err != nil {
-		return x.InternalServerError(err)
+		return err
 	}
 
 	data, _ := json.Marshal(&activitypub.Activity{
@@ -86,20 +83,19 @@ var AcceptFollowRequest = route.New(HttpPut, "/u/:username/followers/:id/accept"
 		Object:  follower.Activity,
 	})
 
-	user := &repos.User{}
-	err = repos.FindUserByUsername(user, username).Error
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return x.NotFound("No record found for %s.", username)
+	user, err := repos.FindUserByUsername(username)
+	if err != nil {
+		return err
 	}
 
 	keyId := x.StringUtil().Format("%s://%s/u/%s#main-key", config.PROTOCOL, config.DOMAIN, username)
 
 	if err := x.PostActivityStreamSigned(follower.HandleInbox, keyId, user.PrivateKey, data, nil); err != nil {
-		return x.InternalServerError(err)
+		return err
 	}
 
 	if err := repos.AcceptFollower(follower.ID).Error; err != nil {
-		return x.InternalServerError(err)
+		return err
 	}
 
 	return x.Nothing()

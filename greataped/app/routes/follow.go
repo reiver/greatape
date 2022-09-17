@@ -23,17 +23,17 @@ var Follow = route.New(HttpGet, "/u/:name/follow", func(x IContext) error {
 	webfingerUrl := x.StringUtil().Format("https://%s/.well-known/webfinger?resource=acct:%s", parts[1], follower)
 	resp, err := http.Get(webfingerUrl)
 	if err != nil {
-		x.InternalServerError(err)
+		return err
 	}
 
 	data, err := io.ReadAll(resp.Body)
 	if err != nil {
-		x.InternalServerError(err)
+		return err
 	}
 
 	webfinger, err := activitypub.UnmarshalWebfinger(data)
 	if err != nil {
-		x.InternalServerError(err)
+		return err
 	}
 
 	template := ""

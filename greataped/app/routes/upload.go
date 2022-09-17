@@ -12,7 +12,7 @@ import (
 var Upload = route.New(contracts.HttpPost, "/upload", func(x contracts.IContext) error {
 	file, err := x.Request().FormFile("file")
 	if err != nil {
-		return x.InternalServerError(err)
+		return err
 	}
 
 	uuid := uuid.New().String()
@@ -21,7 +21,7 @@ var Upload = route.New(contracts.HttpPost, "/upload", func(x contracts.IContext)
 
 	filePath := path.Join(config.UPLOAD_PATH, fileName)
 	if err = x.SaveFile(file, filePath); err != nil {
-		return x.InternalServerError(err)
+		return err
 	}
 
 	return x.Json(struct {

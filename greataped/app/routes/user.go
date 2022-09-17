@@ -5,10 +5,7 @@ import (
 	"app/models/repos"
 	"config"
 	"contracts"
-	"errors"
 	"server/route"
-
-	"gorm.io/gorm"
 )
 
 var User = route.New(contracts.HttpGet, "/u/:username", func(x contracts.IContext) error {
@@ -20,20 +17,19 @@ var User = route.New(contracts.HttpGet, "/u/:username", func(x contracts.IContex
 	if username.IsFederated() {
 		webfinger, err := x.GetWebFinger(username)
 		if err != nil {
-			return x.InternalServerError(err)
+			return err
 		}
 
 		actor, err := x.GetActor(webfinger)
 		if err != nil {
-			return x.InternalServerError(err)
+			return err
 		}
 
 		return x.Activity(actor)
 	} else {
-		user := &repos.User{}
-		err := repos.FindUserByUsername(user, username.String()).Error
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return x.NotFound("No record found for %s.", username)
+		user, err := repos.FindUserByUsername(username.String())
+		if err != nil {
+			return err
 		}
 
 		str := x.StringUtil()

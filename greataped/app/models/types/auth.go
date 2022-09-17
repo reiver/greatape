@@ -36,10 +36,6 @@ type UserResponse struct {
 	PrivateProfile bool   `json:"private_profile"`
 }
 
-type KeyResponse struct {
-	PrivateKey string `json:"privateKey"`
-}
-
 type AccessResponse struct {
 	Token string `json:"token"`
 }

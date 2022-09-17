@@ -19,17 +19,17 @@ var Following = route.New(HttpGet, "/u/:username/following", func(x IContext) er
 	if username.IsFederated() {
 		webfinger, err := x.GetWebFinger(username)
 		if err != nil {
-			return x.InternalServerError(err)
+			return err
 		}
 
 		actor, err := x.GetActor(webfinger)
 		if err != nil {
-			return x.InternalServerError(err)
+			return err
 		}
 
 		following, err := x.GetOrderedCollection(actor.Following)
 		if err != nil {
-			return x.InternalServerError(err)
+			return err
 		}
 
 		return x.Activity(following)
@@ -40,7 +40,7 @@ var Following = route.New(HttpGet, "/u/:username/following", func(x IContext) er
 		followings := &[]types.FollowerResponse{}
 		err := repos.FindFollowing(followings, actor).Error
 		if err != nil {
-			x.InternalServerError(err)
+			return err
 		}
 
 		items := []string{}

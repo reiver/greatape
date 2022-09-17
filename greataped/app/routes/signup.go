@@ -4,13 +4,10 @@ import (
 	"app/models/repos"
 	"app/models/types"
 	. "contracts"
-	"errors"
 	"server/route"
 	"utility"
 	"utility/jwt"
 	"utility/password"
-
-	"gorm.io/gorm"
 )
 
 var Signup = route.New(HttpPost, "/api/v1/signup", func(x IContext) error {
@@ -19,9 +16,8 @@ var Signup = route.New(HttpPost, "/api/v1/signup", func(x IContext) error {
 		return err
 	}
 
-	err := repos.FindUserByEmail(&struct{ ID string }{}, body.Email).Error
-	if !errors.Is(err, gorm.ErrRecordNotFound) {
-		return x.Conflict("Email already exists")
+	if _, err := repos.FindUserByEmail(body.Email); err == nil {
+		return x.Conflict("email already exists")
 	}
 
 	privateKey, publicKey, err := utility.GenerateRSAKeyPair()

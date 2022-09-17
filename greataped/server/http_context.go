@@ -238,19 +238,19 @@ func (context *httpServerContext) PostActivityStreamSigned(url, keyId, privateKe
 	return context.requestActivityStream(http.MethodPost, url, keyId, privateKey, data, output)
 }
 
-func (context *httpServerContext) GetWebFinger(username domain.Username) (activitypub.Webfinger, error) {
+func (context *httpServerContext) GetWebFinger(username domain.Username) (*activitypub.Webfinger, error) {
 	result, err := context.GetObject(username.Webfinger(), &activitypub.Webfinger{})
-	return result.(activitypub.Webfinger), err
+	return result.(*activitypub.Webfinger), err
 }
 
-func (context *httpServerContext) GetActor(webfinger activitypub.Webfinger) (activitypub.Actor, error) {
+func (context *httpServerContext) GetActor(webfinger *activitypub.Webfinger) (*activitypub.Actor, error) {
 	result, err := context.GetObject(webfinger.Self(), &activitypub.Actor{})
-	return result.(activitypub.Actor), err
+	return result.(*activitypub.Actor), err
 }
 
-func (context *httpServerContext) GetOrderedCollection(url string) (activitypub.OrderedCollection, error) {
+func (context *httpServerContext) GetOrderedCollection(url string) (*activitypub.OrderedCollection, error) {
 	result, err := context.GetObject(url, &activitypub.OrderedCollection{})
-	return result.(activitypub.OrderedCollection), err
+	return result.(*activitypub.OrderedCollection), err
 }
 
 func (context *httpServerContext) GetObject(url string, result interface{}) (interface{}, error) {

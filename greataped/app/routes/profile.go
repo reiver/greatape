@@ -6,10 +6,7 @@ import (
 	"config"
 	. "contracts"
 	"encoding/json"
-	"errors"
 	"server/route"
-
-	"gorm.io/gorm"
 )
 
 var Profile = route.New(HttpGet, "/profile", func(x IContext) error {
@@ -21,15 +18,9 @@ var Profile = route.New(HttpGet, "/profile", func(x IContext) error {
 })
 
 var GetProfile = route.New(HttpGet, "/api/v1/profile", func(x IContext) error {
-	userId := x.GetUser()
-	user := &repos.User{}
-
-	if err := repos.FindUserById(user, userId).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return x.Unauthorized("not_found")
-		} else {
-			return x.InternalServerError(err)
-		}
+	user, err := repos.FindUserById(x.GetUser())
+	if err != nil {
+		return x.Unauthorized(err)
 	}
 
 	actor, _ := json.MarshalIndent(createActor(user), "", "  ")
@@ -55,12 +46,9 @@ var UpdateProfile = route.New(HttpPost, "/api/v1/profile", func(x IContext) erro
 		return err
 	}
 
-	userId := x.GetUser()
-	user := &repos.User{}
-
-	err := repos.FindUserById(user, userId).Error
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return x.Unauthorized("not_found")
+	user, err := repos.FindUserById(x.GetUser())
+	if err != nil {
+		return x.Unauthorized(err)
 	}
 
 	access := repos.ACCESS_PUBLIC

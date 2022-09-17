@@ -7,11 +7,8 @@ import (
 	"config"
 	. "contracts"
 	"encoding/json"
-	"errors"
 	"server/route"
 	"time"
-
-	"gorm.io/gorm"
 )
 
 var OutboxPost = route.New(HttpPost, "/u/:username/outbox", func(x IContext) error {
@@ -22,10 +19,9 @@ var OutboxPost = route.New(HttpPost, "/u/:username/outbox", func(x IContext) err
 		return x.BadRequest(err)
 	}
 
-	key := &types.KeyResponse{}
-	err := repos.FindUserByUsername(key, username).Error
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return x.NotFound("No record found for %s.", username)
+	user, err := repos.FindUserByUsername(username)
+	if err != nil {
+		return err
 	}
 
 	keyId := x.StringUtil().Format("%s://%s/u/%s#main-key", config.PROTOCOL, config.DOMAIN, username)
@@ -44,16 +40,16 @@ var OutboxPost = route.New(HttpPost, "/u/:username/outbox", func(x IContext) err
 
 			if to != activitypub.Public {
 				recipient := &activitypub.Actor{}
-				if err := x.GetActivityStreamSigned(to, keyId, key.PrivateKey, nil, recipient); err != nil {
-					return x.InternalServerError(err)
+				if err := x.GetActivityStreamSigned(to, keyId, user.PrivateKey, nil, recipient); err != nil {
+					return err
 				}
 
 				to = recipient.ID
 
 				data, _ := json.Marshal(activity)
 				output := &struct{}{}
-				if err := x.PostActivityStreamSigned(recipient.Inbox, keyId, key.PrivateKey, data, output); err != nil {
-					return x.InternalServerError(err)
+				if err := x.PostActivityStreamSigned(recipient.Inbox, keyId, user.PrivateKey, data, output); err != nil {
+					return err
 				}
 			}
 

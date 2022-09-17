@@ -7,12 +7,10 @@ import (
 	"config"
 	. "contracts"
 	"encoding/json"
-	"errors"
 	"server/route"
 	"time"
 
 	"github.com/mitchellh/mapstructure"
-	"gorm.io/gorm"
 )
 
 var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error {
@@ -23,10 +21,9 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 		return x.BadRequest("Bad request")
 	}
 
-	user := &repos.User{}
-	err := repos.FindUserByUsername(user, username).Error
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return x.NotFound("No record found for %s.", username)
+	user, err := repos.FindUserByUsername(username)
+	if err != nil {
+		return err
 	}
 
 	keyId := x.StringUtil().Format("%s://%s/u/%s#main-key", config.PROTOCOL, config.DOMAIN, username)
@@ -45,7 +42,7 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 			{
 				actor := &activitypub.Actor{}
 				if err := x.GetActivityStreamSigned(url, keyId, user.PrivateKey, nil, actor); err != nil {
-					return x.InternalServerError(err)
+					return err
 				}
 
 				inbox = actor.Inbox
@@ -53,7 +50,7 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 
 			data, err := json.Marshal(activity)
 			if err != nil {
-				return x.InternalServerError(err)
+				return err
 			}
 
 			follower := &repos.Follower{
@@ -78,12 +75,12 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 				})
 
 				if err := x.PostActivityStreamSigned(inbox, keyId, user.PrivateKey, data, nil); err != nil {
-					return x.InternalServerError(err)
+					return err
 				}
 
 				err := repos.AcceptFollower(follower.ID).Error
 				if err != nil {
-					return x.InternalServerError(err)
+					return err
 				}
 			}
 

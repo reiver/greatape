@@ -1,8 +1,12 @@
 package repos
 
 import (
+	"contracts"
 	"db"
+	"errors"
+	"fmt"
 
+	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
 
@@ -41,18 +45,63 @@ func FindUser(dest interface{}, conds ...interface{}) *gorm.DB {
 }
 
 // FindUserById searches the user's table with the id given
-func FindUserById(dest interface{}, id uint) *gorm.DB {
-	return FindUser(dest, "id = ?", id)
+func FindUserById(id uint) (*User, error) {
+	user := &User{}
+	if err := FindUser(user, "id = ?", id).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, &fiber.Error{
+				Code:    contracts.StatusNotFound,
+				Message: "user not found",
+			}
+		} else {
+			return nil, &fiber.Error{
+				Code:    contracts.StatusInternalServerError,
+				Message: err.Error(),
+			}
+		}
+	}
+
+	return user, nil
 }
 
 // FindUserByEmail searches the user's table with the email given
-func FindUserByEmail(dest interface{}, email string) *gorm.DB {
-	return FindUser(dest, "email = ?", email)
+func FindUserByEmail(email string) (*User, error) {
+	user := &User{}
+	if err := FindUser(user, "email = ?", email).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, &fiber.Error{
+				Code:    contracts.StatusNotFound,
+				Message: "user not found",
+			}
+		} else {
+			return nil, &fiber.Error{
+				Code:    contracts.StatusInternalServerError,
+				Message: err.Error(),
+			}
+		}
+	}
+
+	return user, nil
 }
 
 // FindUserByUsername searches the user's table with the name given
-func FindUserByUsername(dest interface{}, name string) *gorm.DB {
-	return FindUser(dest, "username = ?", name)
+func FindUserByUsername(username string) (*User, error) {
+	user := &User{}
+	if err := FindUser(user, "username = ?", username).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, &fiber.Error{
+				Code:    contracts.StatusNotFound,
+				Message: fmt.Sprintf("user '%s' not found", username),
+			}
+		} else {
+			return nil, &fiber.Error{
+				Code:    contracts.StatusInternalServerError,
+				Message: err.Error(),
+			}
+		}
+	}
+
+	return user, nil
 }
 
 // UpdateProfile updates the user's profile with the info given
