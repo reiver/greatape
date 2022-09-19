@@ -39,8 +39,8 @@ var Signup = route.New(HttpPost, "/api/v1/signup", func(x IContext) error {
 		PublicKey:  publicKey,
 	}
 
-	if err := repos.CreateUser(user); err.Error != nil {
-		return x.Conflict(err.Error)
+	if err := repos.CreateUser(user); err != nil {
+		return x.Conflict(err)
 	}
 
 	token := jwt.Generate(&jwt.TokenPayload{
