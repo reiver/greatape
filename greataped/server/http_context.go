@@ -25,15 +25,17 @@ import (
 
 type httpServerContext struct {
 	underlyingContext *fiber.Ctx
+	cache             ICache
 	request           IRequest
 	response          IResponse
 	stringUtil        IStringUtil
 	httpClient        *http.Client
 }
 
-func newContext(underlyingContext *fiber.Ctx) IContext {
+func newContext(underlyingContext *fiber.Ctx, cache ICache) IContext {
 	return &httpServerContext{
 		underlyingContext: underlyingContext,
+		cache:             cache,
 		request:           newRequest(underlyingContext),
 		response:          newResponse(underlyingContext),
 		stringUtil:        utility.NewStringUtil(),
@@ -89,6 +91,10 @@ func (context *httpServerContext) Config() IConfig {
 
 func (context *httpServerContext) Storage() IStorage {
 	return nil
+}
+
+func (context *httpServerContext) Cache() ICache {
+	return context.cache
 }
 
 func (context *httpServerContext) Request() IRequest {

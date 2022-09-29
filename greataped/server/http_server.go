@@ -104,19 +104,19 @@ func (server *httpServer) Bind(routes ...IRoute) {
 			switch route.Method() {
 			case HttpGet:
 				server.framework.Get(route.Path(), func(underlyingContext *fiber.Ctx) error {
-					return route.Handler()(newContext(underlyingContext))
+					return route.Handler()(newContext(underlyingContext, server.cache))
 				})
 			case HttpPost:
 				server.framework.Post(route.Path(), func(underlyingContext *fiber.Ctx) error {
-					return route.Handler()(newContext(underlyingContext))
+					return route.Handler()(newContext(underlyingContext, server.cache))
 				})
 			case HttpPut:
 				server.framework.Put(route.Path(), func(underlyingContext *fiber.Ctx) error {
-					return route.Handler()(newContext(underlyingContext))
+					return route.Handler()(newContext(underlyingContext, server.cache))
 				})
 			case HttpDelete:
 				server.framework.Delete(route.Path(), func(underlyingContext *fiber.Ctx) error {
-					return route.Handler()(newContext(underlyingContext))
+					return route.Handler()(newContext(underlyingContext, server.cache))
 				})
 			default:
 				panic("unsupported_method")

@@ -11,6 +11,7 @@ type (
 		GUID() string
 		Config() IConfig
 		Storage() IStorage
+		Cache() ICache
 		Request() IRequest
 		Response() IResponse
 		StringUtil() IStringUtil
