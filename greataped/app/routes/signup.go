@@ -83,6 +83,8 @@ var Verify = route.New(HttpPost, "/api/v1/verify", func(x IContext) error {
 		return x.BadRequest("not found")
 	}
 
+	x.Cache().Remove(body.Email)
+
 	registration := item.(*struct {
 		user *repos.User
 		code string
