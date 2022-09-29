@@ -10,6 +10,11 @@ type SignupDTO struct {
 	Username string `json:"username" validate:"username"`
 }
 
+type VerificationDTO struct {
+	Email string `json:"email" validate:"required,email"`
+	Code  string `json:"code"`
+}
+
 type ProfileDTO struct {
 	DisplayName    string `json:"display_name"`
 	Bio            string `json:"bio"`

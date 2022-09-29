@@ -1,6 +1,8 @@
 package utility
 
 import (
+	"fmt"
+	"math/rand"
 	"sync"
 	"time"
 )
@@ -26,4 +28,9 @@ func UniqueId() int64 {
 
 	lastId = id
 	return id
+}
+
+func GenerateConfirmationCode() string {
+	rand.Seed(time.Now().UnixNano())
+	return fmt.Sprintf("%d", 100000+rand.Intn(899999))
 }

@@ -9,6 +9,7 @@ var All = []contracts.IRoute{
 	Upload,
 	Profile,
 	Signup,
+	Verify,
 	Login,
 	GetProfile,
 	UpdateProfile,
