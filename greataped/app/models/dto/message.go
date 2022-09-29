@@ -1,6 +1,6 @@
-package types
+package dto
 
-type MessageDTO struct {
+type MessageRequest struct {
 	Guid    string `json:"guid" validate:"required"`
 	Content string `json:"content" validate:"required"`
 }

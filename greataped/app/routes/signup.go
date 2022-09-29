@@ -1,17 +1,27 @@
 package routes
 
 import (
+	"app/models/dto"
 	"app/models/repos"
-	"app/models/types"
 	. "contracts"
+	"encoding/json"
 	"server/route"
 	"utility"
 	"utility/jwt"
 	"utility/password"
 )
 
+// Signup godoc
+// @Tags	Authentication
+// @Accept	json
+// @Produce	json
+// @Param	payload	body	dto.SignupRequest	true	"Payload"
+// @Success	200	{object}	dto.SignupResponse
+// @Router	/api/v1/signup	[post]
+func _() {}
+
 var Signup = route.New(HttpPost, "/api/v1/signup", func(x IContext) error {
-	body := new(types.SignupDTO)
+	body := new(dto.SignupRequest)
 	if err := x.ParseBodyAndValidate(body); err != nil {
 		return err
 	}
@@ -48,13 +58,22 @@ var Signup = route.New(HttpPost, "/api/v1/signup", func(x IContext) error {
 		code: code,
 	})
 
-	return x.Json(struct{ Code string }{
+	return x.Json(dto.SignupResponse{
 		Code: code, // TODO: Remove and send with email
 	})
 })
 
+// Verify godoc
+// @Tags	Authentication
+// @Accept	json
+// @Produce	json
+// @Param	payload	body	dto.VerifyRequest	true	"Payload"
+// @Success	200	{object}	dto.VerifyResponse
+// @Router	/api/v1/verify	[post]
+func _() {}
+
 var Verify = route.New(HttpPost, "/api/v1/verify", func(x IContext) error {
-	body := new(types.VerificationDTO)
+	body := new(dto.VerifyRequest)
 	if err := x.ParseBodyAndValidate(body); err != nil {
 		return err
 	}
@@ -82,13 +101,24 @@ var Verify = route.New(HttpPost, "/api/v1/verify", func(x IContext) error {
 		ID: user.ID,
 	})
 
-	return x.Json(&types.AuthResponse{
-		User: &types.UserResponse{
+	actor, _ := json.MarshalIndent(createActor(user), "", "  ")
+	webfinger, _ := json.MarshalIndent(createWebfinger(user), "", "  ")
+	return x.Json(dto.VerifyResponse{
+		User: dto.User{
 			ID:          user.ID,
-			DisplayName: user.Username,
+			Username:    user.Username,
+			DisplayName: user.DisplayName,
 			Email:       user.Email,
+			Bio:         user.Bio,
+			Github:      user.Github,
+			Avatar:      user.Avatar,
+			Banner:      user.Banner,
+			ApiKey:      user.ApiKey,
+			PublicKey:   user.PublicKey,
+			Actor:       string(actor),
+			Webfinger:   string(webfinger),
 		},
-		Auth: &types.AccessResponse{
+		Auth: dto.Auth{
 			Token: token,
 		},
 	})

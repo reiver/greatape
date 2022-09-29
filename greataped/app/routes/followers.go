@@ -3,8 +3,8 @@ package routes
 import (
 	"activitypub"
 	"app/models/domain"
+	"app/models/dto"
 	"app/models/repos"
-	"app/models/types"
 	"config"
 	. "contracts"
 	"encoding/json"
@@ -39,7 +39,7 @@ var Followers = route.New(HttpGet, "/u/:username/followers", func(x IContext) er
 		actor := x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username)
 		id := x.StringUtil().Format("%s://%s/u/%s/followers", config.PROTOCOL, config.DOMAIN, username)
 
-		followers := &[]types.FollowerResponse{}
+		followers := &[]dto.FollowerResponse{}
 		err := repos.FindFollowers(followers, actor).Error
 		if err != nil {
 			return err

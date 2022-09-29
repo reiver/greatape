@@ -1,8 +1,8 @@
 package routes
 
 import (
+	"app/models/dto"
 	"app/models/repos"
-	"app/models/types"
 	. "contracts"
 	"encoding/json"
 	"server/route"
@@ -10,8 +10,17 @@ import (
 	"utility/password"
 )
 
+// Login godoc
+// @Tags	Authentication
+// @Accept	json
+// @Produce	json
+// @Param	payload	body	dto.LoginRequest	true	"Payload"
+// @Success	200	{object}	dto.LoginResponse
+// @Router	/api/v1/login	[post]
+func _() {}
+
 var Login = route.New(HttpPost, "/api/v1/login", func(x IContext) error {
-	body := new(types.LoginDTO)
+	body := new(dto.LoginRequest)
 
 	if err := x.ParseBodyAndValidate(body); err != nil {
 		return err
@@ -32,8 +41,8 @@ var Login = route.New(HttpPost, "/api/v1/login", func(x IContext) error {
 
 	actor, _ := json.MarshalIndent(createActor(user), "", "  ")
 	webfinger, _ := json.MarshalIndent(createWebfinger(user), "", "  ")
-	return x.Json(&types.AuthResponse{
-		User: &types.UserResponse{
+	return x.Json(dto.LoginResponse{
+		User: dto.User{
 			ID:          user.ID,
 			Username:    user.Username,
 			DisplayName: user.DisplayName,
@@ -47,7 +56,7 @@ var Login = route.New(HttpPost, "/api/v1/login", func(x IContext) error {
 			Actor:       string(actor),
 			Webfinger:   string(webfinger),
 		},
-		Auth: &types.AccessResponse{
+		Auth: dto.Auth{
 			Token: token,
 		},
 	})

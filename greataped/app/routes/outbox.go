@@ -2,8 +2,8 @@ package routes
 
 import (
 	"activitypub"
+	"app/models/dto"
 	"app/models/repos"
-	"app/models/types"
 	"config"
 	. "contracts"
 	"encoding/json"
@@ -77,7 +77,7 @@ var OutboxGet = route.New(HttpGet, "/u/:username/outbox", func(x IContext) error
 	actor := x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username)
 	id := x.StringUtil().Format("%s://%s/u/%s/outbox", config.PROTOCOL, config.DOMAIN, username)
 
-	messages := &[]types.MessageResponse{}
+	messages := &[]dto.MessageResponse{}
 	err := repos.FindOutgoingActivitiesByUser(messages, actor).Error
 	if err != nil {
 		x.InternalServerError("internal_server_error")

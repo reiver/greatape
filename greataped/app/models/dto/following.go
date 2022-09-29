@@ -1,6 +1,6 @@
-package types
+package dto
 
-type FollowingDTO struct {
+type FollowingRequest struct {
 	Target string `json:"target" validate:"required"`
 	Handle string `json:"handle" validate:"required"`
 }

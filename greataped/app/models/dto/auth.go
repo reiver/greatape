@@ -1,30 +1,36 @@
-package types
+package dto
 
-type LoginDTO struct {
+type LoginRequest struct {
 	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"password"`
+	Password string `json:"password" validate:"required,password"`
 }
 
-type SignupDTO struct {
-	LoginDTO
-	Username string `json:"username" validate:"username"`
+type LoginResponse struct {
+	User User `json:"user"`
+	Auth Auth `json:"auth"`
 }
 
-type VerificationDTO struct {
+type SignupRequest struct {
+	Email    string `json:"email" validate:"required,email"`
+	Username string `json:"username" validate:"required,username"`
+	Password string `json:"password" validate:"required,password"`
+}
+
+type SignupResponse struct {
+	Code string `json:"code"`
+}
+
+type VerifyRequest struct {
 	Email string `json:"email" validate:"required,email"`
-	Code  string `json:"code"`
+	Code  string `json:"code" validate:"required"`
 }
 
-type ProfileDTO struct {
-	DisplayName    string `json:"display_name"`
-	Bio            string `json:"bio"`
-	Github         string `json:"github"`
-	Avatar         string `json:"avatar"`
-	Banner         string `json:"banner"`
-	PrivateProfile bool   `json:"private_profile"`
+type VerifyResponse struct {
+	User User `json:"user"`
+	Auth Auth `json:"auth"`
 }
 
-type UserResponse struct {
+type User struct {
 	ID             uint   `json:"id"`
 	Username       string `json:"username"`
 	DisplayName    string `json:"display_name"`
@@ -41,11 +47,6 @@ type UserResponse struct {
 	PrivateProfile bool   `json:"private_profile"`
 }
 
-type AccessResponse struct {
+type Auth struct {
 	Token string `json:"token"`
-}
-
-type AuthResponse struct {
-	User *UserResponse   `json:"user"`
-	Auth *AccessResponse `json:"auth"`
 }

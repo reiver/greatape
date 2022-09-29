@@ -13,7 +13,10 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/helmet/v2"
+	"github.com/gofiber/swagger"
 	"github.com/gofiber/template/html"
+
+	_ "app/docs"
 )
 
 type httpServer struct {
@@ -99,6 +102,8 @@ func (server *httpServer) SetCache(cache ICache) {
 }
 
 func (server *httpServer) Bind(routes ...IRoute) {
+	server.framework.Get("/swagger/*", swagger.HandlerDefault)
+
 	for _, route := range routes {
 		func(route IRoute) {
 			switch route.Method() {

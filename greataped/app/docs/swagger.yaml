@@ -1,0 +1,157 @@
+basePath: /
+definitions:
+  dto.Auth:
+    properties:
+      token:
+        type: string
+    type: object
+  dto.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  dto.LoginResponse:
+    properties:
+      auth:
+        $ref: '#/definitions/dto.Auth'
+      user:
+        $ref: '#/definitions/dto.User'
+    type: object
+  dto.SignupRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - email
+    - password
+    - username
+    type: object
+  dto.SignupResponse:
+    properties:
+      code:
+        type: string
+    type: object
+  dto.User:
+    properties:
+      actor:
+        type: string
+      api_key:
+        type: string
+      avatar:
+        type: string
+      banner:
+        type: string
+      bio:
+        type: string
+      display_name:
+        type: string
+      email:
+        type: string
+      github:
+        type: string
+      id:
+        type: integer
+      private_profile:
+        type: boolean
+      publicKey:
+        type: string
+      username:
+        type: string
+      webfinger:
+        type: string
+    type: object
+  dto.VerifyRequest:
+    properties:
+      code:
+        type: string
+      email:
+        type: string
+    required:
+    - code
+    - email
+    type: object
+  dto.VerifyResponse:
+    properties:
+      auth:
+        $ref: '#/definitions/dto.Auth'
+      user:
+        $ref: '#/definitions/dto.User'
+    type: object
+info:
+  contact: {}
+  description: GreatApe is a free audio and video social-media platform that can be
+    used via an app. GreatApe is a Fediverse technology that supports federation via
+    ActivityPub.
+  title: GreatApe API
+  version: "1.0"
+paths:
+  /api/v1/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.LoginResponse'
+      tags:
+      - Authentication
+  /api/v1/signup:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SignupRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SignupResponse'
+      tags:
+      - Authentication
+  /api/v1/verify:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/dto.VerifyRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.VerifyResponse'
+      tags:
+      - Authentication
+swagger: "2.0"

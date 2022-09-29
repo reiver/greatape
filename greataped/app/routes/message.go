@@ -1,8 +1,8 @@
 package routes
 
 import (
+	"app/models/dto"
 	"app/models/repos"
-	"app/models/types"
 	. "contracts"
 	"errors"
 	"server/route"
@@ -16,7 +16,7 @@ var Message = route.New(HttpGet, "/m/:guid", func(x IContext) error {
 		return x.BadRequest("Bad request.")
 	}
 
-	response := &types.MessageResponse{}
+	response := &dto.MessageResponse{}
 	err := repos.FindOutgoingActivityByGuid(response, guid).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return x.NotFound("Message not found")

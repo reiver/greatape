@@ -1,8 +1,8 @@
 package routes
 
 import (
+	"app/models/dto"
 	"app/models/repos"
-	"app/models/types"
 	"config"
 	. "contracts"
 	"encoding/json"
@@ -25,7 +25,7 @@ var GetProfile = route.New(HttpGet, "/api/v1/profile", func(x IContext) error {
 
 	actor, _ := json.MarshalIndent(createActor(user), "", "  ")
 	webfinger, _ := json.MarshalIndent(createWebfinger(user), "", "  ")
-	return x.Json(&types.UserResponse{
+	return x.Json(dto.User{
 		Username:       user.Username,
 		DisplayName:    user.DisplayName,
 		Bio:            user.Bio,
@@ -40,7 +40,7 @@ var GetProfile = route.New(HttpGet, "/api/v1/profile", func(x IContext) error {
 })
 
 var UpdateProfile = route.New(HttpPost, "/api/v1/profile", func(x IContext) error {
-	body := new(types.ProfileDTO)
+	body := new(dto.ProfileRequest)
 
 	if err := x.ParseBodyAndValidate(body); err != nil {
 		return err

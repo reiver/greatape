@@ -2,8 +2,8 @@ package routes
 
 import (
 	"activitypub"
+	"app/models/dto"
 	"app/models/repos"
-	"app/models/types"
 	"config"
 	. "contracts"
 	"encoding/json"
@@ -129,7 +129,7 @@ var InboxGet = route.New(HttpGet, "/u/:username/inbox", func(x IContext) error {
 	actor := x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username)
 	id := x.StringUtil().Format("%s://%s/u/%s/inbox", config.PROTOCOL, config.DOMAIN, username)
 
-	messages := &[]types.MessageResponse{}
+	messages := &[]dto.MessageResponse{}
 	err := repos.FindIncomingActivitiesForUser(messages, actor).Error
 	if err != nil {
 		x.InternalServerError("internal_server_error")
