@@ -12,6 +12,8 @@ ExecStart=/usr/local/go/bin/go run .
 Environment="PORT=8080"
 Environment="PROTOCOL=https"
 Environment="DOMAIN=example.social"
+Environment="CLIENT_DOMAIN=client.example.social"
+Environment="ENVIRONMENT=development"
 
 [Install]
 WantedBy=multi-user.target
