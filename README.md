@@ -6,7 +6,7 @@
 
 **greatape** is a Fediverse technology that supports Federation via ActivityPub.
 
-![server workflow](https://github.com/reiver/greatape/actions/workflows/server.yml/badge.svg)
+![main workflow](https://github.com/reiver/greatape/actions/workflows/main.yml/badge.svg)
 
 ## Note
 
