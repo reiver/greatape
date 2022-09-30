@@ -7,4 +7,4 @@ type ProfileRequest struct {
 	Avatar         string `json:"avatar"`
 	Banner         string `json:"banner"`
 	PrivateProfile bool   `json:"private_profile"`
-}
+} // @name ProfileRequest

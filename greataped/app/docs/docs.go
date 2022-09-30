@@ -66,7 +66,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.LoginRequest"
+                            "$ref": "#/definitions/LoginRequest"
                         }
                     }
                 ],
@@ -74,7 +74,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.LoginResponse"
+                            "$ref": "#/definitions/LoginResponse"
                         }
                     }
                 }
@@ -82,6 +82,11 @@ const docTemplate = `{
         },
         "/api/v1/profile": {
             "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -91,21 +96,11 @@ const docTemplate = `{
                 "tags": [
                     "User"
                 ],
-                "parameters": [
-                    {
-                        "type": "string",
-                        "default": "Bearer \u003cAdd access token here\u003e",
-                        "description": "Insert your access token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.User"
+                            "$ref": "#/definitions/User"
                         }
                     }
                 }
@@ -129,7 +124,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.SignupRequest"
+                            "$ref": "#/definitions/SignupRequest"
                         }
                     }
                 ],
@@ -137,7 +132,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.SignupResponse"
+                            "$ref": "#/definitions/SignupResponse"
                         }
                     }
                 }
@@ -161,7 +156,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.VerifyRequest"
+                            "$ref": "#/definitions/VerifyRequest"
                         }
                     }
                 ],
@@ -169,7 +164,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.VerifyResponse"
+                            "$ref": "#/definitions/VerifyResponse"
                         }
                     }
                 }
@@ -208,7 +203,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "dto.Auth": {
+        "Auth": {
             "type": "object",
             "properties": {
                 "token": {
@@ -216,7 +211,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.LoginRequest": {
+        "LoginRequest": {
             "type": "object",
             "required": [
                 "email",
@@ -231,18 +226,18 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.LoginResponse": {
+        "LoginResponse": {
             "type": "object",
             "properties": {
                 "auth": {
-                    "$ref": "#/definitions/dto.Auth"
+                    "$ref": "#/definitions/Auth"
                 },
                 "user": {
-                    "$ref": "#/definitions/dto.User"
+                    "$ref": "#/definitions/User"
                 }
             }
         },
-        "dto.SignupRequest": {
+        "SignupRequest": {
             "type": "object",
             "required": [
                 "email",
@@ -261,7 +256,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.SignupResponse": {
+        "SignupResponse": {
             "type": "object",
             "properties": {
                 "code": {
@@ -269,7 +264,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.User": {
+        "User": {
             "type": "object",
             "properties": {
                 "actor": {
@@ -313,7 +308,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.VerifyRequest": {
+        "VerifyRequest": {
             "type": "object",
             "required": [
                 "code",
@@ -328,16 +323,24 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.VerifyResponse": {
+        "VerifyResponse": {
             "type": "object",
             "properties": {
                 "auth": {
-                    "$ref": "#/definitions/dto.Auth"
+                    "$ref": "#/definitions/Auth"
                 },
                 "user": {
-                    "$ref": "#/definitions/dto.User"
+                    "$ref": "#/definitions/User"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "JWT": {
+            "description": "Example: Bearer {Your JWT Token}",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`
@@ -349,7 +352,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "GreatApe API",
-	Description:      "GreatApe is a free audio and video social-media platform that can be used via an app. It is a Fediverse technology that supports federation via ActivityPub.",
+	Description:      "GreatApe is a free audio and video social-media platform that can be used via an app.\nIt is a Fediverse technology that supports federation via ActivityPub.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

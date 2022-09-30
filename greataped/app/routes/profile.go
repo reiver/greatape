@@ -21,7 +21,7 @@ var Profile = route.New(HttpGet, "/profile", func(x IContext) error {
 // @Tags		User
 // @Accept		json
 // @Produce		json
-// @Param		Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Security	JWT
 // @Success		200 {object} dto.User
 // @Router		/api/v1/profile [get]
 func _() {}

@@ -1,11 +1,11 @@
 basePath: /
 definitions:
-  dto.Auth:
+  Auth:
     properties:
       token:
         type: string
     type: object
-  dto.LoginRequest:
+  LoginRequest:
     properties:
       email:
         type: string
@@ -15,14 +15,14 @@ definitions:
     - email
     - password
     type: object
-  dto.LoginResponse:
+  LoginResponse:
     properties:
       auth:
-        $ref: '#/definitions/dto.Auth'
+        $ref: '#/definitions/Auth'
       user:
-        $ref: '#/definitions/dto.User'
+        $ref: '#/definitions/User'
     type: object
-  dto.SignupRequest:
+  SignupRequest:
     properties:
       email:
         type: string
@@ -35,12 +35,12 @@ definitions:
     - password
     - username
     type: object
-  dto.SignupResponse:
+  SignupResponse:
     properties:
       code:
         type: string
     type: object
-  dto.User:
+  User:
     properties:
       actor:
         type: string
@@ -69,7 +69,7 @@ definitions:
       webfinger:
         type: string
     type: object
-  dto.VerifyRequest:
+  VerifyRequest:
     properties:
       code:
         type: string
@@ -79,17 +79,18 @@ definitions:
     - code
     - email
     type: object
-  dto.VerifyResponse:
+  VerifyResponse:
     properties:
       auth:
-        $ref: '#/definitions/dto.Auth'
+        $ref: '#/definitions/Auth'
       user:
-        $ref: '#/definitions/dto.User'
+        $ref: '#/definitions/User'
     type: object
 info:
   contact: {}
-  description: GreatApe is a free audio and video social-media platform that can be
-    used via an app. It is a Fediverse technology that supports federation via ActivityPub.
+  description: |-
+    GreatApe is a free audio and video social-media platform that can be used via an app.
+    It is a Fediverse technology that supports federation via ActivityPub.
   title: GreatApe API
   version: "1.0"
 paths:
@@ -124,34 +125,29 @@ paths:
         name: payload
         required: true
         schema:
-          $ref: '#/definitions/dto.LoginRequest'
+          $ref: '#/definitions/LoginRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.LoginResponse'
+            $ref: '#/definitions/LoginResponse'
       tags:
       - Authentication
   /api/v1/profile:
     get:
       consumes:
       - application/json
-      parameters:
-      - default: Bearer <Add access token here>
-        description: Insert your access token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.User'
+            $ref: '#/definitions/User'
+      security:
+      - JWT: []
       tags:
       - User
   /api/v1/signup:
@@ -164,14 +160,14 @@ paths:
         name: payload
         required: true
         schema:
-          $ref: '#/definitions/dto.SignupRequest'
+          $ref: '#/definitions/SignupRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.SignupResponse'
+            $ref: '#/definitions/SignupResponse'
       tags:
       - Authentication
   /api/v1/verify:
@@ -184,14 +180,14 @@ paths:
         name: payload
         required: true
         schema:
-          $ref: '#/definitions/dto.VerifyRequest'
+          $ref: '#/definitions/VerifyRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.VerifyResponse'
+            $ref: '#/definitions/VerifyResponse'
       tags:
       - Authentication
   /u/{username}:
@@ -214,4 +210,10 @@ paths:
             type: object
       tags:
       - ActivityPub
+securityDefinitions:
+  JWT:
+    description: 'Example: Bearer {Your JWT Token}'
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"
