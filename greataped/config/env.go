@@ -6,6 +6,7 @@ import (
 )
 
 var (
+	ENVIRONMENT   = getEnv("ENVIRONMENT", "development")
 	PORT          = getEnv("PORT", "80")
 	PROTOCOL      = getEnv("PROTOCOL", "http")
 	DOMAIN        = getEnv("DOMAIN", "localhost")
@@ -53,4 +54,8 @@ func BodyLimit() int {
 
 func ExternalClient() bool {
 	return DOMAIN != CLIENT_DOMAIN
+}
+
+func IsProduction() bool {
+	return ENVIRONMENT == "production"
 }
