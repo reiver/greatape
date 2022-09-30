@@ -3,7 +3,6 @@ package routes
 import (
 	"activitypub"
 	"app/models/domain"
-	"app/models/dto"
 	"app/models/repos"
 	"config"
 	. "contracts"
@@ -11,6 +10,15 @@ import (
 	"server/route"
 	"strconv"
 )
+
+// Followers	godoc
+// @Tags		ActivityPub
+// @Accept		json
+// @Produce		json
+// @Param		username path string true "Username"
+// @Success		200 {object} map[string]interface{}
+// @Router		/u/{username}/followers [get]
+func _() {}
 
 var Followers = route.New(HttpGet, "/u/:username/followers", func(x IContext) error {
 	username := domain.Username(x.Request().Params("username"))
@@ -39,14 +47,13 @@ var Followers = route.New(HttpGet, "/u/:username/followers", func(x IContext) er
 		actor := x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username)
 		id := x.StringUtil().Format("%s://%s/u/%s/followers", config.PROTOCOL, config.DOMAIN, username)
 
-		followers := &[]dto.FollowerResponse{}
-		err := repos.FindFollowers(followers, actor).Error
+		followers, err := repos.FindFollowers(actor)
 		if err != nil {
 			return err
 		}
 
 		items := []string{}
-		for _, follower := range *followers {
+		for _, follower := range followers {
 			items = append(items, follower.Handle)
 		}
 
@@ -70,8 +77,8 @@ var AcceptFollowRequest = route.New(HttpPut, "/u/:username/followers/:id/accept"
 		return x.BadRequest("invalid_id")
 	}
 
-	follower := &repos.Follower{}
-	if err := repos.FindFollowerById(follower, followerId).Error; err != nil {
+	follower, err := repos.FindFollowerById(followerId)
+	if err != nil {
 		return err
 	}
 
@@ -94,7 +101,7 @@ var AcceptFollowRequest = route.New(HttpPut, "/u/:username/followers/:id/accept"
 		return err
 	}
 
-	if err := repos.AcceptFollower(follower.ID).Error; err != nil {
+	if err := repos.AcceptFollower(follower.ID); err != nil {
 		return err
 	}
 

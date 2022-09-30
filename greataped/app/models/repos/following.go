@@ -14,11 +14,20 @@ type Following struct {
 }
 
 // CreateFollowing creates a new entry in the following's table
-func CreateFollowing(following *Following) *gorm.DB {
-	return db.Executor.Create(following)
+func CreateFollowing(following *Following) error {
+	if err := db.Executor.Create(following).Error; err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // FindFollowing finds what accounts the user is following
-func FindFollowing(dest interface{}, userIden interface{}) *gorm.DB {
-	return db.Executor.Model(&Follower{}).Find(dest, "`handle` = ?", userIden)
+func FindFollowing(userIden interface{}) ([]Following, error) {
+	followings := &[]Following{}
+	if err := db.Executor.Model(&Following{}).Find(followings, "`target` = ?", userIden).Error; err != nil {
+		return *followings, err
+	}
+
+	return *followings, nil
 }

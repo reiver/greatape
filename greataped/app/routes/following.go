@@ -3,12 +3,20 @@ package routes
 import (
 	"activitypub"
 	"app/models/domain"
-	"app/models/dto"
 	"app/models/repos"
 	"config"
 	. "contracts"
 	"server/route"
 )
+
+// Following	godoc
+// @Tags		ActivityPub
+// @Accept		json
+// @Produce		json
+// @Param		username path string true "Username"
+// @Success		200 {object} map[string]interface{}
+// @Router		/u/{username}/following [get]
+func _() {}
 
 var Following = route.New(HttpGet, "/u/:username/following", func(x IContext) error {
 	username := domain.Username(x.Request().Params("username"))
@@ -37,14 +45,13 @@ var Following = route.New(HttpGet, "/u/:username/following", func(x IContext) er
 		actor := x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username)
 		id := x.StringUtil().Format("%s://%s/u/%s/following", config.PROTOCOL, config.DOMAIN, username)
 
-		followings := &[]dto.FollowerResponse{}
-		err := repos.FindFollowing(followings, actor).Error
+		followings, err := repos.FindFollowing(actor)
 		if err != nil {
 			return err
 		}
 
 		items := []string{}
-		for _, following := range *followings {
+		for _, following := range followings {
 			items = append(items, following.Target)
 		}
 

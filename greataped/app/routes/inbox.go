@@ -61,8 +61,8 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 				Accepted:    false,
 			}
 
-			if err := repos.CreateFollower(follower); err.Error != nil {
-				return x.Conflict(err.Error)
+			if err := repos.CreateFollower(follower); err != nil {
+				return x.Conflict(err)
 			}
 
 			if user.Access == repos.ACCESS_PUBLIC {
@@ -78,8 +78,7 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 					return err
 				}
 
-				err := repos.AcceptFollower(follower.ID).Error
-				if err != nil {
+				if err := repos.AcceptFollower(follower.ID); err != nil {
 					return err
 				}
 			}
