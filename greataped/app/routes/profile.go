@@ -17,6 +17,15 @@ var Profile = route.New(HttpGet, "/profile", func(x IContext) error {
 	})
 })
 
+// GetProfile	godoc
+// @Tags		User
+// @Accept		json
+// @Produce		json
+// @Param		Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Success		200 {object} dto.User
+// @Router		/api/v1/profile [get]
+func _() {}
+
 var GetProfile = route.New(HttpGet, "/api/v1/profile", func(x IContext) error {
 	user, err := repos.FindUserById(x.GetUser())
 	if err != nil {

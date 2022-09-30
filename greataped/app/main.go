@@ -1,6 +1,7 @@
 package main
 
 import (
+	"app/docs"
 	"app/models/repos"
 	"app/routes"
 	"caching"
@@ -13,9 +14,13 @@ import (
 
 // @title GreatApe API
 // @version 1.0
-// @description GreatApe is a free audio and video social-media platform that can be used via an app. GreatApe is a Fediverse technology that supports federation via ActivityPub.
+// @description GreatApe is a free audio and video social-media platform that can be used via an app. It is a Fediverse technology that supports federation via ActivityPub.
 // @BasePath /
 func main() {
+	if config.IsProduction() {
+		docs.SwaggerInfo.Host = config.DOMAIN
+	}
+
 	logger := logging.CreateLogger(logging.StdIOLogger)
 	cache := caching.CreateCache(caching.InProcCache)
 

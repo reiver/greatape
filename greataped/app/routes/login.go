@@ -10,13 +10,13 @@ import (
 	"utility/password"
 )
 
-// Login godoc
+// Login	godoc
 // @Tags	Authentication
 // @Accept	json
 // @Produce	json
-// @Param	payload	body	dto.LoginRequest	true	"Payload"
-// @Success	200	{object}	dto.LoginResponse
-// @Router	/api/v1/login	[post]
+// @Param	payload body dto.LoginRequest true "Payload"
+// @Success	200 {object} dto.LoginResponse
+// @Router	/api/v1/login [post]
 func _() {}
 
 var Login = route.New(HttpPost, "/api/v1/login", func(x IContext) error {
