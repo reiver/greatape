@@ -210,6 +210,46 @@ paths:
             type: object
       tags:
       - ActivityPub
+  /u/{username}/followers:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      tags:
+      - ActivityPub
+  /u/{username}/following:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      tags:
+      - ActivityPub
 securityDefinitions:
   JWT:
     description: 'Example: Bearer {Your JWT Token}'
