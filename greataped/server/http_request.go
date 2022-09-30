@@ -47,3 +47,7 @@ func (request *httpRequest) FormFile(key string) (*multipart.FileHeader, error) 
 func (request *httpRequest) AcceptsActivityStream() bool {
 	return strings.Contains(request.Header("Accept"), mime.ActivityJson)
 }
+
+func (request *httpRequest) AcceptsJSON() bool {
+	return strings.Contains(request.Header("Accept"), mime.Json)
+}
