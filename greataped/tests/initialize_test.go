@@ -1,12 +1,12 @@
 package tests
 
 import (
-	"app/models/repos"
 	"app/routes"
 	"bytes"
 	"caching"
 	"config"
 	"db"
+	"db/repos"
 	"encoding/json"
 	"fmt"
 	"logging"
