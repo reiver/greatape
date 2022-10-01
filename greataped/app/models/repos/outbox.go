@@ -1,8 +1,11 @@
 package repos
 
 import (
+	"contracts"
 	"db"
+	"errors"
 
+	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
 
@@ -17,27 +20,51 @@ type OutgoingActivity struct {
 }
 
 // CreateOutgoingActivity creates an activity entry in the outgoing activities table
-func CreateOutgoingActivity(activity *OutgoingActivity) *gorm.DB {
-	return db.Executor.Create(activity)
-}
+func CreateOutgoingActivity(activity *OutgoingActivity) error {
+	if err := db.Executor.Create(activity).Error; err != nil {
+		return err
+	}
 
-// FindOutgoingActivitiesByUser finds the activities posted by user
-func FindOutgoingActivitiesByUser(dest interface{}, userIden interface{}) *gorm.DB {
-	return db.Executor.Model(&OutgoingActivity{}).Find(dest, "`from` = ?", userIden)
+	return nil
 }
 
 // FindOutgoingActivity searches the outgoing activities table with the condition given
 // and returns a single record.
-func FindOutgoingActivity(dest interface{}, conds ...interface{}) *gorm.DB {
-	return db.Executor.Model(&OutgoingActivity{}).Take(dest, conds...)
+func FindOutgoingActivity(conds ...interface{}) (*OutgoingActivity, error) {
+	dest := &OutgoingActivity{}
+	if err := db.Executor.Model(&OutgoingActivity{}).Take(dest, conds...).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, &fiber.Error{
+				Code:    contracts.StatusNotFound,
+				Message: "activity not found",
+			}
+		} else {
+			return nil, &fiber.Error{
+				Code:    contracts.StatusInternalServerError,
+				Message: err.Error(),
+			}
+		}
+	}
+
+	return dest, nil
+}
+
+// FindOutgoingActivitiesByUser finds the activities posted by user
+func FindOutgoingActivitiesByUser(userIden interface{}) ([]OutgoingActivity, error) {
+	result := &[]OutgoingActivity{}
+	if err := db.Executor.Model(&OutgoingActivity{}).Find(result, "`from` = ?", userIden).Error; err != nil {
+		return *result, err
+	}
+
+	return *result, nil
 }
 
 // FindOutgoingActivityById searches the outgoing activities table with the id given
-func FindOutgoingActivityById(dest interface{}, id uint) *gorm.DB {
-	return FindOutgoingActivity(dest, "id = ?", id)
+func FindOutgoingActivityById(id uint) (*OutgoingActivity, error) {
+	return FindOutgoingActivity("id = ?", id)
 }
 
 // FindOutgoingActivityByGuid searches the outgoing activities table with the guid given
-func FindOutgoingActivityByGuid(dest interface{}, guid string) *gorm.DB {
-	return FindOutgoingActivity(dest, "guid = ?", guid)
+func FindOutgoingActivityByGuid(guid string) (*OutgoingActivity, error) {
+	return FindOutgoingActivity("guid = ?", guid)
 }

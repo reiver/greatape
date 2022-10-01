@@ -2,7 +2,6 @@ package routes
 
 import (
 	"activitypub"
-	"app/models/dto"
 	"app/models/repos"
 	"config"
 	. "contracts"
@@ -107,8 +106,8 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 					Content:   note.Content,
 				}
 
-				if err := repos.CreateIncomingActivity(message); err.Error != nil {
-					return x.Conflict(err.Error)
+				if err := repos.CreateIncomingActivity(message); err != nil {
+					return x.Conflict(err)
 				}
 
 				return x.Nothing()
@@ -128,14 +127,13 @@ var InboxGet = route.New(HttpGet, "/u/:username/inbox", func(x IContext) error {
 	actor := x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username)
 	id := x.StringUtil().Format("%s://%s/u/%s/inbox", config.PROTOCOL, config.DOMAIN, username)
 
-	messages := &[]dto.MessageResponse{}
-	err := repos.FindIncomingActivitiesForUser(messages, actor).Error
+	messages, err := repos.FindIncomingActivitiesForUser(actor)
 	if err != nil {
-		x.InternalServerError("internal_server_error")
+		return err
 	}
 
 	items := []*activitypub.Activity{}
-	for _, message := range *messages {
+	for _, message := range messages {
 		note := activitypub.NewPublicNote(message.From, message.Content)
 		activity := note.Wrap(username)
 		items = append(items, activity)

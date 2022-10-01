@@ -2,7 +2,6 @@ package routes
 
 import (
 	"activitypub"
-	"app/models/dto"
 	"app/models/repos"
 	"config"
 	. "contracts"
@@ -61,8 +60,8 @@ var OutboxPost = route.New(HttpPost, "/u/:username/outbox", func(x IContext) err
 				Content:   note.Content,
 			}
 
-			if err := repos.CreateOutgoingActivity(message); err.Error != nil {
-				return x.Conflict(err.Error)
+			if err := repos.CreateOutgoingActivity(message); err != nil {
+				return x.Conflict(err)
 			}
 
 			return x.Nothing()
@@ -77,14 +76,13 @@ var OutboxGet = route.New(HttpGet, "/u/:username/outbox", func(x IContext) error
 	actor := x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username)
 	id := x.StringUtil().Format("%s://%s/u/%s/outbox", config.PROTOCOL, config.DOMAIN, username)
 
-	messages := &[]dto.MessageResponse{}
-	err := repos.FindOutgoingActivitiesByUser(messages, actor).Error
+	messages, err := repos.FindOutgoingActivitiesByUser(actor)
 	if err != nil {
-		x.InternalServerError("internal_server_error")
+		return err
 	}
 
 	items := []*activitypub.Activity{}
-	for _, message := range *messages {
+	for _, message := range messages {
 		note := activitypub.NewPublicNote(actor, message.Content)
 		activity := note.Wrap(username)
 		items = append(items, activity)
