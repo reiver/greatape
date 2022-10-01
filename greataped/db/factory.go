@@ -2,11 +2,7 @@ package db
 
 import (
 	. "contracts"
-
-	"gorm.io/gorm"
 )
-
-var Executor *gorm.DB
 
 const (
 	SqliteStorage StorageType = iota

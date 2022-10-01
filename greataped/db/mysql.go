@@ -2,6 +2,7 @@ package db
 
 import (
 	"contracts"
+	"db/repos"
 	"log"
 	"time"
 
@@ -35,7 +36,7 @@ func (storage *mysqlStorage) Connect(dsn string) {
 	}
 
 	storage.database = database
-	Executor = storage.database
+	repos.Default.Storage = database
 
 	log.Println("[DATABASE]::CONNECTED")
 }
