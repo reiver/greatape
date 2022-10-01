@@ -3,9 +3,9 @@ package routes
 import (
 	"activitypub"
 	"app/models/domain"
-	"app/models/repos"
 	"config"
 	. "contracts"
+	"db/repos"
 	"encoding/json"
 	"server/route"
 	"strconv"
@@ -47,7 +47,7 @@ var Followers = route.New(HttpGet, "/u/:username/followers", func(x IContext) er
 		actor := x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username)
 		id := x.StringUtil().Format("%s://%s/u/%s/followers", config.PROTOCOL, config.DOMAIN, username)
 
-		followers, err := repos.FindFollowers(actor)
+		followers, err := repos.Default.FindFollowers(actor)
 		if err != nil {
 			return err
 		}
@@ -77,7 +77,7 @@ var AcceptFollowRequest = route.New(HttpPut, "/u/:username/followers/:id/accept"
 		return x.BadRequest("invalid_id")
 	}
 
-	follower, err := repos.FindFollowerById(followerId)
+	follower, err := repos.Default.FindFollowerById(followerId)
 	if err != nil {
 		return err
 	}
@@ -90,7 +90,7 @@ var AcceptFollowRequest = route.New(HttpPut, "/u/:username/followers/:id/accept"
 		Object:  follower.Activity,
 	})
 
-	user, err := repos.FindUserByUsername(username)
+	user, err := repos.Default.FindUserByUsername(username)
 	if err != nil {
 		return err
 	}
@@ -101,7 +101,7 @@ var AcceptFollowRequest = route.New(HttpPut, "/u/:username/followers/:id/accept"
 		return err
 	}
 
-	if err := repos.AcceptFollower(follower.ID); err != nil {
+	if err := repos.Default.AcceptFollower(follower.ID); err != nil {
 		return err
 	}
 

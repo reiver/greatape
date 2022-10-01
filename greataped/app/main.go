@@ -2,11 +2,11 @@ package main
 
 import (
 	"app/docs"
-	"app/models/repos"
 	"app/routes"
 	"caching"
 	"config"
 	"db"
+	"db/repos"
 	"fmt"
 	"logging"
 	"server"

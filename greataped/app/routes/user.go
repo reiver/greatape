@@ -2,9 +2,9 @@ package routes
 
 import (
 	"app/models/domain"
-	"app/models/repos"
 	"config"
 	"contracts"
+	"db/repos"
 	"server/route"
 )
 
@@ -36,7 +36,7 @@ var User = route.New(contracts.HttpGet, "/u/:username", func(x contracts.IContex
 
 		return x.Activity(actor)
 	} else {
-		user, err := repos.FindUserByUsername(username.String())
+		user, err := repos.Default.FindUserByUsername(username.String())
 		if err != nil {
 			return err
 		}

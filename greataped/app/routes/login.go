@@ -2,8 +2,8 @@ package routes
 
 import (
 	"app/models/dto"
-	"app/models/repos"
 	. "contracts"
+	"db/repos"
 	"encoding/json"
 	"server/route"
 	"utility/jwt"
@@ -26,7 +26,7 @@ var Login = route.New(HttpPost, "/api/v1/login", func(x IContext) error {
 		return err
 	}
 
-	user, err := repos.FindUserByEmail(body.Email)
+	user, err := repos.Default.FindUserByEmail(body.Email)
 	if err != nil {
 		return x.Unauthorized("invalid email or password")
 	}

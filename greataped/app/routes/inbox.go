@@ -2,9 +2,9 @@ package routes
 
 import (
 	"activitypub"
-	"app/models/repos"
 	"config"
 	. "contracts"
+	"db/repos"
 	"encoding/json"
 	"server/route"
 	"time"
@@ -20,7 +20,7 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 		return x.BadRequest("Bad request")
 	}
 
-	user, err := repos.FindUserByUsername(username)
+	user, err := repos.Default.FindUserByUsername(username)
 	if err != nil {
 		return err
 	}
@@ -60,7 +60,7 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 				Accepted:    false,
 			}
 
-			if err := repos.CreateFollower(follower); err != nil {
+			if err := repos.Default.CreateFollower(follower); err != nil {
 				return x.Conflict(err)
 			}
 
@@ -77,7 +77,7 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 					return err
 				}
 
-				if err := repos.AcceptFollower(follower.ID); err != nil {
+				if err := repos.Default.AcceptFollower(follower.ID); err != nil {
 					return err
 				}
 			}
@@ -106,7 +106,7 @@ var InboxPost = route.New(HttpPost, "/u/:username/inbox", func(x IContext) error
 					Content:   note.Content,
 				}
 
-				if err := repos.CreateIncomingActivity(message); err != nil {
+				if err := repos.Default.CreateIncomingActivity(message); err != nil {
 					return x.Conflict(err)
 				}
 
@@ -127,7 +127,7 @@ var InboxGet = route.New(HttpGet, "/u/:username/inbox", func(x IContext) error {
 	actor := x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username)
 	id := x.StringUtil().Format("%s://%s/u/%s/inbox", config.PROTOCOL, config.DOMAIN, username)
 
-	messages, err := repos.FindIncomingActivitiesForUser(actor)
+	messages, err := repos.Default.FindIncomingActivitiesForUser(actor)
 	if err != nil {
 		return err
 	}

@@ -2,9 +2,9 @@ package routes
 
 import (
 	"app/models/dto"
-	"app/models/repos"
 	"config"
 	. "contracts"
+	"db/repos"
 	"encoding/json"
 	"server/route"
 )
@@ -27,7 +27,7 @@ var Profile = route.New(HttpGet, "/profile", func(x IContext) error {
 func _() {}
 
 var GetProfile = route.New(HttpGet, "/api/v1/profile", func(x IContext) error {
-	user, err := repos.FindUserById(x.GetUser())
+	user, err := repos.Default.FindUserById(x.GetUser())
 	if err != nil {
 		return x.Unauthorized(err)
 	}
@@ -55,7 +55,7 @@ var UpdateProfile = route.New(HttpPost, "/api/v1/profile", func(x IContext) erro
 		return err
 	}
 
-	user, err := repos.FindUserById(x.GetUser())
+	user, err := repos.Default.FindUserById(x.GetUser())
 	if err != nil {
 		return x.Unauthorized(err)
 	}
@@ -65,7 +65,7 @@ var UpdateProfile = route.New(HttpPost, "/api/v1/profile", func(x IContext) erro
 		access = repos.ACCESS_PRIVATE
 	}
 
-	if err := repos.UpdateProfile(user.ID,
+	if err := repos.Default.UpdateProfile(user.ID,
 		Values{
 			"display_name": body.DisplayName,
 			"bio":          body.Bio,

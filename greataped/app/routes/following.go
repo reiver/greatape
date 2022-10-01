@@ -3,9 +3,9 @@ package routes
 import (
 	"activitypub"
 	"app/models/domain"
-	"app/models/repos"
 	"config"
 	. "contracts"
+	"db/repos"
 	"server/route"
 )
 
@@ -45,7 +45,7 @@ var Following = route.New(HttpGet, "/u/:username/following", func(x IContext) er
 		actor := x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username)
 		id := x.StringUtil().Format("%s://%s/u/%s/following", config.PROTOCOL, config.DOMAIN, username)
 
-		followings, err := repos.FindFollowing(actor)
+		followings, err := repos.Default.FindFollowing(actor)
 		if err != nil {
 			return err
 		}

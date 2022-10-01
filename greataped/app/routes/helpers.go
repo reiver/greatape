@@ -2,8 +2,8 @@ package routes
 
 import (
 	"activitypub"
-	"app/models/repos"
 	"config"
+	"db/repos"
 	"encoding/hex"
 	"fmt"
 	"server/mime"

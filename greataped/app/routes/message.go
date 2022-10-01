@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"app/models/repos"
 	. "contracts"
+	"db/repos"
 	"server/route"
 )
 
@@ -12,7 +12,7 @@ var Message = route.New(HttpGet, "/m/:guid", func(x IContext) error {
 		return x.BadRequest("bad_request")
 	}
 
-	response, err := repos.FindOutgoingActivityByGuid(guid)
+	response, err := repos.Default.FindOutgoingActivityByGuid(guid)
 	if err != nil {
 		return err
 	}

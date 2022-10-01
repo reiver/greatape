@@ -2,8 +2,8 @@ package routes
 
 import (
 	"app/models/dto"
-	"app/models/repos"
 	. "contracts"
+	"db/repos"
 	"encoding/json"
 	"server/route"
 	"utility"
@@ -26,7 +26,7 @@ var Signup = route.New(HttpPost, "/api/v1/signup", func(x IContext) error {
 		return err
 	}
 
-	if _, err := repos.FindUserByEmail(body.Email); err == nil {
+	if _, err := repos.Default.FindUserByEmail(body.Email); err == nil {
 		return x.Conflict("email already exists")
 	}
 
@@ -95,7 +95,7 @@ var Verify = route.New(HttpPost, "/api/v1/verify", func(x IContext) error {
 	}
 
 	user := registration.user
-	if err := repos.CreateUser(user); err != nil {
+	if err := repos.Default.CreateUser(user); err != nil {
 		return x.Conflict(err)
 	}
 

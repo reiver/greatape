@@ -1,9 +1,9 @@
 package routes
 
 import (
-	"app/models/repos"
 	"config"
 	. "contracts"
+	"db/repos"
 	"fmt"
 	"server/route"
 )
@@ -26,7 +26,7 @@ var WebFinger = route.New(HttpGet, "/.well-known/webfinger", func(x IContext) er
 	username := x.StringUtil().Replace(resource, "acct:", "", -1)
 	username = x.StringUtil().Replace(username, fmt.Sprintf("@%s", config.DOMAIN), "", -1)
 
-	user, err := repos.FindUserByUsername(username)
+	user, err := repos.Default.FindUserByUsername(username)
 	if err != nil {
 		return err
 	}

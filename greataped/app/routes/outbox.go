@@ -2,9 +2,9 @@ package routes
 
 import (
 	"activitypub"
-	"app/models/repos"
 	"config"
 	. "contracts"
+	"db/repos"
 	"encoding/json"
 	"server/route"
 	"time"
@@ -18,7 +18,7 @@ var OutboxPost = route.New(HttpPost, "/u/:username/outbox", func(x IContext) err
 		return x.BadRequest(err)
 	}
 
-	user, err := repos.FindUserByUsername(username)
+	user, err := repos.Default.FindUserByUsername(username)
 	if err != nil {
 		return err
 	}
@@ -60,7 +60,7 @@ var OutboxPost = route.New(HttpPost, "/u/:username/outbox", func(x IContext) err
 				Content:   note.Content,
 			}
 
-			if err := repos.CreateOutgoingActivity(message); err != nil {
+			if err := repos.Default.CreateOutgoingActivity(message); err != nil {
 				return x.Conflict(err)
 			}
 
@@ -76,7 +76,7 @@ var OutboxGet = route.New(HttpGet, "/u/:username/outbox", func(x IContext) error
 	actor := x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username)
 	id := x.StringUtil().Format("%s://%s/u/%s/outbox", config.PROTOCOL, config.DOMAIN, username)
 
-	messages, err := repos.FindOutgoingActivitiesByUser(actor)
+	messages, err := repos.Default.FindOutgoingActivitiesByUser(actor)
 	if err != nil {
 		return err
 	}

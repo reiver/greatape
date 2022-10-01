@@ -2,7 +2,6 @@ package repos
 
 import (
 	"contracts"
-	"db"
 	"errors"
 
 	"github.com/gofiber/fiber/v2"
@@ -20,8 +19,8 @@ type OutgoingActivity struct {
 }
 
 // CreateOutgoingActivity creates an activity entry in the outgoing activities table
-func CreateOutgoingActivity(activity *OutgoingActivity) error {
-	if err := db.Executor.Create(activity).Error; err != nil {
+func (repo *repository) CreateOutgoingActivity(activity *OutgoingActivity) error {
+	if err := repo.Storage.Create(activity).Error; err != nil {
 		return err
 	}
 
@@ -30,9 +29,9 @@ func CreateOutgoingActivity(activity *OutgoingActivity) error {
 
 // FindOutgoingActivity searches the outgoing activities table with the condition given
 // and returns a single record.
-func FindOutgoingActivity(conds ...interface{}) (*OutgoingActivity, error) {
+func (repo *repository) FindOutgoingActivity(conds ...interface{}) (*OutgoingActivity, error) {
 	dest := &OutgoingActivity{}
-	if err := db.Executor.Model(&OutgoingActivity{}).Take(dest, conds...).Error; err != nil {
+	if err := repo.Storage.Model(&OutgoingActivity{}).Take(dest, conds...).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, &fiber.Error{
 				Code:    contracts.StatusNotFound,
@@ -50,9 +49,9 @@ func FindOutgoingActivity(conds ...interface{}) (*OutgoingActivity, error) {
 }
 
 // FindOutgoingActivitiesByUser finds the activities posted by user
-func FindOutgoingActivitiesByUser(userIden interface{}) ([]OutgoingActivity, error) {
+func (repo *repository) FindOutgoingActivitiesByUser(userIden interface{}) ([]OutgoingActivity, error) {
 	result := &[]OutgoingActivity{}
-	if err := db.Executor.Model(&OutgoingActivity{}).Find(result, "`from` = ?", userIden).Error; err != nil {
+	if err := repo.Storage.Model(&OutgoingActivity{}).Find(result, "`from` = ?", userIden).Error; err != nil {
 		return *result, err
 	}
 
@@ -60,11 +59,11 @@ func FindOutgoingActivitiesByUser(userIden interface{}) ([]OutgoingActivity, err
 }
 
 // FindOutgoingActivityById searches the outgoing activities table with the id given
-func FindOutgoingActivityById(id uint) (*OutgoingActivity, error) {
-	return FindOutgoingActivity("id = ?", id)
+func (repo *repository) FindOutgoingActivityById(id uint) (*OutgoingActivity, error) {
+	return repo.FindOutgoingActivity("id = ?", id)
 }
 
 // FindOutgoingActivityByGuid searches the outgoing activities table with the guid given
-func FindOutgoingActivityByGuid(guid string) (*OutgoingActivity, error) {
-	return FindOutgoingActivity("guid = ?", guid)
+func (repo *repository) FindOutgoingActivityByGuid(guid string) (*OutgoingActivity, error) {
+	return repo.FindOutgoingActivity("guid = ?", guid)
 }
