@@ -126,7 +126,9 @@ paths:
           description: OK
           schema:
             items:
-              type: string
+              items:
+                type: string
+              type: array
             type: array
       tags:
       - Feed
@@ -185,7 +187,7 @@ paths:
             $ref: '#/definitions/SignupResponse'
       tags:
       - Authentication
-  /api/v1/users/{username}/feed:
+  /api/v1/users/{username}/feed/{type}:
     get:
       consumes:
       - application/json
@@ -193,6 +195,11 @@ paths:
       - description: Username
         in: path
         name: username
+        required: true
+        type: string
+      - description: Type
+        in: path
+        name: type
         required: true
         type: string
       produces:

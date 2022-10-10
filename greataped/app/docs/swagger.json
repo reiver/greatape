@@ -57,7 +57,10 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "type": "string"
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
                             }
                         }
                     }
@@ -154,7 +157,7 @@
                 }
             }
         },
-        "/api/v1/users/{username}/feed": {
+        "/api/v1/users/{username}/feed/{type}": {
             "get": {
                 "security": [
                     {
@@ -175,6 +178,13 @@
                         "type": "string",
                         "description": "Username",
                         "name": "username",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Type",
+                        "name": "type",
                         "in": "path",
                         "required": true
                     }

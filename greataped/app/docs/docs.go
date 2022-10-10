@@ -65,7 +65,10 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "type": "string"
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
                             }
                         }
                     }
@@ -162,7 +165,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/users/{username}/feed": {
+        "/api/v1/users/{username}/feed/{type}": {
             "get": {
                 "security": [
                     {
@@ -183,6 +186,13 @@ const docTemplate = `{
                         "type": "string",
                         "description": "Username",
                         "name": "username",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Type",
+                        "name": "type",
                         "in": "path",
                         "required": true
                     }
