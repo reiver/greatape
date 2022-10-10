@@ -23,5 +23,7 @@ var All = []contracts.IRoute{
 	Followers,
 	Following,
 	Follow,
+	Feed,
+	FeedTypes,
 	Authorize,
 }
