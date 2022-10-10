@@ -14,11 +14,12 @@ import (
 // @Produce  json
 // @Security JWT
 // @Param    username path     string true "Username"
+// @Param    type     path     string true "Type"
 // @Success  200      {object} map[string]interface{}
-// @Router   /api/v1/users/{username}/feed [get]
+// @Router   /api/v1/users/{username}/feed/{type} [get]
 func _() {}
 
-var Feed = route.New(contracts.HttpGet, "/api/v1/users/:username/feed", func(x contracts.IContext) error {
+var Feed = route.New(contracts.HttpGet, "/api/v1/users/:username/feed/:type", func(x contracts.IContext) error {
 	username := x.Request().Params("username")
 	actor := x.StringUtil().Format("%s://%s/u/%s", config.PROTOCOL, config.DOMAIN, username)
 	id := x.StringUtil().Format("%s://%s/u/%s/outbox", config.PROTOCOL, config.DOMAIN, username)
@@ -43,13 +44,19 @@ var Feed = route.New(contracts.HttpGet, "/api/v1/users/:username/feed", func(x c
 // @Tags    Feed
 // @Accept  json
 // @Produce json
-// @Success 200 {object} []string
+// @Success 200 {object} [][]string
 // @Router  /api/v1/feed/types [get]
 func _() {}
 
 var FeedTypes = route.New(contracts.HttpGet, "/api/v1/feed/types", func(x contracts.IContext) error {
-	return x.Json([]string{
-		"Most Recent",
-		"Most Relevant",
+	return x.Json([][]string{
+		{
+			"most-recent",
+			"Most Recent",
+		},
+		{
+			"most-relevant",
+			"Most Relevant",
+		},
 	})
 })
