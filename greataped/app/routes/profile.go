@@ -18,12 +18,12 @@ var Profile = route.New(HttpGet, "/profile", func(x IContext) error {
 })
 
 // GetProfile	godoc
-// @Tags		User
-// @Accept		json
-// @Produce		json
-// @Security	JWT
-// @Success		200 {object} dto.User
-// @Router		/api/v1/profile [get]
+// @Tags     User
+// @Accept   json
+// @Produce  json
+// @Security JWT
+// @Success  200 {object} dto.User
+// @Router   /api/v1/profile [get]
 func _() {}
 
 var GetProfile = route.New(HttpGet, "/api/v1/profile", func(x IContext) error {

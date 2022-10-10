@@ -10,12 +10,12 @@ import (
 )
 
 // Following	godoc
-// @Tags		ActivityPub
-// @Accept		json
-// @Produce		json
-// @Param		username path string true "Username"
-// @Success		200 {object} map[string]interface{}
-// @Router		/u/{username}/following [get]
+// @Tags    ActivityPub
+// @Accept  json
+// @Produce json
+// @Param   username path     string true "Username"
+// @Success 200      {object} map[string]interface{}
+// @Router  /u/{username}/following [get]
 func _() {}
 
 var Following = route.New(HttpGet, "/u/:username/following", func(x IContext) error {

@@ -12,12 +12,12 @@ import (
 )
 
 // Signup	godoc
-// @Tags	Authentication
-// @Accept	json
-// @Produce	json
-// @Param	payload body dto.SignupRequest true "Payload"
-// @Success	200 {object} dto.SignupResponse
-// @Router	/api/v1/signup [post]
+// @Tags    Authentication
+// @Accept  json
+// @Produce json
+// @Param   payload body     dto.SignupRequest true "Payload"
+// @Success 200     {object} dto.SignupResponse
+// @Router  /api/v1/signup [post]
 func _() {}
 
 var Signup = route.New(HttpPost, "/api/v1/signup", func(x IContext) error {
@@ -64,12 +64,12 @@ var Signup = route.New(HttpPost, "/api/v1/signup", func(x IContext) error {
 })
 
 // Verify	godoc
-// @Tags	Authentication
-// @Accept	json
-// @Produce	json
-// @Param	payload body dto.VerifyRequest true "Payload"
-// @Success	200 {object} dto.VerifyResponse
-// @Router	/api/v1/verify [post]
+// @Tags    Authentication
+// @Accept  json
+// @Produce json
+// @Param   payload body     dto.VerifyRequest true "Payload"
+// @Success 200     {object} dto.VerifyResponse
+// @Router  /api/v1/verify [post]
 func _() {}
 
 var Verify = route.New(HttpPost, "/api/v1/verify", func(x IContext) error {

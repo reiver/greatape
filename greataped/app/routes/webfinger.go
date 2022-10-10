@@ -9,12 +9,12 @@ import (
 )
 
 // WebFinger	godoc
-// @Tags		WebFinger
-// @Accept		json
-// @Produce		json
-// @Param		resource query string true "Resource" default(acct:user@domain.com)
-// @Success		200 {object} map[string]interface{}
-// @Router		/.well-known/webfinger [get]
+// @Tags    WebFinger
+// @Accept  json
+// @Produce json
+// @Param   resource query    string true "Resource" default(acct:user@domain.com)
+// @Success 200      {object} map[string]interface{}
+// @Router  /.well-known/webfinger [get]
 func _() {}
 
 var WebFinger = route.New(HttpGet, "/.well-known/webfinger", func(x IContext) error {

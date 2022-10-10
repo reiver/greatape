@@ -11,13 +11,13 @@ import (
 	"strconv"
 )
 
-// Followers	godoc
-// @Tags		ActivityPub
-// @Accept		json
-// @Produce		json
-// @Param		username path string true "Username"
-// @Success		200 {object} map[string]interface{}
-// @Router		/u/{username}/followers [get]
+// Followers godoc
+// @Tags    ActivityPub
+// @Accept  json
+// @Produce json
+// @Param   username path     string true "Username"
+// @Success 200      {object} map[string]interface{}
+// @Router  /u/{username}/followers [get]
 func _() {}
 
 var Followers = route.New(HttpGet, "/u/:username/followers", func(x IContext) error {

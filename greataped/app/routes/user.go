@@ -9,12 +9,12 @@ import (
 )
 
 // User		godoc
-// @Tags	ActivityPub
-// @Accept	json
-// @Produce	json
-// @Param	username path string true "Username"
-// @Success	200 {object} map[string]interface{}
-// @Router	/u/{username} [get]
+// @Tags    ActivityPub
+// @Accept  json
+// @Produce json
+// @Param   username path     string true "Username"
+// @Success 200      {object} map[string]interface{}
+// @Router  /u/{username} [get]
 func _() {}
 
 var User = route.New(contracts.HttpGet, "/u/:username", func(x contracts.IContext) error {
