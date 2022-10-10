@@ -115,6 +115,21 @@ paths:
             type: object
       tags:
       - WebFinger
+  /api/v1/feed/types:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+      tags:
+      - Feed
   /api/v1/login:
     post:
       consumes:
@@ -170,6 +185,28 @@ paths:
             $ref: '#/definitions/SignupResponse'
       tags:
       - Authentication
+  /api/v1/users/{username}/feed:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - JWT: []
+      tags:
+      - Feed
   /api/v1/verify:
     post:
       consumes:
