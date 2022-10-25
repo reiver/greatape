@@ -66,7 +66,7 @@ var UpdateProfile = route.New(HttpPost, "/api/v1/profile", func(x IContext) erro
 	}
 
 	if err := repos.Default.UpdateProfile(user.ID,
-		Values{
+		map[string]interface{}{
 			"display_name": body.DisplayName,
 			"bio":          body.Bio,
 			"github":       body.Github,

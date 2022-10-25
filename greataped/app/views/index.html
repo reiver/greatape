@@ -55,7 +55,12 @@
           <form id="frmSignup" action="/api/v1/signup" method="post">
             <div class="mb-3">
               <label for="username" class="form-label">Username</label>
-              <input type="text" name="username" id="username" class="form-control" />
+              <input
+                type="text"
+                name="username"
+                id="username"
+                class="form-control"
+              />
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
@@ -123,8 +128,24 @@
             },
           })
             .then(function (response) {
-              localStorage.setItem("token", response.data.auth.token);
-              window.location.href = "/profile";
+              axios({
+                method: "post",
+                url: "/api/v1/verify",
+                data: {
+                  email: document.getElementById("email").value,
+                  code: response.data.code,
+                },
+              })
+                .then(function (response) {
+                  localStorage.setItem("token", response.data.auth.token);
+                  window.location.href = "/profile";
+                })
+                .catch(function (err) {
+                  document.getElementById("signupMessage").innerHTML =
+                    err.response.data;
+                  document.getElementById("signupMessage").style.display =
+                    "block";
+                });
             })
             .catch(function (err) {
               document.getElementById("signupMessage").innerHTML =

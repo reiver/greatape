@@ -33,17 +33,17 @@ type VerifyResponse struct {
 type User struct {
 	ID             uint   `json:"id"`
 	Username       string `json:"username"`
-	DisplayName    string `json:"display_name,omitempty"`
+	DisplayName    string `json:"display_name"`
 	Email          string `json:"email"`
 	Password       string `json:"-"`
-	Bio            string `json:"bio,omitempty"`
-	Github         string `json:"github,omitempty"`
-	Avatar         string `json:"avatar,omitempty"`
-	Banner         string `json:"banner,omitempty"`
-	ApiKey         string `json:"api_key,omitempty"`
-	PublicKey      string `json:"public_key,omitempty"`
-	Actor          string `json:"actor,omitempty"`
-	Webfinger      string `json:"webfinger,omitempty"`
+	Bio            string `json:"bio"`
+	Github         string `json:"github"`
+	Avatar         string `json:"avatar"`
+	Banner         string `json:"banner"`
+	ApiKey         string `json:"api_key"`
+	PublicKey      string `json:"public_key"`
+	Actor          string `json:"actor"`
+	Webfinger      string `json:"webfinger"`
 	PrivateProfile bool   `json:"private_profile"`
 } // @name User
 

@@ -8,11 +8,9 @@ import (
 	"gorm.io/gorm"
 )
 
-type Access int64
-
 const (
-	ACCESS_PUBLIC Access = iota
-	ACCESS_PRIVATE
+	ACCESS_PUBLIC  = 0
+	ACCESS_PRIVATE = 1
 )
 
 // User struct defines the user
@@ -29,7 +27,7 @@ type User struct {
 	PublicKey   string
 	Avatar      string
 	Banner      string
-	Access      Access
+	Access      int
 }
 
 // CreateUser create a user entry in the user's table
