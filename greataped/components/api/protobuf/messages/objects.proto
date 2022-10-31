@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package protobuf;
+
+option go_package = "./";
+
+// | OBJECT: Document
+message Document {
+    int64 id = 0x00000001;
+    string content = 0x00000002;
+}
+
+// | OBJECT: User
+message User {
+    int64 id = 0x00000001;
+    string github = 0x00000003;
+}

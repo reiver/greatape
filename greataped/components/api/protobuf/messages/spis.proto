@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package protobuf;
+
+option go_package = "./";
+
+import "objects.proto";
+
+// API: Echo
+// Operation:  ECHO_REQUEST 0x0541BD72
+// ResultType: ECHO_RESULT  0xAB2FF7D4
+//------------------------------------------------------------------------------
+message EchoRequest {
+    Document document = 0x00000001;
+}
+
+message EchoResult {
+    Document document = 0x00000001;
+}
+
+//------------------------------------------------------------------------------
