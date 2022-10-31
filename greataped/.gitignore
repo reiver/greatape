@@ -1,7 +1,0 @@
-.DS_Store
-.vscode/
-.idea/
-tools/
-tmp/
-*.sqlite
-__debug_bin
