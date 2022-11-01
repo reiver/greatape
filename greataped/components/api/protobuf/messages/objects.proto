@@ -4,19 +4,21 @@ package protobuf;
 
 option go_package = "./";
 
-// | OBJECT: Document
+message Error {
+    string message = 1;
+    string description = 2;
+}
+
 message Document {
     int64 id = 0x00000001;
     string content = 0x00000002;
 }
 
-// | OBJECT: User
 message User {
     int64 id = 0x00000001;
     string github = 0x00000003;
 }
 
-// | OBJECT: Activity Pub Object
 message ActivityPubObject {
     string context = 0x00000002 [json_name = "@context"];
     string id = 0x00000003;

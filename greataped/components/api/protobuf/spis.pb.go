@@ -20,9 +20,94 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// API: SystemCall
+// ------------------------------------------------------------------------------
+type SystemCallRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Command string `protobuf:"bytes,1,opt,name=command,proto3" json:"command,omitempty"`
+}
+
+func (x *SystemCallRequest) Reset() {
+	*x = SystemCallRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spis_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SystemCallRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SystemCallRequest) ProtoMessage() {}
+
+func (x *SystemCallRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_spis_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SystemCallRequest.ProtoReflect.Descriptor instead.
+func (*SystemCallRequest) Descriptor() ([]byte, []int) {
+	return file_spis_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *SystemCallRequest) GetCommand() string {
+	if x != nil {
+		return x.Command
+	}
+	return ""
+}
+
+type SystemCallResult struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *SystemCallResult) Reset() {
+	*x = SystemCallResult{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spis_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SystemCallResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SystemCallResult) ProtoMessage() {}
+
+func (x *SystemCallResult) ProtoReflect() protoreflect.Message {
+	mi := &file_spis_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SystemCallResult.ProtoReflect.Descriptor instead.
+func (*SystemCallResult) Descriptor() ([]byte, []int) {
+	return file_spis_proto_rawDescGZIP(), []int{1}
+}
+
 // API: Echo
-// Operation:  ECHO_REQUEST 0x0541BD72
-// ResultType: ECHO_RESULT  0xAB2FF7D4
 // ------------------------------------------------------------------------------
 type EchoRequest struct {
 	state         protoimpl.MessageState
@@ -35,7 +120,7 @@ type EchoRequest struct {
 func (x *EchoRequest) Reset() {
 	*x = EchoRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_spis_proto_msgTypes[0]
+		mi := &file_spis_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -48,7 +133,7 @@ func (x *EchoRequest) String() string {
 func (*EchoRequest) ProtoMessage() {}
 
 func (x *EchoRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_spis_proto_msgTypes[0]
+	mi := &file_spis_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -61,7 +146,7 @@ func (x *EchoRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EchoRequest.ProtoReflect.Descriptor instead.
 func (*EchoRequest) Descriptor() ([]byte, []int) {
-	return file_spis_proto_rawDescGZIP(), []int{0}
+	return file_spis_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *EchoRequest) GetDocument() *Document {
@@ -82,7 +167,7 @@ type EchoResult struct {
 func (x *EchoResult) Reset() {
 	*x = EchoResult{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_spis_proto_msgTypes[1]
+		mi := &file_spis_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -95,7 +180,7 @@ func (x *EchoResult) String() string {
 func (*EchoResult) ProtoMessage() {}
 
 func (x *EchoResult) ProtoReflect() protoreflect.Message {
-	mi := &file_spis_proto_msgTypes[1]
+	mi := &file_spis_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -108,7 +193,7 @@ func (x *EchoResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EchoResult.ProtoReflect.Descriptor instead.
 func (*EchoResult) Descriptor() ([]byte, []int) {
-	return file_spis_proto_rawDescGZIP(), []int{1}
+	return file_spis_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *EchoResult) GetDocument() *Document {
@@ -123,15 +208,20 @@ var File_spis_proto protoreflect.FileDescriptor
 var file_spis_proto_rawDesc = []byte{
 	0x0a, 0x0a, 0x73, 0x70, 0x69, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x08, 0x70, 0x72,
 	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x1a, 0x0d, 0x6f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x73, 0x2e,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x3d, 0x0a, 0x0b, 0x45, 0x63, 0x68, 0x6f, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x12, 0x2e, 0x0a, 0x08, 0x64, 0x6f, 0x63, 0x75, 0x6d, 0x65, 0x6e, 0x74,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x12, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
-	0x66, 0x2e, 0x44, 0x6f, 0x63, 0x75, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x08, 0x64, 0x6f, 0x63, 0x75,
-	0x6d, 0x65, 0x6e, 0x74, 0x22, 0x3c, 0x0a, 0x0a, 0x45, 0x63, 0x68, 0x6f, 0x52, 0x65, 0x73, 0x75,
-	0x6c, 0x74, 0x12, 0x2e, 0x0a, 0x08, 0x64, 0x6f, 0x63, 0x75, 0x6d, 0x65, 0x6e, 0x74, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x0b, 0x32, 0x12, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
-	0x44, 0x6f, 0x63, 0x75, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x08, 0x64, 0x6f, 0x63, 0x75, 0x6d, 0x65,
-	0x6e, 0x74, 0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x2d, 0x0a, 0x11, 0x53, 0x79, 0x73, 0x74, 0x65, 0x6d, 0x43,
+	0x61, 0x6c, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f,
+	0x6d, 0x6d, 0x61, 0x6e, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6f, 0x6d,
+	0x6d, 0x61, 0x6e, 0x64, 0x22, 0x12, 0x0a, 0x10, 0x53, 0x79, 0x73, 0x74, 0x65, 0x6d, 0x43, 0x61,
+	0x6c, 0x6c, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x22, 0x3d, 0x0a, 0x0b, 0x45, 0x63, 0x68, 0x6f,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x2e, 0x0a, 0x08, 0x64, 0x6f, 0x63, 0x75, 0x6d,
+	0x65, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x12, 0x2e, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x44, 0x6f, 0x63, 0x75, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x08, 0x64,
+	0x6f, 0x63, 0x75, 0x6d, 0x65, 0x6e, 0x74, 0x22, 0x3c, 0x0a, 0x0a, 0x45, 0x63, 0x68, 0x6f, 0x52,
+	0x65, 0x73, 0x75, 0x6c, 0x74, 0x12, 0x2e, 0x0a, 0x08, 0x64, 0x6f, 0x63, 0x75, 0x6d, 0x65, 0x6e,
+	0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x12, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62,
+	0x75, 0x66, 0x2e, 0x44, 0x6f, 0x63, 0x75, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x08, 0x64, 0x6f, 0x63,
+	0x75, 0x6d, 0x65, 0x6e, 0x74, 0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x33,
 }
 
 var (
@@ -146,15 +236,17 @@ func file_spis_proto_rawDescGZIP() []byte {
 	return file_spis_proto_rawDescData
 }
 
-var file_spis_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_spis_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_spis_proto_goTypes = []interface{}{
-	(*EchoRequest)(nil), // 0: protobuf.EchoRequest
-	(*EchoResult)(nil),  // 1: protobuf.EchoResult
-	(*Document)(nil),    // 2: protobuf.Document
+	(*SystemCallRequest)(nil), // 0: protobuf.SystemCallRequest
+	(*SystemCallResult)(nil),  // 1: protobuf.SystemCallResult
+	(*EchoRequest)(nil),       // 2: protobuf.EchoRequest
+	(*EchoResult)(nil),        // 3: protobuf.EchoResult
+	(*Document)(nil),          // 4: protobuf.Document
 }
 var file_spis_proto_depIdxs = []int32{
-	2, // 0: protobuf.EchoRequest.document:type_name -> protobuf.Document
-	2, // 1: protobuf.EchoResult.document:type_name -> protobuf.Document
+	4, // 0: protobuf.EchoRequest.document:type_name -> protobuf.Document
+	4, // 1: protobuf.EchoResult.document:type_name -> protobuf.Document
 	2, // [2:2] is the sub-list for method output_type
 	2, // [2:2] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
@@ -170,7 +262,7 @@ func file_spis_proto_init() {
 	file_objects_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_spis_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EchoRequest); i {
+			switch v := v.(*SystemCallRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -182,6 +274,30 @@ func file_spis_proto_init() {
 			}
 		}
 		file_spis_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SystemCallResult); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_spis_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*EchoRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_spis_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*EchoResult); i {
 			case 0:
 				return &v.state
@@ -200,7 +316,7 @@ func file_spis_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_spis_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
