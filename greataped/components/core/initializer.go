@@ -62,6 +62,7 @@ func Initialize(configuration IConfiguration, logger ILogger) error {
 	categoryTypeManager := factory.Create(SYSTEM_COMPONENT_CATEGORY_TYPE_MANAGER, configuration, logger).(ICategoryTypeManager)
 	categoryManager := factory.Create(SYSTEM_COMPONENT_CATEGORY_MANAGER, configuration, logger).(ICategoryManager)
 	userManager := factory.Create(SYSTEM_COMPONENT_USER_MANAGER, configuration, logger).(IUserManager)
+	activityPubObjectManager := factory.Create(SYSTEM_COMPONENT_ACTIVITY_PUB_OBJECT_MANAGER, configuration, logger).(IActivityPubObjectManager)
 	spiManager := factory.Create(SYSTEM_COMPONENT_SPI_MANAGER, configuration, logger).(ISpiManager)
 	customErrorManager := factory.Create(SYSTEM_COMPONENT_CUSTOM_ERROR_MANAGER, configuration, logger).(ICustomErrorManager)
 
@@ -84,19 +85,20 @@ func Initialize(configuration IConfiguration, logger ILogger) error {
 	// Aggregating System Components
 	Conductor = &conductor{
 		// @formatter:off
-		documentManager:       documentManager,
-		systemScheduleManager: systemScheduleManager,
-		identityManager:       identityManager,
-		accessControlManager:  accessControlManager,
-		remoteActivityManager: remoteActivityManager,
-		categoryTypeManager:   categoryTypeManager,
-		categoryManager:       categoryManager,
-		userManager:           userManager,
-		spiManager:            spiManager,
-		customErrorManager:    customErrorManager,
-		logger:                logger,
-		configuration:         configuration,
-		scheduler:             scheduler,
+		documentManager:          documentManager,
+		systemScheduleManager:    systemScheduleManager,
+		identityManager:          identityManager,
+		accessControlManager:     accessControlManager,
+		remoteActivityManager:    remoteActivityManager,
+		categoryTypeManager:      categoryTypeManager,
+		categoryManager:          categoryManager,
+		userManager:              userManager,
+		activityPubObjectManager: activityPubObjectManager,
+		spiManager:               spiManager,
+		customErrorManager:       customErrorManager,
+		logger:                   logger,
+		configuration:            configuration,
+		scheduler:                scheduler,
 		httpClient: &http.Client{
 			Timeout: time.Second * 5,
 		},
@@ -145,20 +147,21 @@ func Initialize(configuration IConfiguration, logger ILogger) error {
 
 type conductor struct {
 	// @formatter:off
-	documentManager       IDocumentManager
-	systemScheduleManager ISystemScheduleManager
-	identityManager       IIdentityManager
-	accessControlManager  IAccessControlManager
-	remoteActivityManager IRemoteActivityManager
-	categoryTypeManager   ICategoryTypeManager
-	categoryManager       ICategoryManager
-	userManager           IUserManager
-	spiManager            ISpiManager
-	customErrorManager    ICustomErrorManager
-	logger                ILogger
-	configuration         IConfiguration
-	scheduler             *schedule.Cron
-	httpClient            *http.Client
+	documentManager          IDocumentManager
+	systemScheduleManager    ISystemScheduleManager
+	identityManager          IIdentityManager
+	accessControlManager     IAccessControlManager
+	remoteActivityManager    IRemoteActivityManager
+	categoryTypeManager      ICategoryTypeManager
+	categoryManager          ICategoryManager
+	userManager              IUserManager
+	activityPubObjectManager IActivityPubObjectManager
+	spiManager               ISpiManager
+	customErrorManager       ICustomErrorManager
+	logger                   ILogger
+	configuration            IConfiguration
+	scheduler                *schedule.Cron
+	httpClient               *http.Client
 	// @formatter:on
 }
 
@@ -638,6 +641,52 @@ func (conductor *conductor) RemoveUserAtomic(transaction ITransaction, id int64,
 	return conductor.userManager.RemoveUserAtomic(transaction, id, editor)
 }
 
+// ActivityPubObject
+
+func (conductor *conductor) ActivityPubObjectManager() IActivityPubObjectManager {
+	return conductor.activityPubObjectManager
+}
+
+func (conductor *conductor) ActivityPubObjectExists(id int64) bool {
+	return conductor.activityPubObjectManager.Exists(id)
+}
+
+func (conductor *conductor) ListActivityPubObjects(pageIndex uint32, pageSize uint32, criteria string, editor Identity) IActivityPubObjectCollection {
+	return conductor.activityPubObjectManager.ListActivityPubObjects(pageIndex, pageSize, criteria, editor)
+}
+
+func (conductor *conductor) GetActivityPubObject(id int64, editor Identity) (IActivityPubObject, error) {
+	return conductor.activityPubObjectManager.GetActivityPubObject(id, editor)
+}
+
+func (conductor *conductor) AddActivityPubObject(editor Identity) (IActivityPubObject, error) {
+	return conductor.activityPubObjectManager.AddActivityPubObject(editor)
+}
+
+func (conductor *conductor) AddActivityPubObjectAtomic(transaction ITransaction, editor Identity) (IActivityPubObject, error) {
+	return conductor.activityPubObjectManager.AddActivityPubObjectAtomic(transaction, editor)
+}
+
+func (conductor *conductor) LogActivityPubObject(source string, editor Identity, payload string) {
+	conductor.activityPubObjectManager.Log(source, editor, payload)
+}
+
+func (conductor *conductor) UpdateActivityPubObject(id int64, editor Identity) (IActivityPubObject, error) {
+	return conductor.activityPubObjectManager.UpdateActivityPubObject(id, editor)
+}
+
+func (conductor *conductor) UpdateActivityPubObjectAtomic(transaction ITransaction, id int64, editor Identity) (IActivityPubObject, error) {
+	return conductor.activityPubObjectManager.UpdateActivityPubObjectAtomic(transaction, id, editor)
+}
+
+func (conductor *conductor) RemoveActivityPubObject(id int64, editor Identity) (IActivityPubObject, error) {
+	return conductor.activityPubObjectManager.RemoveActivityPubObject(id, editor)
+}
+
+func (conductor *conductor) RemoveActivityPubObjectAtomic(transaction ITransaction, id int64, editor Identity) (IActivityPubObject, error) {
+	return conductor.activityPubObjectManager.RemoveActivityPubObjectAtomic(transaction, id, editor)
+}
+
 // Spi
 
 func (conductor *conductor) SpiManager() ISpiManager {
@@ -768,6 +817,10 @@ func (conductor *conductor) NewCategory(id int64, categoryTypeId int64, category
 
 func (conductor *conductor) NewUser(id int64, github string) (IUser, error) {
 	return NewUser(id, github)
+}
+
+func (conductor *conductor) NewActivityPubObject() (IActivityPubObject, error) {
+	return NewActivityPubObject()
 }
 
 func (conductor *conductor) NewSpi() (ISpi, error) {

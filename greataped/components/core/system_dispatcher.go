@@ -140,6 +140,10 @@ func (dispatcher *dispatcher) NewUser(id int64, github string) (IUser, error) {
 	return NewUser(id, github)
 }
 
+func (dispatcher *dispatcher) NewActivityPubObject() (IActivityPubObject, error) {
+	return NewActivityPubObject()
+}
+
 func (dispatcher *dispatcher) NewSpi() (ISpi, error) {
 	return NewSpi()
 }

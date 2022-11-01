@@ -30,6 +30,8 @@ func (factory *systemComponentFactory) Create(componentType SystemComponentType,
 		component = newCategoryManager(configuration, logger, dependencies...)
 	case SYSTEM_COMPONENT_USER_MANAGER:
 		component = newUserManager(configuration, logger, dependencies...)
+	case SYSTEM_COMPONENT_ACTIVITY_PUB_OBJECT_MANAGER:
+		component = newActivityPubObjectManager(configuration, logger, dependencies...)
 	case SYSTEM_COMPONENT_SPI_MANAGER:
 		component = newSpiManager(configuration, logger, dependencies...)
 	case SYSTEM_COMPONENT_CUSTOM_ERROR_MANAGER:

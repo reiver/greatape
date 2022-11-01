@@ -36,6 +36,10 @@ func (dispatcher *dispatcher) NewUsers() IUserCollection {
 	return NewUsers()
 }
 
+func (dispatcher *dispatcher) NewActivityPubObjects() IActivityPubObjectCollection {
+	return NewActivityPubObjects()
+}
+
 func (dispatcher *dispatcher) NewSpis() ISpiCollection {
 	return NewSpis()
 }
