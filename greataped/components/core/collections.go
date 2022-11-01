@@ -44,8 +44,4 @@ func (dispatcher *dispatcher) NewSpis() ISpiCollection {
 	return NewSpis()
 }
 
-func (dispatcher *dispatcher) NewCustomErrors() ICustomErrorCollection {
-	return NewCustomErrors()
-}
-
 //endregion

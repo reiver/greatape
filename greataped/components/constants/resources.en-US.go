@@ -21,7 +21,6 @@ var Errors = Resource{
 	ERROR_MESSAGE_USER_NOT_FOUND:                "user_not_found",
 	ERROR_MESSAGE_ACTIVITY_PUB_OBJECT_NOT_FOUND: "activity_pub_object_not_found",
 	ERROR_MESSAGE_SPI_NOT_FOUND:                 "spi_not_found",
-	ERROR_MESSAGE_CUSTOM_ERROR_NOT_FOUND:        "custom_error_not_found",
 	ERROR_MESSAGE_UNKNOWN_DOCUMENT:              "unknown_document",
 	ERROR_MESSAGE_UNKNOWN_SYSTEM_SCHEDULE:       "unknown_system_schedule",
 	ERROR_MESSAGE_UNKNOWN_IDENTITY:              "unknown_identity",
@@ -32,7 +31,6 @@ var Errors = Resource{
 	ERROR_MESSAGE_UNKNOWN_USER:                  "unknown_user",
 	ERROR_MESSAGE_UNKNOWN_ACTIVITY_PUB_OBJECT:   "unknown_activity_pub_object",
 	ERROR_MESSAGE_UNKNOWN_SPI:                   "unknown_spi",
-	ERROR_MESSAGE_UNKNOWN_CUSTOM_ERROR:          "unknown_custom_error",
 	ERROR_MESSAGE_INVALID_ID:                    "invalid_id",
 	ERROR_MESSAGE_INVALID_PARAMETERS:            "invalid_parameters",
 	// CUSTOM_ERRORS

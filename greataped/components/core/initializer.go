@@ -64,7 +64,6 @@ func Initialize(configuration IConfiguration, logger ILogger) error {
 	userManager := factory.Create(SYSTEM_COMPONENT_USER_MANAGER, configuration, logger).(IUserManager)
 	activityPubObjectManager := factory.Create(SYSTEM_COMPONENT_ACTIVITY_PUB_OBJECT_MANAGER, configuration, logger).(IActivityPubObjectManager)
 	spiManager := factory.Create(SYSTEM_COMPONENT_SPI_MANAGER, configuration, logger).(ISpiManager)
-	customErrorManager := factory.Create(SYSTEM_COMPONENT_CUSTOM_ERROR_MANAGER, configuration, logger).(ICustomErrorManager)
 
 	// Resolving Dependencies
 	// @formatter:off
@@ -95,7 +94,6 @@ func Initialize(configuration IConfiguration, logger ILogger) error {
 		userManager:              userManager,
 		activityPubObjectManager: activityPubObjectManager,
 		spiManager:               spiManager,
-		customErrorManager:       customErrorManager,
 		logger:                   logger,
 		configuration:            configuration,
 		scheduler:                scheduler,
@@ -157,7 +155,6 @@ type conductor struct {
 	userManager              IUserManager
 	activityPubObjectManager IActivityPubObjectManager
 	spiManager               ISpiManager
-	customErrorManager       ICustomErrorManager
 	logger                   ILogger
 	configuration            IConfiguration
 	scheduler                *schedule.Cron
@@ -737,56 +734,6 @@ func (conductor *conductor) Echo(document IDocument, editor Identity) (IEchoResu
 	return conductor.spiManager.Echo(document, editor)
 }
 
-// CustomError
-
-func (conductor *conductor) CustomErrorManager() ICustomErrorManager {
-	return conductor.customErrorManager
-}
-
-func (conductor *conductor) CustomErrorExists(id int64) bool {
-	return conductor.customErrorManager.Exists(id)
-}
-
-func (conductor *conductor) ListCustomErrors(pageIndex uint32, pageSize uint32, criteria string, editor Identity) ICustomErrorCollection {
-	return conductor.customErrorManager.ListCustomErrors(pageIndex, pageSize, criteria, editor)
-}
-
-func (conductor *conductor) GetCustomError(id int64, editor Identity) (ICustomError, error) {
-	return conductor.customErrorManager.GetCustomError(id, editor)
-}
-
-func (conductor *conductor) AddCustomError(editor Identity) (ICustomError, error) {
-	return conductor.customErrorManager.AddCustomError(editor)
-}
-
-func (conductor *conductor) AddCustomErrorAtomic(transaction ITransaction, editor Identity) (ICustomError, error) {
-	return conductor.customErrorManager.AddCustomErrorAtomic(transaction, editor)
-}
-
-func (conductor *conductor) LogCustomError(source string, editor Identity, payload string) {
-	conductor.customErrorManager.Log(source, editor, payload)
-}
-
-func (conductor *conductor) UpdateCustomError(id int64, editor Identity) (ICustomError, error) {
-	return conductor.customErrorManager.UpdateCustomError(id, editor)
-}
-
-func (conductor *conductor) UpdateCustomErrorAtomic(transaction ITransaction, id int64, editor Identity) (ICustomError, error) {
-	return conductor.customErrorManager.UpdateCustomErrorAtomic(transaction, id, editor)
-}
-
-func (conductor *conductor) RemoveCustomError(id int64, editor Identity) (ICustomError, error) {
-	return conductor.customErrorManager.RemoveCustomError(id, editor)
-}
-
-func (conductor *conductor) RemoveCustomErrorAtomic(transaction ITransaction, id int64, editor Identity) (ICustomError, error) {
-	return conductor.customErrorManager.RemoveCustomErrorAtomic(transaction, id, editor)
-}
-
-func (conductor *conductor) ResolveError(document IDocument, editor Identity) (IResolveErrorResult, error) {
-	return conductor.customErrorManager.ResolveError(document, editor)
-}
-
 func (conductor *conductor) NewDocument(id int64, content string) (IDocument, error) {
 	return NewDocument(id, content)
 }
@@ -827,16 +774,8 @@ func (conductor *conductor) NewSpi() (ISpi, error) {
 	return NewSpi()
 }
 
-func (conductor *conductor) NewCustomError() (ICustomError, error) {
-	return NewCustomError()
-}
-
 func (conductor *conductor) NewEchoResult(document IDocument, _ interface{}) IEchoResult {
 	return NewEchoResult(document, nil)
-}
-
-func (conductor *conductor) NewResolveErrorResult(_ interface{}) IResolveErrorResult {
-	return NewResolveErrorResult(nil)
 }
 
 func (conductor *conductor) LogRemoteCall(context IContext, eventType uint32, source string, input, result interface{}, err error) {

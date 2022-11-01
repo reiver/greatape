@@ -34,8 +34,6 @@ func (factory *systemComponentFactory) Create(componentType SystemComponentType,
 		component = newActivityPubObjectManager(configuration, logger, dependencies...)
 	case SYSTEM_COMPONENT_SPI_MANAGER:
 		component = newSpiManager(configuration, logger, dependencies...)
-	case SYSTEM_COMPONENT_CUSTOM_ERROR_MANAGER:
-		component = newCustomErrorManager(configuration, logger, dependencies...)
 	}
 
 	if component != nil {

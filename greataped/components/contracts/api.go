@@ -8,5 +8,4 @@ type IApi interface {
 	//API Methods
 	SystemCall(*SystemCallRequest) (*SystemCallResult, error)
 	Echo(*EchoRequest) (*EchoResult, error)
-	ResolveError(*ResolveErrorRequest) (*ResolveErrorResult, error)
 }

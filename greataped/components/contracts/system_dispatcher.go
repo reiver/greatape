@@ -615,63 +615,6 @@ type IDispatcher interface {
 	RemoveSpi(id int64) ISpi
 	Echo(document IDocument) (IEchoResult, error)
 
-	// CustomError
-	// ------------------------------------------------------------
-
-	// CustomErrorExists checks whether a specific 'Custom Error' with the provided
-	// unique identifier or 'Id' exists in the system.
-	CustomErrorExists(id int64) bool
-	// CustomErrorExistsWhich checks whether a specific 'Custom Error' exists in the system
-	// which satisfies the provided condition.
-	CustomErrorExistsWhich(condition CustomErrorCondition) bool
-	// ListCustomErrors returns a list of all 'Custom Error' instances in the system.
-	ListCustomErrors() ICustomErrorCollection
-	// ForEachCustomError loops over all 'Custom Error' instances in the system running
-	// the provided iterator for each of them.
-	ForEachCustomError(iterator CustomErrorIterator)
-	// FilterCustomErrors returns a filtered list of 'Custom Error' instances based
-	// on the provided predicate.
-	FilterCustomErrors(predicate CustomErrorFilterPredicate) ICustomErrorCollection
-	// MapCustomErrors loops over all 'Custom Error' instances in the system and
-	// returns a transformed list based on the provided predicate.
-	MapCustomErrors(predicate CustomErrorMapPredicate) ICustomErrorCollection
-	// GetCustomError finds a specific 'Custom Error' instance using
-	// the provided unique identifier or 'Id'.
-	GetCustomError(id int64) ICustomError
-	// AddCustomError creates a new 'Custom Error' instance with an auto-generated unique identifier using the
-	// provided property values and adds it to persistent data store and system cache.
-	// The method is smart enough to respect the transaction if used in an
-	// x.Atomic context. This method is synchronous.
-	AddCustomError() ICustomError
-	// AddCustomErrorWithCustomId creates a new 'Custom Error' instance with a custom unique identifier using the
-	// provided property values and adds it to persistent data store and system cache.
-	// The method is smart enough to respect the transaction if used in an
-	// x.Atomic context. This method is synchronous.
-	AddCustomErrorWithCustomId(id int64) ICustomError
-	// LogCustomError creates a new 'Custom Error' instance using the provided property values
-	// and adds it to persistent data store and system cache.
-	// The method is smart enough to respect the transaction if used in an
-	// x.Atomic context. This method is asynchronous.
-	LogCustomError(source string, payload string)
-	// UpdateCustomError finds the 'Custom Error' instance using the provided unique identifier and updates it using
-	// the provided property values and reflects the changes to persistent data store and system
-	// cache. The method is smart enough to respect the transaction if used in an x.Atomic context.
-	// This method is synchronous.
-	UpdateCustomError(id int64) ICustomError
-	// UpdateCustomErrorObject finds and updates the 'Custom Error' using the provided instance and reflects the
-	// changes to persistent data store and system cache. The method is smart enough to
-	// respect the transaction if used in an x.Atomic context. This method is synchronous.
-	UpdateCustomErrorObject(object IObject, customError ICustomError) ICustomError
-	// AddOrUpdateCustomErrorObject tries to find the 'Custom Error' using the provided instance, then updates it in persistent
-	// data store and system cache or creates it if doesn't already exist. The method is smart enough
-	// to respect the transaction if used in an x.Atomic context. This method is synchronous.
-	AddOrUpdateCustomErrorObject(object IObject, customError ICustomError) ICustomError
-	// RemoveCustomError finds the 'Custom Error' instance using the provided unique identifier and
-	// removes it from the system cache. The method is smart enough to respect
-	// the transaction if used in an x.Atomic context. This method is synchronous.
-	RemoveCustomError(id int64) ICustomError
-	ResolveError(document IDocument) (IResolveErrorResult, error)
-
 	// NewDocument creates a new 'Document' instance using the provided property values.
 	NewDocument(id int64, content string) (IDocument, error)
 	// NewDocuments creates an empty in-memory 'Document' collection which is not thread-safe.
@@ -712,14 +655,8 @@ type IDispatcher interface {
 	NewSpi() (ISpi, error)
 	// NewSpis creates an empty in-memory 'Spi' collection which is not thread-safe.
 	NewSpis() ISpiCollection
-	// NewCustomError creates a new 'Custom Error' instance using the provided property values.
-	NewCustomError() (ICustomError, error)
-	// NewCustomErrors creates an empty in-memory 'Custom Error' collection which is not thread-safe.
-	NewCustomErrors() ICustomErrorCollection
 	// NewEchoResult creates a new result container for 'Echo' system action.
 	NewEchoResult(document IDocument) IEchoResult
-	// NewResolveErrorResult creates a new result container for 'Resolve Error' system action.
-	NewResolveErrorResult() IResolveErrorResult
 	// Assert asserts the provided condition and panics if the assertion is not valid.
 	Assert(condition bool) IAssertionResult
 	// AssertNoError panics if the provided error is not nil.

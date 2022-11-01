@@ -164,20 +164,6 @@ type (
 		RemoveSpiAtomic(transaction ITransaction, id int64, editor Identity) (ISpi, error)
 		Echo(document IDocument, editor Identity) (IEchoResult, error)
 
-		// CustomError
-		CustomErrorManager() ICustomErrorManager
-		CustomErrorExists(id int64) bool
-		ListCustomErrors(pageIndex uint32, pageSize uint32, criteria string, editor Identity) ICustomErrorCollection
-		GetCustomError(id int64, editor Identity) (ICustomError, error)
-		AddCustomError(editor Identity) (ICustomError, error)
-		AddCustomErrorAtomic(transaction ITransaction, editor Identity) (ICustomError, error)
-		LogCustomError(source string, editor Identity, payload string)
-		UpdateCustomError(id int64, editor Identity) (ICustomError, error)
-		UpdateCustomErrorAtomic(transaction ITransaction, id int64, editor Identity) (ICustomError, error)
-		RemoveCustomError(id int64, editor Identity) (ICustomError, error)
-		RemoveCustomErrorAtomic(transaction ITransaction, id int64, editor Identity) (ICustomError, error)
-		ResolveError(document IDocument, editor Identity) (IResolveErrorResult, error)
-
 		NewDocument(id int64, content string) (IDocument, error)
 		NewSystemSchedule(id int64, enabled bool, config string) (ISystemSchedule, error)
 		NewIdentity(id int64, username string, phoneNumber string, phoneNumberConfirmed bool, firstName string, lastName string, displayName string, email string, emailConfirmed bool, avatar string, banner string, summary string, token string, multiFactor bool, hash string, salt string, publicKey string, privateKey string, permission uint64, restriction uint32, lastLogin int64, loginCount uint32) (IIdentity, error)
@@ -188,9 +174,7 @@ type (
 		NewUser(id int64, github string) (IUser, error)
 		NewActivityPubObject() (IActivityPubObject, error)
 		NewSpi() (ISpi, error)
-		NewCustomError() (ICustomError, error)
 		NewEchoResult(document IDocument, ignored interface{}) IEchoResult
-		NewResolveErrorResult(ignored interface{}) IResolveErrorResult
 	}
 
 	ISystemComponent interface {
@@ -245,5 +229,4 @@ const (
 	SYSTEM_COMPONENT_USER_MANAGER                SystemComponentType = 0x00000008
 	SYSTEM_COMPONENT_ACTIVITY_PUB_OBJECT_MANAGER SystemComponentType = 0x00000009
 	SYSTEM_COMPONENT_SPI_MANAGER                 SystemComponentType = 0x0000000A
-	SYSTEM_COMPONENT_CUSTOM_ERROR_MANAGER        SystemComponentType = 0x0000000B
 )

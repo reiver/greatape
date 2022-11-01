@@ -148,10 +148,6 @@ func (dispatcher *dispatcher) NewSpi() (ISpi, error) {
 	return NewSpi()
 }
 
-func (dispatcher *dispatcher) NewCustomError() (ICustomError, error) {
-	return NewCustomError()
-}
-
 func (dispatcher *dispatcher) Assert(condition bool) IAssertionResult {
 	return &assertionResult{
 		condition: condition,

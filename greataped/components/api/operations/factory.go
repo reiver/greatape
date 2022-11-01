@@ -8,7 +8,6 @@ func (factory *operationFactory) Operations() []IOperation {
 	return []IOperation{
 		SystemCallOperation(),
 		EchoOperation(),
-		ResolveErrorOperation(),
 	}
 }
 

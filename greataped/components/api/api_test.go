@@ -45,18 +45,6 @@ func TestEchoApi(test *testing.T) {
 	}
 }
 
-func TestResolveErrorApi(test *testing.T) {
-	input := &ResolveErrorRequest{
-		Document: nil,
-	}
-
-	if output, err := api.ResolveError(input); err != nil {
-		test.Fatal(err)
-	} else if output == nil {
-		test.Fail()
-	}
-}
-
 //region Initialization
 
 func TestMain(main *testing.M) {

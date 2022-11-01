@@ -25,18 +25,7 @@ func (api *api) Echo(request *EchoRequest) (*EchoResult, error) {
 	}
 }
 
-func (api *api) ResolveError(request *ResolveErrorRequest) (*ResolveErrorResult, error) {
-	result, err := api.call(RESOLVE_ERROR_REQUEST, request)
-
-	if err != nil {
-		return nil, err
-	} else {
-		return result.(*ResolveErrorResult), nil
-	}
-}
-
 func init() {
 	API_RESULT[SYSTEM_CALL_RESULT] = SystemCallResult{}
 	API_RESULT[ECHO_RESULT] = EchoResult{}
-	API_RESULT[RESOLVE_ERROR_RESULT] = ResolveErrorResult{}
 }
