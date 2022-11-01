@@ -352,6 +352,8 @@ dist
 !.vscode/extensions.json
 !.vscode/*.code-snippets
 
+__debug_bin
+
 # Local History for Visual Studio Code
 .history/
 

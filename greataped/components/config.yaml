@@ -5,5 +5,6 @@ server:
     hash_key: 'OKq2gLmDCYJXnPweKrM=l7dFCDxp5Ff5EupcQCU'
     block_key: 'v1K1s+S3vWudrypR'
 mysql:
+    database: greatape
     username: root
     password: password

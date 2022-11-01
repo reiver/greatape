@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS `sapphire_dev_history`;
-CREATE DATABASE `sapphire_dev_history` CHARSET = `utf8mb4` COLLATE = `utf8mb4_unicode_ci`;
-USE `sapphire_dev_history`;
+DROP DATABASE IF EXISTS `greatape_dev_history`;
+CREATE DATABASE `greatape_dev_history` CHARSET = `utf8mb4` COLLATE = `utf8mb4_unicode_ci`;
+USE `greatape_dev_history`;
 
 # ╔═════════════════════════════════════════════════════════════════════════════════════════════════════════════
 # ║	Documents
@@ -228,9 +228,9 @@ CREATE TABLE `users`
 
 # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════
 
-DROP DATABASE IF EXISTS `sapphire_dev`;
-CREATE DATABASE `sapphire_dev` CHARSET = `utf8mb4` COLLATE = `utf8mb4_unicode_ci`;
-USE `sapphire_dev`;
+DROP DATABASE IF EXISTS `greatape_dev`;
+CREATE DATABASE `greatape_dev` CHARSET = `utf8mb4` COLLATE = `utf8mb4_unicode_ci`;
+USE `greatape_dev`;
 
 # ╔═════════════════════════════════════════════════════════════════════════════════════════════════════════════
 # ║	Documents
@@ -259,7 +259,7 @@ CREATE TRIGGER `documents_after_update`
 AFTER UPDATE
 ON `documents` FOR EACH ROW
 BEGIN
-    INSERT INTO `sapphire_dev_history`.`documents`(`action`, `original_id`, `content`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
+    INSERT INTO `greatape_dev_history`.`documents`(`action`, `original_id`, `content`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
     VALUES('update', `old`.`id`, `old`.`content`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
 END$$
 
@@ -267,7 +267,7 @@ CREATE TRIGGER `documents_after_delete`
 AFTER DELETE
 ON `documents` FOR EACH ROW
 BEGIN
-    INSERT INTO `sapphire_dev_history`.`documents`(`action`, `original_id`, `content`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
+    INSERT INTO `greatape_dev_history`.`documents`(`action`, `original_id`, `content`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
     VALUES('delete', `old`.`id`, `old`.`content`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
 END$$
 
@@ -301,7 +301,7 @@ CREATE TRIGGER `system_schedules_after_update`
 AFTER UPDATE
 ON `system_schedules` FOR EACH ROW
 BEGIN
-    INSERT INTO `sapphire_dev_history`.`system_schedules`(`action`, `original_id`, `enabled`, `config`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
+    INSERT INTO `greatape_dev_history`.`system_schedules`(`action`, `original_id`, `enabled`, `config`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
     VALUES('update', `old`.`id`, `old`.`enabled`, `old`.`config`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
 END$$
 
@@ -309,7 +309,7 @@ CREATE TRIGGER `system_schedules_after_delete`
 AFTER DELETE
 ON `system_schedules` FOR EACH ROW
 BEGIN
-    INSERT INTO `sapphire_dev_history`.`system_schedules`(`action`, `original_id`, `enabled`, `config`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
+    INSERT INTO `greatape_dev_history`.`system_schedules`(`action`, `original_id`, `enabled`, `config`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
     VALUES('delete', `old`.`id`, `old`.`enabled`, `old`.`config`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
 END$$
 
@@ -362,7 +362,7 @@ CREATE TRIGGER `identities_after_update`
 AFTER UPDATE
 ON `identities` FOR EACH ROW
 BEGIN
-    INSERT INTO `sapphire_dev_history`.`identities`(`action`, `original_id`, `username`, `phone_number`, `phone_number_confirmed`, `first_name`, `last_name`, `display_name`, `email`, `email_confirmed`, `avatar`, `banner`, `summary`, `token`, `multi_factor`, `hash`, `salt`, `public_key`, `private_key`, `permission`, `restriction`, `last_login`, `login_count`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
+    INSERT INTO `greatape_dev_history`.`identities`(`action`, `original_id`, `username`, `phone_number`, `phone_number_confirmed`, `first_name`, `last_name`, `display_name`, `email`, `email_confirmed`, `avatar`, `banner`, `summary`, `token`, `multi_factor`, `hash`, `salt`, `public_key`, `private_key`, `permission`, `restriction`, `last_login`, `login_count`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
     VALUES('update', `old`.`id`, `old`.`username`, `old`.`phone_number`, `old`.`phone_number_confirmed`, `old`.`first_name`, `old`.`last_name`, `old`.`display_name`, `old`.`email`, `old`.`email_confirmed`, `old`.`avatar`, `old`.`banner`, `old`.`summary`, `old`.`token`, `old`.`multi_factor`, `old`.`hash`, `old`.`salt`, `old`.`public_key`, `old`.`private_key`, `old`.`permission`, `old`.`restriction`, `old`.`last_login`, `old`.`login_count`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
 END$$
 
@@ -370,7 +370,7 @@ CREATE TRIGGER `identities_after_delete`
 AFTER DELETE
 ON `identities` FOR EACH ROW
 BEGIN
-    INSERT INTO `sapphire_dev_history`.`identities`(`action`, `original_id`, `username`, `phone_number`, `phone_number_confirmed`, `first_name`, `last_name`, `display_name`, `email`, `email_confirmed`, `avatar`, `banner`, `summary`, `token`, `multi_factor`, `hash`, `salt`, `public_key`, `private_key`, `permission`, `restriction`, `last_login`, `login_count`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
+    INSERT INTO `greatape_dev_history`.`identities`(`action`, `original_id`, `username`, `phone_number`, `phone_number_confirmed`, `first_name`, `last_name`, `display_name`, `email`, `email_confirmed`, `avatar`, `banner`, `summary`, `token`, `multi_factor`, `hash`, `salt`, `public_key`, `private_key`, `permission`, `restriction`, `last_login`, `login_count`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
     VALUES('delete', `old`.`id`, `old`.`username`, `old`.`phone_number`, `old`.`phone_number_confirmed`, `old`.`first_name`, `old`.`last_name`, `old`.`display_name`, `old`.`email`, `old`.`email_confirmed`, `old`.`avatar`, `old`.`banner`, `old`.`summary`, `old`.`token`, `old`.`multi_factor`, `old`.`hash`, `old`.`salt`, `old`.`public_key`, `old`.`private_key`, `old`.`permission`, `old`.`restriction`, `old`.`last_login`, `old`.`login_count`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
 END$$
 
@@ -404,7 +404,7 @@ CREATE TRIGGER `access_controls_after_update`
 AFTER UPDATE
 ON `access_controls` FOR EACH ROW
 BEGIN
-    INSERT INTO `sapphire_dev_history`.`access_controls`(`action`, `original_id`, `key`, `value`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
+    INSERT INTO `greatape_dev_history`.`access_controls`(`action`, `original_id`, `key`, `value`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
     VALUES('update', `old`.`id`, `old`.`key`, `old`.`value`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
 END$$
 
@@ -412,7 +412,7 @@ CREATE TRIGGER `access_controls_after_delete`
 AFTER DELETE
 ON `access_controls` FOR EACH ROW
 BEGIN
-    INSERT INTO `sapphire_dev_history`.`access_controls`(`action`, `original_id`, `key`, `value`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
+    INSERT INTO `greatape_dev_history`.`access_controls`(`action`, `original_id`, `key`, `value`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
     VALUES('delete', `old`.`id`, `old`.`key`, `old`.`value`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
 END$$
 
@@ -452,7 +452,7 @@ CREATE TRIGGER `remote_activities_after_update`
 AFTER UPDATE
 ON `remote_activities` FOR EACH ROW
 BEGIN
-    INSERT INTO `sapphire_dev_history`.`remote_activities`(`action`, `original_id`, `entry_point`, `duration`, `successful`, `error_message`, `remote_address`, `user_agent`, `event_type`, `timestamp`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
+    INSERT INTO `greatape_dev_history`.`remote_activities`(`action`, `original_id`, `entry_point`, `duration`, `successful`, `error_message`, `remote_address`, `user_agent`, `event_type`, `timestamp`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
     VALUES('update', `old`.`id`, `old`.`entry_point`, `old`.`duration`, `old`.`successful`, `old`.`error_message`, `old`.`remote_address`, `old`.`user_agent`, `old`.`event_type`, `old`.`timestamp`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
 END$$
 
@@ -460,7 +460,7 @@ CREATE TRIGGER `remote_activities_after_delete`
 AFTER DELETE
 ON `remote_activities` FOR EACH ROW
 BEGIN
-    INSERT INTO `sapphire_dev_history`.`remote_activities`(`action`, `original_id`, `entry_point`, `duration`, `successful`, `error_message`, `remote_address`, `user_agent`, `event_type`, `timestamp`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
+    INSERT INTO `greatape_dev_history`.`remote_activities`(`action`, `original_id`, `entry_point`, `duration`, `successful`, `error_message`, `remote_address`, `user_agent`, `event_type`, `timestamp`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
     VALUES('delete', `old`.`id`, `old`.`entry_point`, `old`.`duration`, `old`.`successful`, `old`.`error_message`, `old`.`remote_address`, `old`.`user_agent`, `old`.`event_type`, `old`.`timestamp`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
 END$$
 
@@ -493,7 +493,7 @@ CREATE TRIGGER `category_types_after_update`
 AFTER UPDATE
 ON `category_types` FOR EACH ROW
 BEGIN
-    INSERT INTO `sapphire_dev_history`.`category_types`(`action`, `original_id`, `description`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
+    INSERT INTO `greatape_dev_history`.`category_types`(`action`, `original_id`, `description`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
     VALUES('update', `old`.`id`, `old`.`description`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
 END$$
 
@@ -501,7 +501,7 @@ CREATE TRIGGER `category_types_after_delete`
 AFTER DELETE
 ON `category_types` FOR EACH ROW
 BEGIN
-    INSERT INTO `sapphire_dev_history`.`category_types`(`action`, `original_id`, `description`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
+    INSERT INTO `greatape_dev_history`.`category_types`(`action`, `original_id`, `description`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
     VALUES('delete', `old`.`id`, `old`.`description`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
 END$$
 
@@ -539,7 +539,7 @@ CREATE TRIGGER `categories_after_update`
 AFTER UPDATE
 ON `categories` FOR EACH ROW
 BEGIN
-    INSERT INTO `sapphire_dev_history`.`categories`(`action`, `original_id`, `category_type_id`, `category_id`, `title`, `description`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
+    INSERT INTO `greatape_dev_history`.`categories`(`action`, `original_id`, `category_type_id`, `category_id`, `title`, `description`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
     VALUES('update', `old`.`id`, `old`.`category_type_id`, `old`.`category_id`, `old`.`title`, `old`.`description`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
 END$$
 
@@ -547,7 +547,7 @@ CREATE TRIGGER `categories_after_delete`
 AFTER DELETE
 ON `categories` FOR EACH ROW
 BEGIN
-    INSERT INTO `sapphire_dev_history`.`categories`(`action`, `original_id`, `category_type_id`, `category_id`, `title`, `description`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
+    INSERT INTO `greatape_dev_history`.`categories`(`action`, `original_id`, `category_type_id`, `category_id`, `title`, `description`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
     VALUES('delete', `old`.`id`, `old`.`category_type_id`, `old`.`category_id`, `old`.`title`, `old`.`description`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
 END$$
 
@@ -581,7 +581,7 @@ CREATE TRIGGER `users_after_update`
 AFTER UPDATE
 ON `users` FOR EACH ROW
 BEGIN
-    INSERT INTO `sapphire_dev_history`.`users`(`action`, `original_id`, `github`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
+    INSERT INTO `greatape_dev_history`.`users`(`action`, `original_id`, `github`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
     VALUES('update', `old`.`id`, `old`.`github`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
 END$$
 
@@ -589,7 +589,7 @@ CREATE TRIGGER `users_after_delete`
 AFTER DELETE
 ON `users` FOR EACH ROW
 BEGIN
-    INSERT INTO `sapphire_dev_history`.`users`(`action`, `original_id`, `github`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
+    INSERT INTO `greatape_dev_history`.`users`(`action`, `original_id`, `github`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
     VALUES('delete', `old`.`id`, `old`.`github`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
 END$$
 

@@ -1,6 +1,9 @@
 package repository
 
 import (
+	"errors"
+	"strings"
+
 	. "github.com/xeronith/diamante/contracts/database"
 	. "github.com/xeronith/diamante/contracts/logging"
 	. "github.com/xeronith/diamante/contracts/settings"
@@ -23,9 +26,9 @@ var (
 var database ISqlDatabase
 
 func Initialize(configuration IConfiguration, logger ILogger) error {
-	databaseName := "sapphire"
-	if configuration.IsDockerized() {
-		databaseName = configuration.GetMySQLConfiguration().GetDatabase()
+	databaseName := configuration.GetMySQLConfiguration().GetDatabase()
+	if strings.TrimSpace(databaseName) == "" {
+		return errors.New("database_required")
 	}
 
 	database = NewDatabase(configuration, logger, databaseName)
