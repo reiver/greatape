@@ -15,3 +15,16 @@ message User {
     int64 id = 0x00000001;
     string github = 0x00000003;
 }
+
+// | OBJECT: Activity Pub Object
+message ActivityPubObject {
+    string context = 0x00000002 [json_name = "@context"];
+    string id = 0x00000003;
+    string type = 0x00000004;
+    string actor = 0x00000005;
+    string from = 0x00000006;
+    repeated string to = 0x00000007;
+    string inReplyTo = 0x00000008;
+    string content = 0x00000009;
+    string published = 0x0000000A;
+}
