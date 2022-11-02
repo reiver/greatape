@@ -18,8 +18,8 @@ The following is a list of the people who are actively working on Great Ape (in 
 
 | Name                    | Role                       | Online                                                                             |
 |-------------------------|----------------------------|------------------------------------------------------------------------------------|
-| Charles Iliya Krempeaux | lead, product, engineering | [🐘](https://mastodon.social/@reiver)                                              |
-| Chet Earl Woodside      | ux                         |                                                                                    |
+| Charles Iliya Krempeaux | lead, product, engineering | [🐘](https://mastodon.social/@reiver) [🕸️](http://changelog.ca/)                   |
+| Chet Earl Woodside      | ux                         | [🕸️](http://cosmicblend.ca/)                                                       |
 | Chris Trottier          | product, qa                | [🐘](https://mastodon.social/@atomicpoet) [📷](https://peerverse.space/atomicpoet) |
 | Farzaneh Amini          | ux                         |                                                                                    |
 | Massoud Seifi           | engineering                |                                                                                    |
