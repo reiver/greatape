@@ -150,6 +150,19 @@ type (
 		RemoveActivityPubObject(id int64, editor Identity) (IActivityPubObject, error)
 		RemoveActivityPubObjectAtomic(transaction ITransaction, id int64, editor Identity) (IActivityPubObject, error)
 
+		// ActivityPubActivity
+		ActivityPubActivityManager() IActivityPubActivityManager
+		ActivityPubActivityExists(id int64) bool
+		ListActivityPubActivities(pageIndex uint32, pageSize uint32, criteria string, editor Identity) IActivityPubActivityCollection
+		GetActivityPubActivity(id int64, editor Identity) (IActivityPubActivity, error)
+		AddActivityPubActivity(editor Identity) (IActivityPubActivity, error)
+		AddActivityPubActivityAtomic(transaction ITransaction, editor Identity) (IActivityPubActivity, error)
+		LogActivityPubActivity(source string, editor Identity, payload string)
+		UpdateActivityPubActivity(id int64, editor Identity) (IActivityPubActivity, error)
+		UpdateActivityPubActivityAtomic(transaction ITransaction, id int64, editor Identity) (IActivityPubActivity, error)
+		RemoveActivityPubActivity(id int64, editor Identity) (IActivityPubActivity, error)
+		RemoveActivityPubActivityAtomic(transaction ITransaction, id int64, editor Identity) (IActivityPubActivity, error)
+
 		// Spi
 		SpiManager() ISpiManager
 		SpiExists(id int64) bool
@@ -173,6 +186,7 @@ type (
 		NewCategory(id int64, categoryTypeId int64, categoryId int64, title string, description string) (ICategory, error)
 		NewUser(id int64, github string) (IUser, error)
 		NewActivityPubObject() (IActivityPubObject, error)
+		NewActivityPubActivity() (IActivityPubActivity, error)
 		NewSpi() (ISpi, error)
 		NewEchoResult(document IDocument, ignored interface{}) IEchoResult
 	}
@@ -219,14 +233,15 @@ type (
 
 // noinspection GoSnakeCaseUsage
 const (
-	SYSTEM_COMPONENT_DOCUMENT_MANAGER            SystemComponentType = 0x00000001
-	SYSTEM_COMPONENT_SYSTEM_SCHEDULE_MANAGER     SystemComponentType = 0x00000002
-	SYSTEM_COMPONENT_IDENTITY_MANAGER            SystemComponentType = 0x00000003
-	SYSTEM_COMPONENT_ACCESS_CONTROL_MANAGER      SystemComponentType = 0x00000004
-	SYSTEM_COMPONENT_REMOTE_ACTIVITY_MANAGER     SystemComponentType = 0x00000005
-	SYSTEM_COMPONENT_CATEGORY_TYPE_MANAGER       SystemComponentType = 0x00000006
-	SYSTEM_COMPONENT_CATEGORY_MANAGER            SystemComponentType = 0x00000007
-	SYSTEM_COMPONENT_USER_MANAGER                SystemComponentType = 0x00000008
-	SYSTEM_COMPONENT_ACTIVITY_PUB_OBJECT_MANAGER SystemComponentType = 0x00000009
-	SYSTEM_COMPONENT_SPI_MANAGER                 SystemComponentType = 0x0000000A
+	SYSTEM_COMPONENT_DOCUMENT_MANAGER              SystemComponentType = 0x00000001
+	SYSTEM_COMPONENT_SYSTEM_SCHEDULE_MANAGER       SystemComponentType = 0x00000002
+	SYSTEM_COMPONENT_IDENTITY_MANAGER              SystemComponentType = 0x00000003
+	SYSTEM_COMPONENT_ACCESS_CONTROL_MANAGER        SystemComponentType = 0x00000004
+	SYSTEM_COMPONENT_REMOTE_ACTIVITY_MANAGER       SystemComponentType = 0x00000005
+	SYSTEM_COMPONENT_CATEGORY_TYPE_MANAGER         SystemComponentType = 0x00000006
+	SYSTEM_COMPONENT_CATEGORY_MANAGER              SystemComponentType = 0x00000007
+	SYSTEM_COMPONENT_USER_MANAGER                  SystemComponentType = 0x00000008
+	SYSTEM_COMPONENT_ACTIVITY_PUB_OBJECT_MANAGER   SystemComponentType = 0x00000009
+	SYSTEM_COMPONENT_ACTIVITY_PUB_ACTIVITY_MANAGER SystemComponentType = 0x0000000A
+	SYSTEM_COMPONENT_SPI_MANAGER                   SystemComponentType = 0x0000000B
 )

@@ -558,6 +558,62 @@ type IDispatcher interface {
 	// the transaction if used in an x.Atomic context. This method is synchronous.
 	RemoveActivityPubObject(id int64) IActivityPubObject
 
+	// ActivityPubActivity
+	// ------------------------------------------------------------
+
+	// ActivityPubActivityExists checks whether a specific 'Activity Pub Activity' with the provided
+	// unique identifier or 'Id' exists in the system.
+	ActivityPubActivityExists(id int64) bool
+	// ActivityPubActivityExistsWhich checks whether a specific 'Activity Pub Activity' exists in the system
+	// which satisfies the provided condition.
+	ActivityPubActivityExistsWhich(condition ActivityPubActivityCondition) bool
+	// ListActivityPubActivities returns a list of all 'Activity Pub Activity' instances in the system.
+	ListActivityPubActivities() IActivityPubActivityCollection
+	// ForEachActivityPubActivity loops over all 'Activity Pub Activity' instances in the system running
+	// the provided iterator for each of them.
+	ForEachActivityPubActivity(iterator ActivityPubActivityIterator)
+	// FilterActivityPubActivities returns a filtered list of 'Activity Pub Activity' instances based
+	// on the provided predicate.
+	FilterActivityPubActivities(predicate ActivityPubActivityFilterPredicate) IActivityPubActivityCollection
+	// MapActivityPubActivities loops over all 'Activity Pub Activity' instances in the system and
+	// returns a transformed list based on the provided predicate.
+	MapActivityPubActivities(predicate ActivityPubActivityMapPredicate) IActivityPubActivityCollection
+	// GetActivityPubActivity finds a specific 'Activity Pub Activity' instance using
+	// the provided unique identifier or 'Id'.
+	GetActivityPubActivity(id int64) IActivityPubActivity
+	// AddActivityPubActivity creates a new 'Activity Pub Activity' instance with an auto-generated unique identifier using the
+	// provided property values and adds it to persistent data store and system cache.
+	// The method is smart enough to respect the transaction if used in an
+	// x.Atomic context. This method is synchronous.
+	AddActivityPubActivity() IActivityPubActivity
+	// AddActivityPubActivityWithCustomId creates a new 'Activity Pub Activity' instance with a custom unique identifier using the
+	// provided property values and adds it to persistent data store and system cache.
+	// The method is smart enough to respect the transaction if used in an
+	// x.Atomic context. This method is synchronous.
+	AddActivityPubActivityWithCustomId(id int64) IActivityPubActivity
+	// LogActivityPubActivity creates a new 'Activity Pub Activity' instance using the provided property values
+	// and adds it to persistent data store and system cache.
+	// The method is smart enough to respect the transaction if used in an
+	// x.Atomic context. This method is asynchronous.
+	LogActivityPubActivity(source string, payload string)
+	// UpdateActivityPubActivity finds the 'Activity Pub Activity' instance using the provided unique identifier and updates it using
+	// the provided property values and reflects the changes to persistent data store and system
+	// cache. The method is smart enough to respect the transaction if used in an x.Atomic context.
+	// This method is synchronous.
+	UpdateActivityPubActivity(id int64) IActivityPubActivity
+	// UpdateActivityPubActivityObject finds and updates the 'Activity Pub Activity' using the provided instance and reflects the
+	// changes to persistent data store and system cache. The method is smart enough to
+	// respect the transaction if used in an x.Atomic context. This method is synchronous.
+	UpdateActivityPubActivityObject(object IObject, activityPubActivity IActivityPubActivity) IActivityPubActivity
+	// AddOrUpdateActivityPubActivityObject tries to find the 'Activity Pub Activity' using the provided instance, then updates it in persistent
+	// data store and system cache or creates it if doesn't already exist. The method is smart enough
+	// to respect the transaction if used in an x.Atomic context. This method is synchronous.
+	AddOrUpdateActivityPubActivityObject(object IObject, activityPubActivity IActivityPubActivity) IActivityPubActivity
+	// RemoveActivityPubActivity finds the 'Activity Pub Activity' instance using the provided unique identifier and
+	// removes it from the system cache. The method is smart enough to respect
+	// the transaction if used in an x.Atomic context. This method is synchronous.
+	RemoveActivityPubActivity(id int64) IActivityPubActivity
+
 	// Spi
 	// ------------------------------------------------------------
 
@@ -651,6 +707,10 @@ type IDispatcher interface {
 	NewActivityPubObject() (IActivityPubObject, error)
 	// NewActivityPubObjects creates an empty in-memory 'Activity Pub Object' collection which is not thread-safe.
 	NewActivityPubObjects() IActivityPubObjectCollection
+	// NewActivityPubActivity creates a new 'Activity Pub Activity' instance using the provided property values.
+	NewActivityPubActivity() (IActivityPubActivity, error)
+	// NewActivityPubActivities creates an empty in-memory 'Activity Pub Activity' collection which is not thread-safe.
+	NewActivityPubActivities() IActivityPubActivityCollection
 	// NewSpi creates a new 'Spi' instance using the provided property values.
 	NewSpi() (ISpi, error)
 	// NewSpis creates an empty in-memory 'Spi' collection which is not thread-safe.

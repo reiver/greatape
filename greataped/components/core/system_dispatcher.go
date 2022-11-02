@@ -144,6 +144,10 @@ func (dispatcher *dispatcher) NewActivityPubObject() (IActivityPubObject, error)
 	return NewActivityPubObject()
 }
 
+func (dispatcher *dispatcher) NewActivityPubActivity() (IActivityPubActivity, error) {
+	return NewActivityPubActivity()
+}
+
 func (dispatcher *dispatcher) NewSpi() (ISpi, error) {
 	return NewSpi()
 }

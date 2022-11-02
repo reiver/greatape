@@ -40,6 +40,10 @@ func (dispatcher *dispatcher) NewActivityPubObjects() IActivityPubObjectCollecti
 	return NewActivityPubObjects()
 }
 
+func (dispatcher *dispatcher) NewActivityPubActivities() IActivityPubActivityCollection {
+	return NewActivityPubActivities()
+}
+
 func (dispatcher *dispatcher) NewSpis() ISpiCollection {
 	return NewSpis()
 }
