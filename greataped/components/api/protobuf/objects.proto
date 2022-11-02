@@ -5,8 +5,8 @@ package protobuf;
 option go_package = "./";
 
 message Error {
-    string message = 1;
-    string description = 2;
+    string message = 0x00000001;
+    string description = 0x00000002;
 }
 
 message Document {
@@ -29,4 +29,17 @@ message ActivityPubObject {
     string inReplyTo = 0x00000008;
     string content = 0x00000009;
     string published = 0x0000000A;
+}
+
+message ActivityPubActivity {
+    string context = 0x00000002 [json_name = "@context"];
+    string id = 0x00000003;
+    string type = 0x00000004;
+    string actor = 0x00000005;
+    ActivityPubObject object = 0x00000006;
+    string from = 0x00000007;
+    repeated string to = 0x00000008;
+    string inReplyTo = 0x00000009;
+    string content = 0x0000000A;
+    string published = 0x0000000B;
 }

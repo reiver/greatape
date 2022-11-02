@@ -296,6 +296,125 @@ func (x *ActivityPubObject) GetPublished() string {
 	return ""
 }
 
+type ActivityPubActivity struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Context   string             `protobuf:"bytes,2,opt,name=context,json=@context,proto3" json:"context,omitempty"`
+	Id        string             `protobuf:"bytes,3,opt,name=id,proto3" json:"id,omitempty"`
+	Type      string             `protobuf:"bytes,4,opt,name=type,proto3" json:"type,omitempty"`
+	Actor     string             `protobuf:"bytes,5,opt,name=actor,proto3" json:"actor,omitempty"`
+	Object    *ActivityPubObject `protobuf:"bytes,6,opt,name=object,proto3" json:"object,omitempty"`
+	From      string             `protobuf:"bytes,7,opt,name=from,proto3" json:"from,omitempty"`
+	To        []string           `protobuf:"bytes,8,rep,name=to,proto3" json:"to,omitempty"`
+	InReplyTo string             `protobuf:"bytes,9,opt,name=inReplyTo,proto3" json:"inReplyTo,omitempty"`
+	Content   string             `protobuf:"bytes,10,opt,name=content,proto3" json:"content,omitempty"`
+	Published string             `protobuf:"bytes,11,opt,name=published,proto3" json:"published,omitempty"`
+}
+
+func (x *ActivityPubActivity) Reset() {
+	*x = ActivityPubActivity{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_objects_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ActivityPubActivity) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ActivityPubActivity) ProtoMessage() {}
+
+func (x *ActivityPubActivity) ProtoReflect() protoreflect.Message {
+	mi := &file_objects_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ActivityPubActivity.ProtoReflect.Descriptor instead.
+func (*ActivityPubActivity) Descriptor() ([]byte, []int) {
+	return file_objects_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ActivityPubActivity) GetContext() string {
+	if x != nil {
+		return x.Context
+	}
+	return ""
+}
+
+func (x *ActivityPubActivity) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *ActivityPubActivity) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *ActivityPubActivity) GetActor() string {
+	if x != nil {
+		return x.Actor
+	}
+	return ""
+}
+
+func (x *ActivityPubActivity) GetObject() *ActivityPubObject {
+	if x != nil {
+		return x.Object
+	}
+	return nil
+}
+
+func (x *ActivityPubActivity) GetFrom() string {
+	if x != nil {
+		return x.From
+	}
+	return ""
+}
+
+func (x *ActivityPubActivity) GetTo() []string {
+	if x != nil {
+		return x.To
+	}
+	return nil
+}
+
+func (x *ActivityPubActivity) GetInReplyTo() string {
+	if x != nil {
+		return x.InReplyTo
+	}
+	return ""
+}
+
+func (x *ActivityPubActivity) GetContent() string {
+	if x != nil {
+		return x.Content
+	}
+	return ""
+}
+
+func (x *ActivityPubActivity) GetPublished() string {
+	if x != nil {
+		return x.Published
+	}
+	return ""
+}
+
 var File_objects_proto protoreflect.FileDescriptor
 
 var file_objects_proto_rawDesc = []byte{
@@ -325,8 +444,26 @@ var file_objects_proto_rawDesc = []byte{
 	0x6f, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x09, 0x20, 0x01,
 	0x28, 0x09, 0x52, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x70,
 	0x75, 0x62, 0x6c, 0x69, 0x73, 0x68, 0x65, 0x64, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09,
-	0x70, 0x75, 0x62, 0x6c, 0x69, 0x73, 0x68, 0x65, 0x64, 0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x70, 0x75, 0x62, 0x6c, 0x69, 0x73, 0x68, 0x65, 0x64, 0x22, 0x99, 0x02, 0x0a, 0x13, 0x41, 0x63,
+	0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x50, 0x75, 0x62, 0x41, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74,
+	0x79, 0x12, 0x19, 0x0a, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x08, 0x40, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x12, 0x0e, 0x0a, 0x02,
+	0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04,
+	0x74, 0x79, 0x70, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x74, 0x79, 0x70, 0x65,
+	0x12, 0x14, 0x0a, 0x05, 0x61, 0x63, 0x74, 0x6f, 0x72, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x05, 0x61, 0x63, 0x74, 0x6f, 0x72, 0x12, 0x33, 0x0a, 0x06, 0x6f, 0x62, 0x6a, 0x65, 0x63, 0x74,
+	0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
+	0x66, 0x2e, 0x41, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x50, 0x75, 0x62, 0x4f, 0x62, 0x6a,
+	0x65, 0x63, 0x74, 0x52, 0x06, 0x6f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x66,
+	0x72, 0x6f, 0x6d, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x66, 0x72, 0x6f, 0x6d, 0x12,
+	0x0e, 0x0a, 0x02, 0x74, 0x6f, 0x18, 0x08, 0x20, 0x03, 0x28, 0x09, 0x52, 0x02, 0x74, 0x6f, 0x12,
+	0x1c, 0x0a, 0x09, 0x69, 0x6e, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x54, 0x6f, 0x18, 0x09, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x09, 0x69, 0x6e, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x54, 0x6f, 0x12, 0x18, 0x0a,
+	0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07,
+	0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x70, 0x75, 0x62, 0x6c, 0x69,
+	0x73, 0x68, 0x65, 0x64, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x70, 0x75, 0x62, 0x6c,
+	0x69, 0x73, 0x68, 0x65, 0x64, 0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x33,
 }
 
 var (
@@ -341,19 +478,21 @@ func file_objects_proto_rawDescGZIP() []byte {
 	return file_objects_proto_rawDescData
 }
 
-var file_objects_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_objects_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_objects_proto_goTypes = []interface{}{
-	(*Error)(nil),             // 0: protobuf.Error
-	(*Document)(nil),          // 1: protobuf.Document
-	(*User)(nil),              // 2: protobuf.User
-	(*ActivityPubObject)(nil), // 3: protobuf.ActivityPubObject
+	(*Error)(nil),               // 0: protobuf.Error
+	(*Document)(nil),            // 1: protobuf.Document
+	(*User)(nil),                // 2: protobuf.User
+	(*ActivityPubObject)(nil),   // 3: protobuf.ActivityPubObject
+	(*ActivityPubActivity)(nil), // 4: protobuf.ActivityPubActivity
 }
 var file_objects_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	3, // 0: protobuf.ActivityPubActivity.object:type_name -> protobuf.ActivityPubObject
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_objects_proto_init() }
@@ -410,6 +549,18 @@ func file_objects_proto_init() {
 				return nil
 			}
 		}
+		file_objects_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ActivityPubActivity); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -417,7 +568,7 @@ func file_objects_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_objects_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

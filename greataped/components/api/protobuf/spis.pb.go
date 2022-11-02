@@ -21,7 +21,7 @@ const (
 )
 
 // API: SystemCall
-// ------------------------------------------------------------------------------
+// -----------------------------------------------------------
 type SystemCallRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -108,7 +108,7 @@ func (*SystemCallResult) Descriptor() ([]byte, []int) {
 }
 
 // API: Echo
-// ------------------------------------------------------------------------------
+// -----------------------------------------------------------
 type EchoRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
