@@ -43,3 +43,24 @@ message ActivityPubActivity {
     string content = 0x0000000A;
     string published = 0x0000000B;
 }
+
+message ActivityPubPublicKey {
+    string id = 0x00000002;
+    string owner = 0x00000003;
+    string publicKeyPem = 0x00000004;
+}
+
+message ActivityPubLink {
+    string href = 0x00000002;
+    string rel = 0x00000003;
+    string type = 0x00000004;
+    string template = 0x00000005;
+}
+
+message ActivityPubMedia {
+    string mediaType = 0x00000002;
+    string type = 0x00000003;
+    string url = 0x00000004;
+    int32 width = 0x00000005;
+    int32 height = 0x00000006;
+}

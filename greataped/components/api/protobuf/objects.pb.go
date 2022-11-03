@@ -415,6 +415,219 @@ func (x *ActivityPubActivity) GetPublished() string {
 	return ""
 }
 
+type ActivityPubPublicKey struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id           string `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
+	Owner        string `protobuf:"bytes,3,opt,name=owner,proto3" json:"owner,omitempty"`
+	PublicKeyPem string `protobuf:"bytes,4,opt,name=publicKeyPem,proto3" json:"publicKeyPem,omitempty"`
+}
+
+func (x *ActivityPubPublicKey) Reset() {
+	*x = ActivityPubPublicKey{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_objects_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ActivityPubPublicKey) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ActivityPubPublicKey) ProtoMessage() {}
+
+func (x *ActivityPubPublicKey) ProtoReflect() protoreflect.Message {
+	mi := &file_objects_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ActivityPubPublicKey.ProtoReflect.Descriptor instead.
+func (*ActivityPubPublicKey) Descriptor() ([]byte, []int) {
+	return file_objects_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ActivityPubPublicKey) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *ActivityPubPublicKey) GetOwner() string {
+	if x != nil {
+		return x.Owner
+	}
+	return ""
+}
+
+func (x *ActivityPubPublicKey) GetPublicKeyPem() string {
+	if x != nil {
+		return x.PublicKeyPem
+	}
+	return ""
+}
+
+type ActivityPubLink struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Href     string `protobuf:"bytes,2,opt,name=href,proto3" json:"href,omitempty"`
+	Rel      string `protobuf:"bytes,3,opt,name=rel,proto3" json:"rel,omitempty"`
+	Type     string `protobuf:"bytes,4,opt,name=type,proto3" json:"type,omitempty"`
+	Template string `protobuf:"bytes,5,opt,name=template,proto3" json:"template,omitempty"`
+}
+
+func (x *ActivityPubLink) Reset() {
+	*x = ActivityPubLink{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_objects_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ActivityPubLink) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ActivityPubLink) ProtoMessage() {}
+
+func (x *ActivityPubLink) ProtoReflect() protoreflect.Message {
+	mi := &file_objects_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ActivityPubLink.ProtoReflect.Descriptor instead.
+func (*ActivityPubLink) Descriptor() ([]byte, []int) {
+	return file_objects_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ActivityPubLink) GetHref() string {
+	if x != nil {
+		return x.Href
+	}
+	return ""
+}
+
+func (x *ActivityPubLink) GetRel() string {
+	if x != nil {
+		return x.Rel
+	}
+	return ""
+}
+
+func (x *ActivityPubLink) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *ActivityPubLink) GetTemplate() string {
+	if x != nil {
+		return x.Template
+	}
+	return ""
+}
+
+type ActivityPubMedia struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MediaType string `protobuf:"bytes,2,opt,name=mediaType,proto3" json:"mediaType,omitempty"`
+	Type      string `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"`
+	Url       string `protobuf:"bytes,4,opt,name=url,proto3" json:"url,omitempty"`
+	Width     int32  `protobuf:"varint,5,opt,name=width,proto3" json:"width,omitempty"`
+	Height    int32  `protobuf:"varint,6,opt,name=height,proto3" json:"height,omitempty"`
+}
+
+func (x *ActivityPubMedia) Reset() {
+	*x = ActivityPubMedia{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_objects_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ActivityPubMedia) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ActivityPubMedia) ProtoMessage() {}
+
+func (x *ActivityPubMedia) ProtoReflect() protoreflect.Message {
+	mi := &file_objects_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ActivityPubMedia.ProtoReflect.Descriptor instead.
+func (*ActivityPubMedia) Descriptor() ([]byte, []int) {
+	return file_objects_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ActivityPubMedia) GetMediaType() string {
+	if x != nil {
+		return x.MediaType
+	}
+	return ""
+}
+
+func (x *ActivityPubMedia) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *ActivityPubMedia) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
+func (x *ActivityPubMedia) GetWidth() int32 {
+	if x != nil {
+		return x.Width
+	}
+	return 0
+}
+
+func (x *ActivityPubMedia) GetHeight() int32 {
+	if x != nil {
+		return x.Height
+	}
+	return 0
+}
+
 var File_objects_proto protoreflect.FileDescriptor
 
 var file_objects_proto_rawDesc = []byte{
@@ -462,8 +675,29 @@ var file_objects_proto_rawDesc = []byte{
 	0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07,
 	0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x70, 0x75, 0x62, 0x6c, 0x69,
 	0x73, 0x68, 0x65, 0x64, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x70, 0x75, 0x62, 0x6c,
-	0x69, 0x73, 0x68, 0x65, 0x64, 0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x33,
+	0x69, 0x73, 0x68, 0x65, 0x64, 0x22, 0x60, 0x0a, 0x14, 0x41, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74,
+	0x79, 0x50, 0x75, 0x62, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b, 0x65, 0x79, 0x12, 0x0e, 0x0a,
+	0x02, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x14, 0x0a,
+	0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x6f, 0x77,
+	0x6e, 0x65, 0x72, 0x12, 0x22, 0x0a, 0x0c, 0x70, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b, 0x65, 0x79,
+	0x50, 0x65, 0x6d, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x70, 0x75, 0x62, 0x6c, 0x69,
+	0x63, 0x4b, 0x65, 0x79, 0x50, 0x65, 0x6d, 0x22, 0x67, 0x0a, 0x0f, 0x41, 0x63, 0x74, 0x69, 0x76,
+	0x69, 0x74, 0x79, 0x50, 0x75, 0x62, 0x4c, 0x69, 0x6e, 0x6b, 0x12, 0x12, 0x0a, 0x04, 0x68, 0x72,
+	0x65, 0x66, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x68, 0x72, 0x65, 0x66, 0x12, 0x10,
+	0x0a, 0x03, 0x72, 0x65, 0x6c, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x72, 0x65, 0x6c,
+	0x12, 0x12, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04,
+	0x74, 0x79, 0x70, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x74, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65,
+	0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x74, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65,
+	0x22, 0x84, 0x01, 0x0a, 0x10, 0x41, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x50, 0x75, 0x62,
+	0x4d, 0x65, 0x64, 0x69, 0x61, 0x12, 0x1c, 0x0a, 0x09, 0x6d, 0x65, 0x64, 0x69, 0x61, 0x54, 0x79,
+	0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x6d, 0x65, 0x64, 0x69, 0x61, 0x54,
+	0x79, 0x70, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x04, 0x74, 0x79, 0x70, 0x65, 0x12, 0x10, 0x0a, 0x03, 0x75, 0x72, 0x6c, 0x18, 0x04,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x75, 0x72, 0x6c, 0x12, 0x14, 0x0a, 0x05, 0x77, 0x69, 0x64,
+	0x74, 0x68, 0x18, 0x05, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x77, 0x69, 0x64, 0x74, 0x68, 0x12,
+	0x16, 0x0a, 0x06, 0x68, 0x65, 0x69, 0x67, 0x68, 0x74, 0x18, 0x06, 0x20, 0x01, 0x28, 0x05, 0x52,
+	0x06, 0x68, 0x65, 0x69, 0x67, 0x68, 0x74, 0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -478,13 +712,16 @@ func file_objects_proto_rawDescGZIP() []byte {
 	return file_objects_proto_rawDescData
 }
 
-var file_objects_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_objects_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_objects_proto_goTypes = []interface{}{
-	(*Error)(nil),               // 0: protobuf.Error
-	(*Document)(nil),            // 1: protobuf.Document
-	(*User)(nil),                // 2: protobuf.User
-	(*ActivityPubObject)(nil),   // 3: protobuf.ActivityPubObject
-	(*ActivityPubActivity)(nil), // 4: protobuf.ActivityPubActivity
+	(*Error)(nil),                // 0: protobuf.Error
+	(*Document)(nil),             // 1: protobuf.Document
+	(*User)(nil),                 // 2: protobuf.User
+	(*ActivityPubObject)(nil),    // 3: protobuf.ActivityPubObject
+	(*ActivityPubActivity)(nil),  // 4: protobuf.ActivityPubActivity
+	(*ActivityPubPublicKey)(nil), // 5: protobuf.ActivityPubPublicKey
+	(*ActivityPubLink)(nil),      // 6: protobuf.ActivityPubLink
+	(*ActivityPubMedia)(nil),     // 7: protobuf.ActivityPubMedia
 }
 var file_objects_proto_depIdxs = []int32{
 	3, // 0: protobuf.ActivityPubActivity.object:type_name -> protobuf.ActivityPubObject
@@ -561,6 +798,42 @@ func file_objects_proto_init() {
 				return nil
 			}
 		}
+		file_objects_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ActivityPubPublicKey); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_objects_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ActivityPubLink); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_objects_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ActivityPubMedia); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -568,7 +841,7 @@ func file_objects_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_objects_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
