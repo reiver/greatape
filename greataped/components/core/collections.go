@@ -44,6 +44,18 @@ func (dispatcher *dispatcher) NewActivityPubActivities() IActivityPubActivityCol
 	return NewActivityPubActivities()
 }
 
+func (dispatcher *dispatcher) NewActivityPubPublicKeys() IActivityPubPublicKeyCollection {
+	return NewActivityPubPublicKeys()
+}
+
+func (dispatcher *dispatcher) NewActivityPubLinks() IActivityPubLinkCollection {
+	return NewActivityPubLinks()
+}
+
+func (dispatcher *dispatcher) NewActivityPubMedias() IActivityPubMediaCollection {
+	return NewActivityPubMedias()
+}
+
 func (dispatcher *dispatcher) NewSpis() ISpiCollection {
 	return NewSpis()
 }

@@ -148,6 +148,18 @@ func (dispatcher *dispatcher) NewActivityPubActivity() (IActivityPubActivity, er
 	return NewActivityPubActivity()
 }
 
+func (dispatcher *dispatcher) NewActivityPubPublicKey() (IActivityPubPublicKey, error) {
+	return NewActivityPubPublicKey()
+}
+
+func (dispatcher *dispatcher) NewActivityPubLink() (IActivityPubLink, error) {
+	return NewActivityPubLink()
+}
+
+func (dispatcher *dispatcher) NewActivityPubMedia() (IActivityPubMedia, error) {
+	return NewActivityPubMedia()
+}
+
 func (dispatcher *dispatcher) NewSpi() (ISpi, error) {
 	return NewSpi()
 }
