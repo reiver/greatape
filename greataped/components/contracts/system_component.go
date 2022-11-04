@@ -202,6 +202,36 @@ type (
 		RemoveActivityPubMedia(id int64, editor Identity) (IActivityPubMedia, error)
 		RemoveActivityPubMediaAtomic(transaction ITransaction, id int64, editor Identity) (IActivityPubMedia, error)
 
+		// ActivityPubIncomingActivity
+		ActivityPubIncomingActivityManager() IActivityPubIncomingActivityManager
+		ActivityPubIncomingActivityExists(id int64) bool
+		ListActivityPubIncomingActivities(pageIndex uint32, pageSize uint32, criteria string, editor Identity) IActivityPubIncomingActivityCollection
+		GetActivityPubIncomingActivity(id int64, editor Identity) (IActivityPubIncomingActivity, error)
+		AddActivityPubIncomingActivity(identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string, editor Identity) (IActivityPubIncomingActivity, error)
+		AddActivityPubIncomingActivityAtomic(transaction ITransaction, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string, editor Identity) (IActivityPubIncomingActivity, error)
+		LogActivityPubIncomingActivity(identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string, source string, editor Identity, payload string)
+		UpdateActivityPubIncomingActivity(id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string, editor Identity) (IActivityPubIncomingActivity, error)
+		UpdateActivityPubIncomingActivityAtomic(transaction ITransaction, id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string, editor Identity) (IActivityPubIncomingActivity, error)
+		RemoveActivityPubIncomingActivity(id int64, editor Identity) (IActivityPubIncomingActivity, error)
+		RemoveActivityPubIncomingActivityAtomic(transaction ITransaction, id int64, editor Identity) (IActivityPubIncomingActivity, error)
+		ListActivityPubIncomingActivitiesByIdentity(identityId int64, pageIndex uint32, pageSize uint32, criteria string, editor Identity) IActivityPubIncomingActivityCollection
+		ForEachActivityPubIncomingActivityByIdentity(identityId int64, iterator ActivityPubIncomingActivityIterator)
+
+		// ActivityPubOutgoingActivity
+		ActivityPubOutgoingActivityManager() IActivityPubOutgoingActivityManager
+		ActivityPubOutgoingActivityExists(id int64) bool
+		ListActivityPubOutgoingActivities(pageIndex uint32, pageSize uint32, criteria string, editor Identity) IActivityPubOutgoingActivityCollection
+		GetActivityPubOutgoingActivity(id int64, editor Identity) (IActivityPubOutgoingActivity, error)
+		AddActivityPubOutgoingActivity(identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string, editor Identity) (IActivityPubOutgoingActivity, error)
+		AddActivityPubOutgoingActivityAtomic(transaction ITransaction, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string, editor Identity) (IActivityPubOutgoingActivity, error)
+		LogActivityPubOutgoingActivity(identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string, source string, editor Identity, payload string)
+		UpdateActivityPubOutgoingActivity(id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string, editor Identity) (IActivityPubOutgoingActivity, error)
+		UpdateActivityPubOutgoingActivityAtomic(transaction ITransaction, id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string, editor Identity) (IActivityPubOutgoingActivity, error)
+		RemoveActivityPubOutgoingActivity(id int64, editor Identity) (IActivityPubOutgoingActivity, error)
+		RemoveActivityPubOutgoingActivityAtomic(transaction ITransaction, id int64, editor Identity) (IActivityPubOutgoingActivity, error)
+		ListActivityPubOutgoingActivitiesByIdentity(identityId int64, pageIndex uint32, pageSize uint32, criteria string, editor Identity) IActivityPubOutgoingActivityCollection
+		ForEachActivityPubOutgoingActivityByIdentity(identityId int64, iterator ActivityPubOutgoingActivityIterator)
+
 		// Spi
 		SpiManager() ISpiManager
 		SpiExists(id int64) bool
@@ -229,6 +259,8 @@ type (
 		NewActivityPubPublicKey() (IActivityPubPublicKey, error)
 		NewActivityPubLink() (IActivityPubLink, error)
 		NewActivityPubMedia() (IActivityPubMedia, error)
+		NewActivityPubIncomingActivity(id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string) (IActivityPubIncomingActivity, error)
+		NewActivityPubOutgoingActivity(id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string) (IActivityPubOutgoingActivity, error)
 		NewSpi() (ISpi, error)
 		NewEchoResult(document IDocument, ignored interface{}) IEchoResult
 	}
@@ -275,18 +307,20 @@ type (
 
 // noinspection GoSnakeCaseUsage
 const (
-	SYSTEM_COMPONENT_DOCUMENT_MANAGER                SystemComponentType = 0x00000001
-	SYSTEM_COMPONENT_SYSTEM_SCHEDULE_MANAGER         SystemComponentType = 0x00000002
-	SYSTEM_COMPONENT_IDENTITY_MANAGER                SystemComponentType = 0x00000003
-	SYSTEM_COMPONENT_ACCESS_CONTROL_MANAGER          SystemComponentType = 0x00000004
-	SYSTEM_COMPONENT_REMOTE_ACTIVITY_MANAGER         SystemComponentType = 0x00000005
-	SYSTEM_COMPONENT_CATEGORY_TYPE_MANAGER           SystemComponentType = 0x00000006
-	SYSTEM_COMPONENT_CATEGORY_MANAGER                SystemComponentType = 0x00000007
-	SYSTEM_COMPONENT_USER_MANAGER                    SystemComponentType = 0x00000008
-	SYSTEM_COMPONENT_ACTIVITY_PUB_OBJECT_MANAGER     SystemComponentType = 0x00000009
-	SYSTEM_COMPONENT_ACTIVITY_PUB_ACTIVITY_MANAGER   SystemComponentType = 0x0000000A
-	SYSTEM_COMPONENT_ACTIVITY_PUB_PUBLIC_KEY_MANAGER SystemComponentType = 0x0000000B
-	SYSTEM_COMPONENT_ACTIVITY_PUB_LINK_MANAGER       SystemComponentType = 0x0000000C
-	SYSTEM_COMPONENT_ACTIVITY_PUB_MEDIA_MANAGER      SystemComponentType = 0x0000000D
-	SYSTEM_COMPONENT_SPI_MANAGER                     SystemComponentType = 0x0000000E
+	SYSTEM_COMPONENT_DOCUMENT_MANAGER                       SystemComponentType = 0x00000001
+	SYSTEM_COMPONENT_SYSTEM_SCHEDULE_MANAGER                SystemComponentType = 0x00000002
+	SYSTEM_COMPONENT_IDENTITY_MANAGER                       SystemComponentType = 0x00000003
+	SYSTEM_COMPONENT_ACCESS_CONTROL_MANAGER                 SystemComponentType = 0x00000004
+	SYSTEM_COMPONENT_REMOTE_ACTIVITY_MANAGER                SystemComponentType = 0x00000005
+	SYSTEM_COMPONENT_CATEGORY_TYPE_MANAGER                  SystemComponentType = 0x00000006
+	SYSTEM_COMPONENT_CATEGORY_MANAGER                       SystemComponentType = 0x00000007
+	SYSTEM_COMPONENT_USER_MANAGER                           SystemComponentType = 0x00000008
+	SYSTEM_COMPONENT_ACTIVITY_PUB_OBJECT_MANAGER            SystemComponentType = 0x00000009
+	SYSTEM_COMPONENT_ACTIVITY_PUB_ACTIVITY_MANAGER          SystemComponentType = 0x0000000A
+	SYSTEM_COMPONENT_ACTIVITY_PUB_PUBLIC_KEY_MANAGER        SystemComponentType = 0x0000000B
+	SYSTEM_COMPONENT_ACTIVITY_PUB_LINK_MANAGER              SystemComponentType = 0x0000000C
+	SYSTEM_COMPONENT_ACTIVITY_PUB_MEDIA_MANAGER             SystemComponentType = 0x0000000D
+	SYSTEM_COMPONENT_ACTIVITY_PUB_INCOMING_ACTIVITY_MANAGER SystemComponentType = 0x0000000E
+	SYSTEM_COMPONENT_ACTIVITY_PUB_OUTGOING_ACTIVITY_MANAGER SystemComponentType = 0x0000000F
+	SYSTEM_COMPONENT_SPI_MANAGER                            SystemComponentType = 0x00000010
 )

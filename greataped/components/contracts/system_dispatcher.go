@@ -782,6 +782,144 @@ type IDispatcher interface {
 	// the transaction if used in an x.Atomic context. This method is synchronous.
 	RemoveActivityPubMedia(id int64) IActivityPubMedia
 
+	// ActivityPubIncomingActivity
+	// ------------------------------------------------------------
+
+	// ActivityPubIncomingActivityExists checks whether a specific 'Activity Pub Incoming Activity' with the provided
+	// unique identifier or 'Id' exists in the system.
+	ActivityPubIncomingActivityExists(id int64) bool
+	// ActivityPubIncomingActivityExistsWhich checks whether a specific 'Activity Pub Incoming Activity' exists in the system
+	// which satisfies the provided condition.
+	ActivityPubIncomingActivityExistsWhich(condition ActivityPubIncomingActivityCondition) bool
+	// ListActivityPubIncomingActivities returns a list of all 'Activity Pub Incoming Activity' instances in the system.
+	ListActivityPubIncomingActivities() IActivityPubIncomingActivityCollection
+	// ForEachActivityPubIncomingActivity loops over all 'Activity Pub Incoming Activity' instances in the system running
+	// the provided iterator for each of them.
+	ForEachActivityPubIncomingActivity(iterator ActivityPubIncomingActivityIterator)
+	// FilterActivityPubIncomingActivities returns a filtered list of 'Activity Pub Incoming Activity' instances based
+	// on the provided predicate.
+	FilterActivityPubIncomingActivities(predicate ActivityPubIncomingActivityFilterPredicate) IActivityPubIncomingActivityCollection
+	// MapActivityPubIncomingActivities loops over all 'Activity Pub Incoming Activity' instances in the system and
+	// returns a transformed list based on the provided predicate.
+	MapActivityPubIncomingActivities(predicate ActivityPubIncomingActivityMapPredicate) IActivityPubIncomingActivityCollection
+	// GetActivityPubIncomingActivity finds a specific 'Activity Pub Incoming Activity' instance using
+	// the provided unique identifier or 'Id'.
+	GetActivityPubIncomingActivity(id int64) IActivityPubIncomingActivity
+	// AddActivityPubIncomingActivity creates a new 'Activity Pub Incoming Activity' instance with an auto-generated unique identifier using the
+	// provided property values and adds it to persistent data store and system cache.
+	// The method is smart enough to respect the transaction if used in an
+	// x.Atomic context. This method is synchronous.
+	AddActivityPubIncomingActivity(identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string) IActivityPubIncomingActivity
+	// AddActivityPubIncomingActivityWithCustomId creates a new 'Activity Pub Incoming Activity' instance with a custom unique identifier using the
+	// provided property values and adds it to persistent data store and system cache.
+	// The method is smart enough to respect the transaction if used in an
+	// x.Atomic context. This method is synchronous.
+	AddActivityPubIncomingActivityWithCustomId(id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string) IActivityPubIncomingActivity
+	// LogActivityPubIncomingActivity creates a new 'Activity Pub Incoming Activity' instance using the provided property values
+	// and adds it to persistent data store and system cache.
+	// The method is smart enough to respect the transaction if used in an
+	// x.Atomic context. This method is asynchronous.
+	LogActivityPubIncomingActivity(identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string, source string, payload string)
+	// UpdateActivityPubIncomingActivity finds the 'Activity Pub Incoming Activity' instance using the provided unique identifier and updates it using
+	// the provided property values and reflects the changes to persistent data store and system
+	// cache. The method is smart enough to respect the transaction if used in an x.Atomic context.
+	// This method is synchronous.
+	UpdateActivityPubIncomingActivity(id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string) IActivityPubIncomingActivity
+	// UpdateActivityPubIncomingActivityObject finds and updates the 'Activity Pub Incoming Activity' using the provided instance and reflects the
+	// changes to persistent data store and system cache. The method is smart enough to
+	// respect the transaction if used in an x.Atomic context. This method is synchronous.
+	UpdateActivityPubIncomingActivityObject(object IObject, activityPubIncomingActivity IActivityPubIncomingActivity) IActivityPubIncomingActivity
+	// AddOrUpdateActivityPubIncomingActivityObject tries to find the 'Activity Pub Incoming Activity' using the provided instance, then updates it in persistent
+	// data store and system cache or creates it if doesn't already exist. The method is smart enough
+	// to respect the transaction if used in an x.Atomic context. This method is synchronous.
+	AddOrUpdateActivityPubIncomingActivityObject(object IObject, activityPubIncomingActivity IActivityPubIncomingActivity) IActivityPubIncomingActivity
+	// RemoveActivityPubIncomingActivity finds the 'Activity Pub Incoming Activity' instance using the provided unique identifier and
+	// removes it from the system cache. The method is smart enough to respect
+	// the transaction if used in an x.Atomic context. This method is synchronous.
+	RemoveActivityPubIncomingActivity(id int64) IActivityPubIncomingActivity
+	// ListActivityPubIncomingActivitiesByIdentity returns a list of all 'Activity Pub Incoming Activity' instances in the system
+	// that are children of the provided 'Identity' instance.
+	ListActivityPubIncomingActivitiesByIdentity(identity IIdentity) IActivityPubIncomingActivityCollection
+	// ListActivityPubIncomingActivitiesByIdentityId returns a list of all 'Activity Pub Incoming Activity' instances in the system that are
+	// children of the 'Identity' instance with the provided unique identifier.
+	ListActivityPubIncomingActivitiesByIdentityId(identityId int64) IActivityPubIncomingActivityCollection
+	// ForEachActivityPubIncomingActivityByIdentity loops over all 'Activity Pub Incoming Activity' instances in the system that are children
+	// of the provided 'Identity' instance, running the provided iterator for each of them.
+	ForEachActivityPubIncomingActivityByIdentity(identity IIdentity, iterator ActivityPubIncomingActivityIterator)
+	// ForEachActivityPubIncomingActivityByIdentityId loops over all 'Activity Pub Incoming Activity' instances in the system that are children
+	// of the 'Identity' instance with the provided unique identifier,
+	// running the provided iterator for each of them.
+	ForEachActivityPubIncomingActivityByIdentityId(identityId int64, iterator ActivityPubIncomingActivityIterator)
+
+	// ActivityPubOutgoingActivity
+	// ------------------------------------------------------------
+
+	// ActivityPubOutgoingActivityExists checks whether a specific 'Activity Pub Outgoing Activity' with the provided
+	// unique identifier or 'Id' exists in the system.
+	ActivityPubOutgoingActivityExists(id int64) bool
+	// ActivityPubOutgoingActivityExistsWhich checks whether a specific 'Activity Pub Outgoing Activity' exists in the system
+	// which satisfies the provided condition.
+	ActivityPubOutgoingActivityExistsWhich(condition ActivityPubOutgoingActivityCondition) bool
+	// ListActivityPubOutgoingActivities returns a list of all 'Activity Pub Outgoing Activity' instances in the system.
+	ListActivityPubOutgoingActivities() IActivityPubOutgoingActivityCollection
+	// ForEachActivityPubOutgoingActivity loops over all 'Activity Pub Outgoing Activity' instances in the system running
+	// the provided iterator for each of them.
+	ForEachActivityPubOutgoingActivity(iterator ActivityPubOutgoingActivityIterator)
+	// FilterActivityPubOutgoingActivities returns a filtered list of 'Activity Pub Outgoing Activity' instances based
+	// on the provided predicate.
+	FilterActivityPubOutgoingActivities(predicate ActivityPubOutgoingActivityFilterPredicate) IActivityPubOutgoingActivityCollection
+	// MapActivityPubOutgoingActivities loops over all 'Activity Pub Outgoing Activity' instances in the system and
+	// returns a transformed list based on the provided predicate.
+	MapActivityPubOutgoingActivities(predicate ActivityPubOutgoingActivityMapPredicate) IActivityPubOutgoingActivityCollection
+	// GetActivityPubOutgoingActivity finds a specific 'Activity Pub Outgoing Activity' instance using
+	// the provided unique identifier or 'Id'.
+	GetActivityPubOutgoingActivity(id int64) IActivityPubOutgoingActivity
+	// AddActivityPubOutgoingActivity creates a new 'Activity Pub Outgoing Activity' instance with an auto-generated unique identifier using the
+	// provided property values and adds it to persistent data store and system cache.
+	// The method is smart enough to respect the transaction if used in an
+	// x.Atomic context. This method is synchronous.
+	AddActivityPubOutgoingActivity(identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string) IActivityPubOutgoingActivity
+	// AddActivityPubOutgoingActivityWithCustomId creates a new 'Activity Pub Outgoing Activity' instance with a custom unique identifier using the
+	// provided property values and adds it to persistent data store and system cache.
+	// The method is smart enough to respect the transaction if used in an
+	// x.Atomic context. This method is synchronous.
+	AddActivityPubOutgoingActivityWithCustomId(id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string) IActivityPubOutgoingActivity
+	// LogActivityPubOutgoingActivity creates a new 'Activity Pub Outgoing Activity' instance using the provided property values
+	// and adds it to persistent data store and system cache.
+	// The method is smart enough to respect the transaction if used in an
+	// x.Atomic context. This method is asynchronous.
+	LogActivityPubOutgoingActivity(identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string, source string, payload string)
+	// UpdateActivityPubOutgoingActivity finds the 'Activity Pub Outgoing Activity' instance using the provided unique identifier and updates it using
+	// the provided property values and reflects the changes to persistent data store and system
+	// cache. The method is smart enough to respect the transaction if used in an x.Atomic context.
+	// This method is synchronous.
+	UpdateActivityPubOutgoingActivity(id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string) IActivityPubOutgoingActivity
+	// UpdateActivityPubOutgoingActivityObject finds and updates the 'Activity Pub Outgoing Activity' using the provided instance and reflects the
+	// changes to persistent data store and system cache. The method is smart enough to
+	// respect the transaction if used in an x.Atomic context. This method is synchronous.
+	UpdateActivityPubOutgoingActivityObject(object IObject, activityPubOutgoingActivity IActivityPubOutgoingActivity) IActivityPubOutgoingActivity
+	// AddOrUpdateActivityPubOutgoingActivityObject tries to find the 'Activity Pub Outgoing Activity' using the provided instance, then updates it in persistent
+	// data store and system cache or creates it if doesn't already exist. The method is smart enough
+	// to respect the transaction if used in an x.Atomic context. This method is synchronous.
+	AddOrUpdateActivityPubOutgoingActivityObject(object IObject, activityPubOutgoingActivity IActivityPubOutgoingActivity) IActivityPubOutgoingActivity
+	// RemoveActivityPubOutgoingActivity finds the 'Activity Pub Outgoing Activity' instance using the provided unique identifier and
+	// removes it from the system cache. The method is smart enough to respect
+	// the transaction if used in an x.Atomic context. This method is synchronous.
+	RemoveActivityPubOutgoingActivity(id int64) IActivityPubOutgoingActivity
+	// ListActivityPubOutgoingActivitiesByIdentity returns a list of all 'Activity Pub Outgoing Activity' instances in the system
+	// that are children of the provided 'Identity' instance.
+	ListActivityPubOutgoingActivitiesByIdentity(identity IIdentity) IActivityPubOutgoingActivityCollection
+	// ListActivityPubOutgoingActivitiesByIdentityId returns a list of all 'Activity Pub Outgoing Activity' instances in the system that are
+	// children of the 'Identity' instance with the provided unique identifier.
+	ListActivityPubOutgoingActivitiesByIdentityId(identityId int64) IActivityPubOutgoingActivityCollection
+	// ForEachActivityPubOutgoingActivityByIdentity loops over all 'Activity Pub Outgoing Activity' instances in the system that are children
+	// of the provided 'Identity' instance, running the provided iterator for each of them.
+	ForEachActivityPubOutgoingActivityByIdentity(identity IIdentity, iterator ActivityPubOutgoingActivityIterator)
+	// ForEachActivityPubOutgoingActivityByIdentityId loops over all 'Activity Pub Outgoing Activity' instances in the system that are children
+	// of the 'Identity' instance with the provided unique identifier,
+	// running the provided iterator for each of them.
+	ForEachActivityPubOutgoingActivityByIdentityId(identityId int64, iterator ActivityPubOutgoingActivityIterator)
+
 	// Spi
 	// ------------------------------------------------------------
 
@@ -891,6 +1029,14 @@ type IDispatcher interface {
 	NewActivityPubMedia() (IActivityPubMedia, error)
 	// NewActivityPubMedias creates an empty in-memory 'Activity Pub Media' collection which is not thread-safe.
 	NewActivityPubMedias() IActivityPubMediaCollection
+	// NewActivityPubIncomingActivity creates a new 'Activity Pub Incoming Activity' instance using the provided property values.
+	NewActivityPubIncomingActivity(id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string) (IActivityPubIncomingActivity, error)
+	// NewActivityPubIncomingActivities creates an empty in-memory 'Activity Pub Incoming Activity' collection which is not thread-safe.
+	NewActivityPubIncomingActivities() IActivityPubIncomingActivityCollection
+	// NewActivityPubOutgoingActivity creates a new 'Activity Pub Outgoing Activity' instance using the provided property values.
+	NewActivityPubOutgoingActivity(id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string) (IActivityPubOutgoingActivity, error)
+	// NewActivityPubOutgoingActivities creates an empty in-memory 'Activity Pub Outgoing Activity' collection which is not thread-safe.
+	NewActivityPubOutgoingActivities() IActivityPubOutgoingActivityCollection
 	// NewSpi creates a new 'Spi' instance using the provided property values.
 	NewSpi() (ISpi, error)
 	// NewSpis creates an empty in-memory 'Spi' collection which is not thread-safe.

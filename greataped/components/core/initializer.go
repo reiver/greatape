@@ -67,11 +67,19 @@ func Initialize(configuration IConfiguration, logger ILogger) error {
 	activityPubPublicKeyManager := factory.Create(SYSTEM_COMPONENT_ACTIVITY_PUB_PUBLIC_KEY_MANAGER, configuration, logger).(IActivityPubPublicKeyManager)
 	activityPubLinkManager := factory.Create(SYSTEM_COMPONENT_ACTIVITY_PUB_LINK_MANAGER, configuration, logger).(IActivityPubLinkManager)
 	activityPubMediaManager := factory.Create(SYSTEM_COMPONENT_ACTIVITY_PUB_MEDIA_MANAGER, configuration, logger).(IActivityPubMediaManager)
+	activityPubIncomingActivityManager := factory.Create(SYSTEM_COMPONENT_ACTIVITY_PUB_INCOMING_ACTIVITY_MANAGER, configuration, logger).(IActivityPubIncomingActivityManager)
+	activityPubOutgoingActivityManager := factory.Create(SYSTEM_COMPONENT_ACTIVITY_PUB_OUTGOING_ACTIVITY_MANAGER, configuration, logger).(IActivityPubOutgoingActivityManager)
 	spiManager := factory.Create(SYSTEM_COMPONENT_SPI_MANAGER, configuration, logger).(ISpiManager)
 
 	// Resolving Dependencies
 	// @formatter:off
 	if err := categoryManager.ResolveDependencies(nil, categoryTypeManager, categoryManager); err != nil {
+		return err
+	}
+	if err := activityPubIncomingActivityManager.ResolveDependencies(nil, identityManager); err != nil {
+		return err
+	}
+	if err := activityPubOutgoingActivityManager.ResolveDependencies(nil, identityManager); err != nil {
 		return err
 	}
 	// @formatter:on
@@ -88,23 +96,25 @@ func Initialize(configuration IConfiguration, logger ILogger) error {
 	// Aggregating System Components
 	Conductor = &conductor{
 		// @formatter:off
-		documentManager:             documentManager,
-		systemScheduleManager:       systemScheduleManager,
-		identityManager:             identityManager,
-		accessControlManager:        accessControlManager,
-		remoteActivityManager:       remoteActivityManager,
-		categoryTypeManager:         categoryTypeManager,
-		categoryManager:             categoryManager,
-		userManager:                 userManager,
-		activityPubObjectManager:    activityPubObjectManager,
-		activityPubActivityManager:  activityPubActivityManager,
-		activityPubPublicKeyManager: activityPubPublicKeyManager,
-		activityPubLinkManager:      activityPubLinkManager,
-		activityPubMediaManager:     activityPubMediaManager,
-		spiManager:                  spiManager,
-		logger:                      logger,
-		configuration:               configuration,
-		scheduler:                   scheduler,
+		documentManager:                    documentManager,
+		systemScheduleManager:              systemScheduleManager,
+		identityManager:                    identityManager,
+		accessControlManager:               accessControlManager,
+		remoteActivityManager:              remoteActivityManager,
+		categoryTypeManager:                categoryTypeManager,
+		categoryManager:                    categoryManager,
+		userManager:                        userManager,
+		activityPubObjectManager:           activityPubObjectManager,
+		activityPubActivityManager:         activityPubActivityManager,
+		activityPubPublicKeyManager:        activityPubPublicKeyManager,
+		activityPubLinkManager:             activityPubLinkManager,
+		activityPubMediaManager:            activityPubMediaManager,
+		activityPubIncomingActivityManager: activityPubIncomingActivityManager,
+		activityPubOutgoingActivityManager: activityPubOutgoingActivityManager,
+		spiManager:                         spiManager,
+		logger:                             logger,
+		configuration:                      configuration,
+		scheduler:                          scheduler,
 		httpClient: &http.Client{
 			Timeout: time.Second * 5,
 		},
@@ -153,24 +163,26 @@ func Initialize(configuration IConfiguration, logger ILogger) error {
 
 type conductor struct {
 	// @formatter:off
-	documentManager             IDocumentManager
-	systemScheduleManager       ISystemScheduleManager
-	identityManager             IIdentityManager
-	accessControlManager        IAccessControlManager
-	remoteActivityManager       IRemoteActivityManager
-	categoryTypeManager         ICategoryTypeManager
-	categoryManager             ICategoryManager
-	userManager                 IUserManager
-	activityPubObjectManager    IActivityPubObjectManager
-	activityPubActivityManager  IActivityPubActivityManager
-	activityPubPublicKeyManager IActivityPubPublicKeyManager
-	activityPubLinkManager      IActivityPubLinkManager
-	activityPubMediaManager     IActivityPubMediaManager
-	spiManager                  ISpiManager
-	logger                      ILogger
-	configuration               IConfiguration
-	scheduler                   *schedule.Cron
-	httpClient                  *http.Client
+	documentManager                    IDocumentManager
+	systemScheduleManager              ISystemScheduleManager
+	identityManager                    IIdentityManager
+	accessControlManager               IAccessControlManager
+	remoteActivityManager              IRemoteActivityManager
+	categoryTypeManager                ICategoryTypeManager
+	categoryManager                    ICategoryManager
+	userManager                        IUserManager
+	activityPubObjectManager           IActivityPubObjectManager
+	activityPubActivityManager         IActivityPubActivityManager
+	activityPubPublicKeyManager        IActivityPubPublicKeyManager
+	activityPubLinkManager             IActivityPubLinkManager
+	activityPubMediaManager            IActivityPubMediaManager
+	activityPubIncomingActivityManager IActivityPubIncomingActivityManager
+	activityPubOutgoingActivityManager IActivityPubOutgoingActivityManager
+	spiManager                         ISpiManager
+	logger                             ILogger
+	configuration                      IConfiguration
+	scheduler                          *schedule.Cron
+	httpClient                         *http.Client
 	// @formatter:on
 }
 
@@ -880,6 +892,114 @@ func (conductor *conductor) RemoveActivityPubMediaAtomic(transaction ITransactio
 	return conductor.activityPubMediaManager.RemoveActivityPubMediaAtomic(transaction, id, editor)
 }
 
+// ActivityPubIncomingActivity
+
+func (conductor *conductor) ActivityPubIncomingActivityManager() IActivityPubIncomingActivityManager {
+	return conductor.activityPubIncomingActivityManager
+}
+
+func (conductor *conductor) ActivityPubIncomingActivityExists(id int64) bool {
+	return conductor.activityPubIncomingActivityManager.Exists(id)
+}
+
+func (conductor *conductor) ListActivityPubIncomingActivities(pageIndex uint32, pageSize uint32, criteria string, editor Identity) IActivityPubIncomingActivityCollection {
+	return conductor.activityPubIncomingActivityManager.ListActivityPubIncomingActivities(pageIndex, pageSize, criteria, editor)
+}
+
+func (conductor *conductor) GetActivityPubIncomingActivity(id int64, editor Identity) (IActivityPubIncomingActivity, error) {
+	return conductor.activityPubIncomingActivityManager.GetActivityPubIncomingActivity(id, editor)
+}
+
+func (conductor *conductor) AddActivityPubIncomingActivity(identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string, editor Identity) (IActivityPubIncomingActivity, error) {
+	return conductor.activityPubIncomingActivityManager.AddActivityPubIncomingActivity(identityId, uniqueIdentifier, timestamp, from, to, content, raw, editor)
+}
+
+func (conductor *conductor) AddActivityPubIncomingActivityAtomic(transaction ITransaction, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string, editor Identity) (IActivityPubIncomingActivity, error) {
+	return conductor.activityPubIncomingActivityManager.AddActivityPubIncomingActivityAtomic(transaction, identityId, uniqueIdentifier, timestamp, from, to, content, raw, editor)
+}
+
+func (conductor *conductor) LogActivityPubIncomingActivity(identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string, source string, editor Identity, payload string) {
+	conductor.activityPubIncomingActivityManager.Log(identityId, uniqueIdentifier, timestamp, from, to, content, raw, source, editor, payload)
+}
+
+func (conductor *conductor) UpdateActivityPubIncomingActivity(id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string, editor Identity) (IActivityPubIncomingActivity, error) {
+	return conductor.activityPubIncomingActivityManager.UpdateActivityPubIncomingActivity(id, identityId, uniqueIdentifier, timestamp, from, to, content, raw, editor)
+}
+
+func (conductor *conductor) UpdateActivityPubIncomingActivityAtomic(transaction ITransaction, id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string, editor Identity) (IActivityPubIncomingActivity, error) {
+	return conductor.activityPubIncomingActivityManager.UpdateActivityPubIncomingActivityAtomic(transaction, id, identityId, uniqueIdentifier, timestamp, from, to, content, raw, editor)
+}
+
+func (conductor *conductor) RemoveActivityPubIncomingActivity(id int64, editor Identity) (IActivityPubIncomingActivity, error) {
+	return conductor.activityPubIncomingActivityManager.RemoveActivityPubIncomingActivity(id, editor)
+}
+
+func (conductor *conductor) RemoveActivityPubIncomingActivityAtomic(transaction ITransaction, id int64, editor Identity) (IActivityPubIncomingActivity, error) {
+	return conductor.activityPubIncomingActivityManager.RemoveActivityPubIncomingActivityAtomic(transaction, id, editor)
+}
+
+func (conductor *conductor) ListActivityPubIncomingActivitiesByIdentity(identityId int64, pageIndex uint32, pageSize uint32, criteria string, editor Identity) IActivityPubIncomingActivityCollection {
+	return conductor.activityPubIncomingActivityManager.ListActivityPubIncomingActivitiesByIdentity(identityId, pageIndex, pageSize, criteria, editor)
+}
+
+func (conductor *conductor) ForEachActivityPubIncomingActivityByIdentity(identityId int64, iterator ActivityPubIncomingActivityIterator) {
+	conductor.activityPubIncomingActivityManager.ForEachByIdentity(identityId, iterator)
+}
+
+// ActivityPubOutgoingActivity
+
+func (conductor *conductor) ActivityPubOutgoingActivityManager() IActivityPubOutgoingActivityManager {
+	return conductor.activityPubOutgoingActivityManager
+}
+
+func (conductor *conductor) ActivityPubOutgoingActivityExists(id int64) bool {
+	return conductor.activityPubOutgoingActivityManager.Exists(id)
+}
+
+func (conductor *conductor) ListActivityPubOutgoingActivities(pageIndex uint32, pageSize uint32, criteria string, editor Identity) IActivityPubOutgoingActivityCollection {
+	return conductor.activityPubOutgoingActivityManager.ListActivityPubOutgoingActivities(pageIndex, pageSize, criteria, editor)
+}
+
+func (conductor *conductor) GetActivityPubOutgoingActivity(id int64, editor Identity) (IActivityPubOutgoingActivity, error) {
+	return conductor.activityPubOutgoingActivityManager.GetActivityPubOutgoingActivity(id, editor)
+}
+
+func (conductor *conductor) AddActivityPubOutgoingActivity(identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string, editor Identity) (IActivityPubOutgoingActivity, error) {
+	return conductor.activityPubOutgoingActivityManager.AddActivityPubOutgoingActivity(identityId, uniqueIdentifier, timestamp, from, to, content, raw, editor)
+}
+
+func (conductor *conductor) AddActivityPubOutgoingActivityAtomic(transaction ITransaction, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string, editor Identity) (IActivityPubOutgoingActivity, error) {
+	return conductor.activityPubOutgoingActivityManager.AddActivityPubOutgoingActivityAtomic(transaction, identityId, uniqueIdentifier, timestamp, from, to, content, raw, editor)
+}
+
+func (conductor *conductor) LogActivityPubOutgoingActivity(identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string, source string, editor Identity, payload string) {
+	conductor.activityPubOutgoingActivityManager.Log(identityId, uniqueIdentifier, timestamp, from, to, content, raw, source, editor, payload)
+}
+
+func (conductor *conductor) UpdateActivityPubOutgoingActivity(id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string, editor Identity) (IActivityPubOutgoingActivity, error) {
+	return conductor.activityPubOutgoingActivityManager.UpdateActivityPubOutgoingActivity(id, identityId, uniqueIdentifier, timestamp, from, to, content, raw, editor)
+}
+
+func (conductor *conductor) UpdateActivityPubOutgoingActivityAtomic(transaction ITransaction, id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string, editor Identity) (IActivityPubOutgoingActivity, error) {
+	return conductor.activityPubOutgoingActivityManager.UpdateActivityPubOutgoingActivityAtomic(transaction, id, identityId, uniqueIdentifier, timestamp, from, to, content, raw, editor)
+}
+
+func (conductor *conductor) RemoveActivityPubOutgoingActivity(id int64, editor Identity) (IActivityPubOutgoingActivity, error) {
+	return conductor.activityPubOutgoingActivityManager.RemoveActivityPubOutgoingActivity(id, editor)
+}
+
+func (conductor *conductor) RemoveActivityPubOutgoingActivityAtomic(transaction ITransaction, id int64, editor Identity) (IActivityPubOutgoingActivity, error) {
+	return conductor.activityPubOutgoingActivityManager.RemoveActivityPubOutgoingActivityAtomic(transaction, id, editor)
+}
+
+func (conductor *conductor) ListActivityPubOutgoingActivitiesByIdentity(identityId int64, pageIndex uint32, pageSize uint32, criteria string, editor Identity) IActivityPubOutgoingActivityCollection {
+	return conductor.activityPubOutgoingActivityManager.ListActivityPubOutgoingActivitiesByIdentity(identityId, pageIndex, pageSize, criteria, editor)
+}
+
+func (conductor *conductor) ForEachActivityPubOutgoingActivityByIdentity(identityId int64, iterator ActivityPubOutgoingActivityIterator) {
+	conductor.activityPubOutgoingActivityManager.ForEachByIdentity(identityId, iterator)
+}
+
 // Spi
 
 func (conductor *conductor) SpiManager() ISpiManager {
@@ -980,6 +1100,14 @@ func (conductor *conductor) NewActivityPubLink() (IActivityPubLink, error) {
 
 func (conductor *conductor) NewActivityPubMedia() (IActivityPubMedia, error) {
 	return NewActivityPubMedia()
+}
+
+func (conductor *conductor) NewActivityPubIncomingActivity(id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string) (IActivityPubIncomingActivity, error) {
+	return NewActivityPubIncomingActivity(id, identityId, uniqueIdentifier, timestamp, from, to, content, raw)
+}
+
+func (conductor *conductor) NewActivityPubOutgoingActivity(id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string) (IActivityPubOutgoingActivity, error) {
+	return NewActivityPubOutgoingActivity(id, identityId, uniqueIdentifier, timestamp, from, to, content, raw)
 }
 
 func (conductor *conductor) NewSpi() (ISpi, error) {

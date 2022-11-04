@@ -160,6 +160,14 @@ func (dispatcher *dispatcher) NewActivityPubMedia() (IActivityPubMedia, error) {
 	return NewActivityPubMedia()
 }
 
+func (dispatcher *dispatcher) NewActivityPubIncomingActivity(id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string) (IActivityPubIncomingActivity, error) {
+	return NewActivityPubIncomingActivity(id, identityId, uniqueIdentifier, timestamp, from, to, content, raw)
+}
+
+func (dispatcher *dispatcher) NewActivityPubOutgoingActivity(id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string) (IActivityPubOutgoingActivity, error) {
+	return NewActivityPubOutgoingActivity(id, identityId, uniqueIdentifier, timestamp, from, to, content, raw)
+}
+
 func (dispatcher *dispatcher) NewSpi() (ISpi, error) {
 	return NewSpi()
 }
