@@ -226,6 +226,66 @@ CREATE TABLE `users`
   DEFAULT CHARSET = `utf8mb4`
   COLLATE = `utf8mb4_unicode_ci`;
 
+# ╔═════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ║	ActivityPubIncomingActivities
+# ╚═════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+CREATE TABLE `activity_pub_incoming_activities`
+(
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `action` VARCHAR(16) NOT NULL,
+    `original_id` BIGINT NOT NULL,
+    `identity_id` BIGINT NOT NULL,
+    `unique_identifier` VARCHAR(128) NOT NULL,
+    `timestamp` BIGINT NOT NULL,
+    `from` VARCHAR(256) NOT NULL,
+    `to` VARCHAR(256) NOT NULL,
+    `content` VARCHAR(4096) NOT NULL,
+    `raw` JSON NOT NULL,
+    `editor` BIGINT NOT NULL,
+    `status` BIGINT NOT NULL,
+    `sort_order` FLOAT NOT NULL,
+    `queued_at` BIGINT NOT NULL,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `triggered_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `changed_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `payload` JSON NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = `utf8mb4`
+  COLLATE = `utf8mb4_unicode_ci`;
+
+# ╔═════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ║	ActivityPubOutgoingActivities
+# ╚═════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+CREATE TABLE `activity_pub_outgoing_activities`
+(
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `action` VARCHAR(16) NOT NULL,
+    `original_id` BIGINT NOT NULL,
+    `identity_id` BIGINT NOT NULL,
+    `unique_identifier` VARCHAR(128) NOT NULL,
+    `timestamp` BIGINT NOT NULL,
+    `from` VARCHAR(256) NOT NULL,
+    `to` VARCHAR(256) NOT NULL,
+    `content` VARCHAR(4096) NOT NULL,
+    `raw` JSON NOT NULL,
+    `editor` BIGINT NOT NULL,
+    `status` BIGINT NOT NULL,
+    `sort_order` FLOAT NOT NULL,
+    `queued_at` BIGINT NOT NULL,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `triggered_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `changed_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `payload` JSON NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = `utf8mb4`
+  COLLATE = `utf8mb4_unicode_ci`;
+
 # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════
 
 DROP DATABASE IF EXISTS `greatape_dev`;
@@ -591,6 +651,102 @@ ON `users` FOR EACH ROW
 BEGIN
     INSERT INTO `greatape_dev_history`.`users`(`action`, `original_id`, `github`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
     VALUES('delete', `old`.`id`, `old`.`github`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
+END$$
+
+DELIMITER ;
+
+# ╔═════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ║	ActivityPubIncomingActivities
+# ╚═════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+CREATE TABLE `activity_pub_incoming_activities`
+(
+    `id` BIGINT NOT NULL,
+    `identity_id` BIGINT NOT NULL,
+    `unique_identifier` VARCHAR(128) NOT NULL,
+    `timestamp` BIGINT NOT NULL,
+    `from` VARCHAR(256) NOT NULL,
+    `to` VARCHAR(256) NOT NULL,
+    `content` VARCHAR(4096) NOT NULL,
+    `raw` JSON NOT NULL,
+    `editor` BIGINT NOT NULL DEFAULT 0,
+    `status` BIGINT NOT NULL DEFAULT 0,
+    `sort_order` FLOAT NOT NULL DEFAULT 0,
+    `queued_at` BIGINT NOT NULL DEFAULT 0,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `payload` JSON NULL,
+    PRIMARY KEY (`id`),
+    INDEX (`status`),
+    CONSTRAINT `fk_activity_pub_incoming_activities_to_identities` FOREIGN KEY (`identity_id`) REFERENCES `identities` (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = `utf8mb4`
+  COLLATE = `utf8mb4_unicode_ci`;
+
+DELIMITER $$
+
+CREATE TRIGGER `activity_pub_incoming_activities_after_update`
+AFTER UPDATE
+ON `activity_pub_incoming_activities` FOR EACH ROW
+BEGIN
+    INSERT INTO `greatape_dev_history`.`activity_pub_incoming_activities`(`action`, `original_id`, `identity_id`, `unique_identifier`, `timestamp`, `from`, `to`, `content`, `raw`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
+    VALUES('update', `old`.`id`, `old`.`identity_id`, `old`.`unique_identifier`, `old`.`timestamp`, `old`.`from`, `old`.`to`, `old`.`content`, `old`.`raw`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
+END$$
+
+CREATE TRIGGER `activity_pub_incoming_activities_after_delete`
+AFTER DELETE
+ON `activity_pub_incoming_activities` FOR EACH ROW
+BEGIN
+    INSERT INTO `greatape_dev_history`.`activity_pub_incoming_activities`(`action`, `original_id`, `identity_id`, `unique_identifier`, `timestamp`, `from`, `to`, `content`, `raw`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
+    VALUES('delete', `old`.`id`, `old`.`identity_id`, `old`.`unique_identifier`, `old`.`timestamp`, `old`.`from`, `old`.`to`, `old`.`content`, `old`.`raw`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
+END$$
+
+DELIMITER ;
+
+# ╔═════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ║	ActivityPubOutgoingActivities
+# ╚═════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+CREATE TABLE `activity_pub_outgoing_activities`
+(
+    `id` BIGINT NOT NULL,
+    `identity_id` BIGINT NOT NULL,
+    `unique_identifier` VARCHAR(128) NOT NULL,
+    `timestamp` BIGINT NOT NULL,
+    `from` VARCHAR(256) NOT NULL,
+    `to` VARCHAR(256) NOT NULL,
+    `content` VARCHAR(4096) NOT NULL,
+    `raw` JSON NOT NULL,
+    `editor` BIGINT NOT NULL DEFAULT 0,
+    `status` BIGINT NOT NULL DEFAULT 0,
+    `sort_order` FLOAT NOT NULL DEFAULT 0,
+    `queued_at` BIGINT NOT NULL DEFAULT 0,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `payload` JSON NULL,
+    PRIMARY KEY (`id`),
+    INDEX (`status`),
+    CONSTRAINT `fk_activity_pub_outgoing_activities_to_identities` FOREIGN KEY (`identity_id`) REFERENCES `identities` (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = `utf8mb4`
+  COLLATE = `utf8mb4_unicode_ci`;
+
+DELIMITER $$
+
+CREATE TRIGGER `activity_pub_outgoing_activities_after_update`
+AFTER UPDATE
+ON `activity_pub_outgoing_activities` FOR EACH ROW
+BEGIN
+    INSERT INTO `greatape_dev_history`.`activity_pub_outgoing_activities`(`action`, `original_id`, `identity_id`, `unique_identifier`, `timestamp`, `from`, `to`, `content`, `raw`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
+    VALUES('update', `old`.`id`, `old`.`identity_id`, `old`.`unique_identifier`, `old`.`timestamp`, `old`.`from`, `old`.`to`, `old`.`content`, `old`.`raw`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
+END$$
+
+CREATE TRIGGER `activity_pub_outgoing_activities_after_delete`
+AFTER DELETE
+ON `activity_pub_outgoing_activities` FOR EACH ROW
+BEGIN
+    INSERT INTO `greatape_dev_history`.`activity_pub_outgoing_activities`(`action`, `original_id`, `identity_id`, `unique_identifier`, `timestamp`, `from`, `to`, `content`, `raw`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
+    VALUES('delete', `old`.`id`, `old`.`identity_id`, `old`.`unique_identifier`, `old`.`timestamp`, `old`.`from`, `old`.`to`, `old`.`content`, `old`.`raw`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
 END$$
 
 DELIMITER ;
