@@ -64,3 +64,25 @@ message ActivityPubMedia {
     int32 width = 0x00000005;
     int32 height = 0x00000006;
 }
+
+message ActivityPubIncomingActivity {
+    int64 id = 0x00000001;
+    int64 identityId = 0x00000002;
+    string uniqueIdentifier = 0x00000003;
+    int64 timestamp = 0x00000004;
+    string from = 0x00000005;
+    string to = 0x00000006;
+    string content = 0x00000007;
+    string raw = 0x00000008;
+}
+
+message ActivityPubOutgoingActivity {
+    int64 id = 0x00000001;
+    int64 identityId = 0x00000002;
+    string uniqueIdentifier = 0x00000003;
+    int64 timestamp = 0x00000004;
+    string from = 0x00000005;
+    string to = 0x00000006;
+    string content = 0x00000007;
+    string raw = 0x00000008;
+}
