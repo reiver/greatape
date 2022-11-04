@@ -12,15 +12,17 @@ import (
 )
 
 var (
-	Pipe             IPipeRepository
-	Documents        IDocumentsRepository
-	SystemSchedules  ISystemSchedulesRepository
-	Identities       IIdentitiesRepository
-	AccessControls   IAccessControlsRepository
-	RemoteActivities IRemoteActivitiesRepository
-	CategoryTypes    ICategoryTypesRepository
-	Categories       ICategoriesRepository
-	Users            IUsersRepository
+	Pipe                          IPipeRepository
+	Documents                     IDocumentsRepository
+	SystemSchedules               ISystemSchedulesRepository
+	Identities                    IIdentitiesRepository
+	AccessControls                IAccessControlsRepository
+	RemoteActivities              IRemoteActivitiesRepository
+	CategoryTypes                 ICategoryTypesRepository
+	Categories                    ICategoriesRepository
+	Users                         IUsersRepository
+	ActivityPubIncomingActivities IActivityPubIncomingActivitiesRepository
+	ActivityPubOutgoingActivities IActivityPubOutgoingActivitiesRepository
 )
 
 var database ISqlDatabase
@@ -45,6 +47,8 @@ func Initialize(configuration IConfiguration, logger ILogger) error {
 	CategoryTypes = newCategoryTypesRepository(logger)
 	Categories = newCategoriesRepository(logger)
 	Users = newUsersRepository(logger)
+	ActivityPubIncomingActivities = newActivityPubIncomingActivitiesRepository(logger)
+	ActivityPubOutgoingActivities = newActivityPubOutgoingActivitiesRepository(logger)
 
 	repositories := []IRepository{
 		Pipe,
@@ -56,6 +60,8 @@ func Initialize(configuration IConfiguration, logger ILogger) error {
 		CategoryTypes,
 		Categories,
 		Users,
+		ActivityPubIncomingActivities,
+		ActivityPubOutgoingActivities,
 	}
 
 	for _, repository := range repositories {

@@ -82,6 +82,24 @@ func (repository *pipeRepository) GetPipeDescriptors() []*pipeDescriptor {
 				return Parameters{e.Id(), e.Github(), e.GetEditor(), e.GetQueueTimestamp().UnixNano(), e.Payload()}
 			},
 		},
+		{
+			PIPE_ACTIVITY_PUB_INCOMING_ACTIVITY,
+			&sync.Mutex{},
+			"INSERT INTO `activity_pub_incoming_activities` (`id`, `identity_id`, `unique_identifier`, `timestamp`, `from`, `to`, `content`, `raw`, `editor`, `queued_at`, `payload`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+			func(entity IPipeEntity) Parameters {
+				e := entity.(IActivityPubIncomingActivityPipeEntity)
+				return Parameters{e.Id(), e.IdentityId(), e.UniqueIdentifier(), e.Timestamp(), e.From(), e.To(), e.Content(), e.Raw(), e.GetEditor(), e.GetQueueTimestamp().UnixNano(), e.Payload()}
+			},
+		},
+		{
+			PIPE_ACTIVITY_PUB_OUTGOING_ACTIVITY,
+			&sync.Mutex{},
+			"INSERT INTO `activity_pub_outgoing_activities` (`id`, `identity_id`, `unique_identifier`, `timestamp`, `from`, `to`, `content`, `raw`, `editor`, `queued_at`, `payload`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+			func(entity IPipeEntity) Parameters {
+				e := entity.(IActivityPubOutgoingActivityPipeEntity)
+				return Parameters{e.Id(), e.IdentityId(), e.UniqueIdentifier(), e.Timestamp(), e.From(), e.To(), e.Content(), e.Raw(), e.GetEditor(), e.GetQueueTimestamp().UnixNano(), e.Payload()}
+			},
+		},
 	}
 
 	return descriptors
