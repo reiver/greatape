@@ -64,6 +64,10 @@ func (dispatcher *dispatcher) NewActivityPubOutgoingActivities() IActivityPubOut
 	return NewActivityPubOutgoingActivities()
 }
 
+func (dispatcher *dispatcher) NewActivityPubFollowers() IActivityPubFollowerCollection {
+	return NewActivityPubFollowers()
+}
+
 func (dispatcher *dispatcher) NewSpis() ISpiCollection {
 	return NewSpis()
 }

@@ -44,6 +44,8 @@ func (factory *systemComponentFactory) Create(componentType SystemComponentType,
 		component = newActivityPubIncomingActivityManager(configuration, logger, dependencies...)
 	case SYSTEM_COMPONENT_ACTIVITY_PUB_OUTGOING_ACTIVITY_MANAGER:
 		component = newActivityPubOutgoingActivityManager(configuration, logger, dependencies...)
+	case SYSTEM_COMPONENT_ACTIVITY_PUB_FOLLOWER_MANAGER:
+		component = newActivityPubFollowerManager(configuration, logger, dependencies...)
 	case SYSTEM_COMPONENT_SPI_MANAGER:
 		component = newSpiManager(configuration, logger, dependencies...)
 	}

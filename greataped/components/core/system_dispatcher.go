@@ -168,6 +168,10 @@ func (dispatcher *dispatcher) NewActivityPubOutgoingActivity(id int64, identityI
 	return NewActivityPubOutgoingActivity(id, identityId, uniqueIdentifier, timestamp, from, to, content, raw)
 }
 
+func (dispatcher *dispatcher) NewActivityPubFollower(id int64, handle string, inbox string, subject string, activity string, accepted bool) (IActivityPubFollower, error) {
+	return NewActivityPubFollower(id, handle, inbox, subject, activity, accepted)
+}
+
 func (dispatcher *dispatcher) NewSpi() (ISpi, error) {
 	return NewSpi()
 }

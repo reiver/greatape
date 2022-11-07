@@ -920,6 +920,62 @@ type IDispatcher interface {
 	// running the provided iterator for each of them.
 	ForEachActivityPubOutgoingActivityByIdentityId(identityId int64, iterator ActivityPubOutgoingActivityIterator)
 
+	// ActivityPubFollower
+	// ------------------------------------------------------------
+
+	// ActivityPubFollowerExists checks whether a specific 'Activity Pub Follower' with the provided
+	// unique identifier or 'Id' exists in the system.
+	ActivityPubFollowerExists(id int64) bool
+	// ActivityPubFollowerExistsWhich checks whether a specific 'Activity Pub Follower' exists in the system
+	// which satisfies the provided condition.
+	ActivityPubFollowerExistsWhich(condition ActivityPubFollowerCondition) bool
+	// ListActivityPubFollowers returns a list of all 'Activity Pub Follower' instances in the system.
+	ListActivityPubFollowers() IActivityPubFollowerCollection
+	// ForEachActivityPubFollower loops over all 'Activity Pub Follower' instances in the system running
+	// the provided iterator for each of them.
+	ForEachActivityPubFollower(iterator ActivityPubFollowerIterator)
+	// FilterActivityPubFollowers returns a filtered list of 'Activity Pub Follower' instances based
+	// on the provided predicate.
+	FilterActivityPubFollowers(predicate ActivityPubFollowerFilterPredicate) IActivityPubFollowerCollection
+	// MapActivityPubFollowers loops over all 'Activity Pub Follower' instances in the system and
+	// returns a transformed list based on the provided predicate.
+	MapActivityPubFollowers(predicate ActivityPubFollowerMapPredicate) IActivityPubFollowerCollection
+	// GetActivityPubFollower finds a specific 'Activity Pub Follower' instance using
+	// the provided unique identifier or 'Id'.
+	GetActivityPubFollower(id int64) IActivityPubFollower
+	// AddActivityPubFollower creates a new 'Activity Pub Follower' instance with an auto-generated unique identifier using the
+	// provided property values and adds it to persistent data store and system cache.
+	// The method is smart enough to respect the transaction if used in an
+	// x.Atomic context. This method is synchronous.
+	AddActivityPubFollower(handle string, inbox string, subject string, activity string, accepted bool) IActivityPubFollower
+	// AddActivityPubFollowerWithCustomId creates a new 'Activity Pub Follower' instance with a custom unique identifier using the
+	// provided property values and adds it to persistent data store and system cache.
+	// The method is smart enough to respect the transaction if used in an
+	// x.Atomic context. This method is synchronous.
+	AddActivityPubFollowerWithCustomId(id int64, handle string, inbox string, subject string, activity string, accepted bool) IActivityPubFollower
+	// LogActivityPubFollower creates a new 'Activity Pub Follower' instance using the provided property values
+	// and adds it to persistent data store and system cache.
+	// The method is smart enough to respect the transaction if used in an
+	// x.Atomic context. This method is asynchronous.
+	LogActivityPubFollower(handle string, inbox string, subject string, activity string, accepted bool, source string, payload string)
+	// UpdateActivityPubFollower finds the 'Activity Pub Follower' instance using the provided unique identifier and updates it using
+	// the provided property values and reflects the changes to persistent data store and system
+	// cache. The method is smart enough to respect the transaction if used in an x.Atomic context.
+	// This method is synchronous.
+	UpdateActivityPubFollower(id int64, handle string, inbox string, subject string, activity string, accepted bool) IActivityPubFollower
+	// UpdateActivityPubFollowerObject finds and updates the 'Activity Pub Follower' using the provided instance and reflects the
+	// changes to persistent data store and system cache. The method is smart enough to
+	// respect the transaction if used in an x.Atomic context. This method is synchronous.
+	UpdateActivityPubFollowerObject(object IObject, activityPubFollower IActivityPubFollower) IActivityPubFollower
+	// AddOrUpdateActivityPubFollowerObject tries to find the 'Activity Pub Follower' using the provided instance, then updates it in persistent
+	// data store and system cache or creates it if doesn't already exist. The method is smart enough
+	// to respect the transaction if used in an x.Atomic context. This method is synchronous.
+	AddOrUpdateActivityPubFollowerObject(object IObject, activityPubFollower IActivityPubFollower) IActivityPubFollower
+	// RemoveActivityPubFollower finds the 'Activity Pub Follower' instance using the provided unique identifier and
+	// removes it from the system cache. The method is smart enough to respect
+	// the transaction if used in an x.Atomic context. This method is synchronous.
+	RemoveActivityPubFollower(id int64) IActivityPubFollower
+
 	// Spi
 	// ------------------------------------------------------------
 
@@ -1037,6 +1093,10 @@ type IDispatcher interface {
 	NewActivityPubOutgoingActivity(id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string) (IActivityPubOutgoingActivity, error)
 	// NewActivityPubOutgoingActivities creates an empty in-memory 'Activity Pub Outgoing Activity' collection which is not thread-safe.
 	NewActivityPubOutgoingActivities() IActivityPubOutgoingActivityCollection
+	// NewActivityPubFollower creates a new 'Activity Pub Follower' instance using the provided property values.
+	NewActivityPubFollower(id int64, handle string, inbox string, subject string, activity string, accepted bool) (IActivityPubFollower, error)
+	// NewActivityPubFollowers creates an empty in-memory 'Activity Pub Follower' collection which is not thread-safe.
+	NewActivityPubFollowers() IActivityPubFollowerCollection
 	// NewSpi creates a new 'Spi' instance using the provided property values.
 	NewSpi() (ISpi, error)
 	// NewSpis creates an empty in-memory 'Spi' collection which is not thread-safe.

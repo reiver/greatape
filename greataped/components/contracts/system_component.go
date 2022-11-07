@@ -232,6 +232,19 @@ type (
 		ListActivityPubOutgoingActivitiesByIdentity(identityId int64, pageIndex uint32, pageSize uint32, criteria string, editor Identity) IActivityPubOutgoingActivityCollection
 		ForEachActivityPubOutgoingActivityByIdentity(identityId int64, iterator ActivityPubOutgoingActivityIterator)
 
+		// ActivityPubFollower
+		ActivityPubFollowerManager() IActivityPubFollowerManager
+		ActivityPubFollowerExists(id int64) bool
+		ListActivityPubFollowers(pageIndex uint32, pageSize uint32, criteria string, editor Identity) IActivityPubFollowerCollection
+		GetActivityPubFollower(id int64, editor Identity) (IActivityPubFollower, error)
+		AddActivityPubFollower(handle string, inbox string, subject string, activity string, accepted bool, editor Identity) (IActivityPubFollower, error)
+		AddActivityPubFollowerAtomic(transaction ITransaction, handle string, inbox string, subject string, activity string, accepted bool, editor Identity) (IActivityPubFollower, error)
+		LogActivityPubFollower(handle string, inbox string, subject string, activity string, accepted bool, source string, editor Identity, payload string)
+		UpdateActivityPubFollower(id int64, handle string, inbox string, subject string, activity string, accepted bool, editor Identity) (IActivityPubFollower, error)
+		UpdateActivityPubFollowerAtomic(transaction ITransaction, id int64, handle string, inbox string, subject string, activity string, accepted bool, editor Identity) (IActivityPubFollower, error)
+		RemoveActivityPubFollower(id int64, editor Identity) (IActivityPubFollower, error)
+		RemoveActivityPubFollowerAtomic(transaction ITransaction, id int64, editor Identity) (IActivityPubFollower, error)
+
 		// Spi
 		SpiManager() ISpiManager
 		SpiExists(id int64) bool
@@ -261,6 +274,7 @@ type (
 		NewActivityPubMedia() (IActivityPubMedia, error)
 		NewActivityPubIncomingActivity(id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string) (IActivityPubIncomingActivity, error)
 		NewActivityPubOutgoingActivity(id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string) (IActivityPubOutgoingActivity, error)
+		NewActivityPubFollower(id int64, handle string, inbox string, subject string, activity string, accepted bool) (IActivityPubFollower, error)
 		NewSpi() (ISpi, error)
 		NewEchoResult(document IDocument, ignored interface{}) IEchoResult
 	}
@@ -322,5 +336,6 @@ const (
 	SYSTEM_COMPONENT_ACTIVITY_PUB_MEDIA_MANAGER             SystemComponentType = 0x0000000D
 	SYSTEM_COMPONENT_ACTIVITY_PUB_INCOMING_ACTIVITY_MANAGER SystemComponentType = 0x0000000E
 	SYSTEM_COMPONENT_ACTIVITY_PUB_OUTGOING_ACTIVITY_MANAGER SystemComponentType = 0x0000000F
-	SYSTEM_COMPONENT_SPI_MANAGER                            SystemComponentType = 0x00000010
+	SYSTEM_COMPONENT_ACTIVITY_PUB_FOLLOWER_MANAGER          SystemComponentType = 0x00000010
+	SYSTEM_COMPONENT_SPI_MANAGER                            SystemComponentType = 0x00000011
 )

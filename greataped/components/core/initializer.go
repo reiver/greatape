@@ -69,6 +69,7 @@ func Initialize(configuration IConfiguration, logger ILogger) error {
 	activityPubMediaManager := factory.Create(SYSTEM_COMPONENT_ACTIVITY_PUB_MEDIA_MANAGER, configuration, logger).(IActivityPubMediaManager)
 	activityPubIncomingActivityManager := factory.Create(SYSTEM_COMPONENT_ACTIVITY_PUB_INCOMING_ACTIVITY_MANAGER, configuration, logger).(IActivityPubIncomingActivityManager)
 	activityPubOutgoingActivityManager := factory.Create(SYSTEM_COMPONENT_ACTIVITY_PUB_OUTGOING_ACTIVITY_MANAGER, configuration, logger).(IActivityPubOutgoingActivityManager)
+	activityPubFollowerManager := factory.Create(SYSTEM_COMPONENT_ACTIVITY_PUB_FOLLOWER_MANAGER, configuration, logger).(IActivityPubFollowerManager)
 	spiManager := factory.Create(SYSTEM_COMPONENT_SPI_MANAGER, configuration, logger).(ISpiManager)
 
 	// Resolving Dependencies
@@ -111,6 +112,7 @@ func Initialize(configuration IConfiguration, logger ILogger) error {
 		activityPubMediaManager:            activityPubMediaManager,
 		activityPubIncomingActivityManager: activityPubIncomingActivityManager,
 		activityPubOutgoingActivityManager: activityPubOutgoingActivityManager,
+		activityPubFollowerManager:         activityPubFollowerManager,
 		spiManager:                         spiManager,
 		logger:                             logger,
 		configuration:                      configuration,
@@ -178,6 +180,7 @@ type conductor struct {
 	activityPubMediaManager            IActivityPubMediaManager
 	activityPubIncomingActivityManager IActivityPubIncomingActivityManager
 	activityPubOutgoingActivityManager IActivityPubOutgoingActivityManager
+	activityPubFollowerManager         IActivityPubFollowerManager
 	spiManager                         ISpiManager
 	logger                             ILogger
 	configuration                      IConfiguration
@@ -1000,6 +1003,52 @@ func (conductor *conductor) ForEachActivityPubOutgoingActivityByIdentity(identit
 	conductor.activityPubOutgoingActivityManager.ForEachByIdentity(identityId, iterator)
 }
 
+// ActivityPubFollower
+
+func (conductor *conductor) ActivityPubFollowerManager() IActivityPubFollowerManager {
+	return conductor.activityPubFollowerManager
+}
+
+func (conductor *conductor) ActivityPubFollowerExists(id int64) bool {
+	return conductor.activityPubFollowerManager.Exists(id)
+}
+
+func (conductor *conductor) ListActivityPubFollowers(pageIndex uint32, pageSize uint32, criteria string, editor Identity) IActivityPubFollowerCollection {
+	return conductor.activityPubFollowerManager.ListActivityPubFollowers(pageIndex, pageSize, criteria, editor)
+}
+
+func (conductor *conductor) GetActivityPubFollower(id int64, editor Identity) (IActivityPubFollower, error) {
+	return conductor.activityPubFollowerManager.GetActivityPubFollower(id, editor)
+}
+
+func (conductor *conductor) AddActivityPubFollower(handle string, inbox string, subject string, activity string, accepted bool, editor Identity) (IActivityPubFollower, error) {
+	return conductor.activityPubFollowerManager.AddActivityPubFollower(handle, inbox, subject, activity, accepted, editor)
+}
+
+func (conductor *conductor) AddActivityPubFollowerAtomic(transaction ITransaction, handle string, inbox string, subject string, activity string, accepted bool, editor Identity) (IActivityPubFollower, error) {
+	return conductor.activityPubFollowerManager.AddActivityPubFollowerAtomic(transaction, handle, inbox, subject, activity, accepted, editor)
+}
+
+func (conductor *conductor) LogActivityPubFollower(handle string, inbox string, subject string, activity string, accepted bool, source string, editor Identity, payload string) {
+	conductor.activityPubFollowerManager.Log(handle, inbox, subject, activity, accepted, source, editor, payload)
+}
+
+func (conductor *conductor) UpdateActivityPubFollower(id int64, handle string, inbox string, subject string, activity string, accepted bool, editor Identity) (IActivityPubFollower, error) {
+	return conductor.activityPubFollowerManager.UpdateActivityPubFollower(id, handle, inbox, subject, activity, accepted, editor)
+}
+
+func (conductor *conductor) UpdateActivityPubFollowerAtomic(transaction ITransaction, id int64, handle string, inbox string, subject string, activity string, accepted bool, editor Identity) (IActivityPubFollower, error) {
+	return conductor.activityPubFollowerManager.UpdateActivityPubFollowerAtomic(transaction, id, handle, inbox, subject, activity, accepted, editor)
+}
+
+func (conductor *conductor) RemoveActivityPubFollower(id int64, editor Identity) (IActivityPubFollower, error) {
+	return conductor.activityPubFollowerManager.RemoveActivityPubFollower(id, editor)
+}
+
+func (conductor *conductor) RemoveActivityPubFollowerAtomic(transaction ITransaction, id int64, editor Identity) (IActivityPubFollower, error) {
+	return conductor.activityPubFollowerManager.RemoveActivityPubFollowerAtomic(transaction, id, editor)
+}
+
 // Spi
 
 func (conductor *conductor) SpiManager() ISpiManager {
@@ -1108,6 +1157,10 @@ func (conductor *conductor) NewActivityPubIncomingActivity(id int64, identityId 
 
 func (conductor *conductor) NewActivityPubOutgoingActivity(id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string) (IActivityPubOutgoingActivity, error) {
 	return NewActivityPubOutgoingActivity(id, identityId, uniqueIdentifier, timestamp, from, to, content, raw)
+}
+
+func (conductor *conductor) NewActivityPubFollower(id int64, handle string, inbox string, subject string, activity string, accepted bool) (IActivityPubFollower, error) {
+	return NewActivityPubFollower(id, handle, inbox, subject, activity, accepted)
 }
 
 func (conductor *conductor) NewSpi() (ISpi, error) {
