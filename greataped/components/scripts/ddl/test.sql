@@ -286,6 +286,34 @@ CREATE TABLE `activity_pub_outgoing_activities`
   DEFAULT CHARSET = `utf8mb4`
   COLLATE = `utf8mb4_unicode_ci`;
 
+# ╔═════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ║	ActivityPubFollowers
+# ╚═════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+CREATE TABLE `activity_pub_followers`
+(
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `action` VARCHAR(16) NOT NULL,
+    `original_id` BIGINT NOT NULL,
+    `handle` VARCHAR(256) NOT NULL,
+    `inbox` VARCHAR(256) NOT NULL,
+    `subject` VARCHAR(256) NOT NULL,
+    `activity` VARCHAR(4096) NOT NULL,
+    `accepted` BIT(1) NOT NULL,
+    `editor` BIGINT NOT NULL,
+    `status` BIGINT NOT NULL,
+    `sort_order` FLOAT NOT NULL,
+    `queued_at` BIGINT NOT NULL,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `triggered_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `changed_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `payload` JSON NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = `utf8mb4`
+  COLLATE = `utf8mb4_unicode_ci`;
+
 # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════
 
 DROP DATABASE IF EXISTS `greatape_test`;
@@ -747,6 +775,51 @@ ON `activity_pub_outgoing_activities` FOR EACH ROW
 BEGIN
     INSERT INTO `greatape_test_history`.`activity_pub_outgoing_activities`(`action`, `original_id`, `identity_id`, `unique_identifier`, `timestamp`, `from`, `to`, `content`, `raw`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
     VALUES('delete', `old`.`id`, `old`.`identity_id`, `old`.`unique_identifier`, `old`.`timestamp`, `old`.`from`, `old`.`to`, `old`.`content`, `old`.`raw`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
+END$$
+
+DELIMITER ;
+
+# ╔═════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ║	ActivityPubFollowers
+# ╚═════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+CREATE TABLE `activity_pub_followers`
+(
+    `id` BIGINT NOT NULL,
+    `handle` VARCHAR(256) NOT NULL,
+    `inbox` VARCHAR(256) NOT NULL,
+    `subject` VARCHAR(256) NOT NULL,
+    `activity` VARCHAR(4096) NOT NULL,
+    `accepted` BIT(1) NOT NULL,
+    `editor` BIGINT NOT NULL DEFAULT 0,
+    `status` BIGINT NOT NULL DEFAULT 0,
+    `sort_order` FLOAT NOT NULL DEFAULT 0,
+    `queued_at` BIGINT NOT NULL DEFAULT 0,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `payload` JSON NULL,
+    PRIMARY KEY (`id`),
+    INDEX (`status`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = `utf8mb4`
+  COLLATE = `utf8mb4_unicode_ci`;
+
+DELIMITER $$
+
+CREATE TRIGGER `activity_pub_followers_after_update`
+AFTER UPDATE
+ON `activity_pub_followers` FOR EACH ROW
+BEGIN
+    INSERT INTO `greatape_test_history`.`activity_pub_followers`(`action`, `original_id`, `handle`, `inbox`, `subject`, `activity`, `accepted`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
+    VALUES('update', `old`.`id`, `old`.`handle`, `old`.`inbox`, `old`.`subject`, `old`.`activity`, `old`.`accepted`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
+END$$
+
+CREATE TRIGGER `activity_pub_followers_after_delete`
+AFTER DELETE
+ON `activity_pub_followers` FOR EACH ROW
+BEGIN
+    INSERT INTO `greatape_test_history`.`activity_pub_followers`(`action`, `original_id`, `handle`, `inbox`, `subject`, `activity`, `accepted`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
+    VALUES('delete', `old`.`id`, `old`.`handle`, `old`.`inbox`, `old`.`subject`, `old`.`activity`, `old`.`accepted`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
 END$$
 
 DELIMITER ;
