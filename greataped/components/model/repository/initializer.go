@@ -23,6 +23,7 @@ var (
 	Users                         IUsersRepository
 	ActivityPubIncomingActivities IActivityPubIncomingActivitiesRepository
 	ActivityPubOutgoingActivities IActivityPubOutgoingActivitiesRepository
+	ActivityPubFollowers          IActivityPubFollowersRepository
 )
 
 var database ISqlDatabase
@@ -49,6 +50,7 @@ func Initialize(configuration IConfiguration, logger ILogger) error {
 	Users = newUsersRepository(logger)
 	ActivityPubIncomingActivities = newActivityPubIncomingActivitiesRepository(logger)
 	ActivityPubOutgoingActivities = newActivityPubOutgoingActivitiesRepository(logger)
+	ActivityPubFollowers = newActivityPubFollowersRepository(logger)
 
 	repositories := []IRepository{
 		Pipe,
@@ -62,6 +64,7 @@ func Initialize(configuration IConfiguration, logger ILogger) error {
 		Users,
 		ActivityPubIncomingActivities,
 		ActivityPubOutgoingActivities,
+		ActivityPubFollowers,
 	}
 
 	for _, repository := range repositories {

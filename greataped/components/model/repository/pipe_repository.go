@@ -100,6 +100,15 @@ func (repository *pipeRepository) GetPipeDescriptors() []*pipeDescriptor {
 				return Parameters{e.Id(), e.IdentityId(), e.UniqueIdentifier(), e.Timestamp(), e.From(), e.To(), e.Content(), e.Raw(), e.GetEditor(), e.GetQueueTimestamp().UnixNano(), e.Payload()}
 			},
 		},
+		{
+			PIPE_ACTIVITY_PUB_FOLLOWER,
+			&sync.Mutex{},
+			"INSERT INTO `activity_pub_followers` (`id`, `handle`, `inbox`, `subject`, `activity`, `accepted`, `editor`, `queued_at`, `payload`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",
+			func(entity IPipeEntity) Parameters {
+				e := entity.(IActivityPubFollowerPipeEntity)
+				return Parameters{e.Id(), e.Handle(), e.Inbox(), e.Subject(), e.Activity(), e.Accepted(), e.GetEditor(), e.GetQueueTimestamp().UnixNano(), e.Payload()}
+			},
+		},
 	}
 
 	return descriptors
