@@ -86,3 +86,12 @@ message ActivityPubOutgoingActivity {
     string content = 0x00000007;
     string raw = 0x00000008;
 }
+
+message ActivityPubFollower {
+    int64 id = 0x00000001;
+    string handle = 0x00000002;
+    string inbox = 0x00000003;
+    string subject = 0x00000004;
+    string activity = 0x00000005;
+    bool accepted = 0x00000006;
+}

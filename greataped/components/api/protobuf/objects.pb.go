@@ -834,6 +834,93 @@ func (x *ActivityPubOutgoingActivity) GetRaw() string {
 	return ""
 }
 
+type ActivityPubFollower struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id       int64  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Handle   string `protobuf:"bytes,2,opt,name=handle,proto3" json:"handle,omitempty"`
+	Inbox    string `protobuf:"bytes,3,opt,name=inbox,proto3" json:"inbox,omitempty"`
+	Subject  string `protobuf:"bytes,4,opt,name=subject,proto3" json:"subject,omitempty"`
+	Activity string `protobuf:"bytes,5,opt,name=activity,proto3" json:"activity,omitempty"`
+	Accepted bool   `protobuf:"varint,6,opt,name=accepted,proto3" json:"accepted,omitempty"`
+}
+
+func (x *ActivityPubFollower) Reset() {
+	*x = ActivityPubFollower{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_objects_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ActivityPubFollower) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ActivityPubFollower) ProtoMessage() {}
+
+func (x *ActivityPubFollower) ProtoReflect() protoreflect.Message {
+	mi := &file_objects_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ActivityPubFollower.ProtoReflect.Descriptor instead.
+func (*ActivityPubFollower) Descriptor() ([]byte, []int) {
+	return file_objects_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *ActivityPubFollower) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *ActivityPubFollower) GetHandle() string {
+	if x != nil {
+		return x.Handle
+	}
+	return ""
+}
+
+func (x *ActivityPubFollower) GetInbox() string {
+	if x != nil {
+		return x.Inbox
+	}
+	return ""
+}
+
+func (x *ActivityPubFollower) GetSubject() string {
+	if x != nil {
+		return x.Subject
+	}
+	return ""
+}
+
+func (x *ActivityPubFollower) GetActivity() string {
+	if x != nil {
+		return x.Activity
+	}
+	return ""
+}
+
+func (x *ActivityPubFollower) GetAccepted() bool {
+	if x != nil {
+		return x.Accepted
+	}
+	return false
+}
+
 var File_objects_proto protoreflect.FileDescriptor
 
 var file_objects_proto_rawDesc = []byte{
@@ -931,8 +1018,19 @@ var file_objects_proto_rawDesc = []byte{
 	0x0e, 0x0a, 0x02, 0x74, 0x6f, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x74, 0x6f, 0x12,
 	0x18, 0x0a, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09,
 	0x52, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x12, 0x10, 0x0a, 0x03, 0x72, 0x61, 0x77,
-	0x18, 0x08, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x72, 0x61, 0x77, 0x42, 0x04, 0x5a, 0x02, 0x2e,
-	0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x18, 0x08, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x72, 0x61, 0x77, 0x22, 0xa5, 0x01, 0x0a, 0x13,
+	0x41, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x50, 0x75, 0x62, 0x46, 0x6f, 0x6c, 0x6c, 0x6f,
+	0x77, 0x65, 0x72, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52,
+	0x02, 0x69, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x68, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x06, 0x68, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x69,
+	0x6e, 0x62, 0x6f, 0x78, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x69, 0x6e, 0x62, 0x6f,
+	0x78, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x18, 0x04, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x07, 0x73, 0x75, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x12, 0x1a, 0x0a, 0x08, 0x61,
+	0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x61,
+	0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x12, 0x1a, 0x0a, 0x08, 0x61, 0x63, 0x63, 0x65, 0x70,
+	0x74, 0x65, 0x64, 0x18, 0x06, 0x20, 0x01, 0x28, 0x08, 0x52, 0x08, 0x61, 0x63, 0x63, 0x65, 0x70,
+	0x74, 0x65, 0x64, 0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x33,
 }
 
 var (
@@ -947,7 +1045,7 @@ func file_objects_proto_rawDescGZIP() []byte {
 	return file_objects_proto_rawDescData
 }
 
-var file_objects_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_objects_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_objects_proto_goTypes = []interface{}{
 	(*Error)(nil),                       // 0: protobuf.Error
 	(*Document)(nil),                    // 1: protobuf.Document
@@ -959,6 +1057,7 @@ var file_objects_proto_goTypes = []interface{}{
 	(*ActivityPubMedia)(nil),            // 7: protobuf.ActivityPubMedia
 	(*ActivityPubIncomingActivity)(nil), // 8: protobuf.ActivityPubIncomingActivity
 	(*ActivityPubOutgoingActivity)(nil), // 9: protobuf.ActivityPubOutgoingActivity
+	(*ActivityPubFollower)(nil),         // 10: protobuf.ActivityPubFollower
 }
 var file_objects_proto_depIdxs = []int32{
 	3, // 0: protobuf.ActivityPubActivity.object:type_name -> protobuf.ActivityPubObject
@@ -1095,6 +1194,18 @@ func file_objects_proto_init() {
 				return nil
 			}
 		}
+		file_objects_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ActivityPubFollower); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1102,7 +1213,7 @@ func file_objects_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_objects_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
