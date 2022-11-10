@@ -6,7 +6,7 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/robfig/cron v1.2.0
 	github.com/sendgrid/sendgrid-go v3.12.0+incompatible
-	github.com/xeronith/diamante v1.4.0
+	github.com/xeronith/diamante v1.4.2
 	google.golang.org/protobuf v1.28.1
 )
 
@@ -16,6 +16,7 @@ require (
 	github.com/fasthttp-contrib/websocket v0.0.0-20160511215533-1f3b11f56072 // indirect
 	github.com/go-sql-driver/mysql v1.5.0 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
+	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/gorilla/securecookie v1.1.1 // indirect
 	github.com/influxdata/influxdb v1.10.0 // indirect
