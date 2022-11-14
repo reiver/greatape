@@ -6,6 +6,9 @@
 
 ## APIs:
 1. [Echo](#echo)
+2. [Signup](#signup)
+3. [Verify](#verify)
+4. [Login](#login)
 
 ---
 
@@ -16,5 +19,43 @@ Request:
 
 Result:
     Document document
+```
+[Back to List](#apis)
+
+## Signup
+```
+Request:
+    string username
+    string email
+    // Should be at least 7 characters including upper and lowercase, digits and symbols
+    string password
+
+Result:
+    string token
+    string code
+```
+[Back to List](#apis)
+
+## Verify
+```
+Request:
+    string email
+    string token
+    string code
+
+Result:
+    string token
+```
+[Back to List](#apis)
+
+## Login
+```
+Request:
+    string email
+    string password
+
+Result:
+    string username
+    string token
 ```
 [Back to List](#apis)
