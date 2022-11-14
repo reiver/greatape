@@ -1099,6 +1099,18 @@ func (conductor *conductor) Echo(document IDocument, editor Identity) (IEchoResu
 	return conductor.spiManager.Echo(document, editor)
 }
 
+func (conductor *conductor) Signup(username string, email string, password string, editor Identity) (ISignupResult, error) {
+	return conductor.spiManager.Signup(username, email, password, editor)
+}
+
+func (conductor *conductor) Verify(email string, token string, code string, editor Identity) (IVerifyResult, error) {
+	return conductor.spiManager.Verify(email, token, code, editor)
+}
+
+func (conductor *conductor) Login(email string, password string, editor Identity) (ILoginResult, error) {
+	return conductor.spiManager.Login(email, password, editor)
+}
+
 func (conductor *conductor) NewDocument(id int64, content string) (IDocument, error) {
 	return NewDocument(id, content)
 }
@@ -1169,6 +1181,18 @@ func (conductor *conductor) NewSpi() (ISpi, error) {
 
 func (conductor *conductor) NewEchoResult(document IDocument, _ interface{}) IEchoResult {
 	return NewEchoResult(document, nil)
+}
+
+func (conductor *conductor) NewSignupResult(token string, code string, _ interface{}) ISignupResult {
+	return NewSignupResult(token, code, nil)
+}
+
+func (conductor *conductor) NewVerifyResult(token string, _ interface{}) IVerifyResult {
+	return NewVerifyResult(token, nil)
+}
+
+func (conductor *conductor) NewLoginResult(username string, token string, _ interface{}) ILoginResult {
+	return NewLoginResult(username, token, nil)
 }
 
 func (conductor *conductor) LogRemoteCall(context IContext, eventType uint32, source string, input, result interface{}, err error) {

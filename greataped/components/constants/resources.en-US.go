@@ -47,6 +47,11 @@ var Errors = Resource{
 	ERROR_MESSAGE_UNKNOWN_SPI:                              "unknown_spi",
 	ERROR_MESSAGE_INVALID_ID:                               "invalid_id",
 	ERROR_MESSAGE_INVALID_PARAMETERS:                       "invalid_parameters",
+	ERROR_MESSAGE_INVALID_EMAIL_FOR_SIGNUP:                 "invalid_email",
+	ERROR_MESSAGE_INVALID_PASSWORD_FOR_SIGNUP:              "invalid_password",
+	ERROR_MESSAGE_INVALID_EMAIL_FOR_VERIFY:                 "invalid_email",
+	ERROR_MESSAGE_INVALID_EMAIL_FOR_LOGIN:                  "invalid_email",
+	ERROR_MESSAGE_INVALID_PASSWORD_FOR_LOGIN:               "invalid_password",
 	// CUSTOM_ERRORS
 	ERROR_MESSAGE_DATA_INTEGRITY_VIOLATION:             "data_integrity_violation",
 	ERROR_MESSAGE_INVALID_STATE:                        "invalid_state",

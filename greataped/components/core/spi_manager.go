@@ -230,3 +230,152 @@ func (manager *spiManager) Echo(document IDocument, editor Identity) (result IEc
 		return result, nil
 	}
 }
+
+//region ISignupResult Implementation
+
+type signupResult struct {
+	token string
+	code  string
+}
+
+func NewSignupResult(token string, code string, _ interface{}) ISignupResult {
+	return &signupResult{
+		token: token,
+		code:  code,
+	}
+}
+
+func (result signupResult) Token() string {
+	return result.token
+}
+
+func (result signupResult) Code() string {
+	return result.code
+}
+
+//endregion
+
+func (manager *spiManager) Signup(username string, email string, password string, editor Identity) (result ISignupResult, err error) {
+	if email != "" {
+		if match, err := manager.Match(EMAIL, email); err != nil {
+			return nil, err
+		} else if !match {
+			return nil, ERROR_INVALID_EMAIL_FOR_SIGNUP
+		}
+	}
+
+	if !validators.PasswordIsValid(password) {
+		return nil, ERROR_INVALID_PASSWORD_FOR_SIGNUP
+	}
+
+	defer func() {
+		if reason := recover(); reason != nil {
+			err = manager.Error(reason)
+		}
+	}()
+
+	editor.Lock(SIGNUP_REQUEST)
+	defer editor.Unlock(SIGNUP_REQUEST)
+
+	if result, err = commands.Signup(NewDispatcher(Conductor, editor), username, email, password); err != nil {
+		return nil, err
+	} else {
+		return result, nil
+	}
+}
+
+//region IVerifyResult Implementation
+
+type verifyResult struct {
+	token string
+}
+
+func NewVerifyResult(token string, _ interface{}) IVerifyResult {
+	return &verifyResult{
+		token: token,
+	}
+}
+
+func (result verifyResult) Token() string {
+	return result.token
+}
+
+//endregion
+
+func (manager *spiManager) Verify(email string, token string, code string, editor Identity) (result IVerifyResult, err error) {
+	if email != "" {
+		if match, err := manager.Match(EMAIL, email); err != nil {
+			return nil, err
+		} else if !match {
+			return nil, ERROR_INVALID_EMAIL_FOR_VERIFY
+		}
+	}
+
+	defer func() {
+		if reason := recover(); reason != nil {
+			err = manager.Error(reason)
+		}
+	}()
+
+	editor.Lock(VERIFY_REQUEST)
+	defer editor.Unlock(VERIFY_REQUEST)
+
+	if result, err = commands.Verify(NewDispatcher(Conductor, editor), email, token, code); err != nil {
+		return nil, err
+	} else {
+		return result, nil
+	}
+}
+
+//region ILoginResult Implementation
+
+type loginResult struct {
+	username string
+	token    string
+}
+
+func NewLoginResult(username string, token string, _ interface{}) ILoginResult {
+	return &loginResult{
+		username: username,
+		token:    token,
+	}
+}
+
+func (result loginResult) Username() string {
+	return result.username
+}
+
+func (result loginResult) Token() string {
+	return result.token
+}
+
+//endregion
+
+func (manager *spiManager) Login(email string, password string, editor Identity) (result ILoginResult, err error) {
+	if email != "" {
+		if match, err := manager.Match(EMAIL, email); err != nil {
+			return nil, err
+		} else if !match {
+			return nil, ERROR_INVALID_EMAIL_FOR_LOGIN
+		}
+	}
+
+	if !validators.PasswordIsValid(password) {
+		return nil, ERROR_INVALID_PASSWORD_FOR_LOGIN
+	}
+
+	defer func() {
+		if reason := recover(); reason != nil {
+			err = manager.Error(reason)
+		}
+	}()
+
+	editor.Lock(LOGIN_REQUEST)
+	defer editor.Unlock(LOGIN_REQUEST)
+
+	if result, err = commands.Login(NewDispatcher(Conductor, editor), email, password); err != nil {
+		return nil, err
+	} else {
+		return result, nil
+	}
+}

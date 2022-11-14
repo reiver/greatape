@@ -25,4 +25,41 @@ message EchoResult {
     Document document = 0x00000001;
 }
 
+// API: Signup
+//-----------------------------------------------------------
+message SignupRequest {
+    string username = 0x00000001;
+    string email = 0x00000002;
+    string password = 0x00000003;
+}
+
+message SignupResult {
+    string token = 0x00000001;
+    string code = 0x00000002;
+}
+
+// API: Verify
+//-----------------------------------------------------------
+message VerifyRequest {
+    string email = 0x00000001;
+    string token = 0x00000002;
+    string code = 0x00000003;
+}
+
+message VerifyResult {
+    string token = 0x00000001;
+}
+
+// API: Login
+//-----------------------------------------------------------
+message LoginRequest {
+    string email = 0x00000001;
+    string password = 0x00000002;
+}
+
+message LoginResult {
+    string username = 0x00000001;
+    string token = 0x00000002;
+}
+
 //-----------------------------------------------------------

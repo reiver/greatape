@@ -55,9 +55,26 @@ type (
 		Filter(predicate SpiFilterPredicate) ISpiCollection
 		Map(predicate SpiMapPredicate) ISpiCollection
 		Echo(document IDocument, editor Identity) (IEchoResult, error)
+		Signup(username string, email string, password string, editor Identity) (ISignupResult, error)
+		Verify(email string, token string, code string, editor Identity) (IVerifyResult, error)
+		Login(email string, password string, editor Identity) (ILoginResult, error)
 	}
 
 	IEchoResult interface {
 		Document() IDocument
+	}
+
+	ISignupResult interface {
+		Token() string
+		Code() string
+	}
+
+	IVerifyResult interface {
+		Token() string
+	}
+
+	ILoginResult interface {
+		Username() string
+		Token() string
 	}
 )

@@ -238,3 +238,15 @@ func (dispatcher *dispatcher) RemoveSpi(id int64) ISpi {
 func (dispatcher *dispatcher) Echo(document IDocument) (IEchoResult, error) {
 	return dispatcher.conductor.SpiManager().Echo(document, dispatcher.identity)
 }
+
+func (dispatcher *dispatcher) Signup(username string, email string, password string) (ISignupResult, error) {
+	return dispatcher.conductor.SpiManager().Signup(username, email, password, dispatcher.identity)
+}
+
+func (dispatcher *dispatcher) Verify(email string, token string, code string) (IVerifyResult, error) {
+	return dispatcher.conductor.SpiManager().Verify(email, token, code, dispatcher.identity)
+}
+
+func (dispatcher *dispatcher) Login(email string, password string) (ILoginResult, error) {
+	return dispatcher.conductor.SpiManager().Login(email, password, dispatcher.identity)
+}

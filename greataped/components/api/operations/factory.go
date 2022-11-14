@@ -8,6 +8,9 @@ func (factory *operationFactory) Operations() []IOperation {
 	return []IOperation{
 		SystemCallOperation(),
 		EchoOperation(),
+		SignupOperation(),
+		VerifyOperation(),
+		LoginOperation(),
 	}
 }
 

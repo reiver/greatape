@@ -258,6 +258,9 @@ type (
 		RemoveSpi(id int64, editor Identity) (ISpi, error)
 		RemoveSpiAtomic(transaction ITransaction, id int64, editor Identity) (ISpi, error)
 		Echo(document IDocument, editor Identity) (IEchoResult, error)
+		Signup(username string, email string, password string, editor Identity) (ISignupResult, error)
+		Verify(email string, token string, code string, editor Identity) (IVerifyResult, error)
+		Login(email string, password string, editor Identity) (ILoginResult, error)
 
 		NewDocument(id int64, content string) (IDocument, error)
 		NewSystemSchedule(id int64, enabled bool, config string) (ISystemSchedule, error)
@@ -277,6 +280,9 @@ type (
 		NewActivityPubFollower(id int64, handle string, inbox string, subject string, activity string, accepted bool) (IActivityPubFollower, error)
 		NewSpi() (ISpi, error)
 		NewEchoResult(document IDocument, ignored interface{}) IEchoResult
+		NewSignupResult(token string, code string, ignored interface{}) ISignupResult
+		NewVerifyResult(token string, ignored interface{}) IVerifyResult
+		NewLoginResult(username string, token string, ignored interface{}) ILoginResult
 	}
 
 	ISystemComponent interface {
