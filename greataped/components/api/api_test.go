@@ -45,6 +45,47 @@ func TestEchoApi(test *testing.T) {
 	}
 }
 
+func TestSignupApi(test *testing.T) {
+	input := &SignupRequest{
+		Username: "username",
+		Email:    "email",
+		Password: "password",
+	}
+
+	if output, err := api.Signup(input); err != nil {
+		test.Fatal(err)
+	} else if output == nil {
+		test.Fail()
+	}
+}
+
+func TestVerifyApi(test *testing.T) {
+	input := &VerifyRequest{
+		Email: "email",
+		Token: "token",
+		Code:  "code",
+	}
+
+	if output, err := api.Verify(input); err != nil {
+		test.Fatal(err)
+	} else if output == nil {
+		test.Fail()
+	}
+}
+
+func TestLoginApi(test *testing.T) {
+	input := &LoginRequest{
+		Email:    "email",
+		Password: "password",
+	}
+
+	if output, err := api.Login(input); err != nil {
+		test.Fatal(err)
+	} else if output == nil {
+		test.Fail()
+	}
+}
+
 //region Initialization
 
 func TestMain(main *testing.M) {

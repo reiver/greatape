@@ -159,3 +159,36 @@ func TestSpiManager_Echo(test *testing.T) {
 
 	_ = result
 }
+
+func TestSpiManager_Signup(test *testing.T) {
+	manager := Conductor.SpiManager()
+
+	result, err := manager.Signup("username", "email", "password", nil)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	_ = result
+}
+
+func TestSpiManager_Verify(test *testing.T) {
+	manager := Conductor.SpiManager()
+
+	result, err := manager.Verify("email", "token", "code", nil)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	_ = result
+}
+
+func TestSpiManager_Login(test *testing.T) {
+	manager := Conductor.SpiManager()
+
+	result, err := manager.Login("email", "password", nil)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	_ = result
+}

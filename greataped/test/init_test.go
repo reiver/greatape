@@ -25,11 +25,16 @@ var (
 )
 
 func TestMain(main *testing.M) {
+	// logging
 	logger := logging.NewLogger(false)
 	logger.SetLevel(logging.LEVEL_SUPPRESS_SYS_COMP)
+	// configuration
 	configuration := settings.NewTestConfiguration()
+	configuration.GetMySQLConfiguration().SetDatabase("greatape")
+	// factories
 	operationsFactory := operations.NewFactory()
 	handlersFactory := handlers.NewFactory()
+	// providers
 	measurementsProvider := analytics.NewInfluxDbProvider(configuration, logger)
 	emailProvider := email.NewProvider(logger)
 	smsProvider := sms.NewProvider(logger)
