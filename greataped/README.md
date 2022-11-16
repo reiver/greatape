@@ -9,6 +9,8 @@
 2. [Signup](#signup)
 3. [Verify](#verify)
 4. [Login](#login)
+5. [GetProfileByUser](#get-profile-by-user)
+6. [UpdateProfileByUser](#update-profile-by-user)
 
 ---
 
@@ -57,5 +59,37 @@ Request:
 Result:
     string username
     string token
+```
+[Back to List](#apis)
+
+## Get Profile By User
+```
+Request:
+
+Result:
+    string username
+    string displayName
+    string avatar
+    string banner
+    string summary
+    string github
+```
+[Back to List](#apis)
+
+## Update Profile By User
+```
+Request:
+    string displayName
+    string avatar
+    string banner
+    string summary
+    string github
+
+Result:
+    string displayName
+    string avatar
+    string banner
+    string summary
+    string github
 ```
 [Back to List](#apis)
