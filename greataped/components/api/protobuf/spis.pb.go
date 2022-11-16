@@ -547,6 +547,293 @@ func (x *LoginResult) GetToken() string {
 	return ""
 }
 
+// API: GetProfileByUser
+// -----------------------------------------------------------
+type GetProfileByUserRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *GetProfileByUserRequest) Reset() {
+	*x = GetProfileByUserRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spis_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetProfileByUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetProfileByUserRequest) ProtoMessage() {}
+
+func (x *GetProfileByUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_spis_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetProfileByUserRequest.ProtoReflect.Descriptor instead.
+func (*GetProfileByUserRequest) Descriptor() ([]byte, []int) {
+	return file_spis_proto_rawDescGZIP(), []int{10}
+}
+
+type GetProfileByUserResult struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Username    string `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+	DisplayName string `protobuf:"bytes,2,opt,name=displayName,proto3" json:"displayName,omitempty"`
+	Avatar      string `protobuf:"bytes,3,opt,name=avatar,proto3" json:"avatar,omitempty"`
+	Banner      string `protobuf:"bytes,4,opt,name=banner,proto3" json:"banner,omitempty"`
+	Summary     string `protobuf:"bytes,5,opt,name=summary,proto3" json:"summary,omitempty"`
+	Github      string `protobuf:"bytes,6,opt,name=github,proto3" json:"github,omitempty"`
+}
+
+func (x *GetProfileByUserResult) Reset() {
+	*x = GetProfileByUserResult{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spis_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetProfileByUserResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetProfileByUserResult) ProtoMessage() {}
+
+func (x *GetProfileByUserResult) ProtoReflect() protoreflect.Message {
+	mi := &file_spis_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetProfileByUserResult.ProtoReflect.Descriptor instead.
+func (*GetProfileByUserResult) Descriptor() ([]byte, []int) {
+	return file_spis_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *GetProfileByUserResult) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *GetProfileByUserResult) GetDisplayName() string {
+	if x != nil {
+		return x.DisplayName
+	}
+	return ""
+}
+
+func (x *GetProfileByUserResult) GetAvatar() string {
+	if x != nil {
+		return x.Avatar
+	}
+	return ""
+}
+
+func (x *GetProfileByUserResult) GetBanner() string {
+	if x != nil {
+		return x.Banner
+	}
+	return ""
+}
+
+func (x *GetProfileByUserResult) GetSummary() string {
+	if x != nil {
+		return x.Summary
+	}
+	return ""
+}
+
+func (x *GetProfileByUserResult) GetGithub() string {
+	if x != nil {
+		return x.Github
+	}
+	return ""
+}
+
+// API: UpdateProfileByUser
+// -----------------------------------------------------------
+type UpdateProfileByUserRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	DisplayName string `protobuf:"bytes,1,opt,name=displayName,proto3" json:"displayName,omitempty"`
+	Avatar      string `protobuf:"bytes,2,opt,name=avatar,proto3" json:"avatar,omitempty"`
+	Banner      string `protobuf:"bytes,3,opt,name=banner,proto3" json:"banner,omitempty"`
+	Summary     string `protobuf:"bytes,4,opt,name=summary,proto3" json:"summary,omitempty"`
+	Github      string `protobuf:"bytes,5,opt,name=github,proto3" json:"github,omitempty"`
+}
+
+func (x *UpdateProfileByUserRequest) Reset() {
+	*x = UpdateProfileByUserRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spis_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateProfileByUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateProfileByUserRequest) ProtoMessage() {}
+
+func (x *UpdateProfileByUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_spis_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateProfileByUserRequest.ProtoReflect.Descriptor instead.
+func (*UpdateProfileByUserRequest) Descriptor() ([]byte, []int) {
+	return file_spis_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *UpdateProfileByUserRequest) GetDisplayName() string {
+	if x != nil {
+		return x.DisplayName
+	}
+	return ""
+}
+
+func (x *UpdateProfileByUserRequest) GetAvatar() string {
+	if x != nil {
+		return x.Avatar
+	}
+	return ""
+}
+
+func (x *UpdateProfileByUserRequest) GetBanner() string {
+	if x != nil {
+		return x.Banner
+	}
+	return ""
+}
+
+func (x *UpdateProfileByUserRequest) GetSummary() string {
+	if x != nil {
+		return x.Summary
+	}
+	return ""
+}
+
+func (x *UpdateProfileByUserRequest) GetGithub() string {
+	if x != nil {
+		return x.Github
+	}
+	return ""
+}
+
+type UpdateProfileByUserResult struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	DisplayName string `protobuf:"bytes,1,opt,name=displayName,proto3" json:"displayName,omitempty"`
+	Avatar      string `protobuf:"bytes,2,opt,name=avatar,proto3" json:"avatar,omitempty"`
+	Banner      string `protobuf:"bytes,3,opt,name=banner,proto3" json:"banner,omitempty"`
+	Summary     string `protobuf:"bytes,4,opt,name=summary,proto3" json:"summary,omitempty"`
+	Github      string `protobuf:"bytes,5,opt,name=github,proto3" json:"github,omitempty"`
+}
+
+func (x *UpdateProfileByUserResult) Reset() {
+	*x = UpdateProfileByUserResult{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spis_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateProfileByUserResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateProfileByUserResult) ProtoMessage() {}
+
+func (x *UpdateProfileByUserResult) ProtoReflect() protoreflect.Message {
+	mi := &file_spis_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateProfileByUserResult.ProtoReflect.Descriptor instead.
+func (*UpdateProfileByUserResult) Descriptor() ([]byte, []int) {
+	return file_spis_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *UpdateProfileByUserResult) GetDisplayName() string {
+	if x != nil {
+		return x.DisplayName
+	}
+	return ""
+}
+
+func (x *UpdateProfileByUserResult) GetAvatar() string {
+	if x != nil {
+		return x.Avatar
+	}
+	return ""
+}
+
+func (x *UpdateProfileByUserResult) GetBanner() string {
+	if x != nil {
+		return x.Banner
+	}
+	return ""
+}
+
+func (x *UpdateProfileByUserResult) GetSummary() string {
+	if x != nil {
+		return x.Summary
+	}
+	return ""
+}
+
+func (x *UpdateProfileByUserResult) GetGithub() string {
+	if x != nil {
+		return x.Github
+	}
+	return ""
+}
+
 var File_spis_proto protoreflect.FileDescriptor
 
 var file_spis_proto_rawDesc = []byte{
@@ -589,8 +876,42 @@ var file_spis_proto_rawDesc = []byte{
 	0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61,
 	0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61,
 	0x6d, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0x19, 0x0a, 0x17, 0x47, 0x65, 0x74, 0x50,
+	0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65, 0x42, 0x79, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x22, 0xb8, 0x01, 0x0a, 0x16, 0x47, 0x65, 0x74, 0x50, 0x72, 0x6f, 0x66, 0x69,
+	0x6c, 0x65, 0x42, 0x79, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x12, 0x1a,
+	0x0a, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x20, 0x0a, 0x0b, 0x64, 0x69,
+	0x73, 0x70, 0x6c, 0x61, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x0b, 0x64, 0x69, 0x73, 0x70, 0x6c, 0x61, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x16, 0x0a, 0x06,
+	0x61, 0x76, 0x61, 0x74, 0x61, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x61, 0x76,
+	0x61, 0x74, 0x61, 0x72, 0x12, 0x16, 0x0a, 0x06, 0x62, 0x61, 0x6e, 0x6e, 0x65, 0x72, 0x18, 0x04,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x62, 0x61, 0x6e, 0x6e, 0x65, 0x72, 0x12, 0x18, 0x0a, 0x07,
+	0x73, 0x75, 0x6d, 0x6d, 0x61, 0x72, 0x79, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x73,
+	0x75, 0x6d, 0x6d, 0x61, 0x72, 0x79, 0x12, 0x16, 0x0a, 0x06, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62,
+	0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x22, 0xa0,
+	0x01, 0x0a, 0x1a, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65,
+	0x42, 0x79, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x20, 0x0a,
+	0x0b, 0x64, 0x69, 0x73, 0x70, 0x6c, 0x61, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x0b, 0x64, 0x69, 0x73, 0x70, 0x6c, 0x61, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x12,
+	0x16, 0x0a, 0x06, 0x61, 0x76, 0x61, 0x74, 0x61, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x06, 0x61, 0x76, 0x61, 0x74, 0x61, 0x72, 0x12, 0x16, 0x0a, 0x06, 0x62, 0x61, 0x6e, 0x6e, 0x65,
+	0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x62, 0x61, 0x6e, 0x6e, 0x65, 0x72, 0x12,
+	0x18, 0x0a, 0x07, 0x73, 0x75, 0x6d, 0x6d, 0x61, 0x72, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x07, 0x73, 0x75, 0x6d, 0x6d, 0x61, 0x72, 0x79, 0x12, 0x16, 0x0a, 0x06, 0x67, 0x69, 0x74,
+	0x68, 0x75, 0x62, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x67, 0x69, 0x74, 0x68, 0x75,
+	0x62, 0x22, 0x9f, 0x01, 0x0a, 0x19, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x66,
+	0x69, 0x6c, 0x65, 0x42, 0x79, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x12,
+	0x20, 0x0a, 0x0b, 0x64, 0x69, 0x73, 0x70, 0x6c, 0x61, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x64, 0x69, 0x73, 0x70, 0x6c, 0x61, 0x79, 0x4e, 0x61, 0x6d,
+	0x65, 0x12, 0x16, 0x0a, 0x06, 0x61, 0x76, 0x61, 0x74, 0x61, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x06, 0x61, 0x76, 0x61, 0x74, 0x61, 0x72, 0x12, 0x16, 0x0a, 0x06, 0x62, 0x61, 0x6e,
+	0x6e, 0x65, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x62, 0x61, 0x6e, 0x6e, 0x65,
+	0x72, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x6d, 0x6d, 0x61, 0x72, 0x79, 0x18, 0x04, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x07, 0x73, 0x75, 0x6d, 0x6d, 0x61, 0x72, 0x79, 0x12, 0x16, 0x0a, 0x06, 0x67,
+	0x69, 0x74, 0x68, 0x75, 0x62, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x67, 0x69, 0x74,
+	0x68, 0x75, 0x62, 0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x33,
 }
 
 var (
@@ -605,23 +926,27 @@ func file_spis_proto_rawDescGZIP() []byte {
 	return file_spis_proto_rawDescData
 }
 
-var file_spis_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_spis_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_spis_proto_goTypes = []interface{}{
-	(*SystemCallRequest)(nil), // 0: protobuf.SystemCallRequest
-	(*SystemCallResult)(nil),  // 1: protobuf.SystemCallResult
-	(*EchoRequest)(nil),       // 2: protobuf.EchoRequest
-	(*EchoResult)(nil),        // 3: protobuf.EchoResult
-	(*SignupRequest)(nil),     // 4: protobuf.SignupRequest
-	(*SignupResult)(nil),      // 5: protobuf.SignupResult
-	(*VerifyRequest)(nil),     // 6: protobuf.VerifyRequest
-	(*VerifyResult)(nil),      // 7: protobuf.VerifyResult
-	(*LoginRequest)(nil),      // 8: protobuf.LoginRequest
-	(*LoginResult)(nil),       // 9: protobuf.LoginResult
-	(*Document)(nil),          // 10: protobuf.Document
+	(*SystemCallRequest)(nil),          // 0: protobuf.SystemCallRequest
+	(*SystemCallResult)(nil),           // 1: protobuf.SystemCallResult
+	(*EchoRequest)(nil),                // 2: protobuf.EchoRequest
+	(*EchoResult)(nil),                 // 3: protobuf.EchoResult
+	(*SignupRequest)(nil),              // 4: protobuf.SignupRequest
+	(*SignupResult)(nil),               // 5: protobuf.SignupResult
+	(*VerifyRequest)(nil),              // 6: protobuf.VerifyRequest
+	(*VerifyResult)(nil),               // 7: protobuf.VerifyResult
+	(*LoginRequest)(nil),               // 8: protobuf.LoginRequest
+	(*LoginResult)(nil),                // 9: protobuf.LoginResult
+	(*GetProfileByUserRequest)(nil),    // 10: protobuf.GetProfileByUserRequest
+	(*GetProfileByUserResult)(nil),     // 11: protobuf.GetProfileByUserResult
+	(*UpdateProfileByUserRequest)(nil), // 12: protobuf.UpdateProfileByUserRequest
+	(*UpdateProfileByUserResult)(nil),  // 13: protobuf.UpdateProfileByUserResult
+	(*Document)(nil),                   // 14: protobuf.Document
 }
 var file_spis_proto_depIdxs = []int32{
-	10, // 0: protobuf.EchoRequest.document:type_name -> protobuf.Document
-	10, // 1: protobuf.EchoResult.document:type_name -> protobuf.Document
+	14, // 0: protobuf.EchoRequest.document:type_name -> protobuf.Document
+	14, // 1: protobuf.EchoResult.document:type_name -> protobuf.Document
 	2,  // [2:2] is the sub-list for method output_type
 	2,  // [2:2] is the sub-list for method input_type
 	2,  // [2:2] is the sub-list for extension type_name
@@ -756,6 +1081,54 @@ func file_spis_proto_init() {
 				return nil
 			}
 		}
+		file_spis_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetProfileByUserRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_spis_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetProfileByUserResult); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_spis_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateProfileByUserRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_spis_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateProfileByUserResult); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -763,7 +1136,7 @@ func file_spis_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_spis_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

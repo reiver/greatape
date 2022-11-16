@@ -62,4 +62,36 @@ message LoginResult {
     string token = 0x00000002;
 }
 
+// API: GetProfileByUser
+//-----------------------------------------------------------
+message GetProfileByUserRequest {
+}
+
+message GetProfileByUserResult {
+    string username = 0x00000001;
+    string displayName = 0x00000002;
+    string avatar = 0x00000003;
+    string banner = 0x00000004;
+    string summary = 0x00000005;
+    string github = 0x00000006;
+}
+
+// API: UpdateProfileByUser
+//-----------------------------------------------------------
+message UpdateProfileByUserRequest {
+    string displayName = 0x00000001;
+    string avatar = 0x00000002;
+    string banner = 0x00000003;
+    string summary = 0x00000004;
+    string github = 0x00000005;
+}
+
+message UpdateProfileByUserResult {
+    string displayName = 0x00000001;
+    string avatar = 0x00000002;
+    string banner = 0x00000003;
+    string summary = 0x00000004;
+    string github = 0x00000005;
+}
+
 //-----------------------------------------------------------

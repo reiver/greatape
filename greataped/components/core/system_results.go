@@ -20,4 +20,12 @@ func (dispatcher *dispatcher) NewLoginResult(username string, token string) ILog
 	return NewLoginResult(username, token, nil)
 }
 
+func (dispatcher *dispatcher) NewGetProfileByUserResult(username string, displayName string, avatar string, banner string, summary string, github string) IGetProfileByUserResult {
+	return NewGetProfileByUserResult(username, displayName, avatar, banner, summary, github, nil)
+}
+
+func (dispatcher *dispatcher) NewUpdateProfileByUserResult(displayName string, avatar string, banner string, summary string, github string) IUpdateProfileByUserResult {
+	return NewUpdateProfileByUserResult(displayName, avatar, banner, summary, github, nil)
+}
+
 //endregion

@@ -379,3 +379,127 @@ func (manager *spiManager) Login(email string, password string, editor Identity)
 		return result, nil
 	}
 }
+
+//region IGetProfileByUserResult Implementation
+
+type getProfileByUserResult struct {
+	username    string
+	displayName string
+	avatar      string
+	banner      string
+	summary     string
+	github      string
+}
+
+func NewGetProfileByUserResult(username string, displayName string, avatar string, banner string, summary string, github string, _ interface{}) IGetProfileByUserResult {
+	return &getProfileByUserResult{
+		username:    username,
+		displayName: displayName,
+		avatar:      avatar,
+		banner:      banner,
+		summary:     summary,
+		github:      github,
+	}
+}
+
+func (result getProfileByUserResult) Username() string {
+	return result.username
+}
+
+func (result getProfileByUserResult) DisplayName() string {
+	return result.displayName
+}
+
+func (result getProfileByUserResult) Avatar() string {
+	return result.avatar
+}
+
+func (result getProfileByUserResult) Banner() string {
+	return result.banner
+}
+
+func (result getProfileByUserResult) Summary() string {
+	return result.summary
+}
+
+func (result getProfileByUserResult) Github() string {
+	return result.github
+}
+
+//endregion
+
+func (manager *spiManager) GetProfileByUser(editor Identity) (result IGetProfileByUserResult, err error) {
+	defer func() {
+		if reason := recover(); reason != nil {
+			err = manager.Error(reason)
+		}
+	}()
+
+	editor.Lock(GET_PROFILE_BY_USER_REQUEST)
+	defer editor.Unlock(GET_PROFILE_BY_USER_REQUEST)
+
+	if result, err = commands.GetProfileByUser(NewDispatcher(Conductor, editor)); err != nil {
+		return nil, err
+	} else {
+		return result, nil
+	}
+}
+
+//region IUpdateProfileByUserResult Implementation
+
+type updateProfileByUserResult struct {
+	displayName string
+	avatar      string
+	banner      string
+	summary     string
+	github      string
+}
+
+func NewUpdateProfileByUserResult(displayName string, avatar string, banner string, summary string, github string, _ interface{}) IUpdateProfileByUserResult {
+	return &updateProfileByUserResult{
+		displayName: displayName,
+		avatar:      avatar,
+		banner:      banner,
+		summary:     summary,
+		github:      github,
+	}
+}
+
+func (result updateProfileByUserResult) DisplayName() string {
+	return result.displayName
+}
+
+func (result updateProfileByUserResult) Avatar() string {
+	return result.avatar
+}
+
+func (result updateProfileByUserResult) Banner() string {
+	return result.banner
+}
+
+func (result updateProfileByUserResult) Summary() string {
+	return result.summary
+}
+
+func (result updateProfileByUserResult) Github() string {
+	return result.github
+}
+
+//endregion
+
+func (manager *spiManager) UpdateProfileByUser(displayName string, avatar string, banner string, summary string, github string, editor Identity) (result IUpdateProfileByUserResult, err error) {
+	defer func() {
+		if reason := recover(); reason != nil {
+			err = manager.Error(reason)
+		}
+	}()
+
+	editor.Lock(UPDATE_PROFILE_BY_USER_REQUEST)
+	defer editor.Unlock(UPDATE_PROFILE_BY_USER_REQUEST)
+
+	if result, err = commands.UpdateProfileByUser(NewDispatcher(Conductor, editor), displayName, avatar, banner, summary, github); err != nil {
+		return nil, err
+	} else {
+		return result, nil
+	}
+}

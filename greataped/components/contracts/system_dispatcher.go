@@ -1035,6 +1035,8 @@ type IDispatcher interface {
 	Signup(username string, email string, password string) (ISignupResult, error)
 	Verify(email string, token string, code string) (IVerifyResult, error)
 	Login(email string, password string) (ILoginResult, error)
+	GetProfileByUser() (IGetProfileByUserResult, error)
+	UpdateProfileByUser(displayName string, avatar string, banner string, summary string, github string) (IUpdateProfileByUserResult, error)
 
 	// NewDocument creates a new 'Document' instance using the provided property values.
 	NewDocument(id int64, content string) (IDocument, error)
@@ -1112,6 +1114,10 @@ type IDispatcher interface {
 	NewVerifyResult(token string) IVerifyResult
 	// NewLoginResult creates a new result container for 'Login' system action.
 	NewLoginResult(username string, token string) ILoginResult
+	// NewGetProfileByUserResult creates a new result container for 'Get Profile By User' system action.
+	NewGetProfileByUserResult(username string, displayName string, avatar string, banner string, summary string, github string) IGetProfileByUserResult
+	// NewUpdateProfileByUserResult creates a new result container for 'Update Profile By User' system action.
+	NewUpdateProfileByUserResult(displayName string, avatar string, banner string, summary string, github string) IUpdateProfileByUserResult
 	// Assert asserts the provided condition and panics if the assertion is not valid.
 	Assert(condition bool) IAssertionResult
 	// AssertNoError panics if the provided error is not nil.

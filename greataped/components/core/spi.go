@@ -250,3 +250,11 @@ func (dispatcher *dispatcher) Verify(email string, token string, code string) (I
 func (dispatcher *dispatcher) Login(email string, password string) (ILoginResult, error) {
 	return dispatcher.conductor.SpiManager().Login(email, password, dispatcher.identity)
 }
+
+func (dispatcher *dispatcher) GetProfileByUser() (IGetProfileByUserResult, error) {
+	return dispatcher.conductor.SpiManager().GetProfileByUser(dispatcher.identity)
+}
+
+func (dispatcher *dispatcher) UpdateProfileByUser(displayName string, avatar string, banner string, summary string, github string) (IUpdateProfileByUserResult, error) {
+	return dispatcher.conductor.SpiManager().UpdateProfileByUser(displayName, avatar, banner, summary, github, dispatcher.identity)
+}

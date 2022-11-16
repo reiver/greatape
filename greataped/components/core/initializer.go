@@ -1111,6 +1111,14 @@ func (conductor *conductor) Login(email string, password string, editor Identity
 	return conductor.spiManager.Login(email, password, editor)
 }
 
+func (conductor *conductor) GetProfileByUser(editor Identity) (IGetProfileByUserResult, error) {
+	return conductor.spiManager.GetProfileByUser(editor)
+}
+
+func (conductor *conductor) UpdateProfileByUser(displayName string, avatar string, banner string, summary string, github string, editor Identity) (IUpdateProfileByUserResult, error) {
+	return conductor.spiManager.UpdateProfileByUser(displayName, avatar, banner, summary, github, editor)
+}
+
 func (conductor *conductor) NewDocument(id int64, content string) (IDocument, error) {
 	return NewDocument(id, content)
 }
@@ -1193,6 +1201,14 @@ func (conductor *conductor) NewVerifyResult(token string, _ interface{}) IVerify
 
 func (conductor *conductor) NewLoginResult(username string, token string, _ interface{}) ILoginResult {
 	return NewLoginResult(username, token, nil)
+}
+
+func (conductor *conductor) NewGetProfileByUserResult(username string, displayName string, avatar string, banner string, summary string, github string, _ interface{}) IGetProfileByUserResult {
+	return NewGetProfileByUserResult(username, displayName, avatar, banner, summary, github, nil)
+}
+
+func (conductor *conductor) NewUpdateProfileByUserResult(displayName string, avatar string, banner string, summary string, github string, _ interface{}) IUpdateProfileByUserResult {
+	return NewUpdateProfileByUserResult(displayName, avatar, banner, summary, github, nil)
 }
 
 func (conductor *conductor) LogRemoteCall(context IContext, eventType uint32, source string, input, result interface{}, err error) {

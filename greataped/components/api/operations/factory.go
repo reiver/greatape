@@ -11,6 +11,8 @@ func (factory *operationFactory) Operations() []IOperation {
 		SignupOperation(),
 		VerifyOperation(),
 		LoginOperation(),
+		GetProfileByUserOperation(),
+		UpdateProfileByUserOperation(),
 	}
 }
 

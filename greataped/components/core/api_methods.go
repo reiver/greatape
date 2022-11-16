@@ -55,10 +55,32 @@ func (api *api) Login(request *LoginRequest) (*LoginResult, error) {
 	}
 }
 
+func (api *api) GetProfileByUser(request *GetProfileByUserRequest) (*GetProfileByUserResult, error) {
+	result, err := api.call(GET_PROFILE_BY_USER_REQUEST, request)
+
+	if err != nil {
+		return nil, err
+	} else {
+		return result.(*GetProfileByUserResult), nil
+	}
+}
+
+func (api *api) UpdateProfileByUser(request *UpdateProfileByUserRequest) (*UpdateProfileByUserResult, error) {
+	result, err := api.call(UPDATE_PROFILE_BY_USER_REQUEST, request)
+
+	if err != nil {
+		return nil, err
+	} else {
+		return result.(*UpdateProfileByUserResult), nil
+	}
+}
+
 func init() {
 	API_RESULT[SYSTEM_CALL_RESULT] = SystemCallResult{}
 	API_RESULT[ECHO_RESULT] = EchoResult{}
 	API_RESULT[SIGNUP_RESULT] = SignupResult{}
 	API_RESULT[VERIFY_RESULT] = VerifyResult{}
 	API_RESULT[LOGIN_RESULT] = LoginResult{}
+	API_RESULT[GET_PROFILE_BY_USER_RESULT] = GetProfileByUserResult{}
+	API_RESULT[UPDATE_PROFILE_BY_USER_RESULT] = UpdateProfileByUserResult{}
 }

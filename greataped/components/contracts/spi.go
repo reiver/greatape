@@ -58,6 +58,8 @@ type (
 		Signup(username string, email string, password string, editor Identity) (ISignupResult, error)
 		Verify(email string, token string, code string, editor Identity) (IVerifyResult, error)
 		Login(email string, password string, editor Identity) (ILoginResult, error)
+		GetProfileByUser(editor Identity) (IGetProfileByUserResult, error)
+		UpdateProfileByUser(displayName string, avatar string, banner string, summary string, github string, editor Identity) (IUpdateProfileByUserResult, error)
 	}
 
 	IEchoResult interface {
@@ -76,5 +78,22 @@ type (
 	ILoginResult interface {
 		Username() string
 		Token() string
+	}
+
+	IGetProfileByUserResult interface {
+		Username() string
+		DisplayName() string
+		Avatar() string
+		Banner() string
+		Summary() string
+		Github() string
+	}
+
+	IUpdateProfileByUserResult interface {
+		DisplayName() string
+		Avatar() string
+		Banner() string
+		Summary() string
+		Github() string
 	}
 )

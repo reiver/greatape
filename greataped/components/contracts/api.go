@@ -11,4 +11,6 @@ type IApi interface {
 	Signup(*SignupRequest) (*SignupResult, error)
 	Verify(*VerifyRequest) (*VerifyResult, error)
 	Login(*LoginRequest) (*LoginResult, error)
+	GetProfileByUser(*GetProfileByUserRequest) (*GetProfileByUserResult, error)
+	UpdateProfileByUser(*UpdateProfileByUserRequest) (*UpdateProfileByUserResult, error)
 }

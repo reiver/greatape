@@ -261,6 +261,8 @@ type (
 		Signup(username string, email string, password string, editor Identity) (ISignupResult, error)
 		Verify(email string, token string, code string, editor Identity) (IVerifyResult, error)
 		Login(email string, password string, editor Identity) (ILoginResult, error)
+		GetProfileByUser(editor Identity) (IGetProfileByUserResult, error)
+		UpdateProfileByUser(displayName string, avatar string, banner string, summary string, github string, editor Identity) (IUpdateProfileByUserResult, error)
 
 		NewDocument(id int64, content string) (IDocument, error)
 		NewSystemSchedule(id int64, enabled bool, config string) (ISystemSchedule, error)
@@ -283,6 +285,8 @@ type (
 		NewSignupResult(token string, code string, ignored interface{}) ISignupResult
 		NewVerifyResult(token string, ignored interface{}) IVerifyResult
 		NewLoginResult(username string, token string, ignored interface{}) ILoginResult
+		NewGetProfileByUserResult(username string, displayName string, avatar string, banner string, summary string, github string, ignored interface{}) IGetProfileByUserResult
+		NewUpdateProfileByUserResult(displayName string, avatar string, banner string, summary string, github string, ignored interface{}) IUpdateProfileByUserResult
 	}
 
 	ISystemComponent interface {
