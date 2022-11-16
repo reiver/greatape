@@ -86,6 +86,32 @@ func TestLoginApi(test *testing.T) {
 	}
 }
 
+func TestGetProfileByUserApi(test *testing.T) {
+	input := &GetProfileByUserRequest{}
+
+	if output, err := api.GetProfileByUser(input); err != nil {
+		test.Fatal(err)
+	} else if output == nil {
+		test.Fail()
+	}
+}
+
+func TestUpdateProfileByUserApi(test *testing.T) {
+	input := &UpdateProfileByUserRequest{
+		DisplayName: "display_name",
+		Avatar:      "avatar",
+		Banner:      "banner",
+		Summary:     "summary",
+		Github:      "github",
+	}
+
+	if output, err := api.UpdateProfileByUser(input); err != nil {
+		test.Fatal(err)
+	} else if output == nil {
+		test.Fail()
+	}
+}
+
 //region Initialization
 
 func TestMain(main *testing.M) {

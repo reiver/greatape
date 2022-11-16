@@ -192,3 +192,25 @@ func TestSpiManager_Login(test *testing.T) {
 
 	_ = result
 }
+
+func TestSpiManager_GetProfileByUser(test *testing.T) {
+	manager := Conductor.SpiManager()
+
+	result, err := manager.GetProfileByUser(nil)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	_ = result
+}
+
+func TestSpiManager_UpdateProfileByUser(test *testing.T) {
+	manager := Conductor.SpiManager()
+
+	result, err := manager.UpdateProfileByUser("display_name", "avatar", "banner", "summary", "github", nil)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	_ = result
+}

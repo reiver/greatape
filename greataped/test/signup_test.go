@@ -1,6 +1,7 @@
 package test
 
 import (
+	"errors"
 	"fmt"
 	"math/rand"
 	"time"
@@ -19,6 +20,7 @@ func signup(api IApi) error {
 		username    = fmt.Sprintf("u%d", id)
 		email       = fmt.Sprintf("%s@domain.com", username)
 		password    = "AaBbCc1$"
+		displayName = fmt.Sprintf("n%d", id)
 	)
 
 	// Signup
@@ -67,6 +69,54 @@ func signup(api IApi) error {
 		}
 
 		api.SetToken(output.Token)
+	}
+
+	// GetProfileByUser
+	{
+		input := &GetProfileByUserRequest{}
+
+		output, err := api.GetProfileByUser(input)
+		if err != nil {
+			return err
+		}
+
+		if output.Username != username {
+			return errors.New("get_profile_by_user_failed")
+		}
+	}
+
+	// UpdateProfileByUser
+	{
+		input := &UpdateProfileByUserRequest{
+			DisplayName: displayName,
+			Avatar:      "Avatar",
+			Banner:      "Banner",
+			Summary:     "Summary",
+			Github:      "Github",
+		}
+
+		output, err := api.UpdateProfileByUser(input)
+		if err != nil {
+			return err
+		}
+
+		if output.DisplayName != displayName {
+			return errors.New("update_profile_by_user_failed")
+		}
+	}
+
+	// GetProfileByUser
+	{
+		input := &GetProfileByUserRequest{}
+
+		output, err := api.GetProfileByUser(input)
+		if err != nil {
+			return err
+		}
+
+		if output.DisplayName != displayName {
+			return errors.New("get_profile_by_user_failed")
+		}
 	}
 
 	return nil
