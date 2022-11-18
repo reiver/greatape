@@ -11,6 +11,7 @@
 4. [Login](#login)
 5. [GetProfileByUser](#get-profile-by-user)
 6. [UpdateProfileByUser](#update-profile-by-user)
+7. [Logout](#logout)
 
 ---
 
@@ -91,5 +92,13 @@ Result:
     string banner
     string summary
     string github
+```
+[Back to List](#apis)
+
+## Logout
+```
+Request:
+
+Result:
 ```
 [Back to List](#apis)
