@@ -94,4 +94,12 @@ message UpdateProfileByUserResult {
     string github = 0x00000005;
 }
 
+// API: Logout
+//-----------------------------------------------------------
+message LogoutRequest {
+}
+
+message LogoutResult {
+}
+
 //-----------------------------------------------------------

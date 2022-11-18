@@ -834,6 +834,84 @@ func (x *UpdateProfileByUserResult) GetGithub() string {
 	return ""
 }
 
+// API: Logout
+// -----------------------------------------------------------
+type LogoutRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *LogoutRequest) Reset() {
+	*x = LogoutRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spis_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *LogoutRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LogoutRequest) ProtoMessage() {}
+
+func (x *LogoutRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_spis_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LogoutRequest.ProtoReflect.Descriptor instead.
+func (*LogoutRequest) Descriptor() ([]byte, []int) {
+	return file_spis_proto_rawDescGZIP(), []int{14}
+}
+
+type LogoutResult struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *LogoutResult) Reset() {
+	*x = LogoutResult{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spis_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *LogoutResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LogoutResult) ProtoMessage() {}
+
+func (x *LogoutResult) ProtoReflect() protoreflect.Message {
+	mi := &file_spis_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LogoutResult.ProtoReflect.Descriptor instead.
+func (*LogoutResult) Descriptor() ([]byte, []int) {
+	return file_spis_proto_rawDescGZIP(), []int{15}
+}
+
 var File_spis_proto protoreflect.FileDescriptor
 
 var file_spis_proto_rawDesc = []byte{
@@ -910,8 +988,10 @@ var file_spis_proto_rawDesc = []byte{
 	0x72, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x6d, 0x6d, 0x61, 0x72, 0x79, 0x18, 0x04, 0x20, 0x01,
 	0x28, 0x09, 0x52, 0x07, 0x73, 0x75, 0x6d, 0x6d, 0x61, 0x72, 0x79, 0x12, 0x16, 0x0a, 0x06, 0x67,
 	0x69, 0x74, 0x68, 0x75, 0x62, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x67, 0x69, 0x74,
-	0x68, 0x75, 0x62, 0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x33,
+	0x68, 0x75, 0x62, 0x22, 0x0f, 0x0a, 0x0d, 0x4c, 0x6f, 0x67, 0x6f, 0x75, 0x74, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x22, 0x0e, 0x0a, 0x0c, 0x4c, 0x6f, 0x67, 0x6f, 0x75, 0x74, 0x52, 0x65,
+	0x73, 0x75, 0x6c, 0x74, 0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x33,
 }
 
 var (
@@ -926,7 +1006,7 @@ func file_spis_proto_rawDescGZIP() []byte {
 	return file_spis_proto_rawDescData
 }
 
-var file_spis_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_spis_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_spis_proto_goTypes = []interface{}{
 	(*SystemCallRequest)(nil),          // 0: protobuf.SystemCallRequest
 	(*SystemCallResult)(nil),           // 1: protobuf.SystemCallResult
@@ -942,11 +1022,13 @@ var file_spis_proto_goTypes = []interface{}{
 	(*GetProfileByUserResult)(nil),     // 11: protobuf.GetProfileByUserResult
 	(*UpdateProfileByUserRequest)(nil), // 12: protobuf.UpdateProfileByUserRequest
 	(*UpdateProfileByUserResult)(nil),  // 13: protobuf.UpdateProfileByUserResult
-	(*Document)(nil),                   // 14: protobuf.Document
+	(*LogoutRequest)(nil),              // 14: protobuf.LogoutRequest
+	(*LogoutResult)(nil),               // 15: protobuf.LogoutResult
+	(*Document)(nil),                   // 16: protobuf.Document
 }
 var file_spis_proto_depIdxs = []int32{
-	14, // 0: protobuf.EchoRequest.document:type_name -> protobuf.Document
-	14, // 1: protobuf.EchoResult.document:type_name -> protobuf.Document
+	16, // 0: protobuf.EchoRequest.document:type_name -> protobuf.Document
+	16, // 1: protobuf.EchoResult.document:type_name -> protobuf.Document
 	2,  // [2:2] is the sub-list for method output_type
 	2,  // [2:2] is the sub-list for method input_type
 	2,  // [2:2] is the sub-list for extension type_name
@@ -1129,6 +1211,30 @@ func file_spis_proto_init() {
 				return nil
 			}
 		}
+		file_spis_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*LogoutRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_spis_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*LogoutResult); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1136,7 +1242,7 @@ func file_spis_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_spis_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   14,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

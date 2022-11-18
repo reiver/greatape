@@ -13,6 +13,7 @@ func (factory *operationFactory) Operations() []IOperation {
 		LoginOperation(),
 		GetProfileByUserOperation(),
 		UpdateProfileByUserOperation(),
+		LogoutOperation(),
 	}
 }
 

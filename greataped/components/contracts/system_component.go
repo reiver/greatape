@@ -263,6 +263,7 @@ type (
 		Login(email string, password string, editor Identity) (ILoginResult, error)
 		GetProfileByUser(editor Identity) (IGetProfileByUserResult, error)
 		UpdateProfileByUser(displayName string, avatar string, banner string, summary string, github string, editor Identity) (IUpdateProfileByUserResult, error)
+		Logout(editor Identity) (ILogoutResult, error)
 
 		NewDocument(id int64, content string) (IDocument, error)
 		NewSystemSchedule(id int64, enabled bool, config string) (ISystemSchedule, error)
@@ -287,6 +288,7 @@ type (
 		NewLoginResult(username string, token string, ignored interface{}) ILoginResult
 		NewGetProfileByUserResult(username string, displayName string, avatar string, banner string, summary string, github string, ignored interface{}) IGetProfileByUserResult
 		NewUpdateProfileByUserResult(displayName string, avatar string, banner string, summary string, github string, ignored interface{}) IUpdateProfileByUserResult
+		NewLogoutResult(ignored interface{}) ILogoutResult
 	}
 
 	ISystemComponent interface {

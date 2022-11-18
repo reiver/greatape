@@ -503,3 +503,31 @@ func (manager *spiManager) UpdateProfileByUser(displayName string, avatar string
 		return result, nil
 	}
 }
+
+//region ILogoutResult Implementation
+
+type logoutResult struct {
+}
+
+func NewLogoutResult(_ interface{}) ILogoutResult {
+	return &logoutResult{}
+}
+
+//endregion
+
+func (manager *spiManager) Logout(editor Identity) (result ILogoutResult, err error) {
+	defer func() {
+		if reason := recover(); reason != nil {
+			err = manager.Error(reason)
+		}
+	}()
+
+	editor.Lock(LOGOUT_REQUEST)
+	defer editor.Unlock(LOGOUT_REQUEST)
+
+	if result, err = commands.Logout(NewDispatcher(Conductor, editor)); err != nil {
+		return nil, err
+	} else {
+		return result, nil
+	}
+}

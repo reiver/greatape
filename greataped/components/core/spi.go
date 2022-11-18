@@ -258,3 +258,7 @@ func (dispatcher *dispatcher) GetProfileByUser() (IGetProfileByUserResult, error
 func (dispatcher *dispatcher) UpdateProfileByUser(displayName string, avatar string, banner string, summary string, github string) (IUpdateProfileByUserResult, error) {
 	return dispatcher.conductor.SpiManager().UpdateProfileByUser(displayName, avatar, banner, summary, github, dispatcher.identity)
 }
+
+func (dispatcher *dispatcher) Logout() (ILogoutResult, error) {
+	return dispatcher.conductor.SpiManager().Logout(dispatcher.identity)
+}

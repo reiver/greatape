@@ -1119,6 +1119,10 @@ func (conductor *conductor) UpdateProfileByUser(displayName string, avatar strin
 	return conductor.spiManager.UpdateProfileByUser(displayName, avatar, banner, summary, github, editor)
 }
 
+func (conductor *conductor) Logout(editor Identity) (ILogoutResult, error) {
+	return conductor.spiManager.Logout(editor)
+}
+
 func (conductor *conductor) NewDocument(id int64, content string) (IDocument, error) {
 	return NewDocument(id, content)
 }
@@ -1209,6 +1213,10 @@ func (conductor *conductor) NewGetProfileByUserResult(username string, displayNa
 
 func (conductor *conductor) NewUpdateProfileByUserResult(displayName string, avatar string, banner string, summary string, github string, _ interface{}) IUpdateProfileByUserResult {
 	return NewUpdateProfileByUserResult(displayName, avatar, banner, summary, github, nil)
+}
+
+func (conductor *conductor) NewLogoutResult(_ interface{}) ILogoutResult {
+	return NewLogoutResult(nil)
 }
 
 func (conductor *conductor) LogRemoteCall(context IContext, eventType uint32, source string, input, result interface{}, err error) {

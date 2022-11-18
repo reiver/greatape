@@ -6,7 +6,7 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/robfig/cron v1.2.0
 	github.com/sendgrid/sendgrid-go v3.12.0+incompatible
-	github.com/xeronith/diamante v1.4.2
+	github.com/xeronith/diamante v1.5.2
 	google.golang.org/protobuf v1.28.1
 )
 

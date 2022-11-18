@@ -28,4 +28,8 @@ func (dispatcher *dispatcher) NewUpdateProfileByUserResult(displayName string, a
 	return NewUpdateProfileByUserResult(displayName, avatar, banner, summary, github, nil)
 }
 
+func (dispatcher *dispatcher) NewLogoutResult() ILogoutResult {
+	return NewLogoutResult(nil)
+}
+
 //endregion

@@ -31,6 +31,10 @@ const (
 	//UpdateProfileByUserOperation
 	UPDATE_PROFILE_BY_USER_REQUEST = 0xC25AB0BA
 	UPDATE_PROFILE_BY_USER_RESULT  = 0x678A8BAF
+
+	//LogoutOperation
+	LOGOUT_REQUEST = 0x447AFA34
+	LOGOUT_RESULT  = 0x9412D17F
 )
 
 var OPCODES = Opcodes{
@@ -47,4 +51,6 @@ var OPCODES = Opcodes{
 	0x8EECDE97: "GetProfileByUser",
 	0xC25AB0BA: "UPDATE_PROFILE_BY_USER",
 	0x678A8BAF: "UpdateProfileByUser",
+	0x447AFA34: "LOGOUT",
+	0x9412D17F: "Logout",
 }

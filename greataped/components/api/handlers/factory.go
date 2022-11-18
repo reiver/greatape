@@ -12,6 +12,7 @@ func (factory *httpHandlerFactory) Handlers() []IHttpHandler {
 		LoginHandler(),               // │ P . /api/v1/login
 		GetProfileByUserHandler(),    // │ G . /api/v1/profile
 		UpdateProfileByUserHandler(), // │ P . /api/v1/profile
+		LogoutHandler(),              // │ P . /api/v1/logout
 	}
 }
 

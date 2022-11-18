@@ -60,6 +60,7 @@ type (
 		Login(email string, password string, editor Identity) (ILoginResult, error)
 		GetProfileByUser(editor Identity) (IGetProfileByUserResult, error)
 		UpdateProfileByUser(displayName string, avatar string, banner string, summary string, github string, editor Identity) (IUpdateProfileByUserResult, error)
+		Logout(editor Identity) (ILogoutResult, error)
 	}
 
 	IEchoResult interface {
@@ -95,5 +96,8 @@ type (
 		Banner() string
 		Summary() string
 		Github() string
+	}
+
+	ILogoutResult interface {
 	}
 )
