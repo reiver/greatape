@@ -112,6 +112,16 @@ func TestUpdateProfileByUserApi(test *testing.T) {
 	}
 }
 
+func TestLogoutApi(test *testing.T) {
+	input := &LogoutRequest{}
+
+	if output, err := api.Logout(input); err != nil {
+		test.Fatal(err)
+	} else if output == nil {
+		test.Fail()
+	}
+}
+
 //region Initialization
 
 func TestMain(main *testing.M) {

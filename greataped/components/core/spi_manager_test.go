@@ -214,3 +214,14 @@ func TestSpiManager_UpdateProfileByUser(test *testing.T) {
 
 	_ = result
 }
+
+func TestSpiManager_Logout(test *testing.T) {
+	manager := Conductor.SpiManager()
+
+	result, err := manager.Logout(nil)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	_ = result
+}

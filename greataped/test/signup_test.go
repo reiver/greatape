@@ -119,5 +119,17 @@ func signup(api IApi) error {
 		}
 	}
 
+	// Logout
+	{
+		input := &LogoutRequest{}
+
+		output, err := api.Logout(input)
+		if err != nil {
+			return err
+		}
+
+		_ = output
+	}
+
 	return nil
 }
