@@ -122,6 +122,18 @@ func TestLogoutApi(test *testing.T) {
 	}
 }
 
+func TestWebfingerApi(test *testing.T) {
+	input := &WebfingerRequest{
+		Resource: "resource",
+	}
+
+	if output, err := api.Webfinger(input); err != nil {
+		test.Fatal(err)
+	} else if output == nil {
+		test.Fail()
+	}
+}
+
 //region Initialization
 
 func TestMain(main *testing.M) {

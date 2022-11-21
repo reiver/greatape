@@ -225,3 +225,14 @@ func TestSpiManager_Logout(test *testing.T) {
 
 	_ = result
 }
+
+func TestSpiManager_Webfinger(test *testing.T) {
+	manager := Conductor.SpiManager()
+
+	result, err := manager.Webfinger("resource", nil)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	_ = result
+}
