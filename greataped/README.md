@@ -12,6 +12,7 @@
 5. [GetProfileByUser](#get-profile-by-user)
 6. [UpdateProfileByUser](#update-profile-by-user)
 7. [Logout](#logout)
+8. [Webfinger](#webfinger)
 
 ---
 
@@ -100,5 +101,17 @@ Result:
 Request:
 
 Result:
+```
+[Back to List](#apis)
+
+## Webfinger
+```
+Request:
+    string resource
+
+Result:
+    repeated string aliases
+    repeated ActivityPubLink links
+    string subject
 ```
 [Back to List](#apis)
