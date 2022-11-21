@@ -531,3 +531,56 @@ func (manager *spiManager) Logout(editor Identity) (result ILogoutResult, err er
 		return result, nil
 	}
 }
+
+//region IWebfingerResult Implementation
+
+type webfingerResult struct {
+	aliases []string
+	links   []IActivityPubLink
+	subject string
+}
+
+func NewWebfingerResult(aliases []string, links []IActivityPubLink, subject string, _ interface{}) IWebfingerResult {
+	return &webfingerResult{
+		aliases: aliases,
+		links:   links,
+		subject: subject,
+	}
+}
+
+func (result webfingerResult) Aliases() []string {
+	return result.aliases
+}
+
+func (result webfingerResult) Links() []IActivityPubLink {
+	return result.links
+}
+
+func (result webfingerResult) Subject() string {
+	return result.subject
+}
+
+//endregion
+
+func (manager *spiManager) Webfinger(resource string, editor Identity) (result IWebfingerResult, err error) {
+	if match, err := manager.Match(WEBFINGER, resource); err != nil {
+		return nil, err
+	} else if !match {
+		return nil, ERROR_INVALID_RESOURCE_FOR_WEBFINGER
+	}
+
+	defer func() {
+		if reason := recover(); reason != nil {
+			err = manager.Error(reason)
+		}
+	}()
+
+	editor.Lock(WEBFINGER_REQUEST)
+	defer editor.Unlock(WEBFINGER_REQUEST)
+
+	if result, err = commands.Webfinger(NewDispatcher(Conductor, editor), resource); err != nil {
+		return nil, err
+	} else {
+		return result, nil
+	}
+}

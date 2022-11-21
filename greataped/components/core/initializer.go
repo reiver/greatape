@@ -1123,6 +1123,10 @@ func (conductor *conductor) Logout(editor Identity) (ILogoutResult, error) {
 	return conductor.spiManager.Logout(editor)
 }
 
+func (conductor *conductor) Webfinger(resource string, editor Identity) (IWebfingerResult, error) {
+	return conductor.spiManager.Webfinger(resource, editor)
+}
+
 func (conductor *conductor) NewDocument(id int64, content string) (IDocument, error) {
 	return NewDocument(id, content)
 }
@@ -1217,6 +1221,10 @@ func (conductor *conductor) NewUpdateProfileByUserResult(displayName string, ava
 
 func (conductor *conductor) NewLogoutResult(_ interface{}) ILogoutResult {
 	return NewLogoutResult(nil)
+}
+
+func (conductor *conductor) NewWebfingerResult(aliases []string, links []IActivityPubLink, subject string, _ interface{}) IWebfingerResult {
+	return NewWebfingerResult(aliases, links, subject, nil)
 }
 
 func (conductor *conductor) LogRemoteCall(context IContext, eventType uint32, source string, input, result interface{}, err error) {

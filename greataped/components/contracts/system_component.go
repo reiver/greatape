@@ -264,6 +264,7 @@ type (
 		GetProfileByUser(editor Identity) (IGetProfileByUserResult, error)
 		UpdateProfileByUser(displayName string, avatar string, banner string, summary string, github string, editor Identity) (IUpdateProfileByUserResult, error)
 		Logout(editor Identity) (ILogoutResult, error)
+		Webfinger(resource string, editor Identity) (IWebfingerResult, error)
 
 		NewDocument(id int64, content string) (IDocument, error)
 		NewSystemSchedule(id int64, enabled bool, config string) (ISystemSchedule, error)
@@ -289,6 +290,7 @@ type (
 		NewGetProfileByUserResult(username string, displayName string, avatar string, banner string, summary string, github string, ignored interface{}) IGetProfileByUserResult
 		NewUpdateProfileByUserResult(displayName string, avatar string, banner string, summary string, github string, ignored interface{}) IUpdateProfileByUserResult
 		NewLogoutResult(ignored interface{}) ILogoutResult
+		NewWebfingerResult(aliases []string, links []IActivityPubLink, subject string, ignored interface{}) IWebfingerResult
 	}
 
 	ISystemComponent interface {

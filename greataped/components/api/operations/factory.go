@@ -14,6 +14,7 @@ func (factory *operationFactory) Operations() []IOperation {
 		GetProfileByUserOperation(),
 		UpdateProfileByUserOperation(),
 		LogoutOperation(),
+		WebfingerOperation(),
 	}
 }
 

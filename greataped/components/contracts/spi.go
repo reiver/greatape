@@ -61,6 +61,7 @@ type (
 		GetProfileByUser(editor Identity) (IGetProfileByUserResult, error)
 		UpdateProfileByUser(displayName string, avatar string, banner string, summary string, github string, editor Identity) (IUpdateProfileByUserResult, error)
 		Logout(editor Identity) (ILogoutResult, error)
+		Webfinger(resource string, editor Identity) (IWebfingerResult, error)
 	}
 
 	IEchoResult interface {
@@ -99,5 +100,11 @@ type (
 	}
 
 	ILogoutResult interface {
+	}
+
+	IWebfingerResult interface {
+		Aliases() []string
+		Links() []IActivityPubLink
+		Subject() string
 	}
 )

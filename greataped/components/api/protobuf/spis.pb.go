@@ -912,6 +912,118 @@ func (*LogoutResult) Descriptor() ([]byte, []int) {
 	return file_spis_proto_rawDescGZIP(), []int{15}
 }
 
+// API: Webfinger
+// -----------------------------------------------------------
+type WebfingerRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Resource string `protobuf:"bytes,1,opt,name=resource,proto3" json:"resource,omitempty"`
+}
+
+func (x *WebfingerRequest) Reset() {
+	*x = WebfingerRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spis_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *WebfingerRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WebfingerRequest) ProtoMessage() {}
+
+func (x *WebfingerRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_spis_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WebfingerRequest.ProtoReflect.Descriptor instead.
+func (*WebfingerRequest) Descriptor() ([]byte, []int) {
+	return file_spis_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *WebfingerRequest) GetResource() string {
+	if x != nil {
+		return x.Resource
+	}
+	return ""
+}
+
+type WebfingerResult struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Aliases []string           `protobuf:"bytes,1,rep,name=aliases,proto3" json:"aliases,omitempty"`
+	Links   []*ActivityPubLink `protobuf:"bytes,2,rep,name=links,proto3" json:"links,omitempty"`
+	Subject string             `protobuf:"bytes,3,opt,name=subject,proto3" json:"subject,omitempty"`
+}
+
+func (x *WebfingerResult) Reset() {
+	*x = WebfingerResult{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spis_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *WebfingerResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WebfingerResult) ProtoMessage() {}
+
+func (x *WebfingerResult) ProtoReflect() protoreflect.Message {
+	mi := &file_spis_proto_msgTypes[17]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WebfingerResult.ProtoReflect.Descriptor instead.
+func (*WebfingerResult) Descriptor() ([]byte, []int) {
+	return file_spis_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *WebfingerResult) GetAliases() []string {
+	if x != nil {
+		return x.Aliases
+	}
+	return nil
+}
+
+func (x *WebfingerResult) GetLinks() []*ActivityPubLink {
+	if x != nil {
+		return x.Links
+	}
+	return nil
+}
+
+func (x *WebfingerResult) GetSubject() string {
+	if x != nil {
+		return x.Subject
+	}
+	return ""
+}
+
 var File_spis_proto protoreflect.FileDescriptor
 
 var file_spis_proto_rawDesc = []byte{
@@ -990,8 +1102,18 @@ var file_spis_proto_rawDesc = []byte{
 	0x69, 0x74, 0x68, 0x75, 0x62, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x67, 0x69, 0x74,
 	0x68, 0x75, 0x62, 0x22, 0x0f, 0x0a, 0x0d, 0x4c, 0x6f, 0x67, 0x6f, 0x75, 0x74, 0x52, 0x65, 0x71,
 	0x75, 0x65, 0x73, 0x74, 0x22, 0x0e, 0x0a, 0x0c, 0x4c, 0x6f, 0x67, 0x6f, 0x75, 0x74, 0x52, 0x65,
-	0x73, 0x75, 0x6c, 0x74, 0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x33,
+	0x73, 0x75, 0x6c, 0x74, 0x22, 0x2e, 0x0a, 0x10, 0x57, 0x65, 0x62, 0x66, 0x69, 0x6e, 0x67, 0x65,
+	0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1a, 0x0a, 0x08, 0x72, 0x65, 0x73, 0x6f,
+	0x75, 0x72, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x72, 0x65, 0x73, 0x6f,
+	0x75, 0x72, 0x63, 0x65, 0x22, 0x76, 0x0a, 0x0f, 0x57, 0x65, 0x62, 0x66, 0x69, 0x6e, 0x67, 0x65,
+	0x72, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x6c, 0x69, 0x61, 0x73,
+	0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x07, 0x61, 0x6c, 0x69, 0x61, 0x73, 0x65,
+	0x73, 0x12, 0x2f, 0x0a, 0x05, 0x6c, 0x69, 0x6e, 0x6b, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b,
+	0x32, 0x19, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x41, 0x63, 0x74, 0x69,
+	0x76, 0x69, 0x74, 0x79, 0x50, 0x75, 0x62, 0x4c, 0x69, 0x6e, 0x6b, 0x52, 0x05, 0x6c, 0x69, 0x6e,
+	0x6b, 0x73, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x18, 0x03, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x07, 0x73, 0x75, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x42, 0x04, 0x5a, 0x02,
+	0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1006,7 +1128,7 @@ func file_spis_proto_rawDescGZIP() []byte {
 	return file_spis_proto_rawDescData
 }
 
-var file_spis_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var file_spis_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_spis_proto_goTypes = []interface{}{
 	(*SystemCallRequest)(nil),          // 0: protobuf.SystemCallRequest
 	(*SystemCallResult)(nil),           // 1: protobuf.SystemCallResult
@@ -1024,16 +1146,20 @@ var file_spis_proto_goTypes = []interface{}{
 	(*UpdateProfileByUserResult)(nil),  // 13: protobuf.UpdateProfileByUserResult
 	(*LogoutRequest)(nil),              // 14: protobuf.LogoutRequest
 	(*LogoutResult)(nil),               // 15: protobuf.LogoutResult
-	(*Document)(nil),                   // 16: protobuf.Document
+	(*WebfingerRequest)(nil),           // 16: protobuf.WebfingerRequest
+	(*WebfingerResult)(nil),            // 17: protobuf.WebfingerResult
+	(*Document)(nil),                   // 18: protobuf.Document
+	(*ActivityPubLink)(nil),            // 19: protobuf.ActivityPubLink
 }
 var file_spis_proto_depIdxs = []int32{
-	16, // 0: protobuf.EchoRequest.document:type_name -> protobuf.Document
-	16, // 1: protobuf.EchoResult.document:type_name -> protobuf.Document
-	2,  // [2:2] is the sub-list for method output_type
-	2,  // [2:2] is the sub-list for method input_type
-	2,  // [2:2] is the sub-list for extension type_name
-	2,  // [2:2] is the sub-list for extension extendee
-	0,  // [0:2] is the sub-list for field type_name
+	18, // 0: protobuf.EchoRequest.document:type_name -> protobuf.Document
+	18, // 1: protobuf.EchoResult.document:type_name -> protobuf.Document
+	19, // 2: protobuf.WebfingerResult.links:type_name -> protobuf.ActivityPubLink
+	3,  // [3:3] is the sub-list for method output_type
+	3,  // [3:3] is the sub-list for method input_type
+	3,  // [3:3] is the sub-list for extension type_name
+	3,  // [3:3] is the sub-list for extension extendee
+	0,  // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_spis_proto_init() }
@@ -1235,6 +1361,30 @@ func file_spis_proto_init() {
 				return nil
 			}
 		}
+		file_spis_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WebfingerRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_spis_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WebfingerResult); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1242,7 +1392,7 @@ func file_spis_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_spis_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

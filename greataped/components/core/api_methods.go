@@ -85,6 +85,16 @@ func (api *api) Logout(request *LogoutRequest) (*LogoutResult, error) {
 	}
 }
 
+func (api *api) Webfinger(request *WebfingerRequest) (*WebfingerResult, error) {
+	result, err := api.call(WEBFINGER_REQUEST, request)
+
+	if err != nil {
+		return nil, err
+	} else {
+		return result.(*WebfingerResult), nil
+	}
+}
+
 func init() {
 	API_RESULT[SYSTEM_CALL_RESULT] = SystemCallResult{}
 	API_RESULT[ECHO_RESULT] = EchoResult{}
@@ -94,4 +104,5 @@ func init() {
 	API_RESULT[GET_PROFILE_BY_USER_RESULT] = GetProfileByUserResult{}
 	API_RESULT[UPDATE_PROFILE_BY_USER_RESULT] = UpdateProfileByUserResult{}
 	API_RESULT[LOGOUT_RESULT] = LogoutResult{}
+	API_RESULT[WEBFINGER_RESULT] = WebfingerResult{}
 }

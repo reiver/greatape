@@ -262,3 +262,7 @@ func (dispatcher *dispatcher) UpdateProfileByUser(displayName string, avatar str
 func (dispatcher *dispatcher) Logout() (ILogoutResult, error) {
 	return dispatcher.conductor.SpiManager().Logout(dispatcher.identity)
 }
+
+func (dispatcher *dispatcher) Webfinger(resource string) (IWebfingerResult, error) {
+	return dispatcher.conductor.SpiManager().Webfinger(resource, dispatcher.identity)
+}

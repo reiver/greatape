@@ -32,4 +32,8 @@ func (dispatcher *dispatcher) NewLogoutResult() ILogoutResult {
 	return NewLogoutResult(nil)
 }
 
+func (dispatcher *dispatcher) NewWebfingerResult(aliases []string, links []IActivityPubLink, subject string) IWebfingerResult {
+	return NewWebfingerResult(aliases, links, subject, nil)
+}
+
 //endregion

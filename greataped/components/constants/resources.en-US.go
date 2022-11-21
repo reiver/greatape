@@ -52,6 +52,7 @@ var Errors = Resource{
 	ERROR_MESSAGE_INVALID_EMAIL_FOR_VERIFY:                 "invalid_email",
 	ERROR_MESSAGE_INVALID_EMAIL_FOR_LOGIN:                  "invalid_email",
 	ERROR_MESSAGE_INVALID_PASSWORD_FOR_LOGIN:               "invalid_password",
+	ERROR_MESSAGE_INVALID_RESOURCE_FOR_WEBFINGER:           "invalid_resource",
 	// CUSTOM_ERRORS
 	ERROR_MESSAGE_DATA_INTEGRITY_VIOLATION:             "data_integrity_violation",
 	ERROR_MESSAGE_INVALID_STATE:                        "invalid_state",

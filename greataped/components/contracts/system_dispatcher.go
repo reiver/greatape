@@ -1038,6 +1038,7 @@ type IDispatcher interface {
 	GetProfileByUser() (IGetProfileByUserResult, error)
 	UpdateProfileByUser(displayName string, avatar string, banner string, summary string, github string) (IUpdateProfileByUserResult, error)
 	Logout() (ILogoutResult, error)
+	Webfinger(resource string) (IWebfingerResult, error)
 
 	// NewDocument creates a new 'Document' instance using the provided property values.
 	NewDocument(id int64, content string) (IDocument, error)
@@ -1121,6 +1122,8 @@ type IDispatcher interface {
 	NewUpdateProfileByUserResult(displayName string, avatar string, banner string, summary string, github string) IUpdateProfileByUserResult
 	// NewLogoutResult creates a new result container for 'Logout' system action.
 	NewLogoutResult() ILogoutResult
+	// NewWebfingerResult creates a new result container for 'Webfinger' system action.
+	NewWebfingerResult(aliases []string, links []IActivityPubLink, subject string) IWebfingerResult
 	// Assert asserts the provided condition and panics if the assertion is not valid.
 	Assert(condition bool) IAssertionResult
 	// AssertNoError panics if the provided error is not nil.

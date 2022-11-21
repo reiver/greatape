@@ -35,6 +35,10 @@ const (
 	//LogoutOperation
 	LOGOUT_REQUEST = 0x447AFA34
 	LOGOUT_RESULT  = 0x9412D17F
+
+	//WebfingerOperation
+	WEBFINGER_REQUEST = 0x01FD357C
+	WEBFINGER_RESULT  = 0xCC81EC52
 )
 
 var OPCODES = Opcodes{
@@ -53,4 +57,6 @@ var OPCODES = Opcodes{
 	0x678A8BAF: "UpdateProfileByUser",
 	0x447AFA34: "LOGOUT",
 	0x9412D17F: "Logout",
+	0x01FD357C: "WEBFINGER",
+	0xCC81EC52: "Webfinger",
 }

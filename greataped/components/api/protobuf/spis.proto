@@ -102,4 +102,16 @@ message LogoutRequest {
 message LogoutResult {
 }
 
+// API: Webfinger
+//-----------------------------------------------------------
+message WebfingerRequest {
+    string resource = 0x00000001;
+}
+
+message WebfingerResult {
+    repeated string aliases = 0x00000001;
+    repeated ActivityPubLink links = 0x00000002;
+    string subject = 0x00000003;
+}
+
 //-----------------------------------------------------------
