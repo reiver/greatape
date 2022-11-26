@@ -236,3 +236,14 @@ func TestSpiManager_Webfinger(test *testing.T) {
 
 	_ = result
 }
+
+func TestSpiManager_GetActor(test *testing.T) {
+	manager := Conductor.SpiManager()
+
+	result, err := manager.GetActor("username", nil)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	_ = result
+}

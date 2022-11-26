@@ -134,6 +134,18 @@ func TestWebfingerApi(test *testing.T) {
 	}
 }
 
+func TestGetActorApi(test *testing.T) {
+	input := &GetActorRequest{
+		Username: "username",
+	}
+
+	if output, err := api.GetActor(input); err != nil {
+		test.Fatal(err)
+	} else if output == nil {
+		test.Fail()
+	}
+}
+
 //region Initialization
 
 func TestMain(main *testing.M) {
