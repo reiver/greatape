@@ -13,6 +13,7 @@
 6. [UpdateProfileByUser](#update-profile-by-user)
 7. [Logout](#logout)
 8. [Webfinger](#webfinger)
+9. [GetActor](#get-actor)
 
 ---
 
@@ -113,5 +114,29 @@ Result:
     repeated string aliases
     repeated ActivityPubLink links
     string subject
+```
+[Back to List](#apis)
+
+## Get Actor
+```
+Request:
+    string username
+
+Result:
+    repeated string @context
+    string id
+    string followers
+    string following
+    string inbox
+    string outbox
+    string name
+    string preferredUsername
+    string type
+    string url
+    ActivityPubMedia icon
+    ActivityPubMedia image
+    ActivityPubPublicKey publicKey
+    string summary
+    string published
 ```
 [Back to List](#apis)
