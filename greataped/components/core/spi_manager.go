@@ -584,3 +584,122 @@ func (manager *spiManager) Webfinger(resource string, editor Identity) (result I
 		return result, nil
 	}
 }
+
+//region IGetActorResult Implementation
+
+type getActorResult struct {
+	context           []string
+	id                string
+	followers         string
+	following         string
+	inbox             string
+	outbox            string
+	name              string
+	preferredUsername string
+	type_             string
+	url               string
+	icon              IActivityPubMedia
+	image             IActivityPubMedia
+	publicKey         IActivityPubPublicKey
+	summary           string
+	published         string
+}
+
+func NewGetActorResult(context []string, id string, followers string, following string, inbox string, outbox string, name string, preferredUsername string, type_ string, url string, icon IActivityPubMedia, image IActivityPubMedia, publicKey IActivityPubPublicKey, summary string, published string, _ interface{}) IGetActorResult {
+	return &getActorResult{
+		context:           context,
+		id:                id,
+		followers:         followers,
+		following:         following,
+		inbox:             inbox,
+		outbox:            outbox,
+		name:              name,
+		preferredUsername: preferredUsername,
+		type_:             type_,
+		url:               url,
+		icon:              icon,
+		image:             image,
+		publicKey:         publicKey,
+		summary:           summary,
+		published:         published,
+	}
+}
+
+func (result getActorResult) Context() []string {
+	return result.context
+}
+
+func (result getActorResult) Id() string {
+	return result.id
+}
+
+func (result getActorResult) Followers() string {
+	return result.followers
+}
+
+func (result getActorResult) Following() string {
+	return result.following
+}
+
+func (result getActorResult) Inbox() string {
+	return result.inbox
+}
+
+func (result getActorResult) Outbox() string {
+	return result.outbox
+}
+
+func (result getActorResult) Name() string {
+	return result.name
+}
+
+func (result getActorResult) PreferredUsername() string {
+	return result.preferredUsername
+}
+
+func (result getActorResult) Type() string {
+	return result.type_
+}
+
+func (result getActorResult) Url() string {
+	return result.url
+}
+
+func (result getActorResult) Icon() IActivityPubMedia {
+	return result.icon
+}
+
+func (result getActorResult) Image() IActivityPubMedia {
+	return result.image
+}
+
+func (result getActorResult) PublicKey() IActivityPubPublicKey {
+	return result.publicKey
+}
+
+func (result getActorResult) Summary() string {
+	return result.summary
+}
+
+func (result getActorResult) Published() string {
+	return result.published
+}
+
+//endregion
+
+func (manager *spiManager) GetActor(username string, editor Identity) (result IGetActorResult, err error) {
+	defer func() {
+		if reason := recover(); reason != nil {
+			err = manager.Error(reason)
+		}
+	}()
+
+	editor.Lock(GET_ACTOR_REQUEST)
+	defer editor.Unlock(GET_ACTOR_REQUEST)
+
+	if result, err = commands.GetActor(NewDispatcher(Conductor, editor), username); err != nil {
+		return nil, err
+	} else {
+		return result, nil
+	}
+}

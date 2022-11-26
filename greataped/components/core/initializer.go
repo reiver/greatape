@@ -1127,6 +1127,10 @@ func (conductor *conductor) Webfinger(resource string, editor Identity) (IWebfin
 	return conductor.spiManager.Webfinger(resource, editor)
 }
 
+func (conductor *conductor) GetActor(username string, editor Identity) (IGetActorResult, error) {
+	return conductor.spiManager.GetActor(username, editor)
+}
+
 func (conductor *conductor) NewDocument(id int64, content string) (IDocument, error) {
 	return NewDocument(id, content)
 }
@@ -1225,6 +1229,10 @@ func (conductor *conductor) NewLogoutResult(_ interface{}) ILogoutResult {
 
 func (conductor *conductor) NewWebfingerResult(aliases []string, links []IActivityPubLink, subject string, _ interface{}) IWebfingerResult {
 	return NewWebfingerResult(aliases, links, subject, nil)
+}
+
+func (conductor *conductor) NewGetActorResult(context []string, id string, followers string, following string, inbox string, outbox string, name string, preferredUsername string, type_ string, url string, icon IActivityPubMedia, image IActivityPubMedia, publicKey IActivityPubPublicKey, summary string, published string, _ interface{}) IGetActorResult {
+	return NewGetActorResult(context, id, followers, following, inbox, outbox, name, preferredUsername, type_, url, icon, image, publicKey, summary, published, nil)
 }
 
 func (conductor *conductor) LogRemoteCall(context IContext, eventType uint32, source string, input, result interface{}, err error) {

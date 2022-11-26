@@ -266,3 +266,7 @@ func (dispatcher *dispatcher) Logout() (ILogoutResult, error) {
 func (dispatcher *dispatcher) Webfinger(resource string) (IWebfingerResult, error) {
 	return dispatcher.conductor.SpiManager().Webfinger(resource, dispatcher.identity)
 }
+
+func (dispatcher *dispatcher) GetActor(username string) (IGetActorResult, error) {
+	return dispatcher.conductor.SpiManager().GetActor(username, dispatcher.identity)
+}

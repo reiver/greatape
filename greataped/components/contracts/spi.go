@@ -62,6 +62,7 @@ type (
 		UpdateProfileByUser(displayName string, avatar string, banner string, summary string, github string, editor Identity) (IUpdateProfileByUserResult, error)
 		Logout(editor Identity) (ILogoutResult, error)
 		Webfinger(resource string, editor Identity) (IWebfingerResult, error)
+		GetActor(username string, editor Identity) (IGetActorResult, error)
 	}
 
 	IEchoResult interface {
@@ -106,5 +107,23 @@ type (
 		Aliases() []string
 		Links() []IActivityPubLink
 		Subject() string
+	}
+
+	IGetActorResult interface {
+		Context() []string
+		Id() string
+		Followers() string
+		Following() string
+		Inbox() string
+		Outbox() string
+		Name() string
+		PreferredUsername() string
+		Type() string
+		Url() string
+		Icon() IActivityPubMedia
+		Image() IActivityPubMedia
+		PublicKey() IActivityPubPublicKey
+		Summary() string
+		Published() string
 	}
 )

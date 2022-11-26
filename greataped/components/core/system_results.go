@@ -36,4 +36,8 @@ func (dispatcher *dispatcher) NewWebfingerResult(aliases []string, links []IActi
 	return NewWebfingerResult(aliases, links, subject, nil)
 }
 
+func (dispatcher *dispatcher) NewGetActorResult(context []string, id string, followers string, following string, inbox string, outbox string, name string, preferredUsername string, type_ string, url string, icon IActivityPubMedia, image IActivityPubMedia, publicKey IActivityPubPublicKey, summary string, published string) IGetActorResult {
+	return NewGetActorResult(context, id, followers, following, inbox, outbox, name, preferredUsername, type_, url, icon, image, publicKey, summary, published, nil)
+}
+
 //endregion

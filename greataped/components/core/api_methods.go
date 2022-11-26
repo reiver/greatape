@@ -95,6 +95,16 @@ func (api *api) Webfinger(request *WebfingerRequest) (*WebfingerResult, error) {
 	}
 }
 
+func (api *api) GetActor(request *GetActorRequest) (*GetActorResult, error) {
+	result, err := api.call(GET_ACTOR_REQUEST, request)
+
+	if err != nil {
+		return nil, err
+	} else {
+		return result.(*GetActorResult), nil
+	}
+}
+
 func init() {
 	API_RESULT[SYSTEM_CALL_RESULT] = SystemCallResult{}
 	API_RESULT[ECHO_RESULT] = EchoResult{}
@@ -105,4 +115,5 @@ func init() {
 	API_RESULT[UPDATE_PROFILE_BY_USER_RESULT] = UpdateProfileByUserResult{}
 	API_RESULT[LOGOUT_RESULT] = LogoutResult{}
 	API_RESULT[WEBFINGER_RESULT] = WebfingerResult{}
+	API_RESULT[GET_ACTOR_RESULT] = GetActorResult{}
 }

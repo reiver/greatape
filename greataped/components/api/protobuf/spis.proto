@@ -114,4 +114,28 @@ message WebfingerResult {
     string subject = 0x00000003;
 }
 
+// API: GetActor
+//-----------------------------------------------------------
+message GetActorRequest {
+    string username = 0x00000001;
+}
+
+message GetActorResult {
+    repeated string context = 0x00000001 [json_name = "@context"];
+    string id = 0x00000002;
+    string followers = 0x00000003;
+    string following = 0x00000004;
+    string inbox = 0x00000005;
+    string outbox = 0x00000006;
+    string name = 0x00000007;
+    string preferredUsername = 0x00000008;
+    string type = 0x00000009;
+    string url = 0x0000000A;
+    ActivityPubMedia icon = 0x0000000B;
+    ActivityPubMedia image = 0x0000000C;
+    ActivityPubPublicKey publicKey = 0x0000000D;
+    string summary = 0x0000000E;
+    string published = 0x0000000F;
+}
+
 //-----------------------------------------------------------

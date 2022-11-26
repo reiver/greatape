@@ -39,6 +39,10 @@ const (
 	//WebfingerOperation
 	WEBFINGER_REQUEST = 0x01FD357C
 	WEBFINGER_RESULT  = 0xCC81EC52
+
+	//GetActorOperation
+	GET_ACTOR_REQUEST = 0x5C4AC410
+	GET_ACTOR_RESULT  = 0x136B82A8
 )
 
 var OPCODES = Opcodes{
@@ -59,4 +63,6 @@ var OPCODES = Opcodes{
 	0x9412D17F: "Logout",
 	0x01FD357C: "WEBFINGER",
 	0xCC81EC52: "Webfinger",
+	0x5C4AC410: "GET_ACTOR",
+	0x136B82A8: "GetActor",
 }
