@@ -14,6 +14,7 @@
 7. [Logout](#logout)
 8. [Webfinger](#webfinger)
 9. [GetActor](#get-actor)
+10. [FollowActor](#follow-actor)
 
 ---
 
@@ -138,5 +139,16 @@ Result:
     ActivityPubPublicKey publicKey
     string summary
     string published
+```
+[Back to List](#apis)
+
+## Follow Actor
+```
+Request:
+    string username
+    string acct
+
+Result:
+    string url
 ```
 [Back to List](#apis)
