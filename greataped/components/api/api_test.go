@@ -146,6 +146,19 @@ func TestGetActorApi(test *testing.T) {
 	}
 }
 
+func TestFollowActorApi(test *testing.T) {
+	input := &FollowActorRequest{
+		Username: "username",
+		Acct:     "acct",
+	}
+
+	if output, err := api.FollowActor(input); err != nil {
+		test.Fatal(err)
+	} else if output == nil {
+		test.Fail()
+	}
+}
+
 //region Initialization
 
 func TestMain(main *testing.M) {

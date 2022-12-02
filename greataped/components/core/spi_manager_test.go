@@ -247,3 +247,14 @@ func TestSpiManager_GetActor(test *testing.T) {
 
 	_ = result
 }
+
+func TestSpiManager_FollowActor(test *testing.T) {
+	manager := Conductor.SpiManager()
+
+	result, err := manager.FollowActor("username", "acct", nil)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	_ = result
+}
