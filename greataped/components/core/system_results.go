@@ -40,4 +40,8 @@ func (dispatcher *dispatcher) NewGetActorResult(context []string, id string, fol
 	return NewGetActorResult(context, id, followers, following, inbox, outbox, name, preferredUsername, type_, url, icon, image, publicKey, summary, published, nil)
 }
 
+func (dispatcher *dispatcher) NewFollowActorResult(url string) IFollowActorResult {
+	return NewFollowActorResult(url, nil)
+}
+
 //endregion

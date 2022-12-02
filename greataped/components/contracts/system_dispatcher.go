@@ -1040,6 +1040,7 @@ type IDispatcher interface {
 	Logout() (ILogoutResult, error)
 	Webfinger(resource string) (IWebfingerResult, error)
 	GetActor(username string) (IGetActorResult, error)
+	FollowActor(username string, acct string) (IFollowActorResult, error)
 
 	// NewDocument creates a new 'Document' instance using the provided property values.
 	NewDocument(id int64, content string) (IDocument, error)
@@ -1127,6 +1128,8 @@ type IDispatcher interface {
 	NewWebfingerResult(aliases []string, links []IActivityPubLink, subject string) IWebfingerResult
 	// NewGetActorResult creates a new result container for 'Get Actor' system action.
 	NewGetActorResult(context []string, id string, followers string, following string, inbox string, outbox string, name string, preferredUsername string, type_ string, url string, icon IActivityPubMedia, image IActivityPubMedia, publicKey IActivityPubPublicKey, summary string, published string) IGetActorResult
+	// NewFollowActorResult creates a new result container for 'Follow Actor' system action.
+	NewFollowActorResult(url string) IFollowActorResult
 	// Assert asserts the provided condition and panics if the assertion is not valid.
 	Assert(condition bool) IAssertionResult
 	// AssertNoError panics if the provided error is not nil.

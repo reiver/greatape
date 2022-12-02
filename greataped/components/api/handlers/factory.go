@@ -15,6 +15,7 @@ func (factory *httpHandlerFactory) Handlers() []IHttpHandler {
 		LogoutHandler(),              // │ P . /api/v1/logout
 		WebfingerHandler(),           // │ G . /.well-known/webfinger
 		GetActorHandler(),            // │ G . /u/:username
+		FollowActorHandler(),         // │ G . /u/:username/follow
 	}
 }
 

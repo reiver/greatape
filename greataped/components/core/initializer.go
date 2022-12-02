@@ -1131,6 +1131,10 @@ func (conductor *conductor) GetActor(username string, editor Identity) (IGetActo
 	return conductor.spiManager.GetActor(username, editor)
 }
 
+func (conductor *conductor) FollowActor(username string, acct string, editor Identity) (IFollowActorResult, error) {
+	return conductor.spiManager.FollowActor(username, acct, editor)
+}
+
 func (conductor *conductor) NewDocument(id int64, content string) (IDocument, error) {
 	return NewDocument(id, content)
 }
@@ -1233,6 +1237,10 @@ func (conductor *conductor) NewWebfingerResult(aliases []string, links []IActivi
 
 func (conductor *conductor) NewGetActorResult(context []string, id string, followers string, following string, inbox string, outbox string, name string, preferredUsername string, type_ string, url string, icon IActivityPubMedia, image IActivityPubMedia, publicKey IActivityPubPublicKey, summary string, published string, _ interface{}) IGetActorResult {
 	return NewGetActorResult(context, id, followers, following, inbox, outbox, name, preferredUsername, type_, url, icon, image, publicKey, summary, published, nil)
+}
+
+func (conductor *conductor) NewFollowActorResult(url string, _ interface{}) IFollowActorResult {
+	return NewFollowActorResult(url, nil)
 }
 
 func (conductor *conductor) LogRemoteCall(context IContext, eventType uint32, source string, input, result interface{}, err error) {

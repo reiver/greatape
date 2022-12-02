@@ -105,6 +105,16 @@ func (api *api) GetActor(request *GetActorRequest) (*GetActorResult, error) {
 	}
 }
 
+func (api *api) FollowActor(request *FollowActorRequest) (*FollowActorResult, error) {
+	result, err := api.call(FOLLOW_ACTOR_REQUEST, request)
+
+	if err != nil {
+		return nil, err
+	} else {
+		return result.(*FollowActorResult), nil
+	}
+}
+
 func init() {
 	API_RESULT[SYSTEM_CALL_RESULT] = SystemCallResult{}
 	API_RESULT[ECHO_RESULT] = EchoResult{}
@@ -116,4 +126,5 @@ func init() {
 	API_RESULT[LOGOUT_RESULT] = LogoutResult{}
 	API_RESULT[WEBFINGER_RESULT] = WebfingerResult{}
 	API_RESULT[GET_ACTOR_RESULT] = GetActorResult{}
+	API_RESULT[FOLLOW_ACTOR_RESULT] = FollowActorResult{}
 }

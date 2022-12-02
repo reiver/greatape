@@ -266,6 +266,7 @@ type (
 		Logout(editor Identity) (ILogoutResult, error)
 		Webfinger(resource string, editor Identity) (IWebfingerResult, error)
 		GetActor(username string, editor Identity) (IGetActorResult, error)
+		FollowActor(username string, acct string, editor Identity) (IFollowActorResult, error)
 
 		NewDocument(id int64, content string) (IDocument, error)
 		NewSystemSchedule(id int64, enabled bool, config string) (ISystemSchedule, error)
@@ -293,6 +294,7 @@ type (
 		NewLogoutResult(ignored interface{}) ILogoutResult
 		NewWebfingerResult(aliases []string, links []IActivityPubLink, subject string, ignored interface{}) IWebfingerResult
 		NewGetActorResult(context []string, id string, followers string, following string, inbox string, outbox string, name string, preferredUsername string, type_ string, url string, icon IActivityPubMedia, image IActivityPubMedia, publicKey IActivityPubPublicKey, summary string, published string, ignored interface{}) IGetActorResult
+		NewFollowActorResult(url string, ignored interface{}) IFollowActorResult
 	}
 
 	ISystemComponent interface {

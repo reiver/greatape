@@ -63,6 +63,7 @@ type (
 		Logout(editor Identity) (ILogoutResult, error)
 		Webfinger(resource string, editor Identity) (IWebfingerResult, error)
 		GetActor(username string, editor Identity) (IGetActorResult, error)
+		FollowActor(username string, acct string, editor Identity) (IFollowActorResult, error)
 	}
 
 	IEchoResult interface {
@@ -125,5 +126,9 @@ type (
 		PublicKey() IActivityPubPublicKey
 		Summary() string
 		Published() string
+	}
+
+	IFollowActorResult interface {
+		Url() string
 	}
 )

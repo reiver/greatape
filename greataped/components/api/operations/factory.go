@@ -16,6 +16,7 @@ func (factory *operationFactory) Operations() []IOperation {
 		LogoutOperation(),
 		WebfingerOperation(),
 		GetActorOperation(),
+		FollowActorOperation(),
 	}
 }
 

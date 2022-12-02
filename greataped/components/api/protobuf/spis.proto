@@ -138,4 +138,15 @@ message GetActorResult {
     string published = 0x0000000F;
 }
 
+// API: FollowActor
+//-----------------------------------------------------------
+message FollowActorRequest {
+    string username = 0x00000001;
+    string acct = 0x00000002;
+}
+
+message FollowActorResult {
+    string url = 0x00000001;
+}
+
 //-----------------------------------------------------------

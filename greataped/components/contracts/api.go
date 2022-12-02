@@ -16,4 +16,5 @@ type IApi interface {
 	Logout(*LogoutRequest) (*LogoutResult, error)
 	Webfinger(*WebfingerRequest) (*WebfingerResult, error)
 	GetActor(*GetActorRequest) (*GetActorResult, error)
+	FollowActor(*FollowActorRequest) (*FollowActorResult, error)
 }

@@ -1232,6 +1232,110 @@ func (x *GetActorResult) GetPublished() string {
 	return ""
 }
 
+// API: FollowActor
+// -----------------------------------------------------------
+type FollowActorRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Username string `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+	Acct     string `protobuf:"bytes,2,opt,name=acct,proto3" json:"acct,omitempty"`
+}
+
+func (x *FollowActorRequest) Reset() {
+	*x = FollowActorRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spis_proto_msgTypes[20]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *FollowActorRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FollowActorRequest) ProtoMessage() {}
+
+func (x *FollowActorRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_spis_proto_msgTypes[20]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FollowActorRequest.ProtoReflect.Descriptor instead.
+func (*FollowActorRequest) Descriptor() ([]byte, []int) {
+	return file_spis_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *FollowActorRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *FollowActorRequest) GetAcct() string {
+	if x != nil {
+		return x.Acct
+	}
+	return ""
+}
+
+type FollowActorResult struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+}
+
+func (x *FollowActorResult) Reset() {
+	*x = FollowActorResult{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spis_proto_msgTypes[21]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *FollowActorResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FollowActorResult) ProtoMessage() {}
+
+func (x *FollowActorResult) ProtoReflect() protoreflect.Message {
+	mi := &file_spis_proto_msgTypes[21]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FollowActorResult.ProtoReflect.Descriptor instead.
+func (*FollowActorResult) Descriptor() ([]byte, []int) {
+	return file_spis_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *FollowActorResult) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
 var File_spis_proto protoreflect.FileDescriptor
 
 var file_spis_proto_rawDesc = []byte{
@@ -1354,8 +1458,14 @@ var file_spis_proto_rawDesc = []byte{
 	0x75, 0x6d, 0x6d, 0x61, 0x72, 0x79, 0x18, 0x0e, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x73, 0x75,
 	0x6d, 0x6d, 0x61, 0x72, 0x79, 0x12, 0x1c, 0x0a, 0x09, 0x70, 0x75, 0x62, 0x6c, 0x69, 0x73, 0x68,
 	0x65, 0x64, 0x18, 0x0f, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x70, 0x75, 0x62, 0x6c, 0x69, 0x73,
-	0x68, 0x65, 0x64, 0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x33,
+	0x68, 0x65, 0x64, 0x22, 0x44, 0x0a, 0x12, 0x46, 0x6f, 0x6c, 0x6c, 0x6f, 0x77, 0x41, 0x63, 0x74,
+	0x6f, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73, 0x65,
+	0x72, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65,
+	0x72, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x61, 0x63, 0x63, 0x74, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x04, 0x61, 0x63, 0x63, 0x74, 0x22, 0x25, 0x0a, 0x11, 0x46, 0x6f, 0x6c,
+	0x6c, 0x6f, 0x77, 0x41, 0x63, 0x74, 0x6f, 0x72, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x12, 0x10,
+	0x0a, 0x03, 0x75, 0x72, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x75, 0x72, 0x6c,
+	0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1370,7 +1480,7 @@ func file_spis_proto_rawDescGZIP() []byte {
 	return file_spis_proto_rawDescData
 }
 
-var file_spis_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
+var file_spis_proto_msgTypes = make([]protoimpl.MessageInfo, 22)
 var file_spis_proto_goTypes = []interface{}{
 	(*SystemCallRequest)(nil),          // 0: protobuf.SystemCallRequest
 	(*SystemCallResult)(nil),           // 1: protobuf.SystemCallResult
@@ -1392,18 +1502,20 @@ var file_spis_proto_goTypes = []interface{}{
 	(*WebfingerResult)(nil),            // 17: protobuf.WebfingerResult
 	(*GetActorRequest)(nil),            // 18: protobuf.GetActorRequest
 	(*GetActorResult)(nil),             // 19: protobuf.GetActorResult
-	(*Document)(nil),                   // 20: protobuf.Document
-	(*ActivityPubLink)(nil),            // 21: protobuf.ActivityPubLink
-	(*ActivityPubMedia)(nil),           // 22: protobuf.ActivityPubMedia
-	(*ActivityPubPublicKey)(nil),       // 23: protobuf.ActivityPubPublicKey
+	(*FollowActorRequest)(nil),         // 20: protobuf.FollowActorRequest
+	(*FollowActorResult)(nil),          // 21: protobuf.FollowActorResult
+	(*Document)(nil),                   // 22: protobuf.Document
+	(*ActivityPubLink)(nil),            // 23: protobuf.ActivityPubLink
+	(*ActivityPubMedia)(nil),           // 24: protobuf.ActivityPubMedia
+	(*ActivityPubPublicKey)(nil),       // 25: protobuf.ActivityPubPublicKey
 }
 var file_spis_proto_depIdxs = []int32{
-	20, // 0: protobuf.EchoRequest.document:type_name -> protobuf.Document
-	20, // 1: protobuf.EchoResult.document:type_name -> protobuf.Document
-	21, // 2: protobuf.WebfingerResult.links:type_name -> protobuf.ActivityPubLink
-	22, // 3: protobuf.GetActorResult.icon:type_name -> protobuf.ActivityPubMedia
-	22, // 4: protobuf.GetActorResult.image:type_name -> protobuf.ActivityPubMedia
-	23, // 5: protobuf.GetActorResult.publicKey:type_name -> protobuf.ActivityPubPublicKey
+	22, // 0: protobuf.EchoRequest.document:type_name -> protobuf.Document
+	22, // 1: protobuf.EchoResult.document:type_name -> protobuf.Document
+	23, // 2: protobuf.WebfingerResult.links:type_name -> protobuf.ActivityPubLink
+	24, // 3: protobuf.GetActorResult.icon:type_name -> protobuf.ActivityPubMedia
+	24, // 4: protobuf.GetActorResult.image:type_name -> protobuf.ActivityPubMedia
+	25, // 5: protobuf.GetActorResult.publicKey:type_name -> protobuf.ActivityPubPublicKey
 	6,  // [6:6] is the sub-list for method output_type
 	6,  // [6:6] is the sub-list for method input_type
 	6,  // [6:6] is the sub-list for extension type_name
@@ -1658,6 +1770,30 @@ func file_spis_proto_init() {
 				return nil
 			}
 		}
+		file_spis_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*FollowActorRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_spis_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*FollowActorResult); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1665,7 +1801,7 @@ func file_spis_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_spis_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   20,
+			NumMessages:   22,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

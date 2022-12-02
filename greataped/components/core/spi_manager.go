@@ -703,3 +703,38 @@ func (manager *spiManager) GetActor(username string, editor Identity) (result IG
 		return result, nil
 	}
 }
+
+//region IFollowActorResult Implementation
+
+type followActorResult struct {
+	url string
+}
+
+func NewFollowActorResult(url string, _ interface{}) IFollowActorResult {
+	return &followActorResult{
+		url: url,
+	}
+}
+
+func (result followActorResult) Url() string {
+	return result.url
+}
+
+//endregion
+
+func (manager *spiManager) FollowActor(username string, acct string, editor Identity) (result IFollowActorResult, err error) {
+	defer func() {
+		if reason := recover(); reason != nil {
+			err = manager.Error(reason)
+		}
+	}()
+
+	editor.Lock(FOLLOW_ACTOR_REQUEST)
+	defer editor.Unlock(FOLLOW_ACTOR_REQUEST)
+
+	if result, err = commands.FollowActor(NewDispatcher(Conductor, editor), username, acct); err != nil {
+		return nil, err
+	} else {
+		return result, nil
+	}
+}

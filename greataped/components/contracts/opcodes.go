@@ -43,6 +43,10 @@ const (
 	//GetActorOperation
 	GET_ACTOR_REQUEST = 0x5C4AC410
 	GET_ACTOR_RESULT  = 0x136B82A8
+
+	//FollowActorOperation
+	FOLLOW_ACTOR_REQUEST = 0xD30C2420
+	FOLLOW_ACTOR_RESULT  = 0x30154D74
 )
 
 var OPCODES = Opcodes{
@@ -65,4 +69,6 @@ var OPCODES = Opcodes{
 	0xCC81EC52: "Webfinger",
 	0x5C4AC410: "GET_ACTOR",
 	0x136B82A8: "GetActor",
+	0xD30C2420: "FOLLOW_ACTOR",
+	0x30154D74: "FollowActor",
 }
