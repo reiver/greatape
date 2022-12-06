@@ -15,6 +15,7 @@
 8. [Webfinger](#webfinger)
 9. [GetActor](#get-actor)
 10. [FollowActor](#follow-actor)
+11. [AuthorizeInteraction](#authorize-interaction)
 
 ---
 
@@ -150,5 +151,16 @@ Request:
 
 Result:
     string url
+```
+[Back to List](#apis)
+
+## Authorize Interaction
+```
+Request:
+    string uri
+
+Result:
+    string uri
+    bool success
 ```
 [Back to List](#apis)
