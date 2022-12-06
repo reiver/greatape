@@ -258,3 +258,14 @@ func TestSpiManager_FollowActor(test *testing.T) {
 
 	_ = result
 }
+
+func TestSpiManager_AuthorizeInteraction(test *testing.T) {
+	manager := Conductor.SpiManager()
+
+	result, err := manager.AuthorizeInteraction("uri", nil)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	_ = result
+}

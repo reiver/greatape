@@ -159,6 +159,18 @@ func TestFollowActorApi(test *testing.T) {
 	}
 }
 
+func TestAuthorizeInteractionApi(test *testing.T) {
+	input := &AuthorizeInteractionRequest{
+		Uri: "uri",
+	}
+
+	if output, err := api.AuthorizeInteraction(input); err != nil {
+		test.Fatal(err)
+	} else if output == nil {
+		test.Fail()
+	}
+}
+
 //region Initialization
 
 func TestMain(main *testing.M) {
