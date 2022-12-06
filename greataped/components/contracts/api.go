@@ -17,4 +17,5 @@ type IApi interface {
 	Webfinger(*WebfingerRequest) (*WebfingerResult, error)
 	GetActor(*GetActorRequest) (*GetActorResult, error)
 	FollowActor(*FollowActorRequest) (*FollowActorResult, error)
+	AuthorizeInteraction(*AuthorizeInteractionRequest) (*AuthorizeInteractionResult, error)
 }

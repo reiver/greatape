@@ -17,6 +17,7 @@ func (factory *operationFactory) Operations() []IOperation {
 		WebfingerOperation(),
 		GetActorOperation(),
 		FollowActorOperation(),
+		AuthorizeInteractionOperation(),
 	}
 }
 

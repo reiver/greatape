@@ -149,4 +149,15 @@ message FollowActorResult {
     string url = 0x00000001;
 }
 
+// API: AuthorizeInteraction
+//-----------------------------------------------------------
+message AuthorizeInteractionRequest {
+    string uri = 0x00000001;
+}
+
+message AuthorizeInteractionResult {
+    string uri = 0x00000001;
+    bool success = 0x00000002;
+}
+
 //-----------------------------------------------------------

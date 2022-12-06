@@ -47,6 +47,10 @@ const (
 	//FollowActorOperation
 	FOLLOW_ACTOR_REQUEST = 0xD30C2420
 	FOLLOW_ACTOR_RESULT  = 0x30154D74
+
+	//AuthorizeInteractionOperation
+	AUTHORIZE_INTERACTION_REQUEST = 0x59EA7612
+	AUTHORIZE_INTERACTION_RESULT  = 0xB38E936F
 )
 
 var OPCODES = Opcodes{
@@ -71,4 +75,6 @@ var OPCODES = Opcodes{
 	0x136B82A8: "GetActor",
 	0xD30C2420: "FOLLOW_ACTOR",
 	0x30154D74: "FollowActor",
+	0x59EA7612: "AUTHORIZE_INTERACTION",
+	0xB38E936F: "AuthorizeInteraction",
 }

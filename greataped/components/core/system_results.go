@@ -44,4 +44,8 @@ func (dispatcher *dispatcher) NewFollowActorResult(url string) IFollowActorResul
 	return NewFollowActorResult(url, nil)
 }
 
+func (dispatcher *dispatcher) NewAuthorizeInteractionResult(uri string, success bool) IAuthorizeInteractionResult {
+	return NewAuthorizeInteractionResult(uri, success, nil)
+}
+
 //endregion

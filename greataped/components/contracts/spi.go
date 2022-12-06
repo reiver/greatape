@@ -64,6 +64,7 @@ type (
 		Webfinger(resource string, editor Identity) (IWebfingerResult, error)
 		GetActor(username string, editor Identity) (IGetActorResult, error)
 		FollowActor(username string, acct string, editor Identity) (IFollowActorResult, error)
+		AuthorizeInteraction(uri string, editor Identity) (IAuthorizeInteractionResult, error)
 	}
 
 	IEchoResult interface {
@@ -130,5 +131,10 @@ type (
 
 	IFollowActorResult interface {
 		Url() string
+	}
+
+	IAuthorizeInteractionResult interface {
+		Uri() string
+		Success() bool
 	}
 )

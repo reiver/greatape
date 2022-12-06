@@ -1336,6 +1336,110 @@ func (x *FollowActorResult) GetUrl() string {
 	return ""
 }
 
+// API: AuthorizeInteraction
+// -----------------------------------------------------------
+type AuthorizeInteractionRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Uri string `protobuf:"bytes,1,opt,name=uri,proto3" json:"uri,omitempty"`
+}
+
+func (x *AuthorizeInteractionRequest) Reset() {
+	*x = AuthorizeInteractionRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spis_proto_msgTypes[22]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AuthorizeInteractionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AuthorizeInteractionRequest) ProtoMessage() {}
+
+func (x *AuthorizeInteractionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_spis_proto_msgTypes[22]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AuthorizeInteractionRequest.ProtoReflect.Descriptor instead.
+func (*AuthorizeInteractionRequest) Descriptor() ([]byte, []int) {
+	return file_spis_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *AuthorizeInteractionRequest) GetUri() string {
+	if x != nil {
+		return x.Uri
+	}
+	return ""
+}
+
+type AuthorizeInteractionResult struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Uri     string `protobuf:"bytes,1,opt,name=uri,proto3" json:"uri,omitempty"`
+	Success bool   `protobuf:"varint,2,opt,name=success,proto3" json:"success,omitempty"`
+}
+
+func (x *AuthorizeInteractionResult) Reset() {
+	*x = AuthorizeInteractionResult{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spis_proto_msgTypes[23]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AuthorizeInteractionResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AuthorizeInteractionResult) ProtoMessage() {}
+
+func (x *AuthorizeInteractionResult) ProtoReflect() protoreflect.Message {
+	mi := &file_spis_proto_msgTypes[23]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AuthorizeInteractionResult.ProtoReflect.Descriptor instead.
+func (*AuthorizeInteractionResult) Descriptor() ([]byte, []int) {
+	return file_spis_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *AuthorizeInteractionResult) GetUri() string {
+	if x != nil {
+		return x.Uri
+	}
+	return ""
+}
+
+func (x *AuthorizeInteractionResult) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
 var File_spis_proto protoreflect.FileDescriptor
 
 var file_spis_proto_rawDesc = []byte{
@@ -1465,7 +1569,15 @@ var file_spis_proto_rawDesc = []byte{
 	0x01, 0x28, 0x09, 0x52, 0x04, 0x61, 0x63, 0x63, 0x74, 0x22, 0x25, 0x0a, 0x11, 0x46, 0x6f, 0x6c,
 	0x6c, 0x6f, 0x77, 0x41, 0x63, 0x74, 0x6f, 0x72, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x12, 0x10,
 	0x0a, 0x03, 0x75, 0x72, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x75, 0x72, 0x6c,
-	0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x22, 0x2f, 0x0a, 0x1b, 0x41, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x69, 0x7a, 0x65, 0x49, 0x6e, 0x74,
+	0x65, 0x72, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x10, 0x0a, 0x03, 0x75, 0x72, 0x69, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x75, 0x72,
+	0x69, 0x22, 0x48, 0x0a, 0x1a, 0x41, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x69, 0x7a, 0x65, 0x49, 0x6e,
+	0x74, 0x65, 0x72, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x12,
+	0x10, 0x0a, 0x03, 0x75, 0x72, 0x69, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x75, 0x72,
+	0x69, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x42, 0x04, 0x5a, 0x02, 0x2e,
+	0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1480,42 +1592,44 @@ func file_spis_proto_rawDescGZIP() []byte {
 	return file_spis_proto_rawDescData
 }
 
-var file_spis_proto_msgTypes = make([]protoimpl.MessageInfo, 22)
+var file_spis_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
 var file_spis_proto_goTypes = []interface{}{
-	(*SystemCallRequest)(nil),          // 0: protobuf.SystemCallRequest
-	(*SystemCallResult)(nil),           // 1: protobuf.SystemCallResult
-	(*EchoRequest)(nil),                // 2: protobuf.EchoRequest
-	(*EchoResult)(nil),                 // 3: protobuf.EchoResult
-	(*SignupRequest)(nil),              // 4: protobuf.SignupRequest
-	(*SignupResult)(nil),               // 5: protobuf.SignupResult
-	(*VerifyRequest)(nil),              // 6: protobuf.VerifyRequest
-	(*VerifyResult)(nil),               // 7: protobuf.VerifyResult
-	(*LoginRequest)(nil),               // 8: protobuf.LoginRequest
-	(*LoginResult)(nil),                // 9: protobuf.LoginResult
-	(*GetProfileByUserRequest)(nil),    // 10: protobuf.GetProfileByUserRequest
-	(*GetProfileByUserResult)(nil),     // 11: protobuf.GetProfileByUserResult
-	(*UpdateProfileByUserRequest)(nil), // 12: protobuf.UpdateProfileByUserRequest
-	(*UpdateProfileByUserResult)(nil),  // 13: protobuf.UpdateProfileByUserResult
-	(*LogoutRequest)(nil),              // 14: protobuf.LogoutRequest
-	(*LogoutResult)(nil),               // 15: protobuf.LogoutResult
-	(*WebfingerRequest)(nil),           // 16: protobuf.WebfingerRequest
-	(*WebfingerResult)(nil),            // 17: protobuf.WebfingerResult
-	(*GetActorRequest)(nil),            // 18: protobuf.GetActorRequest
-	(*GetActorResult)(nil),             // 19: protobuf.GetActorResult
-	(*FollowActorRequest)(nil),         // 20: protobuf.FollowActorRequest
-	(*FollowActorResult)(nil),          // 21: protobuf.FollowActorResult
-	(*Document)(nil),                   // 22: protobuf.Document
-	(*ActivityPubLink)(nil),            // 23: protobuf.ActivityPubLink
-	(*ActivityPubMedia)(nil),           // 24: protobuf.ActivityPubMedia
-	(*ActivityPubPublicKey)(nil),       // 25: protobuf.ActivityPubPublicKey
+	(*SystemCallRequest)(nil),           // 0: protobuf.SystemCallRequest
+	(*SystemCallResult)(nil),            // 1: protobuf.SystemCallResult
+	(*EchoRequest)(nil),                 // 2: protobuf.EchoRequest
+	(*EchoResult)(nil),                  // 3: protobuf.EchoResult
+	(*SignupRequest)(nil),               // 4: protobuf.SignupRequest
+	(*SignupResult)(nil),                // 5: protobuf.SignupResult
+	(*VerifyRequest)(nil),               // 6: protobuf.VerifyRequest
+	(*VerifyResult)(nil),                // 7: protobuf.VerifyResult
+	(*LoginRequest)(nil),                // 8: protobuf.LoginRequest
+	(*LoginResult)(nil),                 // 9: protobuf.LoginResult
+	(*GetProfileByUserRequest)(nil),     // 10: protobuf.GetProfileByUserRequest
+	(*GetProfileByUserResult)(nil),      // 11: protobuf.GetProfileByUserResult
+	(*UpdateProfileByUserRequest)(nil),  // 12: protobuf.UpdateProfileByUserRequest
+	(*UpdateProfileByUserResult)(nil),   // 13: protobuf.UpdateProfileByUserResult
+	(*LogoutRequest)(nil),               // 14: protobuf.LogoutRequest
+	(*LogoutResult)(nil),                // 15: protobuf.LogoutResult
+	(*WebfingerRequest)(nil),            // 16: protobuf.WebfingerRequest
+	(*WebfingerResult)(nil),             // 17: protobuf.WebfingerResult
+	(*GetActorRequest)(nil),             // 18: protobuf.GetActorRequest
+	(*GetActorResult)(nil),              // 19: protobuf.GetActorResult
+	(*FollowActorRequest)(nil),          // 20: protobuf.FollowActorRequest
+	(*FollowActorResult)(nil),           // 21: protobuf.FollowActorResult
+	(*AuthorizeInteractionRequest)(nil), // 22: protobuf.AuthorizeInteractionRequest
+	(*AuthorizeInteractionResult)(nil),  // 23: protobuf.AuthorizeInteractionResult
+	(*Document)(nil),                    // 24: protobuf.Document
+	(*ActivityPubLink)(nil),             // 25: protobuf.ActivityPubLink
+	(*ActivityPubMedia)(nil),            // 26: protobuf.ActivityPubMedia
+	(*ActivityPubPublicKey)(nil),        // 27: protobuf.ActivityPubPublicKey
 }
 var file_spis_proto_depIdxs = []int32{
-	22, // 0: protobuf.EchoRequest.document:type_name -> protobuf.Document
-	22, // 1: protobuf.EchoResult.document:type_name -> protobuf.Document
-	23, // 2: protobuf.WebfingerResult.links:type_name -> protobuf.ActivityPubLink
-	24, // 3: protobuf.GetActorResult.icon:type_name -> protobuf.ActivityPubMedia
-	24, // 4: protobuf.GetActorResult.image:type_name -> protobuf.ActivityPubMedia
-	25, // 5: protobuf.GetActorResult.publicKey:type_name -> protobuf.ActivityPubPublicKey
+	24, // 0: protobuf.EchoRequest.document:type_name -> protobuf.Document
+	24, // 1: protobuf.EchoResult.document:type_name -> protobuf.Document
+	25, // 2: protobuf.WebfingerResult.links:type_name -> protobuf.ActivityPubLink
+	26, // 3: protobuf.GetActorResult.icon:type_name -> protobuf.ActivityPubMedia
+	26, // 4: protobuf.GetActorResult.image:type_name -> protobuf.ActivityPubMedia
+	27, // 5: protobuf.GetActorResult.publicKey:type_name -> protobuf.ActivityPubPublicKey
 	6,  // [6:6] is the sub-list for method output_type
 	6,  // [6:6] is the sub-list for method input_type
 	6,  // [6:6] is the sub-list for extension type_name
@@ -1794,6 +1908,30 @@ func file_spis_proto_init() {
 				return nil
 			}
 		}
+		file_spis_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AuthorizeInteractionRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_spis_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AuthorizeInteractionResult); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1801,7 +1939,7 @@ func file_spis_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_spis_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   22,
+			NumMessages:   24,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

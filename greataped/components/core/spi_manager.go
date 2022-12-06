@@ -738,3 +738,44 @@ func (manager *spiManager) FollowActor(username string, acct string, editor Iden
 		return result, nil
 	}
 }
+
+//region IAuthorizeInteractionResult Implementation
+
+type authorizeInteractionResult struct {
+	uri     string
+	success bool
+}
+
+func NewAuthorizeInteractionResult(uri string, success bool, _ interface{}) IAuthorizeInteractionResult {
+	return &authorizeInteractionResult{
+		uri:     uri,
+		success: success,
+	}
+}
+
+func (result authorizeInteractionResult) Uri() string {
+	return result.uri
+}
+
+func (result authorizeInteractionResult) Success() bool {
+	return result.success
+}
+
+//endregion
+
+func (manager *spiManager) AuthorizeInteraction(uri string, editor Identity) (result IAuthorizeInteractionResult, err error) {
+	defer func() {
+		if reason := recover(); reason != nil {
+			err = manager.Error(reason)
+		}
+	}()
+
+	editor.Lock(AUTHORIZE_INTERACTION_REQUEST)
+	defer editor.Unlock(AUTHORIZE_INTERACTION_REQUEST)
+
+	if result, err = commands.AuthorizeInteraction(NewDispatcher(Conductor, editor), uri); err != nil {
+		return nil, err
+	} else {
+		return result, nil
+	}
+}
