@@ -1,0 +1,27 @@
+package spi
+
+import (
+	. "rail.town/infrastructure/components/constants"
+	. "rail.town/infrastructure/components/contracts"
+)
+
+func GetFollowers(x IDispatcher, username string) (IGetFollowersResult, error) {
+	identities := x.FilterIdentities(func(identity IIdentity) bool {
+		return identity.Username() == username
+	})
+
+	x.Assert(identities.HasExactlyOneItem()).Or(ERROR_USER_NOT_FOUND)
+	identity := identities.First()
+
+	actor := x.Format("%s/u/%s", x.PublicUrl(), identity.Username())
+
+	var orderedItems []string = []string{}
+	return x.NewGetFollowersResult(
+		ACTIVITY_STREAMS,                // context
+		x.Format("%s/followers", actor), // id
+		ACTIVITY_PUB_ORDERED_COLLECTION, // type
+		int32(len(orderedItems)),        // totalItems
+		orderedItems,                    // orderedItems
+		"",                              // first
+	), nil
+}

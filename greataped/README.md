@@ -16,6 +16,7 @@
 9. [GetActor](#get-actor)
 10. [FollowActor](#follow-actor)
 11. [AuthorizeInteraction](#authorize-interaction)
+12. [GetFollowers](#get-followers)
 
 ---
 
@@ -162,5 +163,20 @@ Request:
 Result:
     string uri
     bool success
+```
+[Back to List](#apis)
+
+## Get Followers
+```
+Request:
+    string username
+
+Result:
+    string @context
+    string id
+    string type
+    int32 totalItems
+    repeated string orderedItems
+    string first
 ```
 [Back to List](#apis)
