@@ -1042,6 +1042,7 @@ type IDispatcher interface {
 	GetActor(username string) (IGetActorResult, error)
 	FollowActor(username string, acct string) (IFollowActorResult, error)
 	AuthorizeInteraction(uri string) (IAuthorizeInteractionResult, error)
+	GetFollowers(username string) (IGetFollowersResult, error)
 
 	// NewDocument creates a new 'Document' instance using the provided property values.
 	NewDocument(id int64, content string) (IDocument, error)
@@ -1133,6 +1134,8 @@ type IDispatcher interface {
 	NewFollowActorResult(url string) IFollowActorResult
 	// NewAuthorizeInteractionResult creates a new result container for 'Authorize Interaction' system action.
 	NewAuthorizeInteractionResult(uri string, success bool) IAuthorizeInteractionResult
+	// NewGetFollowersResult creates a new result container for 'Get Followers' system action.
+	NewGetFollowersResult(context string, id string, type_ string, totalItems int32, orderedItems []string, first string) IGetFollowersResult
 	// Assert asserts the provided condition and panics if the assertion is not valid.
 	Assert(condition bool) IAssertionResult
 	// AssertNoError panics if the provided error is not nil.

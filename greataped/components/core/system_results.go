@@ -48,4 +48,8 @@ func (dispatcher *dispatcher) NewAuthorizeInteractionResult(uri string, success 
 	return NewAuthorizeInteractionResult(uri, success, nil)
 }
 
+func (dispatcher *dispatcher) NewGetFollowersResult(context string, id string, type_ string, totalItems int32, orderedItems []string, first string) IGetFollowersResult {
+	return NewGetFollowersResult(context, id, type_, totalItems, orderedItems, first, nil)
+}
+
 //endregion

@@ -18,6 +18,7 @@ func (factory *operationFactory) Operations() []IOperation {
 		GetActorOperation(),
 		FollowActorOperation(),
 		AuthorizeInteractionOperation(),
+		GetFollowersOperation(),
 	}
 }
 

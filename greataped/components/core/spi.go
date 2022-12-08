@@ -278,3 +278,7 @@ func (dispatcher *dispatcher) FollowActor(username string, acct string) (IFollow
 func (dispatcher *dispatcher) AuthorizeInteraction(uri string) (IAuthorizeInteractionResult, error) {
 	return dispatcher.conductor.SpiManager().AuthorizeInteraction(uri, dispatcher.identity)
 }
+
+func (dispatcher *dispatcher) GetFollowers(username string) (IGetFollowersResult, error) {
+	return dispatcher.conductor.SpiManager().GetFollowers(username, dispatcher.identity)
+}

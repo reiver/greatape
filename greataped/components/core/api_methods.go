@@ -125,6 +125,16 @@ func (api *api) AuthorizeInteraction(request *AuthorizeInteractionRequest) (*Aut
 	}
 }
 
+func (api *api) GetFollowers(request *GetFollowersRequest) (*GetFollowersResult, error) {
+	result, err := api.call(GET_FOLLOWERS_REQUEST, request)
+
+	if err != nil {
+		return nil, err
+	} else {
+		return result.(*GetFollowersResult), nil
+	}
+}
+
 func init() {
 	API_RESULT[SYSTEM_CALL_RESULT] = SystemCallResult{}
 	API_RESULT[ECHO_RESULT] = EchoResult{}
@@ -138,4 +148,5 @@ func init() {
 	API_RESULT[GET_ACTOR_RESULT] = GetActorResult{}
 	API_RESULT[FOLLOW_ACTOR_RESULT] = FollowActorResult{}
 	API_RESULT[AUTHORIZE_INTERACTION_RESULT] = AuthorizeInteractionResult{}
+	API_RESULT[GET_FOLLOWERS_RESULT] = GetFollowersResult{}
 }

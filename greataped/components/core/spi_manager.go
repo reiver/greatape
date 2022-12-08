@@ -779,3 +779,68 @@ func (manager *spiManager) AuthorizeInteraction(uri string, editor Identity) (re
 		return result, nil
 	}
 }
+
+//region IGetFollowersResult Implementation
+
+type getFollowersResult struct {
+	context      string
+	id           string
+	type_        string
+	totalItems   int32
+	orderedItems []string
+	first        string
+}
+
+func NewGetFollowersResult(context string, id string, type_ string, totalItems int32, orderedItems []string, first string, _ interface{}) IGetFollowersResult {
+	return &getFollowersResult{
+		context:      context,
+		id:           id,
+		type_:        type_,
+		totalItems:   totalItems,
+		orderedItems: orderedItems,
+		first:        first,
+	}
+}
+
+func (result getFollowersResult) Context() string {
+	return result.context
+}
+
+func (result getFollowersResult) Id() string {
+	return result.id
+}
+
+func (result getFollowersResult) Type() string {
+	return result.type_
+}
+
+func (result getFollowersResult) TotalItems() int32 {
+	return result.totalItems
+}
+
+func (result getFollowersResult) OrderedItems() []string {
+	return result.orderedItems
+}
+
+func (result getFollowersResult) First() string {
+	return result.first
+}
+
+//endregion
+
+func (manager *spiManager) GetFollowers(username string, editor Identity) (result IGetFollowersResult, err error) {
+	defer func() {
+		if reason := recover(); reason != nil {
+			err = manager.Error(reason)
+		}
+	}()
+
+	editor.Lock(GET_FOLLOWERS_REQUEST)
+	defer editor.Unlock(GET_FOLLOWERS_REQUEST)
+
+	if result, err = commands.GetFollowers(NewDispatcher(Conductor, editor), username); err != nil {
+		return nil, err
+	} else {
+		return result, nil
+	}
+}

@@ -1440,6 +1440,142 @@ func (x *AuthorizeInteractionResult) GetSuccess() bool {
 	return false
 }
 
+// API: GetFollowers
+// -----------------------------------------------------------
+type GetFollowersRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Username string `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+}
+
+func (x *GetFollowersRequest) Reset() {
+	*x = GetFollowersRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spis_proto_msgTypes[24]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetFollowersRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetFollowersRequest) ProtoMessage() {}
+
+func (x *GetFollowersRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_spis_proto_msgTypes[24]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetFollowersRequest.ProtoReflect.Descriptor instead.
+func (*GetFollowersRequest) Descriptor() ([]byte, []int) {
+	return file_spis_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *GetFollowersRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+type GetFollowersResult struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Context      string   `protobuf:"bytes,1,opt,name=context,json=@context,proto3" json:"context,omitempty"`
+	Id           string   `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
+	Type         string   `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"`
+	TotalItems   int32    `protobuf:"varint,4,opt,name=totalItems,proto3" json:"totalItems,omitempty"`
+	OrderedItems []string `protobuf:"bytes,5,rep,name=orderedItems,proto3" json:"orderedItems,omitempty"`
+	First        string   `protobuf:"bytes,6,opt,name=first,proto3" json:"first,omitempty"`
+}
+
+func (x *GetFollowersResult) Reset() {
+	*x = GetFollowersResult{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spis_proto_msgTypes[25]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetFollowersResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetFollowersResult) ProtoMessage() {}
+
+func (x *GetFollowersResult) ProtoReflect() protoreflect.Message {
+	mi := &file_spis_proto_msgTypes[25]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetFollowersResult.ProtoReflect.Descriptor instead.
+func (*GetFollowersResult) Descriptor() ([]byte, []int) {
+	return file_spis_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *GetFollowersResult) GetContext() string {
+	if x != nil {
+		return x.Context
+	}
+	return ""
+}
+
+func (x *GetFollowersResult) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *GetFollowersResult) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *GetFollowersResult) GetTotalItems() int32 {
+	if x != nil {
+		return x.TotalItems
+	}
+	return 0
+}
+
+func (x *GetFollowersResult) GetOrderedItems() []string {
+	if x != nil {
+		return x.OrderedItems
+	}
+	return nil
+}
+
+func (x *GetFollowersResult) GetFirst() string {
+	if x != nil {
+		return x.First
+	}
+	return ""
+}
+
 var File_spis_proto protoreflect.FileDescriptor
 
 var file_spis_proto_rawDesc = []byte{
@@ -1576,8 +1712,22 @@ var file_spis_proto_rawDesc = []byte{
 	0x74, 0x65, 0x72, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x12,
 	0x10, 0x0a, 0x03, 0x75, 0x72, 0x69, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x75, 0x72,
 	0x69, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x42, 0x04, 0x5a, 0x02, 0x2e,
-	0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x22, 0x31, 0x0a, 0x13, 0x47,
+	0x65, 0x74, 0x46, 0x6f, 0x6c, 0x6c, 0x6f, 0x77, 0x65, 0x72, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0xad,
+	0x01, 0x0a, 0x12, 0x47, 0x65, 0x74, 0x46, 0x6f, 0x6c, 0x6c, 0x6f, 0x77, 0x65, 0x72, 0x73, 0x52,
+	0x65, 0x73, 0x75, 0x6c, 0x74, 0x12, 0x19, 0x0a, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x40, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74,
+	0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64,
+	0x12, 0x12, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04,
+	0x74, 0x79, 0x70, 0x65, 0x12, 0x1e, 0x0a, 0x0a, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x49, 0x74, 0x65,
+	0x6d, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0a, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x49,
+	0x74, 0x65, 0x6d, 0x73, 0x12, 0x22, 0x0a, 0x0c, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x65, 0x64, 0x49,
+	0x74, 0x65, 0x6d, 0x73, 0x18, 0x05, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0c, 0x6f, 0x72, 0x64, 0x65,
+	0x72, 0x65, 0x64, 0x49, 0x74, 0x65, 0x6d, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x66, 0x69, 0x72, 0x73,
+	0x74, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x66, 0x69, 0x72, 0x73, 0x74, 0x42, 0x04,
+	0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1592,7 +1742,7 @@ func file_spis_proto_rawDescGZIP() []byte {
 	return file_spis_proto_rawDescData
 }
 
-var file_spis_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
+var file_spis_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
 var file_spis_proto_goTypes = []interface{}{
 	(*SystemCallRequest)(nil),           // 0: protobuf.SystemCallRequest
 	(*SystemCallResult)(nil),            // 1: protobuf.SystemCallResult
@@ -1618,18 +1768,20 @@ var file_spis_proto_goTypes = []interface{}{
 	(*FollowActorResult)(nil),           // 21: protobuf.FollowActorResult
 	(*AuthorizeInteractionRequest)(nil), // 22: protobuf.AuthorizeInteractionRequest
 	(*AuthorizeInteractionResult)(nil),  // 23: protobuf.AuthorizeInteractionResult
-	(*Document)(nil),                    // 24: protobuf.Document
-	(*ActivityPubLink)(nil),             // 25: protobuf.ActivityPubLink
-	(*ActivityPubMedia)(nil),            // 26: protobuf.ActivityPubMedia
-	(*ActivityPubPublicKey)(nil),        // 27: protobuf.ActivityPubPublicKey
+	(*GetFollowersRequest)(nil),         // 24: protobuf.GetFollowersRequest
+	(*GetFollowersResult)(nil),          // 25: protobuf.GetFollowersResult
+	(*Document)(nil),                    // 26: protobuf.Document
+	(*ActivityPubLink)(nil),             // 27: protobuf.ActivityPubLink
+	(*ActivityPubMedia)(nil),            // 28: protobuf.ActivityPubMedia
+	(*ActivityPubPublicKey)(nil),        // 29: protobuf.ActivityPubPublicKey
 }
 var file_spis_proto_depIdxs = []int32{
-	24, // 0: protobuf.EchoRequest.document:type_name -> protobuf.Document
-	24, // 1: protobuf.EchoResult.document:type_name -> protobuf.Document
-	25, // 2: protobuf.WebfingerResult.links:type_name -> protobuf.ActivityPubLink
-	26, // 3: protobuf.GetActorResult.icon:type_name -> protobuf.ActivityPubMedia
-	26, // 4: protobuf.GetActorResult.image:type_name -> protobuf.ActivityPubMedia
-	27, // 5: protobuf.GetActorResult.publicKey:type_name -> protobuf.ActivityPubPublicKey
+	26, // 0: protobuf.EchoRequest.document:type_name -> protobuf.Document
+	26, // 1: protobuf.EchoResult.document:type_name -> protobuf.Document
+	27, // 2: protobuf.WebfingerResult.links:type_name -> protobuf.ActivityPubLink
+	28, // 3: protobuf.GetActorResult.icon:type_name -> protobuf.ActivityPubMedia
+	28, // 4: protobuf.GetActorResult.image:type_name -> protobuf.ActivityPubMedia
+	29, // 5: protobuf.GetActorResult.publicKey:type_name -> protobuf.ActivityPubPublicKey
 	6,  // [6:6] is the sub-list for method output_type
 	6,  // [6:6] is the sub-list for method input_type
 	6,  // [6:6] is the sub-list for extension type_name
@@ -1932,6 +2084,30 @@ func file_spis_proto_init() {
 				return nil
 			}
 		}
+		file_spis_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetFollowersRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_spis_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetFollowersResult); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1939,7 +2115,7 @@ func file_spis_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_spis_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   24,
+			NumMessages:   26,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

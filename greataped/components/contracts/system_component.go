@@ -268,6 +268,7 @@ type (
 		GetActor(username string, editor Identity) (IGetActorResult, error)
 		FollowActor(username string, acct string, editor Identity) (IFollowActorResult, error)
 		AuthorizeInteraction(uri string, editor Identity) (IAuthorizeInteractionResult, error)
+		GetFollowers(username string, editor Identity) (IGetFollowersResult, error)
 
 		NewDocument(id int64, content string) (IDocument, error)
 		NewSystemSchedule(id int64, enabled bool, config string) (ISystemSchedule, error)
@@ -297,6 +298,7 @@ type (
 		NewGetActorResult(context []string, id string, followers string, following string, inbox string, outbox string, name string, preferredUsername string, type_ string, url string, icon IActivityPubMedia, image IActivityPubMedia, publicKey IActivityPubPublicKey, summary string, published string, ignored interface{}) IGetActorResult
 		NewFollowActorResult(url string, ignored interface{}) IFollowActorResult
 		NewAuthorizeInteractionResult(uri string, success bool, ignored interface{}) IAuthorizeInteractionResult
+		NewGetFollowersResult(context string, id string, type_ string, totalItems int32, orderedItems []string, first string, ignored interface{}) IGetFollowersResult
 	}
 
 	ISystemComponent interface {

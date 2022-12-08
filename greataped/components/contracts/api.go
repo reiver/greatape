@@ -18,4 +18,5 @@ type IApi interface {
 	GetActor(*GetActorRequest) (*GetActorResult, error)
 	FollowActor(*FollowActorRequest) (*FollowActorResult, error)
 	AuthorizeInteraction(*AuthorizeInteractionRequest) (*AuthorizeInteractionResult, error)
+	GetFollowers(*GetFollowersRequest) (*GetFollowersResult, error)
 }
