@@ -171,6 +171,18 @@ func TestAuthorizeInteractionApi(test *testing.T) {
 	}
 }
 
+func TestGetFollowersApi(test *testing.T) {
+	input := &GetFollowersRequest{
+		Username: "username",
+	}
+
+	if output, err := api.GetFollowers(input); err != nil {
+		test.Fatal(err)
+	} else if output == nil {
+		test.Fail()
+	}
+}
+
 //region Initialization
 
 func TestMain(main *testing.M) {

@@ -269,3 +269,14 @@ func TestSpiManager_AuthorizeInteraction(test *testing.T) {
 
 	_ = result
 }
+
+func TestSpiManager_GetFollowers(test *testing.T) {
+	manager := Conductor.SpiManager()
+
+	result, err := manager.GetFollowers("username", nil)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	_ = result
+}
