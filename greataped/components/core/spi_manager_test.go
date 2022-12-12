@@ -280,3 +280,14 @@ func TestSpiManager_GetFollowers(test *testing.T) {
 
 	_ = result
 }
+
+func TestSpiManager_GetFollowing(test *testing.T) {
+	manager := Conductor.SpiManager()
+
+	result, err := manager.GetFollowing("username", nil)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	_ = result
+}
