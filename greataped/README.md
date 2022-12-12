@@ -17,6 +17,7 @@
 10. [FollowActor](#follow-actor)
 11. [AuthorizeInteraction](#authorize-interaction)
 12. [GetFollowers](#get-followers)
+13. [GetFollowing](#get-following)
 
 ---
 
@@ -167,6 +168,21 @@ Result:
 [Back to List](#apis)
 
 ## Get Followers
+```
+Request:
+    string username
+
+Result:
+    string @context
+    string id
+    string type
+    int32 totalItems
+    repeated string orderedItems
+    string first
+```
+[Back to List](#apis)
+
+## Get Following
 ```
 Request:
     string username
