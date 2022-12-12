@@ -282,3 +282,7 @@ func (dispatcher *dispatcher) AuthorizeInteraction(uri string) (IAuthorizeIntera
 func (dispatcher *dispatcher) GetFollowers(username string) (IGetFollowersResult, error) {
 	return dispatcher.conductor.SpiManager().GetFollowers(username, dispatcher.identity)
 }
+
+func (dispatcher *dispatcher) GetFollowing(username string) (IGetFollowingResult, error) {
+	return dispatcher.conductor.SpiManager().GetFollowing(username, dispatcher.identity)
+}

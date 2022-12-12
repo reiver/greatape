@@ -1143,6 +1143,10 @@ func (conductor *conductor) GetFollowers(username string, editor Identity) (IGet
 	return conductor.spiManager.GetFollowers(username, editor)
 }
 
+func (conductor *conductor) GetFollowing(username string, editor Identity) (IGetFollowingResult, error) {
+	return conductor.spiManager.GetFollowing(username, editor)
+}
+
 func (conductor *conductor) NewDocument(id int64, content string) (IDocument, error) {
 	return NewDocument(id, content)
 }
@@ -1257,6 +1261,10 @@ func (conductor *conductor) NewAuthorizeInteractionResult(uri string, success bo
 
 func (conductor *conductor) NewGetFollowersResult(context string, id string, type_ string, totalItems int32, orderedItems []string, first string, _ interface{}) IGetFollowersResult {
 	return NewGetFollowersResult(context, id, type_, totalItems, orderedItems, first, nil)
+}
+
+func (conductor *conductor) NewGetFollowingResult(context string, id string, type_ string, totalItems int32, orderedItems []string, first string, _ interface{}) IGetFollowingResult {
+	return NewGetFollowingResult(context, id, type_, totalItems, orderedItems, first, nil)
 }
 
 func (conductor *conductor) LogRemoteCall(context IContext, eventType uint32, source string, input, result interface{}, err error) {

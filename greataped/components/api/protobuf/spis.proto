@@ -175,4 +175,19 @@ message GetFollowersResult {
     string first = 0x00000006;
 }
 
+// API: GetFollowing
+//-----------------------------------------------------------
+message GetFollowingRequest {
+    string username = 0x00000001;
+}
+
+message GetFollowingResult {
+    string context = 0x00000001 [json_name = "@context"];
+    string id = 0x00000002;
+    string type = 0x00000003;
+    int32 totalItems = 0x00000004;
+    repeated string orderedItems = 0x00000005;
+    string first = 0x00000006;
+}
+
 //-----------------------------------------------------------

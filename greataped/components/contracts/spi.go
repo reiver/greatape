@@ -66,6 +66,7 @@ type (
 		FollowActor(username string, acct string, editor Identity) (IFollowActorResult, error)
 		AuthorizeInteraction(uri string, editor Identity) (IAuthorizeInteractionResult, error)
 		GetFollowers(username string, editor Identity) (IGetFollowersResult, error)
+		GetFollowing(username string, editor Identity) (IGetFollowingResult, error)
 	}
 
 	IEchoResult interface {
@@ -140,6 +141,15 @@ type (
 	}
 
 	IGetFollowersResult interface {
+		Context() string
+		Id() string
+		Type() string
+		TotalItems() int32
+		OrderedItems() []string
+		First() string
+	}
+
+	IGetFollowingResult interface {
 		Context() string
 		Id() string
 		Type() string

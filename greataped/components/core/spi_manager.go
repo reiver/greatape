@@ -844,3 +844,68 @@ func (manager *spiManager) GetFollowers(username string, editor Identity) (resul
 		return result, nil
 	}
 }
+
+//region IGetFollowingResult Implementation
+
+type getFollowingResult struct {
+	context      string
+	id           string
+	type_        string
+	totalItems   int32
+	orderedItems []string
+	first        string
+}
+
+func NewGetFollowingResult(context string, id string, type_ string, totalItems int32, orderedItems []string, first string, _ interface{}) IGetFollowingResult {
+	return &getFollowingResult{
+		context:      context,
+		id:           id,
+		type_:        type_,
+		totalItems:   totalItems,
+		orderedItems: orderedItems,
+		first:        first,
+	}
+}
+
+func (result getFollowingResult) Context() string {
+	return result.context
+}
+
+func (result getFollowingResult) Id() string {
+	return result.id
+}
+
+func (result getFollowingResult) Type() string {
+	return result.type_
+}
+
+func (result getFollowingResult) TotalItems() int32 {
+	return result.totalItems
+}
+
+func (result getFollowingResult) OrderedItems() []string {
+	return result.orderedItems
+}
+
+func (result getFollowingResult) First() string {
+	return result.first
+}
+
+//endregion
+
+func (manager *spiManager) GetFollowing(username string, editor Identity) (result IGetFollowingResult, err error) {
+	defer func() {
+		if reason := recover(); reason != nil {
+			err = manager.Error(reason)
+		}
+	}()
+
+	editor.Lock(GET_FOLLOWING_REQUEST)
+	defer editor.Unlock(GET_FOLLOWING_REQUEST)
+
+	if result, err = commands.GetFollowing(NewDispatcher(Conductor, editor), username); err != nil {
+		return nil, err
+	} else {
+		return result, nil
+	}
+}

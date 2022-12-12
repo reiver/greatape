@@ -55,6 +55,10 @@ const (
 	//GetFollowersOperation
 	GET_FOLLOWERS_REQUEST = 0x3F20FD65
 	GET_FOLLOWERS_RESULT  = 0x7F3E2EB5
+
+	//GetFollowingOperation
+	GET_FOLLOWING_REQUEST = 0xF9841DB9
+	GET_FOLLOWING_RESULT  = 0xD707408F
 )
 
 var OPCODES = Opcodes{
@@ -83,4 +87,6 @@ var OPCODES = Opcodes{
 	0xB38E936F: "AuthorizeInteraction",
 	0x3F20FD65: "GET_FOLLOWERS",
 	0x7F3E2EB5: "GetFollowers",
+	0xF9841DB9: "GET_FOLLOWING",
+	0xD707408F: "GetFollowing",
 }

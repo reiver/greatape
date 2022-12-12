@@ -52,4 +52,8 @@ func (dispatcher *dispatcher) NewGetFollowersResult(context string, id string, t
 	return NewGetFollowersResult(context, id, type_, totalItems, orderedItems, first, nil)
 }
 
+func (dispatcher *dispatcher) NewGetFollowingResult(context string, id string, type_ string, totalItems int32, orderedItems []string, first string) IGetFollowingResult {
+	return NewGetFollowingResult(context, id, type_, totalItems, orderedItems, first, nil)
+}
+
 //endregion
