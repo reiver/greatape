@@ -1712,6 +1712,141 @@ func (x *GetFollowingResult) GetFirst() string {
 	return ""
 }
 
+// API: PostToOutbox
+// -----------------------------------------------------------
+type PostToOutboxRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Username     string `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+	Context      string `protobuf:"bytes,2,opt,name=context,json=@context,proto3" json:"context,omitempty"`
+	ActivityType string `protobuf:"bytes,3,opt,name=activityType,json=type,proto3" json:"activityType,omitempty"`
+	To           string `protobuf:"bytes,4,opt,name=to,proto3" json:"to,omitempty"`
+	AttributedTo string `protobuf:"bytes,5,opt,name=attributedTo,proto3" json:"attributedTo,omitempty"`
+	InReplyTo    string `protobuf:"bytes,6,opt,name=inReplyTo,proto3" json:"inReplyTo,omitempty"`
+	Content      string `protobuf:"bytes,7,opt,name=content,proto3" json:"content,omitempty"`
+}
+
+func (x *PostToOutboxRequest) Reset() {
+	*x = PostToOutboxRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spis_proto_msgTypes[28]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PostToOutboxRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PostToOutboxRequest) ProtoMessage() {}
+
+func (x *PostToOutboxRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_spis_proto_msgTypes[28]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PostToOutboxRequest.ProtoReflect.Descriptor instead.
+func (*PostToOutboxRequest) Descriptor() ([]byte, []int) {
+	return file_spis_proto_rawDescGZIP(), []int{28}
+}
+
+func (x *PostToOutboxRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *PostToOutboxRequest) GetContext() string {
+	if x != nil {
+		return x.Context
+	}
+	return ""
+}
+
+func (x *PostToOutboxRequest) GetActivityType() string {
+	if x != nil {
+		return x.ActivityType
+	}
+	return ""
+}
+
+func (x *PostToOutboxRequest) GetTo() string {
+	if x != nil {
+		return x.To
+	}
+	return ""
+}
+
+func (x *PostToOutboxRequest) GetAttributedTo() string {
+	if x != nil {
+		return x.AttributedTo
+	}
+	return ""
+}
+
+func (x *PostToOutboxRequest) GetInReplyTo() string {
+	if x != nil {
+		return x.InReplyTo
+	}
+	return ""
+}
+
+func (x *PostToOutboxRequest) GetContent() string {
+	if x != nil {
+		return x.Content
+	}
+	return ""
+}
+
+type PostToOutboxResult struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *PostToOutboxResult) Reset() {
+	*x = PostToOutboxResult{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spis_proto_msgTypes[29]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PostToOutboxResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PostToOutboxResult) ProtoMessage() {}
+
+func (x *PostToOutboxResult) ProtoReflect() protoreflect.Message {
+	mi := &file_spis_proto_msgTypes[29]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PostToOutboxResult.ProtoReflect.Descriptor instead.
+func (*PostToOutboxResult) Descriptor() ([]byte, []int) {
+	return file_spis_proto_rawDescGZIP(), []int{29}
+}
+
 var File_spis_proto protoreflect.FileDescriptor
 
 var file_spis_proto_rawDesc = []byte{
@@ -1877,7 +2012,22 @@ var file_spis_proto_rawDesc = []byte{
 	0x65, 0x64, 0x49, 0x74, 0x65, 0x6d, 0x73, 0x18, 0x05, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0c, 0x6f,
 	0x72, 0x64, 0x65, 0x72, 0x65, 0x64, 0x49, 0x74, 0x65, 0x6d, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x66,
 	0x69, 0x72, 0x73, 0x74, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x66, 0x69, 0x72, 0x73,
-	0x74, 0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x22, 0xd4, 0x01, 0x0a, 0x13, 0x50, 0x6f, 0x73, 0x74, 0x54, 0x6f, 0x4f, 0x75, 0x74, 0x62,
+	0x6f, 0x78, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73, 0x65,
+	0x72, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65,
+	0x72, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x19, 0x0a, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x40, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74,
+	0x12, 0x1a, 0x0a, 0x0c, 0x61, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x54, 0x79, 0x70, 0x65,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x74, 0x79, 0x70, 0x65, 0x12, 0x0e, 0x0a, 0x02,
+	0x74, 0x6f, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x74, 0x6f, 0x12, 0x22, 0x0a, 0x0c,
+	0x61, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x64, 0x54, 0x6f, 0x18, 0x05, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x0c, 0x61, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x64, 0x54, 0x6f,
+	0x12, 0x1c, 0x0a, 0x09, 0x69, 0x6e, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x54, 0x6f, 0x18, 0x06, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x09, 0x69, 0x6e, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x54, 0x6f, 0x12, 0x18,
+	0x0a, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x22, 0x14, 0x0a, 0x12, 0x50, 0x6f, 0x73, 0x74,
+	0x54, 0x6f, 0x4f, 0x75, 0x74, 0x62, 0x6f, 0x78, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x42, 0x04,
+	0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1892,7 +2042,7 @@ func file_spis_proto_rawDescGZIP() []byte {
 	return file_spis_proto_rawDescData
 }
 
-var file_spis_proto_msgTypes = make([]protoimpl.MessageInfo, 28)
+var file_spis_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
 var file_spis_proto_goTypes = []interface{}{
 	(*SystemCallRequest)(nil),           // 0: protobuf.SystemCallRequest
 	(*SystemCallResult)(nil),            // 1: protobuf.SystemCallResult
@@ -1922,18 +2072,20 @@ var file_spis_proto_goTypes = []interface{}{
 	(*GetFollowersResult)(nil),          // 25: protobuf.GetFollowersResult
 	(*GetFollowingRequest)(nil),         // 26: protobuf.GetFollowingRequest
 	(*GetFollowingResult)(nil),          // 27: protobuf.GetFollowingResult
-	(*Document)(nil),                    // 28: protobuf.Document
-	(*ActivityPubLink)(nil),             // 29: protobuf.ActivityPubLink
-	(*ActivityPubMedia)(nil),            // 30: protobuf.ActivityPubMedia
-	(*ActivityPubPublicKey)(nil),        // 31: protobuf.ActivityPubPublicKey
+	(*PostToOutboxRequest)(nil),         // 28: protobuf.PostToOutboxRequest
+	(*PostToOutboxResult)(nil),          // 29: protobuf.PostToOutboxResult
+	(*Document)(nil),                    // 30: protobuf.Document
+	(*ActivityPubLink)(nil),             // 31: protobuf.ActivityPubLink
+	(*ActivityPubMedia)(nil),            // 32: protobuf.ActivityPubMedia
+	(*ActivityPubPublicKey)(nil),        // 33: protobuf.ActivityPubPublicKey
 }
 var file_spis_proto_depIdxs = []int32{
-	28, // 0: protobuf.EchoRequest.document:type_name -> protobuf.Document
-	28, // 1: protobuf.EchoResult.document:type_name -> protobuf.Document
-	29, // 2: protobuf.WebfingerResult.links:type_name -> protobuf.ActivityPubLink
-	30, // 3: protobuf.GetActorResult.icon:type_name -> protobuf.ActivityPubMedia
-	30, // 4: protobuf.GetActorResult.image:type_name -> protobuf.ActivityPubMedia
-	31, // 5: protobuf.GetActorResult.publicKey:type_name -> protobuf.ActivityPubPublicKey
+	30, // 0: protobuf.EchoRequest.document:type_name -> protobuf.Document
+	30, // 1: protobuf.EchoResult.document:type_name -> protobuf.Document
+	31, // 2: protobuf.WebfingerResult.links:type_name -> protobuf.ActivityPubLink
+	32, // 3: protobuf.GetActorResult.icon:type_name -> protobuf.ActivityPubMedia
+	32, // 4: protobuf.GetActorResult.image:type_name -> protobuf.ActivityPubMedia
+	33, // 5: protobuf.GetActorResult.publicKey:type_name -> protobuf.ActivityPubPublicKey
 	6,  // [6:6] is the sub-list for method output_type
 	6,  // [6:6] is the sub-list for method input_type
 	6,  // [6:6] is the sub-list for extension type_name
@@ -2284,6 +2436,30 @@ func file_spis_proto_init() {
 				return nil
 			}
 		}
+		file_spis_proto_msgTypes[28].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PostToOutboxRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_spis_proto_msgTypes[29].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PostToOutboxResult); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -2291,7 +2467,7 @@ func file_spis_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_spis_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   28,
+			NumMessages:   30,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

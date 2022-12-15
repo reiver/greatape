@@ -67,6 +67,7 @@ type (
 		AuthorizeInteraction(uri string, editor Identity) (IAuthorizeInteractionResult, error)
 		GetFollowers(username string, editor Identity) (IGetFollowersResult, error)
 		GetFollowing(username string, editor Identity) (IGetFollowingResult, error)
+		PostToOutbox(username string, context string, activityType string, to string, attributedTo string, inReplyTo string, content string, editor Identity) (IPostToOutboxResult, error)
 	}
 
 	IEchoResult interface {
@@ -156,5 +157,8 @@ type (
 		TotalItems() int32
 		OrderedItems() []string
 		First() string
+	}
+
+	IPostToOutboxResult interface {
 	}
 )

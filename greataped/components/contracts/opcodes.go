@@ -59,6 +59,10 @@ const (
 	//GetFollowingOperation
 	GET_FOLLOWING_REQUEST = 0xF9841DB9
 	GET_FOLLOWING_RESULT  = 0xD707408F
+
+	//PostToOutboxOperation
+	POST_TO_OUTBOX_REQUEST = 0x9E489553
+	POST_TO_OUTBOX_RESULT  = 0xC6C56614
 )
 
 var OPCODES = Opcodes{
@@ -89,4 +93,6 @@ var OPCODES = Opcodes{
 	0x7F3E2EB5: "GetFollowers",
 	0xF9841DB9: "GET_FOLLOWING",
 	0xD707408F: "GetFollowing",
+	0x9E489553: "POST_TO_OUTBOX",
+	0xC6C56614: "PostToOutbox",
 }

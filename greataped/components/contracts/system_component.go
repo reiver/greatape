@@ -270,6 +270,7 @@ type (
 		AuthorizeInteraction(uri string, editor Identity) (IAuthorizeInteractionResult, error)
 		GetFollowers(username string, editor Identity) (IGetFollowersResult, error)
 		GetFollowing(username string, editor Identity) (IGetFollowingResult, error)
+		PostToOutbox(username string, context string, activityType string, to string, attributedTo string, inReplyTo string, content string, editor Identity) (IPostToOutboxResult, error)
 
 		NewDocument(id int64, content string) (IDocument, error)
 		NewSystemSchedule(id int64, enabled bool, config string) (ISystemSchedule, error)
@@ -301,6 +302,7 @@ type (
 		NewAuthorizeInteractionResult(uri string, success bool, ignored interface{}) IAuthorizeInteractionResult
 		NewGetFollowersResult(context string, id string, type_ string, totalItems int32, orderedItems []string, first string, ignored interface{}) IGetFollowersResult
 		NewGetFollowingResult(context string, id string, type_ string, totalItems int32, orderedItems []string, first string, ignored interface{}) IGetFollowingResult
+		NewPostToOutboxResult(ignored interface{}) IPostToOutboxResult
 	}
 
 	ISystemComponent interface {

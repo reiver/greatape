@@ -20,4 +20,5 @@ type IApi interface {
 	AuthorizeInteraction(*AuthorizeInteractionRequest) (*AuthorizeInteractionResult, error)
 	GetFollowers(*GetFollowersRequest) (*GetFollowersResult, error)
 	GetFollowing(*GetFollowingRequest) (*GetFollowingResult, error)
+	PostToOutbox(*PostToOutboxRequest) (*PostToOutboxResult, error)
 }

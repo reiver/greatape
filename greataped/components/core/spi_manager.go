@@ -909,3 +909,31 @@ func (manager *spiManager) GetFollowing(username string, editor Identity) (resul
 		return result, nil
 	}
 }
+
+//region IPostToOutboxResult Implementation
+
+type postToOutboxResult struct {
+}
+
+func NewPostToOutboxResult(_ interface{}) IPostToOutboxResult {
+	return &postToOutboxResult{}
+}
+
+//endregion
+
+func (manager *spiManager) PostToOutbox(username string, context string, activityType string, to string, attributedTo string, inReplyTo string, content string, editor Identity) (result IPostToOutboxResult, err error) {
+	defer func() {
+		if reason := recover(); reason != nil {
+			err = manager.Error(reason)
+		}
+	}()
+
+	editor.Lock(POST_TO_OUTBOX_REQUEST)
+	defer editor.Unlock(POST_TO_OUTBOX_REQUEST)
+
+	if result, err = commands.PostToOutbox(NewDispatcher(Conductor, editor), username, context, activityType, to, attributedTo, inReplyTo, content); err != nil {
+		return nil, err
+	} else {
+		return result, nil
+	}
+}

@@ -286,3 +286,7 @@ func (dispatcher *dispatcher) GetFollowers(username string) (IGetFollowersResult
 func (dispatcher *dispatcher) GetFollowing(username string) (IGetFollowingResult, error) {
 	return dispatcher.conductor.SpiManager().GetFollowing(username, dispatcher.identity)
 }
+
+func (dispatcher *dispatcher) PostToOutbox(username string, context string, activityType string, to string, attributedTo string, inReplyTo string, content string) (IPostToOutboxResult, error) {
+	return dispatcher.conductor.SpiManager().PostToOutbox(username, context, activityType, to, attributedTo, inReplyTo, content, dispatcher.identity)
+}

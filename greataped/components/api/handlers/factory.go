@@ -19,6 +19,7 @@ func (factory *httpHandlerFactory) Handlers() []IHttpHandler {
 		AuthorizeInteractionHandler(), // │ G . /authorize_interaction
 		GetFollowersHandler(),         // │ G . /u/:username/followers
 		GetFollowingHandler(),         // │ G . /u/:username/following
+		PostToOutboxHandler(),         // │ P . /u/:username/outbox
 	}
 }
 

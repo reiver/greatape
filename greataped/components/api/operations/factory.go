@@ -20,6 +20,7 @@ func (factory *operationFactory) Operations() []IOperation {
 		AuthorizeInteractionOperation(),
 		GetFollowersOperation(),
 		GetFollowingOperation(),
+		PostToOutboxOperation(),
 	}
 }
 

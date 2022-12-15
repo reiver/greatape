@@ -190,4 +190,19 @@ message GetFollowingResult {
     string first = 0x00000006;
 }
 
+// API: PostToOutbox
+//-----------------------------------------------------------
+message PostToOutboxRequest {
+    string username = 0x00000001;
+    string context = 0x00000002 [json_name = "@context"];
+    string activityType = 0x00000003 [json_name = "type"];
+    string to = 0x00000004;
+    string attributedTo = 0x00000005;
+    string inReplyTo = 0x00000006;
+    string content = 0x00000007;
+}
+
+message PostToOutboxResult {
+}
+
 //-----------------------------------------------------------

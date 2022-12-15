@@ -56,4 +56,8 @@ func (dispatcher *dispatcher) NewGetFollowingResult(context string, id string, t
 	return NewGetFollowingResult(context, id, type_, totalItems, orderedItems, first, nil)
 }
 
+func (dispatcher *dispatcher) NewPostToOutboxResult() IPostToOutboxResult {
+	return NewPostToOutboxResult(nil)
+}
+
 //endregion

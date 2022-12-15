@@ -1044,6 +1044,7 @@ type IDispatcher interface {
 	AuthorizeInteraction(uri string) (IAuthorizeInteractionResult, error)
 	GetFollowers(username string) (IGetFollowersResult, error)
 	GetFollowing(username string) (IGetFollowingResult, error)
+	PostToOutbox(username string, context string, activityType string, to string, attributedTo string, inReplyTo string, content string) (IPostToOutboxResult, error)
 
 	// NewDocument creates a new 'Document' instance using the provided property values.
 	NewDocument(id int64, content string) (IDocument, error)
@@ -1139,6 +1140,8 @@ type IDispatcher interface {
 	NewGetFollowersResult(context string, id string, type_ string, totalItems int32, orderedItems []string, first string) IGetFollowersResult
 	// NewGetFollowingResult creates a new result container for 'Get Following' system action.
 	NewGetFollowingResult(context string, id string, type_ string, totalItems int32, orderedItems []string, first string) IGetFollowingResult
+	// NewPostToOutboxResult creates a new result container for 'Post To Outbox' system action.
+	NewPostToOutboxResult() IPostToOutboxResult
 	// Assert asserts the provided condition and panics if the assertion is not valid.
 	Assert(condition bool) IAssertionResult
 	// AssertNoError panics if the provided error is not nil.
