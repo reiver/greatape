@@ -18,6 +18,7 @@
 11. [AuthorizeInteraction](#authorize-interaction)
 12. [GetFollowers](#get-followers)
 13. [GetFollowing](#get-following)
+14. [PostToOutbox](#post-to-outbox)
 
 ---
 
@@ -194,5 +195,20 @@ Result:
     int32 totalItems
     repeated string orderedItems
     string first
+```
+[Back to List](#apis)
+
+## Post To Outbox
+```
+Request:
+    string username
+    string @context
+    string type
+    string to
+    string attributedTo
+    string inReplyTo
+    string content
+
+Result:
 ```
 [Back to List](#apis)
