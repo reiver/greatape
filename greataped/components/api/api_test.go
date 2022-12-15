@@ -195,6 +195,24 @@ func TestGetFollowingApi(test *testing.T) {
 	}
 }
 
+func TestPostToOutboxApi(test *testing.T) {
+	input := &PostToOutboxRequest{
+		Username:     "username",
+		Context:      "context",
+		ActivityType: "activity_type",
+		To:           "to",
+		AttributedTo: "attributed_to",
+		InReplyTo:    "in_reply_to",
+		Content:      "content",
+	}
+
+	if output, err := api.PostToOutbox(input); err != nil {
+		test.Fatal(err)
+	} else if output == nil {
+		test.Fail()
+	}
+}
+
 //region Initialization
 
 func TestMain(main *testing.M) {

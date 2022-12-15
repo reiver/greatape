@@ -291,3 +291,14 @@ func TestSpiManager_GetFollowing(test *testing.T) {
 
 	_ = result
 }
+
+func TestSpiManager_PostToOutbox(test *testing.T) {
+	manager := Conductor.SpiManager()
+
+	result, err := manager.PostToOutbox("username", "context", "activity_type", "to", "attributed_to", "in_reply_to", "content", nil)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	_ = result
+}
