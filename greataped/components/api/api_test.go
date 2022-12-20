@@ -213,6 +213,18 @@ func TestPostToOutboxApi(test *testing.T) {
 	}
 }
 
+func TestGetOutboxApi(test *testing.T) {
+	input := &GetOutboxRequest{
+		Username: "username",
+	}
+
+	if output, err := api.GetOutbox(input); err != nil {
+		test.Fatal(err)
+	} else if output == nil {
+		test.Fail()
+	}
+}
+
 //region Initialization
 
 func TestMain(main *testing.M) {

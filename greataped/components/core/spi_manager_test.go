@@ -302,3 +302,14 @@ func TestSpiManager_PostToOutbox(test *testing.T) {
 
 	_ = result
 }
+
+func TestSpiManager_GetOutbox(test *testing.T) {
+	manager := Conductor.SpiManager()
+
+	result, err := manager.GetOutbox("username", nil)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	_ = result
+}
