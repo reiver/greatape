@@ -21,6 +21,7 @@ func (factory *operationFactory) Operations() []IOperation {
 		GetFollowersOperation(),
 		GetFollowingOperation(),
 		PostToOutboxOperation(),
+		GetOutboxOperation(),
 	}
 }
 

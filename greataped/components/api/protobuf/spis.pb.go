@@ -1847,6 +1847,142 @@ func (*PostToOutboxResult) Descriptor() ([]byte, []int) {
 	return file_spis_proto_rawDescGZIP(), []int{29}
 }
 
+// API: GetOutbox
+// -----------------------------------------------------------
+type GetOutboxRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Username string `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+}
+
+func (x *GetOutboxRequest) Reset() {
+	*x = GetOutboxRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spis_proto_msgTypes[30]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetOutboxRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetOutboxRequest) ProtoMessage() {}
+
+func (x *GetOutboxRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_spis_proto_msgTypes[30]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetOutboxRequest.ProtoReflect.Descriptor instead.
+func (*GetOutboxRequest) Descriptor() ([]byte, []int) {
+	return file_spis_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *GetOutboxRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+type GetOutboxResult struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Context      string                 `protobuf:"bytes,1,opt,name=context,json=@context,proto3" json:"context,omitempty"`
+	Id           string                 `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
+	Type         string                 `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"`
+	TotalItems   int32                  `protobuf:"varint,4,opt,name=totalItems,proto3" json:"totalItems,omitempty"`
+	OrderedItems []*ActivityPubActivity `protobuf:"bytes,5,rep,name=orderedItems,proto3" json:"orderedItems,omitempty"`
+	First        string                 `protobuf:"bytes,6,opt,name=first,proto3" json:"first,omitempty"`
+}
+
+func (x *GetOutboxResult) Reset() {
+	*x = GetOutboxResult{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spis_proto_msgTypes[31]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetOutboxResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetOutboxResult) ProtoMessage() {}
+
+func (x *GetOutboxResult) ProtoReflect() protoreflect.Message {
+	mi := &file_spis_proto_msgTypes[31]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetOutboxResult.ProtoReflect.Descriptor instead.
+func (*GetOutboxResult) Descriptor() ([]byte, []int) {
+	return file_spis_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *GetOutboxResult) GetContext() string {
+	if x != nil {
+		return x.Context
+	}
+	return ""
+}
+
+func (x *GetOutboxResult) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *GetOutboxResult) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *GetOutboxResult) GetTotalItems() int32 {
+	if x != nil {
+		return x.TotalItems
+	}
+	return 0
+}
+
+func (x *GetOutboxResult) GetOrderedItems() []*ActivityPubActivity {
+	if x != nil {
+		return x.OrderedItems
+	}
+	return nil
+}
+
+func (x *GetOutboxResult) GetFirst() string {
+	if x != nil {
+		return x.First
+	}
+	return ""
+}
+
 var File_spis_proto protoreflect.FileDescriptor
 
 var file_spis_proto_rawDesc = []byte{
@@ -2026,8 +2162,24 @@ var file_spis_proto_rawDesc = []byte{
 	0x01, 0x28, 0x09, 0x52, 0x09, 0x69, 0x6e, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x54, 0x6f, 0x12, 0x18,
 	0x0a, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52,
 	0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x22, 0x14, 0x0a, 0x12, 0x50, 0x6f, 0x73, 0x74,
-	0x54, 0x6f, 0x4f, 0x75, 0x74, 0x62, 0x6f, 0x78, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x42, 0x04,
-	0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x54, 0x6f, 0x4f, 0x75, 0x74, 0x62, 0x6f, 0x78, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x22, 0x2e,
+	0x0a, 0x10, 0x47, 0x65, 0x74, 0x4f, 0x75, 0x74, 0x62, 0x6f, 0x78, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0xc9,
+	0x01, 0x0a, 0x0f, 0x47, 0x65, 0x74, 0x4f, 0x75, 0x74, 0x62, 0x6f, 0x78, 0x52, 0x65, 0x73, 0x75,
+	0x6c, 0x74, 0x12, 0x19, 0x0a, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x08, 0x40, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x12, 0x0e, 0x0a,
+	0x02, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a,
+	0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x74, 0x79, 0x70,
+	0x65, 0x12, 0x1e, 0x0a, 0x0a, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x49, 0x74, 0x65, 0x6d, 0x73, 0x18,
+	0x04, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0a, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x49, 0x74, 0x65, 0x6d,
+	0x73, 0x12, 0x41, 0x0a, 0x0c, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x65, 0x64, 0x49, 0x74, 0x65, 0x6d,
+	0x73, 0x18, 0x05, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1d, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62,
+	0x75, 0x66, 0x2e, 0x41, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x50, 0x75, 0x62, 0x41, 0x63,
+	0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x52, 0x0c, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x65, 0x64, 0x49,
+	0x74, 0x65, 0x6d, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x66, 0x69, 0x72, 0x73, 0x74, 0x18, 0x06, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x05, 0x66, 0x69, 0x72, 0x73, 0x74, 0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -2042,7 +2194,7 @@ func file_spis_proto_rawDescGZIP() []byte {
 	return file_spis_proto_rawDescData
 }
 
-var file_spis_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
+var file_spis_proto_msgTypes = make([]protoimpl.MessageInfo, 32)
 var file_spis_proto_goTypes = []interface{}{
 	(*SystemCallRequest)(nil),           // 0: protobuf.SystemCallRequest
 	(*SystemCallResult)(nil),            // 1: protobuf.SystemCallResult
@@ -2074,23 +2226,27 @@ var file_spis_proto_goTypes = []interface{}{
 	(*GetFollowingResult)(nil),          // 27: protobuf.GetFollowingResult
 	(*PostToOutboxRequest)(nil),         // 28: protobuf.PostToOutboxRequest
 	(*PostToOutboxResult)(nil),          // 29: protobuf.PostToOutboxResult
-	(*Document)(nil),                    // 30: protobuf.Document
-	(*ActivityPubLink)(nil),             // 31: protobuf.ActivityPubLink
-	(*ActivityPubMedia)(nil),            // 32: protobuf.ActivityPubMedia
-	(*ActivityPubPublicKey)(nil),        // 33: protobuf.ActivityPubPublicKey
+	(*GetOutboxRequest)(nil),            // 30: protobuf.GetOutboxRequest
+	(*GetOutboxResult)(nil),             // 31: protobuf.GetOutboxResult
+	(*Document)(nil),                    // 32: protobuf.Document
+	(*ActivityPubLink)(nil),             // 33: protobuf.ActivityPubLink
+	(*ActivityPubMedia)(nil),            // 34: protobuf.ActivityPubMedia
+	(*ActivityPubPublicKey)(nil),        // 35: protobuf.ActivityPubPublicKey
+	(*ActivityPubActivity)(nil),         // 36: protobuf.ActivityPubActivity
 }
 var file_spis_proto_depIdxs = []int32{
-	30, // 0: protobuf.EchoRequest.document:type_name -> protobuf.Document
-	30, // 1: protobuf.EchoResult.document:type_name -> protobuf.Document
-	31, // 2: protobuf.WebfingerResult.links:type_name -> protobuf.ActivityPubLink
-	32, // 3: protobuf.GetActorResult.icon:type_name -> protobuf.ActivityPubMedia
-	32, // 4: protobuf.GetActorResult.image:type_name -> protobuf.ActivityPubMedia
-	33, // 5: protobuf.GetActorResult.publicKey:type_name -> protobuf.ActivityPubPublicKey
-	6,  // [6:6] is the sub-list for method output_type
-	6,  // [6:6] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	32, // 0: protobuf.EchoRequest.document:type_name -> protobuf.Document
+	32, // 1: protobuf.EchoResult.document:type_name -> protobuf.Document
+	33, // 2: protobuf.WebfingerResult.links:type_name -> protobuf.ActivityPubLink
+	34, // 3: protobuf.GetActorResult.icon:type_name -> protobuf.ActivityPubMedia
+	34, // 4: protobuf.GetActorResult.image:type_name -> protobuf.ActivityPubMedia
+	35, // 5: protobuf.GetActorResult.publicKey:type_name -> protobuf.ActivityPubPublicKey
+	36, // 6: protobuf.GetOutboxResult.orderedItems:type_name -> protobuf.ActivityPubActivity
+	7,  // [7:7] is the sub-list for method output_type
+	7,  // [7:7] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_spis_proto_init() }
@@ -2460,6 +2616,30 @@ func file_spis_proto_init() {
 				return nil
 			}
 		}
+		file_spis_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetOutboxRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_spis_proto_msgTypes[31].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetOutboxResult); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -2467,7 +2647,7 @@ func file_spis_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_spis_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   30,
+			NumMessages:   32,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

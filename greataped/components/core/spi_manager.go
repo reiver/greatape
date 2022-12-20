@@ -937,3 +937,68 @@ func (manager *spiManager) PostToOutbox(username string, context string, activit
 		return result, nil
 	}
 }
+
+//region IGetOutboxResult Implementation
+
+type getOutboxResult struct {
+	context      string
+	id           string
+	type_        string
+	totalItems   int32
+	orderedItems []IActivityPubActivity
+	first        string
+}
+
+func NewGetOutboxResult(context string, id string, type_ string, totalItems int32, orderedItems []IActivityPubActivity, first string, _ interface{}) IGetOutboxResult {
+	return &getOutboxResult{
+		context:      context,
+		id:           id,
+		type_:        type_,
+		totalItems:   totalItems,
+		orderedItems: orderedItems,
+		first:        first,
+	}
+}
+
+func (result getOutboxResult) Context() string {
+	return result.context
+}
+
+func (result getOutboxResult) Id() string {
+	return result.id
+}
+
+func (result getOutboxResult) Type() string {
+	return result.type_
+}
+
+func (result getOutboxResult) TotalItems() int32 {
+	return result.totalItems
+}
+
+func (result getOutboxResult) OrderedItems() []IActivityPubActivity {
+	return result.orderedItems
+}
+
+func (result getOutboxResult) First() string {
+	return result.first
+}
+
+//endregion
+
+func (manager *spiManager) GetOutbox(username string, editor Identity) (result IGetOutboxResult, err error) {
+	defer func() {
+		if reason := recover(); reason != nil {
+			err = manager.Error(reason)
+		}
+	}()
+
+	editor.Lock(GET_OUTBOX_REQUEST)
+	defer editor.Unlock(GET_OUTBOX_REQUEST)
+
+	if result, err = commands.GetOutbox(NewDispatcher(Conductor, editor), username); err != nil {
+		return nil, err
+	} else {
+		return result, nil
+	}
+}

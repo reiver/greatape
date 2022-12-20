@@ -21,4 +21,5 @@ type IApi interface {
 	GetFollowers(*GetFollowersRequest) (*GetFollowersResult, error)
 	GetFollowing(*GetFollowingRequest) (*GetFollowingResult, error)
 	PostToOutbox(*PostToOutboxRequest) (*PostToOutboxResult, error)
+	GetOutbox(*GetOutboxRequest) (*GetOutboxResult, error)
 }

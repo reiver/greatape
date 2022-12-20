@@ -205,4 +205,19 @@ message PostToOutboxRequest {
 message PostToOutboxResult {
 }
 
+// API: GetOutbox
+//-----------------------------------------------------------
+message GetOutboxRequest {
+    string username = 0x00000001;
+}
+
+message GetOutboxResult {
+    string context = 0x00000001 [json_name = "@context"];
+    string id = 0x00000002;
+    string type = 0x00000003;
+    int32 totalItems = 0x00000004;
+    repeated ActivityPubActivity orderedItems = 0x00000005;
+    string first = 0x00000006;
+}
+
 //-----------------------------------------------------------
