@@ -19,6 +19,7 @@
 12. [GetFollowers](#get-followers)
 13. [GetFollowing](#get-following)
 14. [PostToOutbox](#post-to-outbox)
+15. [GetOutbox](#get-outbox)
 
 ---
 
@@ -210,5 +211,20 @@ Request:
     string content
 
 Result:
+```
+[Back to List](#apis)
+
+## Get Outbox
+```
+Request:
+    string username
+
+Result:
+    string @context
+    string id
+    string type
+    int32 totalItems
+    repeated ActivityPubActivity orderedItems
+    string first
 ```
 [Back to List](#apis)
