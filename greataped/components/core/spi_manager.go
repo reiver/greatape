@@ -1002,3 +1002,31 @@ func (manager *spiManager) GetOutbox(username string, editor Identity) (result I
 		return result, nil
 	}
 }
+
+//region IPostToInboxResult Implementation
+
+type postToInboxResult struct {
+}
+
+func NewPostToInboxResult(_ interface{}) IPostToInboxResult {
+	return &postToInboxResult{}
+}
+
+//endregion
+
+func (manager *spiManager) PostToInbox(username string, editor Identity) (result IPostToInboxResult, err error) {
+	defer func() {
+		if reason := recover(); reason != nil {
+			err = manager.Error(reason)
+		}
+	}()
+
+	editor.Lock(POST_TO_INBOX_REQUEST)
+	defer editor.Unlock(POST_TO_INBOX_REQUEST)
+
+	if result, err = commands.PostToInbox(NewDispatcher(Conductor, editor), username); err != nil {
+		return nil, err
+	} else {
+		return result, nil
+	}
+}

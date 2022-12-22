@@ -220,4 +220,13 @@ message GetOutboxResult {
     string first = 0x00000006;
 }
 
+// API: PostToInbox
+//-----------------------------------------------------------
+message PostToInboxRequest {
+    string username = 0x00000001;
+}
+
+message PostToInboxResult {
+}
+
 //-----------------------------------------------------------

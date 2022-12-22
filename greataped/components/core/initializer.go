@@ -1155,6 +1155,10 @@ func (conductor *conductor) GetOutbox(username string, editor Identity) (IGetOut
 	return conductor.spiManager.GetOutbox(username, editor)
 }
 
+func (conductor *conductor) PostToInbox(username string, editor Identity) (IPostToInboxResult, error) {
+	return conductor.spiManager.PostToInbox(username, editor)
+}
+
 func (conductor *conductor) NewDocument(id int64, content string) (IDocument, error) {
 	return NewDocument(id, content)
 }
@@ -1281,6 +1285,10 @@ func (conductor *conductor) NewPostToOutboxResult(_ interface{}) IPostToOutboxRe
 
 func (conductor *conductor) NewGetOutboxResult(context string, id string, type_ string, totalItems int32, orderedItems []IActivityPubActivity, first string, _ interface{}) IGetOutboxResult {
 	return NewGetOutboxResult(context, id, type_, totalItems, orderedItems, first, nil)
+}
+
+func (conductor *conductor) NewPostToInboxResult(_ interface{}) IPostToInboxResult {
+	return NewPostToInboxResult(nil)
 }
 
 func (conductor *conductor) LogRemoteCall(context IContext, eventType uint32, source string, input, result interface{}, err error) {

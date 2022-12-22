@@ -67,6 +67,10 @@ const (
 	//GetOutboxOperation
 	GET_OUTBOX_REQUEST = 0x527B6997
 	GET_OUTBOX_RESULT  = 0xF94E37A0
+
+	//PostToInboxOperation
+	POST_TO_INBOX_REQUEST = 0x7400C331
+	POST_TO_INBOX_RESULT  = 0x5BD43D90
 )
 
 var OPCODES = Opcodes{
@@ -101,4 +105,6 @@ var OPCODES = Opcodes{
 	0xC6C56614: "PostToOutbox",
 	0x527B6997: "GET_OUTBOX",
 	0xF94E37A0: "GetOutbox",
+	0x7400C331: "POST_TO_INBOX",
+	0x5BD43D90: "PostToInbox",
 }

@@ -21,6 +21,7 @@ func (factory *httpHandlerFactory) Handlers() []IHttpHandler {
 		GetFollowingHandler(),         // │ G . /u/:username/following
 		PostToOutboxHandler(),         // │ P . /u/:username/outbox
 		GetOutboxHandler(),            // │ G . /u/:username/outbox
+		PostToInboxHandler(),          // │ P . /u/:username/inbox
 	}
 }
 

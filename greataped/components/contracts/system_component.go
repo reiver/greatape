@@ -272,6 +272,7 @@ type (
 		GetFollowing(username string, editor Identity) (IGetFollowingResult, error)
 		PostToOutbox(username string, context string, activityType string, to string, attributedTo string, inReplyTo string, content string, editor Identity) (IPostToOutboxResult, error)
 		GetOutbox(username string, editor Identity) (IGetOutboxResult, error)
+		PostToInbox(username string, editor Identity) (IPostToInboxResult, error)
 
 		NewDocument(id int64, content string) (IDocument, error)
 		NewSystemSchedule(id int64, enabled bool, config string) (ISystemSchedule, error)
@@ -305,6 +306,7 @@ type (
 		NewGetFollowingResult(context string, id string, type_ string, totalItems int32, orderedItems []string, first string, ignored interface{}) IGetFollowingResult
 		NewPostToOutboxResult(ignored interface{}) IPostToOutboxResult
 		NewGetOutboxResult(context string, id string, type_ string, totalItems int32, orderedItems []IActivityPubActivity, first string, ignored interface{}) IGetOutboxResult
+		NewPostToInboxResult(ignored interface{}) IPostToInboxResult
 	}
 
 	ISystemComponent interface {
