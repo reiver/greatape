@@ -20,6 +20,8 @@
 13. [GetFollowing](#get-following)
 14. [PostToOutbox](#post-to-outbox)
 15. [GetOutbox](#get-outbox)
+16. [PostToInbox](#post-to-inbox)
+17. [GetInbox](#get-inbox)
 
 ---
 
@@ -215,6 +217,30 @@ Result:
 [Back to List](#apis)
 
 ## Get Outbox
+```
+Request:
+    string username
+
+Result:
+    string @context
+    string id
+    string type
+    int32 totalItems
+    repeated ActivityPubActivity orderedItems
+    string first
+```
+[Back to List](#apis)
+
+## Post To Inbox
+```
+Request:
+    string username
+
+Result:
+```
+[Back to List](#apis)
+
+## Get Inbox
 ```
 Request:
     string username
