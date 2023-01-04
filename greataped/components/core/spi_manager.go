@@ -1030,3 +1030,68 @@ func (manager *spiManager) PostToInbox(username string, editor Identity) (result
 		return result, nil
 	}
 }
+
+//region IGetInboxResult Implementation
+
+type getInboxResult struct {
+	context      string
+	id           string
+	type_        string
+	totalItems   int32
+	orderedItems []IActivityPubActivity
+	first        string
+}
+
+func NewGetInboxResult(context string, id string, type_ string, totalItems int32, orderedItems []IActivityPubActivity, first string, _ interface{}) IGetInboxResult {
+	return &getInboxResult{
+		context:      context,
+		id:           id,
+		type_:        type_,
+		totalItems:   totalItems,
+		orderedItems: orderedItems,
+		first:        first,
+	}
+}
+
+func (result getInboxResult) Context() string {
+	return result.context
+}
+
+func (result getInboxResult) Id() string {
+	return result.id
+}
+
+func (result getInboxResult) Type() string {
+	return result.type_
+}
+
+func (result getInboxResult) TotalItems() int32 {
+	return result.totalItems
+}
+
+func (result getInboxResult) OrderedItems() []IActivityPubActivity {
+	return result.orderedItems
+}
+
+func (result getInboxResult) First() string {
+	return result.first
+}
+
+//endregion
+
+func (manager *spiManager) GetInbox(username string, editor Identity) (result IGetInboxResult, err error) {
+	defer func() {
+		if reason := recover(); reason != nil {
+			err = manager.Error(reason)
+		}
+	}()
+
+	editor.Lock(GET_INBOX_REQUEST)
+	defer editor.Unlock(GET_INBOX_REQUEST)
+
+	if result, err = commands.GetInbox(NewDispatcher(Conductor, editor), username); err != nil {
+		return nil, err
+	} else {
+		return result, nil
+	}
+}

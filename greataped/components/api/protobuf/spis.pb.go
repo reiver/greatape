@@ -2070,6 +2070,142 @@ func (*PostToInboxResult) Descriptor() ([]byte, []int) {
 	return file_spis_proto_rawDescGZIP(), []int{33}
 }
 
+// API: GetInbox
+// -----------------------------------------------------------
+type GetInboxRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Username string `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+}
+
+func (x *GetInboxRequest) Reset() {
+	*x = GetInboxRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spis_proto_msgTypes[34]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetInboxRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetInboxRequest) ProtoMessage() {}
+
+func (x *GetInboxRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_spis_proto_msgTypes[34]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetInboxRequest.ProtoReflect.Descriptor instead.
+func (*GetInboxRequest) Descriptor() ([]byte, []int) {
+	return file_spis_proto_rawDescGZIP(), []int{34}
+}
+
+func (x *GetInboxRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+type GetInboxResult struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Context      string                 `protobuf:"bytes,1,opt,name=context,json=@context,proto3" json:"context,omitempty"`
+	Id           string                 `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
+	Type         string                 `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"`
+	TotalItems   int32                  `protobuf:"varint,4,opt,name=totalItems,proto3" json:"totalItems,omitempty"`
+	OrderedItems []*ActivityPubActivity `protobuf:"bytes,5,rep,name=orderedItems,proto3" json:"orderedItems,omitempty"`
+	First        string                 `protobuf:"bytes,6,opt,name=first,proto3" json:"first,omitempty"`
+}
+
+func (x *GetInboxResult) Reset() {
+	*x = GetInboxResult{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_spis_proto_msgTypes[35]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetInboxResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetInboxResult) ProtoMessage() {}
+
+func (x *GetInboxResult) ProtoReflect() protoreflect.Message {
+	mi := &file_spis_proto_msgTypes[35]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetInboxResult.ProtoReflect.Descriptor instead.
+func (*GetInboxResult) Descriptor() ([]byte, []int) {
+	return file_spis_proto_rawDescGZIP(), []int{35}
+}
+
+func (x *GetInboxResult) GetContext() string {
+	if x != nil {
+		return x.Context
+	}
+	return ""
+}
+
+func (x *GetInboxResult) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *GetInboxResult) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *GetInboxResult) GetTotalItems() int32 {
+	if x != nil {
+		return x.TotalItems
+	}
+	return 0
+}
+
+func (x *GetInboxResult) GetOrderedItems() []*ActivityPubActivity {
+	if x != nil {
+		return x.OrderedItems
+	}
+	return nil
+}
+
+func (x *GetInboxResult) GetFirst() string {
+	if x != nil {
+		return x.First
+	}
+	return ""
+}
+
 var File_spis_proto protoreflect.FileDescriptor
 
 var file_spis_proto_rawDesc = []byte{
@@ -2270,7 +2406,23 @@ var file_spis_proto_rawDesc = []byte{
 	0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01,
 	0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x13, 0x0a, 0x11,
 	0x50, 0x6f, 0x73, 0x74, 0x54, 0x6f, 0x49, 0x6e, 0x62, 0x6f, 0x78, 0x52, 0x65, 0x73, 0x75, 0x6c,
-	0x74, 0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x22, 0x2d, 0x0a, 0x0f, 0x47, 0x65, 0x74, 0x49, 0x6e, 0x62, 0x6f, 0x78, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65,
+	0x22, 0xc8, 0x01, 0x0a, 0x0e, 0x47, 0x65, 0x74, 0x49, 0x6e, 0x62, 0x6f, 0x78, 0x52, 0x65, 0x73,
+	0x75, 0x6c, 0x74, 0x12, 0x19, 0x0a, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x40, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x12, 0x0e,
+	0x0a, 0x02, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12,
+	0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x74, 0x79,
+	0x70, 0x65, 0x12, 0x1e, 0x0a, 0x0a, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x49, 0x74, 0x65, 0x6d, 0x73,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0a, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x49, 0x74, 0x65,
+	0x6d, 0x73, 0x12, 0x41, 0x0a, 0x0c, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x65, 0x64, 0x49, 0x74, 0x65,
+	0x6d, 0x73, 0x18, 0x05, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1d, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x62, 0x75, 0x66, 0x2e, 0x41, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x50, 0x75, 0x62, 0x41,
+	0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x52, 0x0c, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x65, 0x64,
+	0x49, 0x74, 0x65, 0x6d, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x66, 0x69, 0x72, 0x73, 0x74, 0x18, 0x06,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x66, 0x69, 0x72, 0x73, 0x74, 0x42, 0x04, 0x5a, 0x02, 0x2e,
+	0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -2285,7 +2437,7 @@ func file_spis_proto_rawDescGZIP() []byte {
 	return file_spis_proto_rawDescData
 }
 
-var file_spis_proto_msgTypes = make([]protoimpl.MessageInfo, 34)
+var file_spis_proto_msgTypes = make([]protoimpl.MessageInfo, 36)
 var file_spis_proto_goTypes = []interface{}{
 	(*SystemCallRequest)(nil),           // 0: protobuf.SystemCallRequest
 	(*SystemCallResult)(nil),            // 1: protobuf.SystemCallResult
@@ -2321,25 +2473,28 @@ var file_spis_proto_goTypes = []interface{}{
 	(*GetOutboxResult)(nil),             // 31: protobuf.GetOutboxResult
 	(*PostToInboxRequest)(nil),          // 32: protobuf.PostToInboxRequest
 	(*PostToInboxResult)(nil),           // 33: protobuf.PostToInboxResult
-	(*Document)(nil),                    // 34: protobuf.Document
-	(*ActivityPubLink)(nil),             // 35: protobuf.ActivityPubLink
-	(*ActivityPubMedia)(nil),            // 36: protobuf.ActivityPubMedia
-	(*ActivityPubPublicKey)(nil),        // 37: protobuf.ActivityPubPublicKey
-	(*ActivityPubActivity)(nil),         // 38: protobuf.ActivityPubActivity
+	(*GetInboxRequest)(nil),             // 34: protobuf.GetInboxRequest
+	(*GetInboxResult)(nil),              // 35: protobuf.GetInboxResult
+	(*Document)(nil),                    // 36: protobuf.Document
+	(*ActivityPubLink)(nil),             // 37: protobuf.ActivityPubLink
+	(*ActivityPubMedia)(nil),            // 38: protobuf.ActivityPubMedia
+	(*ActivityPubPublicKey)(nil),        // 39: protobuf.ActivityPubPublicKey
+	(*ActivityPubActivity)(nil),         // 40: protobuf.ActivityPubActivity
 }
 var file_spis_proto_depIdxs = []int32{
-	34, // 0: protobuf.EchoRequest.document:type_name -> protobuf.Document
-	34, // 1: protobuf.EchoResult.document:type_name -> protobuf.Document
-	35, // 2: protobuf.WebfingerResult.links:type_name -> protobuf.ActivityPubLink
-	36, // 3: protobuf.GetActorResult.icon:type_name -> protobuf.ActivityPubMedia
-	36, // 4: protobuf.GetActorResult.image:type_name -> protobuf.ActivityPubMedia
-	37, // 5: protobuf.GetActorResult.publicKey:type_name -> protobuf.ActivityPubPublicKey
-	38, // 6: protobuf.GetOutboxResult.orderedItems:type_name -> protobuf.ActivityPubActivity
-	7,  // [7:7] is the sub-list for method output_type
-	7,  // [7:7] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	36, // 0: protobuf.EchoRequest.document:type_name -> protobuf.Document
+	36, // 1: protobuf.EchoResult.document:type_name -> protobuf.Document
+	37, // 2: protobuf.WebfingerResult.links:type_name -> protobuf.ActivityPubLink
+	38, // 3: protobuf.GetActorResult.icon:type_name -> protobuf.ActivityPubMedia
+	38, // 4: protobuf.GetActorResult.image:type_name -> protobuf.ActivityPubMedia
+	39, // 5: protobuf.GetActorResult.publicKey:type_name -> protobuf.ActivityPubPublicKey
+	40, // 6: protobuf.GetOutboxResult.orderedItems:type_name -> protobuf.ActivityPubActivity
+	40, // 7: protobuf.GetInboxResult.orderedItems:type_name -> protobuf.ActivityPubActivity
+	8,  // [8:8] is the sub-list for method output_type
+	8,  // [8:8] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_spis_proto_init() }
@@ -2757,6 +2912,30 @@ func file_spis_proto_init() {
 				return nil
 			}
 		}
+		file_spis_proto_msgTypes[34].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetInboxRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_spis_proto_msgTypes[35].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetInboxResult); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -2764,7 +2943,7 @@ func file_spis_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_spis_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   34,
+			NumMessages:   36,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

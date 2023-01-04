@@ -23,6 +23,7 @@ func (factory *operationFactory) Operations() []IOperation {
 		PostToOutboxOperation(),
 		GetOutboxOperation(),
 		PostToInboxOperation(),
+		GetInboxOperation(),
 	}
 }
 

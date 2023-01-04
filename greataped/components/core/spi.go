@@ -298,3 +298,7 @@ func (dispatcher *dispatcher) GetOutbox(username string) (IGetOutboxResult, erro
 func (dispatcher *dispatcher) PostToInbox(username string) (IPostToInboxResult, error) {
 	return dispatcher.conductor.SpiManager().PostToInbox(username, dispatcher.identity)
 }
+
+func (dispatcher *dispatcher) GetInbox(username string) (IGetInboxResult, error) {
+	return dispatcher.conductor.SpiManager().GetInbox(username, dispatcher.identity)
+}

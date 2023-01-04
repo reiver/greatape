@@ -70,6 +70,7 @@ type (
 		PostToOutbox(username string, context string, activityType string, to string, attributedTo string, inReplyTo string, content string, editor Identity) (IPostToOutboxResult, error)
 		GetOutbox(username string, editor Identity) (IGetOutboxResult, error)
 		PostToInbox(username string, editor Identity) (IPostToInboxResult, error)
+		GetInbox(username string, editor Identity) (IGetInboxResult, error)
 	}
 
 	IEchoResult interface {
@@ -174,5 +175,14 @@ type (
 	}
 
 	IPostToInboxResult interface {
+	}
+
+	IGetInboxResult interface {
+		Context() string
+		Id() string
+		Type() string
+		TotalItems() int32
+		OrderedItems() []IActivityPubActivity
+		First() string
 	}
 )

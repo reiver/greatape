@@ -175,6 +175,16 @@ func (api *api) PostToInbox(request *PostToInboxRequest) (*PostToInboxResult, er
 	}
 }
 
+func (api *api) GetInbox(request *GetInboxRequest) (*GetInboxResult, error) {
+	result, err := api.call(GET_INBOX_REQUEST, request)
+
+	if err != nil {
+		return nil, err
+	} else {
+		return result.(*GetInboxResult), nil
+	}
+}
+
 func init() {
 	API_RESULT[SYSTEM_CALL_RESULT] = SystemCallResult{}
 	API_RESULT[ECHO_RESULT] = EchoResult{}
@@ -193,4 +203,5 @@ func init() {
 	API_RESULT[POST_TO_OUTBOX_RESULT] = PostToOutboxResult{}
 	API_RESULT[GET_OUTBOX_RESULT] = GetOutboxResult{}
 	API_RESULT[POST_TO_INBOX_RESULT] = PostToInboxResult{}
+	API_RESULT[GET_INBOX_RESULT] = GetInboxResult{}
 }
