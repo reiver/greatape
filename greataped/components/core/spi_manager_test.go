@@ -324,3 +324,14 @@ func TestSpiManager_PostToInbox(test *testing.T) {
 
 	_ = result
 }
+
+func TestSpiManager_GetInbox(test *testing.T) {
+	manager := Conductor.SpiManager()
+
+	result, err := manager.GetInbox("username", nil)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	_ = result
+}

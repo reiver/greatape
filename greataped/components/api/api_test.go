@@ -237,6 +237,18 @@ func TestPostToInboxApi(test *testing.T) {
 	}
 }
 
+func TestGetInboxApi(test *testing.T) {
+	input := &GetInboxRequest{
+		Username: "username",
+	}
+
+	if output, err := api.GetInbox(input); err != nil {
+		test.Fatal(err)
+	} else if output == nil {
+		test.Fail()
+	}
+}
+
 //region Initialization
 
 func TestMain(main *testing.M) {
