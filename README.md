@@ -21,7 +21,7 @@ The following is a list of the people who are actively working on Great Ape (in 
 | Chet Earl Woodside      | ux                         | [🕸️](http://cosmicblend.ca/)                                                       |
 | Chris Trottier          | product, qa                | [🐘](https://mastodon.social/@atomicpoet) [📷](https://peerverse.space/atomicpoet) |
 | Farzaneh Amini          | ux                         | [🕸️](https://www.behance.net/farzanehamini)                                        |
-| Massoud Seifi           | engineering                |                                                                                    |
+| Massoud Seifi           | engineering                | [🐘](https://mastodon.social/@accesstoken)                                         |
 | Meysam Mousavi          | engineering                |                                                                                    |
 | Nariman Movaffaghi      | engineering                |                                                                                    |
 
