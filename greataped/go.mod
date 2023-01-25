@@ -3,8 +3,8 @@ module rail.town/infrastructure
 go 1.19
 
 require (
-	github.com/google/uuid v1.3.0
 	github.com/robfig/cron v1.2.0
+	github.com/satori/go.uuid v1.2.0
 	github.com/sendgrid/sendgrid-go v3.12.0+incompatible
 	github.com/xeronith/diamante v1.5.3
 	google.golang.org/protobuf v1.28.1
@@ -18,6 +18,7 @@ require (
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/google/uuid v1.3.0 // indirect
 	github.com/gorilla/securecookie v1.1.1 // indirect
 	github.com/influxdata/influxdb v1.10.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect

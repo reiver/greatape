@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/google/uuid"
+	uuid "github.com/satori/go.uuid"
 	. "github.com/xeronith/diamante/contracts/email"
 	. "github.com/xeronith/diamante/contracts/logging"
 	. "github.com/xeronith/diamante/contracts/settings"
@@ -85,11 +85,11 @@ func (component *systemComponent) UnixNano() int64 {
 }
 
 func (component *systemComponent) GenerateUUID() string {
-	return uuid.New().String()
+	return uuid.NewV4().String()
 }
 
 func (component *systemComponent) GenerateSalt() string {
-	return uuid.New().String()
+	return uuid.NewV4().String()
 }
 
 func (component *systemComponent) GenerateHash(value string, salt string) string {
