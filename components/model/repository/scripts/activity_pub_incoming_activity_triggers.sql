@@ -1,18 +1,28 @@
+########## 
 
-USE `###DATABASE###`;
+CREATE OR REPLACE FUNCTION "activity_pub_incoming_activities_after_update"() RETURNS TRIGGER AS $activity_pub_incoming_activities_after_update$
+    BEGIN
+        INSERT INTO "activity_pub_incoming_activities_history"("action", "original_id", "identity_id", "unique_identifier", "timestamp", "from", "to", "content", "raw", "editor", "status", "sort_order", "queued_at", "created_at", "updated_at", "payload")
+        VALUES('update', "OLD"."id", "OLD"."identity_id", "OLD"."unique_identifier", "OLD"."timestamp", "OLD"."from", "OLD"."to", "OLD"."content", "OLD"."raw", "OLD"."editor", "OLD"."status", "OLD"."sort_order", "OLD"."queued_at", "OLD"."created_at", "OLD"."updated_at", "OLD"."payload");
+    END;
+$activity_pub_incoming_activities_after_update$ LANGUAGE plpgsql;
 
-CREATE TRIGGER `activity_pub_incoming_activities_after_update`
-AFTER UPDATE
-ON `activity_pub_incoming_activities` FOR EACH ROW
-BEGIN
-    INSERT INTO `###DATABASE###_history`.`activity_pub_incoming_activities`(`action`, `original_id`, `identity_id`, `unique_identifier`, `timestamp`, `from`, `to`, `content`, `raw`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
-    VALUES('update', `old`.`id`, `old`.`identity_id`, `old`.`unique_identifier`, `old`.`timestamp`, `old`.`from`, `old`.`to`, `old`.`content`, `old`.`raw`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
-END;
+##########
 
-CREATE TRIGGER `activity_pub_incoming_activities_after_delete`
-AFTER DELETE
-ON `activity_pub_incoming_activities` FOR EACH ROW
-BEGIN
-    INSERT INTO `###DATABASE###_history`.`activity_pub_incoming_activities`(`action`, `original_id`, `identity_id`, `unique_identifier`, `timestamp`, `from`, `to`, `content`, `raw`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
-    VALUES('delete', `old`.`id`, `old`.`identity_id`, `old`.`unique_identifier`, `old`.`timestamp`, `old`.`from`, `old`.`to`, `old`.`content`, `old`.`raw`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
-END;
+CREATE OR REPLACE TRIGGER "activity_pub_incoming_activities_after_update_trigger" AFTER UPDATE ON "activity_pub_incoming_activities"
+    FOR EACH ROW EXECUTE FUNCTION "activity_pub_incoming_activities_after_update"();
+
+##########
+
+CREATE OR REPLACE FUNCTION "activity_pub_incoming_activities_after_delete"() RETURNS TRIGGER AS $activity_pub_incoming_activities_after_delete$
+    BEGIN
+        INSERT INTO "activity_pub_incoming_activities_history"("action", "original_id", "identity_id", "unique_identifier", "timestamp", "from", "to", "content", "raw", "editor", "status", "sort_order", "queued_at", "created_at", "updated_at", "payload")
+        VALUES('delete', "OLD"."id", "OLD"."identity_id", "OLD"."unique_identifier", "OLD"."timestamp", "OLD"."from", "OLD"."to", "OLD"."content", "OLD"."raw", "OLD"."editor", "OLD"."status", "OLD"."sort_order", "OLD"."queued_at", "OLD"."created_at", "OLD"."updated_at", "OLD"."payload");
+    END;
+$activity_pub_incoming_activities_after_delete$ LANGUAGE plpgsql;
+
+##########
+
+CREATE OR REPLACE TRIGGER "activity_pub_incoming_activities_after_delete_trigger" AFTER DELETE ON "activity_pub_incoming_activities"
+    FOR EACH ROW EXECUTE FUNCTION "activity_pub_incoming_activities_after_delete"();
+

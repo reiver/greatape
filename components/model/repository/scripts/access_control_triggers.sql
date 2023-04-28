@@ -1,18 +1,28 @@
+########## 
 
-USE `###DATABASE###`;
+CREATE OR REPLACE FUNCTION "access_controls_after_update"() RETURNS TRIGGER AS $access_controls_after_update$
+    BEGIN
+        INSERT INTO "access_controls_history"("action", "original_id", "key", "value", "editor", "status", "sort_order", "queued_at", "created_at", "updated_at", "payload")
+        VALUES('update', "OLD"."id", "OLD"."key", "OLD"."value", "OLD"."editor", "OLD"."status", "OLD"."sort_order", "OLD"."queued_at", "OLD"."created_at", "OLD"."updated_at", "OLD"."payload");
+    END;
+$access_controls_after_update$ LANGUAGE plpgsql;
 
-CREATE TRIGGER `access_controls_after_update`
-AFTER UPDATE
-ON `access_controls` FOR EACH ROW
-BEGIN
-    INSERT INTO `###DATABASE###_history`.`access_controls`(`action`, `original_id`, `key`, `value`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
-    VALUES('update', `old`.`id`, `old`.`key`, `old`.`value`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
-END;
+##########
 
-CREATE TRIGGER `access_controls_after_delete`
-AFTER DELETE
-ON `access_controls` FOR EACH ROW
-BEGIN
-    INSERT INTO `###DATABASE###_history`.`access_controls`(`action`, `original_id`, `key`, `value`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
-    VALUES('delete', `old`.`id`, `old`.`key`, `old`.`value`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
-END;
+CREATE OR REPLACE TRIGGER "access_controls_after_update_trigger" AFTER UPDATE ON "access_controls"
+    FOR EACH ROW EXECUTE FUNCTION "access_controls_after_update"();
+
+##########
+
+CREATE OR REPLACE FUNCTION "access_controls_after_delete"() RETURNS TRIGGER AS $access_controls_after_delete$
+    BEGIN
+        INSERT INTO "access_controls_history"("action", "original_id", "key", "value", "editor", "status", "sort_order", "queued_at", "created_at", "updated_at", "payload")
+        VALUES('delete', "OLD"."id", "OLD"."key", "OLD"."value", "OLD"."editor", "OLD"."status", "OLD"."sort_order", "OLD"."queued_at", "OLD"."created_at", "OLD"."updated_at", "OLD"."payload");
+    END;
+$access_controls_after_delete$ LANGUAGE plpgsql;
+
+##########
+
+CREATE OR REPLACE TRIGGER "access_controls_after_delete_trigger" AFTER DELETE ON "access_controls"
+    FOR EACH ROW EXECUTE FUNCTION "access_controls_after_delete"();
+

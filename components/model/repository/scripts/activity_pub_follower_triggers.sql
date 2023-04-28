@@ -1,18 +1,28 @@
+########## 
 
-USE `###DATABASE###`;
+CREATE OR REPLACE FUNCTION "activity_pub_followers_after_update"() RETURNS TRIGGER AS $activity_pub_followers_after_update$
+    BEGIN
+        INSERT INTO "activity_pub_followers_history"("action", "original_id", "handle", "inbox", "subject", "activity", "accepted", "editor", "status", "sort_order", "queued_at", "created_at", "updated_at", "payload")
+        VALUES('update', "OLD"."id", "OLD"."handle", "OLD"."inbox", "OLD"."subject", "OLD"."activity", "OLD"."accepted", "OLD"."editor", "OLD"."status", "OLD"."sort_order", "OLD"."queued_at", "OLD"."created_at", "OLD"."updated_at", "OLD"."payload");
+    END;
+$activity_pub_followers_after_update$ LANGUAGE plpgsql;
 
-CREATE TRIGGER `activity_pub_followers_after_update`
-AFTER UPDATE
-ON `activity_pub_followers` FOR EACH ROW
-BEGIN
-    INSERT INTO `###DATABASE###_history`.`activity_pub_followers`(`action`, `original_id`, `handle`, `inbox`, `subject`, `activity`, `accepted`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
-    VALUES('update', `old`.`id`, `old`.`handle`, `old`.`inbox`, `old`.`subject`, `old`.`activity`, `old`.`accepted`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
-END;
+##########
 
-CREATE TRIGGER `activity_pub_followers_after_delete`
-AFTER DELETE
-ON `activity_pub_followers` FOR EACH ROW
-BEGIN
-    INSERT INTO `###DATABASE###_history`.`activity_pub_followers`(`action`, `original_id`, `handle`, `inbox`, `subject`, `activity`, `accepted`, `editor`, `status`, `sort_order`, `queued_at`, `created_at`, `updated_at`, `payload`)
-    VALUES('delete', `old`.`id`, `old`.`handle`, `old`.`inbox`, `old`.`subject`, `old`.`activity`, `old`.`accepted`, `old`.`editor`, `old`.`status`, `old`.`sort_order`, `old`.`queued_at`, `old`.`created_at`, `old`.`updated_at`, `old`.`payload`);
-END;
+CREATE OR REPLACE TRIGGER "activity_pub_followers_after_update_trigger" AFTER UPDATE ON "activity_pub_followers"
+    FOR EACH ROW EXECUTE FUNCTION "activity_pub_followers_after_update"();
+
+##########
+
+CREATE OR REPLACE FUNCTION "activity_pub_followers_after_delete"() RETURNS TRIGGER AS $activity_pub_followers_after_delete$
+    BEGIN
+        INSERT INTO "activity_pub_followers_history"("action", "original_id", "handle", "inbox", "subject", "activity", "accepted", "editor", "status", "sort_order", "queued_at", "created_at", "updated_at", "payload")
+        VALUES('delete', "OLD"."id", "OLD"."handle", "OLD"."inbox", "OLD"."subject", "OLD"."activity", "OLD"."accepted", "OLD"."editor", "OLD"."status", "OLD"."sort_order", "OLD"."queued_at", "OLD"."created_at", "OLD"."updated_at", "OLD"."payload");
+    END;
+$activity_pub_followers_after_delete$ LANGUAGE plpgsql;
+
+##########
+
+CREATE OR REPLACE TRIGGER "activity_pub_followers_after_delete_trigger" AFTER DELETE ON "activity_pub_followers"
+    FOR EACH ROW EXECUTE FUNCTION "activity_pub_followers_after_delete"();
+
