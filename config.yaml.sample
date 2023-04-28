@@ -4,7 +4,9 @@ server:
     fqdn: localhost
     hash_key: '---INSERT-YOUR-HASH-KEY---'
     block_key: '---INSERT-YOUR-BLOCK-KEY---'
-mysql:
+postgres:
+    host: 127.0.0.1
+    port: 5432
     database: greatape
-    username: root
+    username: postgres
     password: password
