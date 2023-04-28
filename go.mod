@@ -3,10 +3,9 @@ module github.com/reiver/greatape
 go 1.19
 
 require (
-	github.com/google/uuid v1.3.0
 	github.com/robfig/cron v1.2.0
 	github.com/sendgrid/sendgrid-go v3.12.0+incompatible
-	github.com/xeronith/diamante v1.5.7
+	github.com/xeronith/diamante v1.6.0
 	google.golang.org/protobuf v1.28.1
 )
 
@@ -14,6 +13,7 @@ require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/fasthttp-contrib/websocket v0.0.0-20160511215533-1f3b11f56072 // indirect
 	github.com/go-sql-driver/mysql v1.7.0 // indirect
+	github.com/gofrs/uuid v3.3.0+incompatible // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang/protobuf v1.5.2 // indirect

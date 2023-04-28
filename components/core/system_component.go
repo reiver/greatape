@@ -6,7 +6,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/reiver/greatape/providers/outbound/email"
 	"github.com/reiver/greatape/providers/outbound/sms"
 	. "github.com/xeronith/diamante/contracts/email"
@@ -85,11 +84,11 @@ func (component *systemComponent) UnixNano() int64 {
 }
 
 func (component *systemComponent) GenerateUUID() string {
-	return uuid.New().String()
+	return utility.GenerateUUID()
 }
 
 func (component *systemComponent) GenerateSalt() string {
-	return uuid.New().String()
+	return utility.GenerateUUID()
 }
 
 func (component *systemComponent) GenerateHash(value string, salt string) string {
