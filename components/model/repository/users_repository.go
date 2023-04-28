@@ -24,7 +24,7 @@ func (repository *usersRepository) Add(entity IUserEntity, editor int64) error {
 	}
 
 	// language=SQL
-	query := "INSERT INTO `users` (`id`, `github`, `editor`) VALUES (?, ?, ?);"
+	query := `INSERT INTO "users" ("id", "github", "editor") VALUES ($1, $2, $3);`
 	return repository.database.InsertSingle(query, entity.Id(), entity.Github(), editor)
 }
 
@@ -34,7 +34,7 @@ func (repository *usersRepository) AddAtomic(transaction IRepositoryTransaction,
 	}
 
 	// language=SQL
-	query := "INSERT INTO `users` (`id`, `github`, `editor`) VALUES (?, ?, ?);"
+	query := `INSERT INTO "users" ("id", "github", "editor") VALUES ($1, $2, $3);`
 	return repository.database.InsertSingleAtomic(transaction, query, entity.Id(), entity.Github(), editor)
 }
 
@@ -44,7 +44,7 @@ func (repository *usersRepository) FetchById(id int64) (IUserEntity, error) {
 	}
 
 	// language=SQL
-	query := "SELECT `id`, `github` FROM `users` WHERE `id` = ? AND `status` = 0;"
+	query := `SELECT "id", "github" FROM "users" WHERE "id" = $1 AND "status" = 0;`
 
 	var userEntity IUserEntity
 	if err := repository.database.QuerySingle(func(cursor ICursor) error {
@@ -72,7 +72,7 @@ func (repository *usersRepository) Update(entity IUserEntity, editor int64) erro
 	}
 
 	// language=SQL
-	query := "UPDATE `users` SET `github` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "users" SET "github" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, entity.Github(), editor, entity.Id())
 }
 
@@ -82,7 +82,7 @@ func (repository *usersRepository) UpdateAtomic(transaction IRepositoryTransacti
 	}
 
 	// language=SQL
-	query := "UPDATE `users` SET `github` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "users" SET "github" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, entity.Github(), editor, entity.Id())
 }
 
@@ -92,7 +92,7 @@ func (repository *usersRepository) Remove(entity IUserEntity, editor int64) erro
 	}
 
 	// language=SQL
-	query := "UPDATE `users` SET `status` = 1, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "users" SET "status" = 1, "editor" = $1 WHERE "id" = $2;`
 	return repository.database.DeleteSingle(query, editor, entity.Id())
 }
 
@@ -102,13 +102,13 @@ func (repository *usersRepository) RemoveAtomic(transaction IRepositoryTransacti
 	}
 
 	// language=SQL
-	query := "UPDATE `users` SET `status` = 1, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "users" SET "status" = 1, "editor" = $1 WHERE "id" = $2;`
 	return repository.database.DeleteSingleAtomic(transaction, query, editor, entity.Id())
 }
 
 func (repository *usersRepository) FetchAll() (UserEntities, error) {
 	// language=SQL
-	query := "SELECT `id`, `github` FROM `users` WHERE `id` > 0 AND `status` = 0;"
+	query := `SELECT "id", "github" FROM "users" WHERE "id" > 0 AND "status" = 0;`
 
 	var userEntities UserEntities
 	if err := repository.database.Query(func(cursor ICursor) error {
@@ -136,7 +136,7 @@ func (repository *usersRepository) UpdateGithub(id int64, value string, editor i
 	}
 
 	// language=SQL
-	query := "UPDATE `users` SET `github` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "users" SET "github" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -146,6 +146,6 @@ func (repository *usersRepository) UpdateGithubAtomic(transaction IRepositoryTra
 	}
 
 	// language=SQL
-	query := "UPDATE `users` SET `github` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "users" SET "github" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }

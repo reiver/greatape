@@ -24,7 +24,7 @@ func (repository *categoriesRepository) Add(entity ICategoryEntity, editor int64
 	}
 
 	// language=SQL
-	query := "INSERT INTO `categories` (`id`, `category_type_id`, `category_id`, `title`, `description`, `editor`) VALUES (?, ?, ?, ?, ?, ?);"
+	query := `INSERT INTO "categories" ("id", "category_type_id", "category_id", "title", "description", "editor") VALUES ($1, $2, $3, $4, $5, $6);`
 	return repository.database.InsertSingle(query, entity.Id(), entity.CategoryTypeId(), entity.CategoryId(), entity.Title(), entity.Description(), editor)
 }
 
@@ -34,7 +34,7 @@ func (repository *categoriesRepository) AddAtomic(transaction IRepositoryTransac
 	}
 
 	// language=SQL
-	query := "INSERT INTO `categories` (`id`, `category_type_id`, `category_id`, `title`, `description`, `editor`) VALUES (?, ?, ?, ?, ?, ?);"
+	query := `INSERT INTO "categories" ("id", "category_type_id", "category_id", "title", "description", "editor") VALUES ($1, $2, $3, $4, $5, $6);`
 	return repository.database.InsertSingleAtomic(transaction, query, entity.Id(), entity.CategoryTypeId(), entity.CategoryId(), entity.Title(), entity.Description(), editor)
 }
 
@@ -44,7 +44,7 @@ func (repository *categoriesRepository) FetchById(id int64) (ICategoryEntity, er
 	}
 
 	// language=SQL
-	query := "SELECT `id`, `category_type_id`, `category_id`, `title`, `description` FROM `categories` WHERE `id` = ? AND `status` = 0;"
+	query := `SELECT "id", "category_type_id", "category_id", "title", "description" FROM "categories" WHERE "id" = $1 AND "status" = 0;`
 
 	var categoryEntity ICategoryEntity
 	if err := repository.database.QuerySingle(func(cursor ICursor) error {
@@ -75,7 +75,7 @@ func (repository *categoriesRepository) Update(entity ICategoryEntity, editor in
 	}
 
 	// language=SQL
-	query := "UPDATE `categories` SET `category_type_id` = ?, `category_id` = ?, `title` = ?, `description` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "categories" SET "category_type_id" = $1, "category_id" = $2, "title" = $3, "description" = $4, "editor" = $5 WHERE "id" = $6;`
 	return repository.database.UpdateSingle(query, entity.CategoryTypeId(), entity.CategoryId(), entity.Title(), entity.Description(), editor, entity.Id())
 }
 
@@ -85,7 +85,7 @@ func (repository *categoriesRepository) UpdateAtomic(transaction IRepositoryTran
 	}
 
 	// language=SQL
-	query := "UPDATE `categories` SET `category_type_id` = ?, `category_id` = ?, `title` = ?, `description` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "categories" SET "category_type_id" = $1, "category_id" = $2, "title" = $3, "description" = $4, "editor" = $5 WHERE "id" = $6;`
 	return repository.database.UpdateSingleAtomic(transaction, query, entity.CategoryTypeId(), entity.CategoryId(), entity.Title(), entity.Description(), editor, entity.Id())
 }
 
@@ -95,7 +95,7 @@ func (repository *categoriesRepository) Remove(entity ICategoryEntity, editor in
 	}
 
 	// language=SQL
-	query := "UPDATE `categories` SET `status` = 1, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "categories" SET "status" = 1, "editor" = $1 WHERE "id" = $2;`
 	return repository.database.DeleteSingle(query, editor, entity.Id())
 }
 
@@ -105,13 +105,13 @@ func (repository *categoriesRepository) RemoveAtomic(transaction IRepositoryTran
 	}
 
 	// language=SQL
-	query := "UPDATE `categories` SET `status` = 1, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "categories" SET "status" = 1, "editor" = $1 WHERE "id" = $2;`
 	return repository.database.DeleteSingleAtomic(transaction, query, editor, entity.Id())
 }
 
 func (repository *categoriesRepository) FetchAll() (CategoryEntities, error) {
 	// language=SQL
-	query := "SELECT `id`, `category_type_id`, `category_id`, `title`, `description` FROM `categories` WHERE `id` > 0 AND `status` = 0;"
+	query := `SELECT "id", "category_type_id", "category_id", "title", "description" FROM "categories" WHERE "id" > 0 AND "status" = 0;`
 
 	var categoryEntities CategoryEntities
 	if err := repository.database.Query(func(cursor ICursor) error {
@@ -154,8 +154,8 @@ func (repository *categoriesRepository) FetchAllByCategory(categoryId int64) (Ca
 
 func (repository *categoriesRepository) FetchAllByDependency(dependencyName string, dependencyId int64) (CategoryEntities, error) {
 	// language=SQL
-	query := "SELECT `id`, `category_type_id`, `category_id`, `title`, `description` FROM `categories` WHERE `id` > 0 AND `status` = 0"
-	query += " AND `" + dependencyName + "` = ?;"
+	query := `SELECT "id", "category_type_id", "category_id", "title", "description" FROM "categories" WHERE "id" > 0 AND "status" = 0`
+	query += ` AND "` + dependencyName + `" = $1;`
 
 	var categoryEntities CategoryEntities
 	if err := repository.database.Query(func(cursor ICursor) error {
@@ -186,7 +186,7 @@ func (repository *categoriesRepository) UpdateTitle(id int64, value string, edit
 	}
 
 	// language=SQL
-	query := "UPDATE `categories` SET `title` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "categories" SET "title" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -196,7 +196,7 @@ func (repository *categoriesRepository) UpdateTitleAtomic(transaction IRepositor
 	}
 
 	// language=SQL
-	query := "UPDATE `categories` SET `title` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "categories" SET "title" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -206,7 +206,7 @@ func (repository *categoriesRepository) UpdateDescription(id int64, value string
 	}
 
 	// language=SQL
-	query := "UPDATE `categories` SET `description` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "categories" SET "description" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -216,6 +216,6 @@ func (repository *categoriesRepository) UpdateDescriptionAtomic(transaction IRep
 	}
 
 	// language=SQL
-	query := "UPDATE `categories` SET `description` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "categories" SET "description" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }

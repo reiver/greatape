@@ -24,7 +24,7 @@ func (repository *categoryTypesRepository) Add(entity ICategoryTypeEntity, edito
 	}
 
 	// language=SQL
-	query := "INSERT INTO `category_types` (`id`, `description`, `editor`) VALUES (?, ?, ?);"
+	query := `INSERT INTO "category_types" ("id", "description", "editor") VALUES ($1, $2, $3);`
 	return repository.database.InsertSingle(query, entity.Id(), entity.Description(), editor)
 }
 
@@ -34,7 +34,7 @@ func (repository *categoryTypesRepository) AddAtomic(transaction IRepositoryTran
 	}
 
 	// language=SQL
-	query := "INSERT INTO `category_types` (`id`, `description`, `editor`) VALUES (?, ?, ?);"
+	query := `INSERT INTO "category_types" ("id", "description", "editor") VALUES ($1, $2, $3);`
 	return repository.database.InsertSingleAtomic(transaction, query, entity.Id(), entity.Description(), editor)
 }
 
@@ -44,7 +44,7 @@ func (repository *categoryTypesRepository) FetchById(id int64) (ICategoryTypeEnt
 	}
 
 	// language=SQL
-	query := "SELECT `id`, `description` FROM `category_types` WHERE `id` = ? AND `status` = 0;"
+	query := `SELECT "id", "description" FROM "category_types" WHERE "id" = $1 AND "status" = 0;`
 
 	var categoryTypeEntity ICategoryTypeEntity
 	if err := repository.database.QuerySingle(func(cursor ICursor) error {
@@ -72,7 +72,7 @@ func (repository *categoryTypesRepository) Update(entity ICategoryTypeEntity, ed
 	}
 
 	// language=SQL
-	query := "UPDATE `category_types` SET `description` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "category_types" SET "description" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, entity.Description(), editor, entity.Id())
 }
 
@@ -82,7 +82,7 @@ func (repository *categoryTypesRepository) UpdateAtomic(transaction IRepositoryT
 	}
 
 	// language=SQL
-	query := "UPDATE `category_types` SET `description` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "category_types" SET "description" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, entity.Description(), editor, entity.Id())
 }
 
@@ -92,7 +92,7 @@ func (repository *categoryTypesRepository) Remove(entity ICategoryTypeEntity, ed
 	}
 
 	// language=SQL
-	query := "UPDATE `category_types` SET `status` = 1, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "category_types" SET "status" = 1, "editor" = $1 WHERE "id" = $2;`
 	return repository.database.DeleteSingle(query, editor, entity.Id())
 }
 
@@ -102,13 +102,13 @@ func (repository *categoryTypesRepository) RemoveAtomic(transaction IRepositoryT
 	}
 
 	// language=SQL
-	query := "UPDATE `category_types` SET `status` = 1, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "category_types" SET "status" = 1, "editor" = $1 WHERE "id" = $2;`
 	return repository.database.DeleteSingleAtomic(transaction, query, editor, entity.Id())
 }
 
 func (repository *categoryTypesRepository) FetchAll() (CategoryTypeEntities, error) {
 	// language=SQL
-	query := "SELECT `id`, `description` FROM `category_types` WHERE `id` > 0 AND `status` = 0;"
+	query := `SELECT "id", "description" FROM "category_types" WHERE "id" > 0 AND "status" = 0;`
 
 	var categoryTypeEntities CategoryTypeEntities
 	if err := repository.database.Query(func(cursor ICursor) error {
@@ -136,7 +136,7 @@ func (repository *categoryTypesRepository) UpdateDescription(id int64, value str
 	}
 
 	// language=SQL
-	query := "UPDATE `category_types` SET `description` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "category_types" SET "description" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -146,6 +146,6 @@ func (repository *categoryTypesRepository) UpdateDescriptionAtomic(transaction I
 	}
 
 	// language=SQL
-	query := "UPDATE `category_types` SET `description` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "category_types" SET "description" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }

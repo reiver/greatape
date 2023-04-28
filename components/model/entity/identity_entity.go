@@ -20,27 +20,27 @@ func InitializeIdentityEntity() {
 
 type identityEntity struct {
 	entity
-	UsernameField             string `json:"username" previous:"id" storage:"VARCHAR(32)" default:"''"`
-	PhoneNumberField          string `json:"phone_number" previous:"username" storage:"VARCHAR(12)" default:"''"`
-	PhoneNumberConfirmedField bool   `json:"phone_number_confirmed" previous:"phone_number" storage:"BIT(1)" default:"FALSE"`
-	FirstNameField            string `json:"first_name" previous:"phone_number_confirmed" storage:"VARCHAR(128)" default:"''"`
-	LastNameField             string `json:"last_name" previous:"first_name" storage:"VARCHAR(128)" default:"''"`
-	DisplayNameField          string `json:"display_name" previous:"last_name" storage:"VARCHAR(128)" default:"''"`
-	EmailField                string `json:"email" previous:"display_name" storage:"VARCHAR(128)" default:"''"`
-	EmailConfirmedField       bool   `json:"email_confirmed" previous:"email" storage:"BIT(1)" default:"FALSE"`
-	AvatarField               string `json:"avatar" previous:"email_confirmed" storage:"VARCHAR(512)" default:"''"`
-	BannerField               string `json:"banner" previous:"avatar" storage:"VARCHAR(512)" default:"''"`
-	SummaryField              string `json:"summary" previous:"banner" storage:"VARCHAR(512)" default:"''"`
-	TokenField                string `json:"token" previous:"summary" storage:"VARCHAR(256)" default:"''"`
-	MultiFactorField          bool   `json:"multi_factor" previous:"token" storage:"BIT(1)" default:"FALSE"`
-	HashField                 string `json:"hash" previous:"multi_factor" storage:"VARCHAR(256)" default:"''"`
-	SaltField                 string `json:"salt" previous:"hash" storage:"VARCHAR(64)" default:"''"`
-	PublicKeyField            string `json:"public_key" previous:"salt" storage:"VARCHAR(4096)" default:"''"`
-	PrivateKeyField           string `json:"private_key" previous:"public_key" storage:"VARCHAR(4096)" default:"''"`
-	PermissionField           uint64 `json:"permission" previous:"private_key" storage:"BIGINT UNSIGNED" default:"0"`
-	RestrictionField          uint32 `json:"restriction" previous:"permission" storage:"INT UNSIGNED" default:"0"`
-	LastLoginField            int64  `json:"last_login" previous:"restriction" storage:"BIGINT" default:"0"`
-	LoginCountField           uint32 `json:"login_count" previous:"last_login" storage:"INT UNSIGNED" default:"0"`
+	UsernameField             string `json:"username" storage:"VARCHAR(32)" default:"''"`
+	PhoneNumberField          string `json:"phone_number" storage:"VARCHAR(12)" default:"''"`
+	PhoneNumberConfirmedField bool   `json:"phone_number_confirmed" storage:"BOOLEAN" default:"FALSE"`
+	FirstNameField            string `json:"first_name" storage:"VARCHAR(128)" default:"''"`
+	LastNameField             string `json:"last_name" storage:"VARCHAR(128)" default:"''"`
+	DisplayNameField          string `json:"display_name" storage:"VARCHAR(128)" default:"''"`
+	EmailField                string `json:"email" storage:"VARCHAR(128)" default:"''"`
+	EmailConfirmedField       bool   `json:"email_confirmed" storage:"BOOLEAN" default:"FALSE"`
+	AvatarField               string `json:"avatar" storage:"VARCHAR(512)" default:"''"`
+	BannerField               string `json:"banner" storage:"VARCHAR(512)" default:"''"`
+	SummaryField              string `json:"summary" storage:"VARCHAR(512)" default:"''"`
+	TokenField                string `json:"token" storage:"VARCHAR(256)" default:"''"`
+	MultiFactorField          bool   `json:"multi_factor" storage:"BOOLEAN" default:"FALSE"`
+	HashField                 string `json:"hash" storage:"VARCHAR(256)" default:"''"`
+	SaltField                 string `json:"salt" storage:"VARCHAR(64)" default:"''"`
+	PublicKeyField            string `json:"public_key" storage:"VARCHAR(4096)" default:"''"`
+	PrivateKeyField           string `json:"private_key" storage:"VARCHAR(4096)" default:"''"`
+	PermissionField           uint64 `json:"permission" storage:"BIGINT" default:"0"`
+	RestrictionField          uint32 `json:"restriction" storage:"INT" default:"0"`
+	LastLoginField            int64  `json:"last_login" storage:"BIGINT" default:"0"`
+	LoginCountField           uint32 `json:"login_count" storage:"INT" default:"0"`
 }
 
 func NewIdentityEntity(id int64, username string, phoneNumber string, phoneNumberConfirmed bool, firstName string, lastName string, displayName string, email string, emailConfirmed bool, avatar string, banner string, summary string, token string, multiFactor bool, hash string, salt string, publicKey string, privateKey string, permission uint64, restriction uint32, lastLogin int64, loginCount uint32) IIdentityEntity {

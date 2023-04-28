@@ -53,7 +53,7 @@ func (repository *baseRepository) Migrate() error {
 
 		if !schema.HasTable(repository.pluralName) {
 			script := createTablesScript + createTriggersScript
-			if err := repository.GetSqlDatabase().RunScript(script); err != nil {
+			if err := repository.GetSqlDatabase().RunScript(script, "##########"); err != nil {
 				return err
 			}
 
@@ -67,15 +67,15 @@ func (repository *baseRepository) Migrate() error {
 				return fmt.Errorf("DB_MIGRATION: history.%s", repository.pluralName)
 			}
 
-			if !schema.HasTrigger(fmt.Sprintf("%s_after_update", repository.pluralName)) {
-				return fmt.Errorf("DB_MIGRATION: %s_after_update", repository.pluralName)
+			if !schema.HasTrigger(fmt.Sprintf("%s_after_update_trigger", repository.pluralName)) {
+				return fmt.Errorf("DB_MIGRATION: %s_after_update_trigger", repository.pluralName)
 			}
 
-			if !schema.HasTrigger(fmt.Sprintf("%s_after_delete", repository.pluralName)) {
-				return fmt.Errorf("DB_MIGRATION: %s_after_delete", repository.pluralName)
+			if !schema.HasTrigger(fmt.Sprintf("%s_after_delete_trigger", repository.pluralName)) {
+				return fmt.Errorf("DB_MIGRATION: %s_after_delete_trigger", repository.pluralName)
 			}
 
-			_, err := repository.database.Execute("INSERT INTO `__system__` (`script`) VALUES (?);", script)
+			_, err := repository.database.Execute(`INSERT INTO "__system__" ("script") VALUES ($1);`, script)
 			if err != nil {
 				repository.logger.Alert(fmt.Sprintf("DB_MIGRATION: %s", err))
 			}
@@ -92,31 +92,28 @@ func (repository *baseRepository) Migrate() error {
 			column := field.Tag.Get("json")
 			dbType := field.Tag.Get("storage")
 			defaultValue := field.Tag.Get("default")
-			previousColumn := field.Tag.Get("previous")
 
 			if field.Name != "entity" && !schema.HasColumn(repository.pluralName, column) {
 				changes = append(changes, fmt.Sprintf("%s.%s", repository.pluralName, column))
-				commands = append(commands, fmt.Sprintf("ALTER TABLE `%s` ADD COLUMN `%s` %s NOT NULL DEFAULT %s AFTER `%s`;", repository.pluralName, column, dbType, defaultValue, previousColumn))
 
-				if previousColumn == "id" {
-					historyCommands = append(historyCommands, fmt.Sprintf("ALTER TABLE `%s` ADD COLUMN `%s` %s NOT NULL DEFAULT %s AFTER `%s`;", repository.pluralName, column, dbType, defaultValue, "original_id"))
-				} else {
-					historyCommands = append(historyCommands, fmt.Sprintf("ALTER TABLE `%s` ADD COLUMN `%s` %s NOT NULL DEFAULT %s AFTER `%s`;", repository.pluralName, column, dbType, defaultValue, previousColumn))
-				}
+				commands = append(commands, fmt.Sprintf(`ALTER TABLE "%s" ADD COLUMN "%s" %s NOT NULL;`, repository.pluralName, column, dbType))
+				commands = append(commands, fmt.Sprintf(`ALTER TABLE "%s" ALTER COLUMN "%s" SET DEFAULT %s;`, repository.pluralName, column, defaultValue))
+
+				historyCommands = append(historyCommands, fmt.Sprintf(`ALTER TABLE "%s_history" ADD COLUMN "%s" %s NOT NULL;`, repository.pluralName, column, dbType))
+				historyCommands = append(historyCommands, fmt.Sprintf(`ALTER TABLE "%s_history" ALTER COLUMN "%s" SET DEFAULT %s;`, repository.pluralName, column, defaultValue))
 			}
 		}
 
-		scriptLines := make([]string, 0)
+		var scriptLines []string
 		if len(commands) > 0 {
-			scriptLines = append([]string{fmt.Sprintf("USE `%s_history`;\n", repository.GetSqlDatabase().GetName())}, historyCommands...)
-			scriptLines = append(scriptLines, fmt.Sprintf("\nUSE `%s`;\n", repository.GetSqlDatabase().GetName()))
-			scriptLines = append(scriptLines, fmt.Sprintf("DROP TRIGGER `%s_after_update`;", repository.pluralName))
-			scriptLines = append(scriptLines, fmt.Sprintf("DROP TRIGGER `%s_after_delete`;\n", repository.pluralName))
+			scriptLines = append([]string{}, historyCommands...)
+			scriptLines = append(scriptLines, fmt.Sprintf(`DROP TRIGGER "%s_after_update_trigger" ON "%s";`, repository.pluralName, repository.pluralName))
+			scriptLines = append(scriptLines, fmt.Sprintf(`DROP TRIGGER "%s_after_delete_trigger" ON "%s";`, repository.pluralName, repository.pluralName))
 			scriptLines = append(scriptLines, commands...)
 			scriptLines = append(scriptLines, createTriggersScript)
-			script := strings.Join(scriptLines, "\n")
+			script := strings.Join(scriptLines, "\n##########\n")
 
-			if err := repository.GetSqlDatabase().RunScript(script); err != nil {
+			if err := repository.GetSqlDatabase().RunScript(script, "##########"); err != nil {
 				return err
 			}
 
@@ -131,15 +128,15 @@ func (repository *baseRepository) Migrate() error {
 				}
 			}
 
-			if !schema.HasTrigger(fmt.Sprintf("%s_after_update", repository.pluralName)) {
-				return fmt.Errorf("DB_MIGRATION: %s_after_update", repository.pluralName)
+			if !schema.HasTrigger(fmt.Sprintf("%s_after_update_trigger", repository.pluralName)) {
+				return fmt.Errorf("DB_MIGRATION: %s_after_update_trigger", repository.pluralName)
 			}
 
-			if !schema.HasTrigger(fmt.Sprintf("%s_after_delete", repository.pluralName)) {
-				return fmt.Errorf("DB_MIGRATION: %s_after_delete", repository.pluralName)
+			if !schema.HasTrigger(fmt.Sprintf("%s_after_delete_trigger", repository.pluralName)) {
+				return fmt.Errorf("DB_MIGRATION: %s_after_delete_trigger", repository.pluralName)
 			}
 
-			_, err := repository.database.Execute("INSERT INTO `__system__` (`script`) VALUES (?);", script)
+			_, err := repository.database.Execute(`INSERT INTO "__system__" ("script") VALUES ($1);`, script)
 			if err != nil {
 				repository.logger.Alert(fmt.Sprintf("DB_MIGRATION: %s", err))
 			}

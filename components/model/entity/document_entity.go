@@ -20,7 +20,7 @@ func InitializeDocumentEntity() {
 
 type documentEntity struct {
 	entity
-	ContentField string `json:"content" previous:"id" storage:"JSON" default:"'{}'"`
+	ContentField string `json:"content" storage:"JSONB" default:"'{}'"`
 }
 
 func NewDocumentEntity(id int64, content string) IDocumentEntity {

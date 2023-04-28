@@ -20,14 +20,14 @@ func InitializeRemoteActivityEntity() {
 
 type remoteActivityEntity struct {
 	entity
-	EntryPointField    string `json:"entry_point" previous:"id" storage:"VARCHAR(256)" default:"''"`
-	DurationField      int64  `json:"duration" previous:"entry_point" storage:"BIGINT" default:"0"`
-	SuccessfulField    bool   `json:"successful" previous:"duration" storage:"BIT(1)" default:"FALSE"`
-	ErrorMessageField  string `json:"error_message" previous:"successful" storage:"VARCHAR(1024)" default:"''"`
-	RemoteAddressField string `json:"remote_address" previous:"error_message" storage:"VARCHAR(128)" default:"''"`
-	UserAgentField     string `json:"user_agent" previous:"remote_address" storage:"VARCHAR(512)" default:"''"`
-	EventTypeField     uint32 `json:"event_type" previous:"user_agent" storage:"INT UNSIGNED" default:"0"`
-	TimestampField     int64  `json:"timestamp" previous:"event_type" storage:"BIGINT" default:"0"`
+	EntryPointField    string `json:"entry_point" storage:"VARCHAR(256)" default:"''"`
+	DurationField      int64  `json:"duration" storage:"BIGINT" default:"0"`
+	SuccessfulField    bool   `json:"successful" storage:"BOOLEAN" default:"FALSE"`
+	ErrorMessageField  string `json:"error_message" storage:"VARCHAR(1024)" default:"''"`
+	RemoteAddressField string `json:"remote_address" storage:"VARCHAR(128)" default:"''"`
+	UserAgentField     string `json:"user_agent" storage:"VARCHAR(512)" default:"''"`
+	EventTypeField     uint32 `json:"event_type" storage:"INT" default:"0"`
+	TimestampField     int64  `json:"timestamp" storage:"BIGINT" default:"0"`
 }
 
 func NewRemoteActivityEntity(id int64, entryPoint string, duration int64, successful bool, errorMessage string, remoteAddress string, userAgent string, eventType uint32, timestamp int64) IRemoteActivityEntity {

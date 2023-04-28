@@ -21,12 +21,12 @@ func InitializeActivityPubOutgoingActivityEntity() {
 type activityPubOutgoingActivityEntity struct {
 	entity
 	IdentityIdField       int64  `json:"identity_id"`
-	UniqueIdentifierField string `json:"unique_identifier" previous:"identity_id" storage:"VARCHAR(128)" default:"''"`
-	TimestampField        int64  `json:"timestamp" previous:"unique_identifier" storage:"BIGINT" default:"0"`
-	FromField             string `json:"from" previous:"timestamp" storage:"VARCHAR(256)" default:"''"`
-	ToField               string `json:"to" previous:"from" storage:"VARCHAR(256)" default:"''"`
-	ContentField          string `json:"content" previous:"to" storage:"VARCHAR(4096)" default:"''"`
-	RawField              string `json:"raw" previous:"content" storage:"JSON" default:"'{}'"`
+	UniqueIdentifierField string `json:"unique_identifier" storage:"VARCHAR(128)" default:"''"`
+	TimestampField        int64  `json:"timestamp" storage:"BIGINT" default:"0"`
+	FromField             string `json:"from" storage:"VARCHAR(256)" default:"''"`
+	ToField               string `json:"to" storage:"VARCHAR(256)" default:"''"`
+	ContentField          string `json:"content" storage:"VARCHAR(4096)" default:"''"`
+	RawField              string `json:"raw" storage:"JSONB" default:"'{}'"`
 }
 
 func NewActivityPubOutgoingActivityEntity(id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string) IActivityPubOutgoingActivityEntity {

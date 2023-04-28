@@ -8,7 +8,7 @@ import (
 	. "github.com/xeronith/diamante/contracts/database"
 	. "github.com/xeronith/diamante/contracts/logging"
 	. "github.com/xeronith/diamante/contracts/settings"
-	. "github.com/xeronith/diamante/database/drivers/mysql"
+	. "github.com/xeronith/diamante/database/drivers/postgres"
 )
 
 var (
@@ -29,7 +29,7 @@ var (
 var database ISqlDatabase
 
 func Initialize(configuration IConfiguration, logger ILogger) error {
-	databaseName := configuration.GetMySQLConfiguration().GetDatabase()
+	databaseName := configuration.GetPostgreSQLConfiguration().GetDatabase()
 	if strings.TrimSpace(databaseName) == "" {
 		return errors.New("database_required")
 	}

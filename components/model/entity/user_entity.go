@@ -20,7 +20,7 @@ func InitializeUserEntity() {
 
 type userEntity struct {
 	entity
-	GithubField string `json:"github" previous:"id" storage:"VARCHAR(512)" default:"''"`
+	GithubField string `json:"github" storage:"VARCHAR(512)" default:"''"`
 }
 
 func NewUserEntity(id int64, github string) IUserEntity {

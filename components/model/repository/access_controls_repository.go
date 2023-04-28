@@ -24,7 +24,7 @@ func (repository *accessControlsRepository) Add(entity IAccessControlEntity, edi
 	}
 
 	// language=SQL
-	query := "INSERT INTO `access_controls` (`id`, `key`, `value`, `editor`) VALUES (?, ?, ?, ?);"
+	query := `INSERT INTO "access_controls" ("id", "key", "value", "editor") VALUES ($1, $2, $3, $4);`
 	return repository.database.InsertSingle(query, entity.Id(), entity.Key(), entity.Value(), editor)
 }
 
@@ -34,7 +34,7 @@ func (repository *accessControlsRepository) AddAtomic(transaction IRepositoryTra
 	}
 
 	// language=SQL
-	query := "INSERT INTO `access_controls` (`id`, `key`, `value`, `editor`) VALUES (?, ?, ?, ?);"
+	query := `INSERT INTO "access_controls" ("id", "key", "value", "editor") VALUES ($1, $2, $3, $4);`
 	return repository.database.InsertSingleAtomic(transaction, query, entity.Id(), entity.Key(), entity.Value(), editor)
 }
 
@@ -44,7 +44,7 @@ func (repository *accessControlsRepository) FetchById(id int64) (IAccessControlE
 	}
 
 	// language=SQL
-	query := "SELECT `id`, `key`, `value` FROM `access_controls` WHERE `id` = ? AND `status` = 0;"
+	query := `SELECT "id", "key", "value" FROM "access_controls" WHERE "id" = $1 AND "status" = 0;`
 
 	var accessControlEntity IAccessControlEntity
 	if err := repository.database.QuerySingle(func(cursor ICursor) error {
@@ -73,7 +73,7 @@ func (repository *accessControlsRepository) Update(entity IAccessControlEntity, 
 	}
 
 	// language=SQL
-	query := "UPDATE `access_controls` SET `key` = ?, `value` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "access_controls" SET "key" = $1, "value" = $2, "editor" = $3 WHERE "id" = $4;`
 	return repository.database.UpdateSingle(query, entity.Key(), entity.Value(), editor, entity.Id())
 }
 
@@ -83,7 +83,7 @@ func (repository *accessControlsRepository) UpdateAtomic(transaction IRepository
 	}
 
 	// language=SQL
-	query := "UPDATE `access_controls` SET `key` = ?, `value` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "access_controls" SET "key" = $1, "value" = $2, "editor" = $3 WHERE "id" = $4;`
 	return repository.database.UpdateSingleAtomic(transaction, query, entity.Key(), entity.Value(), editor, entity.Id())
 }
 
@@ -93,7 +93,7 @@ func (repository *accessControlsRepository) Remove(entity IAccessControlEntity, 
 	}
 
 	// language=SQL
-	query := "UPDATE `access_controls` SET `status` = 1, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "access_controls" SET "status" = 1, "editor" = $1 WHERE "id" = $2;`
 	return repository.database.DeleteSingle(query, editor, entity.Id())
 }
 
@@ -103,13 +103,13 @@ func (repository *accessControlsRepository) RemoveAtomic(transaction IRepository
 	}
 
 	// language=SQL
-	query := "UPDATE `access_controls` SET `status` = 1, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "access_controls" SET "status" = 1, "editor" = $1 WHERE "id" = $2;`
 	return repository.database.DeleteSingleAtomic(transaction, query, editor, entity.Id())
 }
 
 func (repository *accessControlsRepository) FetchAll() (AccessControlEntities, error) {
 	// language=SQL
-	query := "SELECT `id`, `key`, `value` FROM `access_controls` WHERE `id` > 0 AND `status` = 0;"
+	query := `SELECT "id", "key", "value" FROM "access_controls" WHERE "id" > 0 AND "status" = 0;`
 
 	var accessControlEntities AccessControlEntities
 	if err := repository.database.Query(func(cursor ICursor) error {
@@ -138,7 +138,7 @@ func (repository *accessControlsRepository) UpdateKey(id int64, value uint64, ed
 	}
 
 	// language=SQL
-	query := "UPDATE `access_controls` SET `key` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "access_controls" SET "key" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -148,7 +148,7 @@ func (repository *accessControlsRepository) UpdateKeyAtomic(transaction IReposit
 	}
 
 	// language=SQL
-	query := "UPDATE `access_controls` SET `key` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "access_controls" SET "key" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -158,7 +158,7 @@ func (repository *accessControlsRepository) UpdateValue(id int64, value uint64, 
 	}
 
 	// language=SQL
-	query := "UPDATE `access_controls` SET `value` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "access_controls" SET "value" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -168,6 +168,6 @@ func (repository *accessControlsRepository) UpdateValueAtomic(transaction IRepos
 	}
 
 	// language=SQL
-	query := "UPDATE `access_controls` SET `value` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "access_controls" SET "value" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }

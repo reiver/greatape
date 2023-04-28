@@ -20,8 +20,8 @@ func InitializeSystemScheduleEntity() {
 
 type systemScheduleEntity struct {
 	entity
-	EnabledField bool   `json:"enabled" previous:"id" storage:"BIT(1)" default:"FALSE"`
-	ConfigField  string `json:"config" previous:"enabled" storage:"VARCHAR(1024)" default:"''"`
+	EnabledField bool   `json:"enabled" storage:"BOOLEAN" default:"FALSE"`
+	ConfigField  string `json:"config" storage:"VARCHAR(1024)" default:"''"`
 }
 
 func NewSystemScheduleEntity(id int64, enabled bool, config string) ISystemScheduleEntity {

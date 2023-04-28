@@ -24,7 +24,7 @@ func (repository *activityPubFollowersRepository) Add(entity IActivityPubFollowe
 	}
 
 	// language=SQL
-	query := "INSERT INTO `activity_pub_followers` (`id`, `handle`, `inbox`, `subject`, `activity`, `accepted`, `editor`) VALUES (?, ?, ?, ?, ?, ?, ?);"
+	query := `INSERT INTO "activity_pub_followers" ("id", "handle", "inbox", "subject", "activity", "accepted", "editor") VALUES ($1, $2, $3, $4, $5, $6, $7);`
 	return repository.database.InsertSingle(query, entity.Id(), entity.Handle(), entity.Inbox(), entity.Subject(), entity.Activity(), entity.Accepted(), editor)
 }
 
@@ -34,7 +34,7 @@ func (repository *activityPubFollowersRepository) AddAtomic(transaction IReposit
 	}
 
 	// language=SQL
-	query := "INSERT INTO `activity_pub_followers` (`id`, `handle`, `inbox`, `subject`, `activity`, `accepted`, `editor`) VALUES (?, ?, ?, ?, ?, ?, ?);"
+	query := `INSERT INTO "activity_pub_followers" ("id", "handle", "inbox", "subject", "activity", "accepted", "editor") VALUES ($1, $2, $3, $4, $5, $6, $7);`
 	return repository.database.InsertSingleAtomic(transaction, query, entity.Id(), entity.Handle(), entity.Inbox(), entity.Subject(), entity.Activity(), entity.Accepted(), editor)
 }
 
@@ -44,7 +44,7 @@ func (repository *activityPubFollowersRepository) FetchById(id int64) (IActivity
 	}
 
 	// language=SQL
-	query := "SELECT `id`, `handle`, `inbox`, `subject`, `activity`, `accepted` = b'1' FROM `activity_pub_followers` WHERE `id` = ? AND `status` = 0;"
+	query := `SELECT "id", "handle", "inbox", "subject", "activity", "accepted" = TRUE FROM "activity_pub_followers" WHERE "id" = $1 AND "status" = 0;`
 
 	var activityPubFollowerEntity IActivityPubFollowerEntity
 	if err := repository.database.QuerySingle(func(cursor ICursor) error {
@@ -76,7 +76,7 @@ func (repository *activityPubFollowersRepository) Update(entity IActivityPubFoll
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_followers` SET `handle` = ?, `inbox` = ?, `subject` = ?, `activity` = ?, `accepted` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_followers" SET "handle" = $1, "inbox" = $2, "subject" = $3, "activity" = $4, "accepted" = $5, "editor" = $6 WHERE "id" = $7;`
 	return repository.database.UpdateSingle(query, entity.Handle(), entity.Inbox(), entity.Subject(), entity.Activity(), entity.Accepted(), editor, entity.Id())
 }
 
@@ -86,7 +86,7 @@ func (repository *activityPubFollowersRepository) UpdateAtomic(transaction IRepo
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_followers` SET `handle` = ?, `inbox` = ?, `subject` = ?, `activity` = ?, `accepted` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_followers" SET "handle" = $1, "inbox" = $2, "subject" = $3, "activity" = $4, "accepted" = $5, "editor" = $6 WHERE "id" = $7;`
 	return repository.database.UpdateSingleAtomic(transaction, query, entity.Handle(), entity.Inbox(), entity.Subject(), entity.Activity(), entity.Accepted(), editor, entity.Id())
 }
 
@@ -96,7 +96,7 @@ func (repository *activityPubFollowersRepository) Remove(entity IActivityPubFoll
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_followers` SET `status` = 1, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_followers" SET "status" = 1, "editor" = $1 WHERE "id" = $2;`
 	return repository.database.DeleteSingle(query, editor, entity.Id())
 }
 
@@ -106,13 +106,13 @@ func (repository *activityPubFollowersRepository) RemoveAtomic(transaction IRepo
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_followers` SET `status` = 1, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_followers" SET "status" = 1, "editor" = $1 WHERE "id" = $2;`
 	return repository.database.DeleteSingleAtomic(transaction, query, editor, entity.Id())
 }
 
 func (repository *activityPubFollowersRepository) FetchAll() (ActivityPubFollowerEntities, error) {
 	// language=SQL
-	query := "SELECT `id`, `handle`, `inbox`, `subject`, `activity`, `accepted` = b'1' FROM `activity_pub_followers` WHERE `id` > 0 AND `status` = 0;"
+	query := `SELECT "id", "handle", "inbox", "subject", "activity", "accepted" = TRUE FROM "activity_pub_followers" WHERE "id" > 0 AND "status" = 0;`
 
 	var activityPubFollowerEntities ActivityPubFollowerEntities
 	if err := repository.database.Query(func(cursor ICursor) error {
@@ -144,7 +144,7 @@ func (repository *activityPubFollowersRepository) UpdateHandle(id int64, value s
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_followers` SET `handle` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_followers" SET "handle" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -154,7 +154,7 @@ func (repository *activityPubFollowersRepository) UpdateHandleAtomic(transaction
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_followers` SET `handle` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_followers" SET "handle" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -164,7 +164,7 @@ func (repository *activityPubFollowersRepository) UpdateInbox(id int64, value st
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_followers` SET `inbox` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_followers" SET "inbox" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -174,7 +174,7 @@ func (repository *activityPubFollowersRepository) UpdateInboxAtomic(transaction 
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_followers` SET `inbox` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_followers" SET "inbox" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -184,7 +184,7 @@ func (repository *activityPubFollowersRepository) UpdateSubject(id int64, value 
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_followers` SET `subject` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_followers" SET "subject" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -194,7 +194,7 @@ func (repository *activityPubFollowersRepository) UpdateSubjectAtomic(transactio
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_followers` SET `subject` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_followers" SET "subject" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -204,7 +204,7 @@ func (repository *activityPubFollowersRepository) UpdateActivity(id int64, value
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_followers` SET `activity` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_followers" SET "activity" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -214,7 +214,7 @@ func (repository *activityPubFollowersRepository) UpdateActivityAtomic(transacti
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_followers` SET `activity` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_followers" SET "activity" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -224,7 +224,7 @@ func (repository *activityPubFollowersRepository) UpdateAccepted(id int64, value
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_followers` SET `accepted` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_followers" SET "accepted" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -234,6 +234,6 @@ func (repository *activityPubFollowersRepository) UpdateAcceptedAtomic(transacti
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_followers` SET `accepted` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_followers" SET "accepted" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }

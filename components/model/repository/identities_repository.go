@@ -24,7 +24,7 @@ func (repository *identitiesRepository) Add(entity IIdentityEntity, editor int64
 	}
 
 	// language=SQL
-	query := "INSERT INTO `identities` (`id`, `username`, `phone_number`, `phone_number_confirmed`, `first_name`, `last_name`, `display_name`, `email`, `email_confirmed`, `avatar`, `banner`, `summary`, `token`, `multi_factor`, `hash`, `salt`, `public_key`, `private_key`, `permission`, `restriction`, `last_login`, `login_count`, `editor`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
+	query := `INSERT INTO "identities" ("id", "username", "phone_number", "phone_number_confirmed", "first_name", "last_name", "display_name", "email", "email_confirmed", "avatar", "banner", "summary", "token", "multi_factor", "hash", "salt", "public_key", "private_key", "permission", "restriction", "last_login", "login_count", "editor") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23);`
 	return repository.database.InsertSingle(query, entity.Id(), entity.Username(), entity.PhoneNumber(), entity.PhoneNumberConfirmed(), entity.FirstName(), entity.LastName(), entity.DisplayName(), entity.Email(), entity.EmailConfirmed(), entity.Avatar(), entity.Banner(), entity.Summary(), entity.Token(), entity.MultiFactor(), entity.Hash(), entity.Salt(), entity.PublicKey(), entity.PrivateKey(), entity.Permission(), entity.Restriction(), entity.LastLogin(), entity.LoginCount(), editor)
 }
 
@@ -34,7 +34,7 @@ func (repository *identitiesRepository) AddAtomic(transaction IRepositoryTransac
 	}
 
 	// language=SQL
-	query := "INSERT INTO `identities` (`id`, `username`, `phone_number`, `phone_number_confirmed`, `first_name`, `last_name`, `display_name`, `email`, `email_confirmed`, `avatar`, `banner`, `summary`, `token`, `multi_factor`, `hash`, `salt`, `public_key`, `private_key`, `permission`, `restriction`, `last_login`, `login_count`, `editor`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
+	query := `INSERT INTO "identities" ("id", "username", "phone_number", "phone_number_confirmed", "first_name", "last_name", "display_name", "email", "email_confirmed", "avatar", "banner", "summary", "token", "multi_factor", "hash", "salt", "public_key", "private_key", "permission", "restriction", "last_login", "login_count", "editor") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23);`
 	return repository.database.InsertSingleAtomic(transaction, query, entity.Id(), entity.Username(), entity.PhoneNumber(), entity.PhoneNumberConfirmed(), entity.FirstName(), entity.LastName(), entity.DisplayName(), entity.Email(), entity.EmailConfirmed(), entity.Avatar(), entity.Banner(), entity.Summary(), entity.Token(), entity.MultiFactor(), entity.Hash(), entity.Salt(), entity.PublicKey(), entity.PrivateKey(), entity.Permission(), entity.Restriction(), entity.LastLogin(), entity.LoginCount(), editor)
 }
 
@@ -44,7 +44,7 @@ func (repository *identitiesRepository) FetchById(id int64) (IIdentityEntity, er
 	}
 
 	// language=SQL
-	query := "SELECT `id`, `username`, `phone_number`, `phone_number_confirmed` = b'1', `first_name`, `last_name`, `display_name`, `email`, `email_confirmed` = b'1', `avatar`, `banner`, `summary`, `token`, `multi_factor` = b'1', `hash`, `salt`, `public_key`, `private_key`, `permission`, `restriction`, `last_login`, `login_count` FROM `identities` WHERE `id` = ? AND `status` = 0;"
+	query := `SELECT "id", "username", "phone_number", "phone_number_confirmed" = TRUE, "first_name", "last_name", "display_name", "email", "email_confirmed" = TRUE, "avatar", "banner", "summary", "token", "multi_factor" = TRUE, "hash", "salt", "public_key", "private_key", "permission", "restriction", "last_login", "login_count" FROM "identities" WHERE "id" = $1 AND "status" = 0;`
 
 	var identityEntity IIdentityEntity
 	if err := repository.database.QuerySingle(func(cursor ICursor) error {
@@ -92,7 +92,7 @@ func (repository *identitiesRepository) Update(entity IIdentityEntity, editor in
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `username` = ?, `phone_number` = ?, `phone_number_confirmed` = ?, `first_name` = ?, `last_name` = ?, `display_name` = ?, `email` = ?, `email_confirmed` = ?, `avatar` = ?, `banner` = ?, `summary` = ?, `token` = ?, `multi_factor` = ?, `hash` = ?, `salt` = ?, `public_key` = ?, `private_key` = ?, `permission` = ?, `restriction` = ?, `last_login` = ?, `login_count` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "username" = $1, "phone_number" = $2, "phone_number_confirmed" = $3, "first_name" = $4, "last_name" = $5, "display_name" = $6, "email" = $7, "email_confirmed" = $8, "avatar" = $9, "banner" = $10, "summary" = $11, "token" = $12, "multi_factor" = $13, "hash" = $14, "salt" = $15, "public_key" = $16, "private_key" = $17, "permission" = $18, "restriction" = $19, "last_login" = $20, "login_count" = $21, "editor" = $22 WHERE "id" = $23;`
 	return repository.database.UpdateSingle(query, entity.Username(), entity.PhoneNumber(), entity.PhoneNumberConfirmed(), entity.FirstName(), entity.LastName(), entity.DisplayName(), entity.Email(), entity.EmailConfirmed(), entity.Avatar(), entity.Banner(), entity.Summary(), entity.Token(), entity.MultiFactor(), entity.Hash(), entity.Salt(), entity.PublicKey(), entity.PrivateKey(), entity.Permission(), entity.Restriction(), entity.LastLogin(), entity.LoginCount(), editor, entity.Id())
 }
 
@@ -102,7 +102,7 @@ func (repository *identitiesRepository) UpdateAtomic(transaction IRepositoryTran
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `username` = ?, `phone_number` = ?, `phone_number_confirmed` = ?, `first_name` = ?, `last_name` = ?, `display_name` = ?, `email` = ?, `email_confirmed` = ?, `avatar` = ?, `banner` = ?, `summary` = ?, `token` = ?, `multi_factor` = ?, `hash` = ?, `salt` = ?, `public_key` = ?, `private_key` = ?, `permission` = ?, `restriction` = ?, `last_login` = ?, `login_count` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "username" = $1, "phone_number" = $2, "phone_number_confirmed" = $3, "first_name" = $4, "last_name" = $5, "display_name" = $6, "email" = $7, "email_confirmed" = $8, "avatar" = $9, "banner" = $10, "summary" = $11, "token" = $12, "multi_factor" = $13, "hash" = $14, "salt" = $15, "public_key" = $16, "private_key" = $17, "permission" = $18, "restriction" = $19, "last_login" = $20, "login_count" = $21, "editor" = $22 WHERE "id" = $23;`
 	return repository.database.UpdateSingleAtomic(transaction, query, entity.Username(), entity.PhoneNumber(), entity.PhoneNumberConfirmed(), entity.FirstName(), entity.LastName(), entity.DisplayName(), entity.Email(), entity.EmailConfirmed(), entity.Avatar(), entity.Banner(), entity.Summary(), entity.Token(), entity.MultiFactor(), entity.Hash(), entity.Salt(), entity.PublicKey(), entity.PrivateKey(), entity.Permission(), entity.Restriction(), entity.LastLogin(), entity.LoginCount(), editor, entity.Id())
 }
 
@@ -112,7 +112,7 @@ func (repository *identitiesRepository) Remove(entity IIdentityEntity, editor in
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `status` = 1, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "status" = 1, "editor" = $1 WHERE "id" = $2;`
 	return repository.database.DeleteSingle(query, editor, entity.Id())
 }
 
@@ -122,13 +122,13 @@ func (repository *identitiesRepository) RemoveAtomic(transaction IRepositoryTran
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `status` = 1, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "status" = 1, "editor" = $1 WHERE "id" = $2;`
 	return repository.database.DeleteSingleAtomic(transaction, query, editor, entity.Id())
 }
 
 func (repository *identitiesRepository) FetchAll() (IdentityEntities, error) {
 	// language=SQL
-	query := "SELECT `id`, `username`, `phone_number`, `phone_number_confirmed` = b'1', `first_name`, `last_name`, `display_name`, `email`, `email_confirmed` = b'1', `avatar`, `banner`, `summary`, `token`, `multi_factor` = b'1', `hash`, `salt`, `public_key`, `private_key`, `permission`, `restriction`, `last_login`, `login_count` FROM `identities` WHERE `id` > 0 AND `status` = 0;"
+	query := `SELECT "id", "username", "phone_number", "phone_number_confirmed" = TRUE, "first_name", "last_name", "display_name", "email", "email_confirmed" = TRUE, "avatar", "banner", "summary", "token", "multi_factor" = TRUE, "hash", "salt", "public_key", "private_key", "permission", "restriction", "last_login", "login_count" FROM "identities" WHERE "id" > 0 AND "status" = 0;`
 
 	var identityEntities IdentityEntities
 	if err := repository.database.Query(func(cursor ICursor) error {
@@ -176,7 +176,7 @@ func (repository *identitiesRepository) UpdateUsername(id int64, value string, e
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `username` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "username" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -186,7 +186,7 @@ func (repository *identitiesRepository) UpdateUsernameAtomic(transaction IReposi
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `username` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "username" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -196,7 +196,7 @@ func (repository *identitiesRepository) UpdatePhoneNumber(id int64, value string
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `phone_number` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "phone_number" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -206,7 +206,7 @@ func (repository *identitiesRepository) UpdatePhoneNumberAtomic(transaction IRep
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `phone_number` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "phone_number" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -216,7 +216,7 @@ func (repository *identitiesRepository) UpdatePhoneNumberConfirmed(id int64, val
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `phone_number_confirmed` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "phone_number_confirmed" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -226,7 +226,7 @@ func (repository *identitiesRepository) UpdatePhoneNumberConfirmedAtomic(transac
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `phone_number_confirmed` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "phone_number_confirmed" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -236,7 +236,7 @@ func (repository *identitiesRepository) UpdateFirstName(id int64, value string, 
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `first_name` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "first_name" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -246,7 +246,7 @@ func (repository *identitiesRepository) UpdateFirstNameAtomic(transaction IRepos
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `first_name` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "first_name" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -256,7 +256,7 @@ func (repository *identitiesRepository) UpdateLastName(id int64, value string, e
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `last_name` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "last_name" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -266,7 +266,7 @@ func (repository *identitiesRepository) UpdateLastNameAtomic(transaction IReposi
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `last_name` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "last_name" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -276,7 +276,7 @@ func (repository *identitiesRepository) UpdateDisplayName(id int64, value string
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `display_name` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "display_name" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -286,7 +286,7 @@ func (repository *identitiesRepository) UpdateDisplayNameAtomic(transaction IRep
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `display_name` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "display_name" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -296,7 +296,7 @@ func (repository *identitiesRepository) UpdateEmail(id int64, value string, edit
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `email` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "email" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -306,7 +306,7 @@ func (repository *identitiesRepository) UpdateEmailAtomic(transaction IRepositor
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `email` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "email" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -316,7 +316,7 @@ func (repository *identitiesRepository) UpdateEmailConfirmed(id int64, value boo
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `email_confirmed` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "email_confirmed" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -326,7 +326,7 @@ func (repository *identitiesRepository) UpdateEmailConfirmedAtomic(transaction I
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `email_confirmed` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "email_confirmed" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -336,7 +336,7 @@ func (repository *identitiesRepository) UpdateAvatar(id int64, value string, edi
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `avatar` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "avatar" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -346,7 +346,7 @@ func (repository *identitiesRepository) UpdateAvatarAtomic(transaction IReposito
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `avatar` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "avatar" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -356,7 +356,7 @@ func (repository *identitiesRepository) UpdateBanner(id int64, value string, edi
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `banner` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "banner" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -366,7 +366,7 @@ func (repository *identitiesRepository) UpdateBannerAtomic(transaction IReposito
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `banner` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "banner" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -376,7 +376,7 @@ func (repository *identitiesRepository) UpdateSummary(id int64, value string, ed
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `summary` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "summary" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -386,7 +386,7 @@ func (repository *identitiesRepository) UpdateSummaryAtomic(transaction IReposit
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `summary` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "summary" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -396,7 +396,7 @@ func (repository *identitiesRepository) UpdateToken(id int64, value string, edit
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `token` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "token" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -406,7 +406,7 @@ func (repository *identitiesRepository) UpdateTokenAtomic(transaction IRepositor
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `token` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "token" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -416,7 +416,7 @@ func (repository *identitiesRepository) UpdateMultiFactor(id int64, value bool, 
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `multi_factor` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "multi_factor" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -426,7 +426,7 @@ func (repository *identitiesRepository) UpdateMultiFactorAtomic(transaction IRep
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `multi_factor` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "multi_factor" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -436,7 +436,7 @@ func (repository *identitiesRepository) UpdateHash(id int64, value string, edito
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `hash` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "hash" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -446,7 +446,7 @@ func (repository *identitiesRepository) UpdateHashAtomic(transaction IRepository
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `hash` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "hash" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -456,7 +456,7 @@ func (repository *identitiesRepository) UpdateSalt(id int64, value string, edito
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `salt` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "salt" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -466,7 +466,7 @@ func (repository *identitiesRepository) UpdateSaltAtomic(transaction IRepository
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `salt` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "salt" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -476,7 +476,7 @@ func (repository *identitiesRepository) UpdatePublicKey(id int64, value string, 
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `public_key` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "public_key" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -486,7 +486,7 @@ func (repository *identitiesRepository) UpdatePublicKeyAtomic(transaction IRepos
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `public_key` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "public_key" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -496,7 +496,7 @@ func (repository *identitiesRepository) UpdatePrivateKey(id int64, value string,
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `private_key` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "private_key" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -506,7 +506,7 @@ func (repository *identitiesRepository) UpdatePrivateKeyAtomic(transaction IRepo
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `private_key` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "private_key" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -516,7 +516,7 @@ func (repository *identitiesRepository) UpdatePermission(id int64, value uint64,
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `permission` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "permission" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -526,7 +526,7 @@ func (repository *identitiesRepository) UpdatePermissionAtomic(transaction IRepo
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `permission` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "permission" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -536,7 +536,7 @@ func (repository *identitiesRepository) UpdateRestriction(id int64, value uint32
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `restriction` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "restriction" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -546,7 +546,7 @@ func (repository *identitiesRepository) UpdateRestrictionAtomic(transaction IRep
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `restriction` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "restriction" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -556,7 +556,7 @@ func (repository *identitiesRepository) UpdateLastLogin(id int64, value int64, e
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `last_login` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "last_login" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -566,7 +566,7 @@ func (repository *identitiesRepository) UpdateLastLoginAtomic(transaction IRepos
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `last_login` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "last_login" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -576,7 +576,7 @@ func (repository *identitiesRepository) UpdateLoginCount(id int64, value uint32,
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `login_count` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "login_count" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -586,6 +586,6 @@ func (repository *identitiesRepository) UpdateLoginCountAtomic(transaction IRepo
 	}
 
 	// language=SQL
-	query := "UPDATE `identities` SET `login_count` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "identities" SET "login_count" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }

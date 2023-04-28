@@ -24,7 +24,7 @@ func (repository *remoteActivitiesRepository) Add(entity IRemoteActivityEntity, 
 	}
 
 	// language=SQL
-	query := "INSERT INTO `remote_activities` (`id`, `entry_point`, `duration`, `successful`, `error_message`, `remote_address`, `user_agent`, `event_type`, `timestamp`, `editor`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
+	query := `INSERT INTO "remote_activities" ("id", "entry_point", "duration", "successful", "error_message", "remote_address", "user_agent", "event_type", "timestamp", "editor") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);`
 	return repository.database.InsertSingle(query, entity.Id(), entity.EntryPoint(), entity.Duration(), entity.Successful(), entity.ErrorMessage(), entity.RemoteAddress(), entity.UserAgent(), entity.EventType(), entity.Timestamp(), editor)
 }
 
@@ -34,7 +34,7 @@ func (repository *remoteActivitiesRepository) AddAtomic(transaction IRepositoryT
 	}
 
 	// language=SQL
-	query := "INSERT INTO `remote_activities` (`id`, `entry_point`, `duration`, `successful`, `error_message`, `remote_address`, `user_agent`, `event_type`, `timestamp`, `editor`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
+	query := `INSERT INTO "remote_activities" ("id", "entry_point", "duration", "successful", "error_message", "remote_address", "user_agent", "event_type", "timestamp", "editor") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);`
 	return repository.database.InsertSingleAtomic(transaction, query, entity.Id(), entity.EntryPoint(), entity.Duration(), entity.Successful(), entity.ErrorMessage(), entity.RemoteAddress(), entity.UserAgent(), entity.EventType(), entity.Timestamp(), editor)
 }
 
@@ -44,7 +44,7 @@ func (repository *remoteActivitiesRepository) FetchById(id int64) (IRemoteActivi
 	}
 
 	// language=SQL
-	query := "SELECT `id`, `entry_point`, `duration`, `successful` = b'1', `error_message`, `remote_address`, `user_agent`, `event_type`, `timestamp` FROM `remote_activities` WHERE `id` = ? AND `status` = 0;"
+	query := `SELECT "id", "entry_point", "duration", "successful" = TRUE, "error_message", "remote_address", "user_agent", "event_type", "timestamp" FROM "remote_activities" WHERE "id" = $1 AND "status" = 0;`
 
 	var remoteActivityEntity IRemoteActivityEntity
 	if err := repository.database.QuerySingle(func(cursor ICursor) error {
@@ -79,7 +79,7 @@ func (repository *remoteActivitiesRepository) Update(entity IRemoteActivityEntit
 	}
 
 	// language=SQL
-	query := "UPDATE `remote_activities` SET `entry_point` = ?, `duration` = ?, `successful` = ?, `error_message` = ?, `remote_address` = ?, `user_agent` = ?, `event_type` = ?, `timestamp` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "remote_activities" SET "entry_point" = $1, "duration" = $2, "successful" = $3, "error_message" = $4, "remote_address" = $5, "user_agent" = $6, "event_type" = $7, "timestamp" = $8, "editor" = $9 WHERE "id" = $10;`
 	return repository.database.UpdateSingle(query, entity.EntryPoint(), entity.Duration(), entity.Successful(), entity.ErrorMessage(), entity.RemoteAddress(), entity.UserAgent(), entity.EventType(), entity.Timestamp(), editor, entity.Id())
 }
 
@@ -89,7 +89,7 @@ func (repository *remoteActivitiesRepository) UpdateAtomic(transaction IReposito
 	}
 
 	// language=SQL
-	query := "UPDATE `remote_activities` SET `entry_point` = ?, `duration` = ?, `successful` = ?, `error_message` = ?, `remote_address` = ?, `user_agent` = ?, `event_type` = ?, `timestamp` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "remote_activities" SET "entry_point" = $1, "duration" = $2, "successful" = $3, "error_message" = $4, "remote_address" = $5, "user_agent" = $6, "event_type" = $7, "timestamp" = $8, "editor" = $9 WHERE "id" = $10;`
 	return repository.database.UpdateSingleAtomic(transaction, query, entity.EntryPoint(), entity.Duration(), entity.Successful(), entity.ErrorMessage(), entity.RemoteAddress(), entity.UserAgent(), entity.EventType(), entity.Timestamp(), editor, entity.Id())
 }
 
@@ -99,7 +99,7 @@ func (repository *remoteActivitiesRepository) Remove(entity IRemoteActivityEntit
 	}
 
 	// language=SQL
-	query := "UPDATE `remote_activities` SET `status` = 1, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "remote_activities" SET "status" = 1, "editor" = $1 WHERE "id" = $2;`
 	return repository.database.DeleteSingle(query, editor, entity.Id())
 }
 
@@ -109,13 +109,13 @@ func (repository *remoteActivitiesRepository) RemoveAtomic(transaction IReposito
 	}
 
 	// language=SQL
-	query := "UPDATE `remote_activities` SET `status` = 1, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "remote_activities" SET "status" = 1, "editor" = $1 WHERE "id" = $2;`
 	return repository.database.DeleteSingleAtomic(transaction, query, editor, entity.Id())
 }
 
 func (repository *remoteActivitiesRepository) FetchAll() (RemoteActivityEntities, error) {
 	// language=SQL
-	query := "SELECT `id`, `entry_point`, `duration`, `successful` = b'1', `error_message`, `remote_address`, `user_agent`, `event_type`, `timestamp` FROM `remote_activities` WHERE `id` > 0 AND `status` = 0;"
+	query := `SELECT "id", "entry_point", "duration", "successful" = TRUE, "error_message", "remote_address", "user_agent", "event_type", "timestamp" FROM "remote_activities" WHERE "id" > 0 AND "status" = 0;`
 
 	var remoteActivityEntities RemoteActivityEntities
 	if err := repository.database.Query(func(cursor ICursor) error {
@@ -150,7 +150,7 @@ func (repository *remoteActivitiesRepository) UpdateEntryPoint(id int64, value s
 	}
 
 	// language=SQL
-	query := "UPDATE `remote_activities` SET `entry_point` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "remote_activities" SET "entry_point" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -160,7 +160,7 @@ func (repository *remoteActivitiesRepository) UpdateEntryPointAtomic(transaction
 	}
 
 	// language=SQL
-	query := "UPDATE `remote_activities` SET `entry_point` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "remote_activities" SET "entry_point" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -170,7 +170,7 @@ func (repository *remoteActivitiesRepository) UpdateDuration(id int64, value int
 	}
 
 	// language=SQL
-	query := "UPDATE `remote_activities` SET `duration` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "remote_activities" SET "duration" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -180,7 +180,7 @@ func (repository *remoteActivitiesRepository) UpdateDurationAtomic(transaction I
 	}
 
 	// language=SQL
-	query := "UPDATE `remote_activities` SET `duration` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "remote_activities" SET "duration" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -190,7 +190,7 @@ func (repository *remoteActivitiesRepository) UpdateSuccessful(id int64, value b
 	}
 
 	// language=SQL
-	query := "UPDATE `remote_activities` SET `successful` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "remote_activities" SET "successful" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -200,7 +200,7 @@ func (repository *remoteActivitiesRepository) UpdateSuccessfulAtomic(transaction
 	}
 
 	// language=SQL
-	query := "UPDATE `remote_activities` SET `successful` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "remote_activities" SET "successful" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -210,7 +210,7 @@ func (repository *remoteActivitiesRepository) UpdateErrorMessage(id int64, value
 	}
 
 	// language=SQL
-	query := "UPDATE `remote_activities` SET `error_message` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "remote_activities" SET "error_message" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -220,7 +220,7 @@ func (repository *remoteActivitiesRepository) UpdateErrorMessageAtomic(transacti
 	}
 
 	// language=SQL
-	query := "UPDATE `remote_activities` SET `error_message` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "remote_activities" SET "error_message" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -230,7 +230,7 @@ func (repository *remoteActivitiesRepository) UpdateRemoteAddress(id int64, valu
 	}
 
 	// language=SQL
-	query := "UPDATE `remote_activities` SET `remote_address` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "remote_activities" SET "remote_address" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -240,7 +240,7 @@ func (repository *remoteActivitiesRepository) UpdateRemoteAddressAtomic(transact
 	}
 
 	// language=SQL
-	query := "UPDATE `remote_activities` SET `remote_address` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "remote_activities" SET "remote_address" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -250,7 +250,7 @@ func (repository *remoteActivitiesRepository) UpdateUserAgent(id int64, value st
 	}
 
 	// language=SQL
-	query := "UPDATE `remote_activities` SET `user_agent` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "remote_activities" SET "user_agent" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -260,7 +260,7 @@ func (repository *remoteActivitiesRepository) UpdateUserAgentAtomic(transaction 
 	}
 
 	// language=SQL
-	query := "UPDATE `remote_activities` SET `user_agent` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "remote_activities" SET "user_agent" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -270,7 +270,7 @@ func (repository *remoteActivitiesRepository) UpdateEventType(id int64, value ui
 	}
 
 	// language=SQL
-	query := "UPDATE `remote_activities` SET `event_type` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "remote_activities" SET "event_type" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -280,7 +280,7 @@ func (repository *remoteActivitiesRepository) UpdateEventTypeAtomic(transaction 
 	}
 
 	// language=SQL
-	query := "UPDATE `remote_activities` SET `event_type` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "remote_activities" SET "event_type" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -290,7 +290,7 @@ func (repository *remoteActivitiesRepository) UpdateTimestamp(id int64, value in
 	}
 
 	// language=SQL
-	query := "UPDATE `remote_activities` SET `timestamp` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "remote_activities" SET "timestamp" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -300,6 +300,6 @@ func (repository *remoteActivitiesRepository) UpdateTimestampAtomic(transaction 
 	}
 
 	// language=SQL
-	query := "UPDATE `remote_activities` SET `timestamp` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "remote_activities" SET "timestamp" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }

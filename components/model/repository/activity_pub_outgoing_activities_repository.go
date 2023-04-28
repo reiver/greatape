@@ -24,7 +24,7 @@ func (repository *activityPubOutgoingActivitiesRepository) Add(entity IActivityP
 	}
 
 	// language=SQL
-	query := "INSERT INTO `activity_pub_outgoing_activities` (`id`, `identity_id`, `unique_identifier`, `timestamp`, `from`, `to`, `content`, `raw`, `editor`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);"
+	query := `INSERT INTO "activity_pub_outgoing_activities" ("id", "identity_id", "unique_identifier", "timestamp", "from", "to", "content", "raw", "editor") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);`
 	return repository.database.InsertSingle(query, entity.Id(), entity.IdentityId(), entity.UniqueIdentifier(), entity.Timestamp(), entity.From(), entity.To(), entity.Content(), entity.Raw(), editor)
 }
 
@@ -34,7 +34,7 @@ func (repository *activityPubOutgoingActivitiesRepository) AddAtomic(transaction
 	}
 
 	// language=SQL
-	query := "INSERT INTO `activity_pub_outgoing_activities` (`id`, `identity_id`, `unique_identifier`, `timestamp`, `from`, `to`, `content`, `raw`, `editor`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);"
+	query := `INSERT INTO "activity_pub_outgoing_activities" ("id", "identity_id", "unique_identifier", "timestamp", "from", "to", "content", "raw", "editor") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);`
 	return repository.database.InsertSingleAtomic(transaction, query, entity.Id(), entity.IdentityId(), entity.UniqueIdentifier(), entity.Timestamp(), entity.From(), entity.To(), entity.Content(), entity.Raw(), editor)
 }
 
@@ -44,7 +44,7 @@ func (repository *activityPubOutgoingActivitiesRepository) FetchById(id int64) (
 	}
 
 	// language=SQL
-	query := "SELECT `id`, `identity_id`, `unique_identifier`, `timestamp`, `from`, `to`, `content`, `raw` FROM `activity_pub_outgoing_activities` WHERE `id` = ? AND `status` = 0;"
+	query := `SELECT "id", "identity_id", "unique_identifier", "timestamp", "from", "to", "content", "raw" FROM "activity_pub_outgoing_activities" WHERE "id" = $1 AND "status" = 0;`
 
 	var activityPubOutgoingActivityEntity IActivityPubOutgoingActivityEntity
 	if err := repository.database.QuerySingle(func(cursor ICursor) error {
@@ -78,7 +78,7 @@ func (repository *activityPubOutgoingActivitiesRepository) Update(entity IActivi
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_outgoing_activities` SET `identity_id` = ?, `unique_identifier` = ?, `timestamp` = ?, `from` = ?, `to` = ?, `content` = ?, `raw` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_outgoing_activities" SET "identity_id" = $1, "unique_identifier" = $2, "timestamp" = $3, "from" = $4, "to" = $5, "content" = $6, "raw" = $7, "editor" = $8 WHERE "id" = $9;`
 	return repository.database.UpdateSingle(query, entity.IdentityId(), entity.UniqueIdentifier(), entity.Timestamp(), entity.From(), entity.To(), entity.Content(), entity.Raw(), editor, entity.Id())
 }
 
@@ -88,7 +88,7 @@ func (repository *activityPubOutgoingActivitiesRepository) UpdateAtomic(transact
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_outgoing_activities` SET `identity_id` = ?, `unique_identifier` = ?, `timestamp` = ?, `from` = ?, `to` = ?, `content` = ?, `raw` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_outgoing_activities" SET "identity_id" = $1, "unique_identifier" = $2, "timestamp" = $3, "from" = $4, "to" = $5, "content" = $6, "raw" = $7, "editor" = $8 WHERE "id" = $9;`
 	return repository.database.UpdateSingleAtomic(transaction, query, entity.IdentityId(), entity.UniqueIdentifier(), entity.Timestamp(), entity.From(), entity.To(), entity.Content(), entity.Raw(), editor, entity.Id())
 }
 
@@ -98,7 +98,7 @@ func (repository *activityPubOutgoingActivitiesRepository) Remove(entity IActivi
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_outgoing_activities` SET `status` = 1, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_outgoing_activities" SET "status" = 1, "editor" = $1 WHERE "id" = $2;`
 	return repository.database.DeleteSingle(query, editor, entity.Id())
 }
 
@@ -108,13 +108,13 @@ func (repository *activityPubOutgoingActivitiesRepository) RemoveAtomic(transact
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_outgoing_activities` SET `status` = 1, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_outgoing_activities" SET "status" = 1, "editor" = $1 WHERE "id" = $2;`
 	return repository.database.DeleteSingleAtomic(transaction, query, editor, entity.Id())
 }
 
 func (repository *activityPubOutgoingActivitiesRepository) FetchAll() (ActivityPubOutgoingActivityEntities, error) {
 	// language=SQL
-	query := "SELECT `id`, `identity_id`, `unique_identifier`, `timestamp`, `from`, `to`, `content`, `raw` FROM `activity_pub_outgoing_activities` WHERE `id` > 0 AND `status` = 0;"
+	query := `SELECT "id", "identity_id", "unique_identifier", "timestamp", "from", "to", "content", "raw" FROM "activity_pub_outgoing_activities" WHERE "id" > 0 AND "status" = 0;`
 
 	var activityPubOutgoingActivityEntities ActivityPubOutgoingActivityEntities
 	if err := repository.database.Query(func(cursor ICursor) error {
@@ -152,8 +152,8 @@ func (repository *activityPubOutgoingActivitiesRepository) FetchAllByIdentity(id
 
 func (repository *activityPubOutgoingActivitiesRepository) FetchAllByDependency(dependencyName string, dependencyId int64) (ActivityPubOutgoingActivityEntities, error) {
 	// language=SQL
-	query := "SELECT `id`, `identity_id`, `unique_identifier`, `timestamp`, `from`, `to`, `content`, `raw` FROM `activity_pub_outgoing_activities` WHERE `id` > 0 AND `status` = 0"
-	query += " AND `" + dependencyName + "` = ?;"
+	query := `SELECT "id", "identity_id", "unique_identifier", "timestamp", "from", "to", "content", "raw" FROM "activity_pub_outgoing_activities" WHERE "id" > 0 AND "status" = 0`
+	query += ` AND "` + dependencyName + `" = $1;`
 
 	var activityPubOutgoingActivityEntities ActivityPubOutgoingActivityEntities
 	if err := repository.database.Query(func(cursor ICursor) error {
@@ -187,7 +187,7 @@ func (repository *activityPubOutgoingActivitiesRepository) UpdateUniqueIdentifie
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_outgoing_activities` SET `unique_identifier` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_outgoing_activities" SET "unique_identifier" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -197,7 +197,7 @@ func (repository *activityPubOutgoingActivitiesRepository) UpdateUniqueIdentifie
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_outgoing_activities` SET `unique_identifier` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_outgoing_activities" SET "unique_identifier" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -207,7 +207,7 @@ func (repository *activityPubOutgoingActivitiesRepository) UpdateTimestamp(id in
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_outgoing_activities` SET `timestamp` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_outgoing_activities" SET "timestamp" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -217,7 +217,7 @@ func (repository *activityPubOutgoingActivitiesRepository) UpdateTimestampAtomic
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_outgoing_activities` SET `timestamp` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_outgoing_activities" SET "timestamp" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -227,7 +227,7 @@ func (repository *activityPubOutgoingActivitiesRepository) UpdateFrom(id int64, 
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_outgoing_activities` SET `from` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_outgoing_activities" SET "from" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -237,7 +237,7 @@ func (repository *activityPubOutgoingActivitiesRepository) UpdateFromAtomic(tran
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_outgoing_activities` SET `from` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_outgoing_activities" SET "from" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -247,7 +247,7 @@ func (repository *activityPubOutgoingActivitiesRepository) UpdateTo(id int64, va
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_outgoing_activities` SET `to` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_outgoing_activities" SET "to" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -257,7 +257,7 @@ func (repository *activityPubOutgoingActivitiesRepository) UpdateToAtomic(transa
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_outgoing_activities` SET `to` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_outgoing_activities" SET "to" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -267,7 +267,7 @@ func (repository *activityPubOutgoingActivitiesRepository) UpdateContent(id int6
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_outgoing_activities` SET `content` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_outgoing_activities" SET "content" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -277,7 +277,7 @@ func (repository *activityPubOutgoingActivitiesRepository) UpdateContentAtomic(t
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_outgoing_activities` SET `content` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_outgoing_activities" SET "content" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }
 
@@ -287,7 +287,7 @@ func (repository *activityPubOutgoingActivitiesRepository) UpdateRaw(id int64, v
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_outgoing_activities` SET `raw` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_outgoing_activities" SET "raw" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingle(query, value, editor, id)
 }
 
@@ -297,6 +297,6 @@ func (repository *activityPubOutgoingActivitiesRepository) UpdateRawAtomic(trans
 	}
 
 	// language=SQL
-	query := "UPDATE `activity_pub_outgoing_activities` SET `raw` = ?, `editor` = ? WHERE `id` = ?;"
+	query := `UPDATE "activity_pub_outgoing_activities" SET "raw" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }

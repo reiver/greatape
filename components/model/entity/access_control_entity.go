@@ -20,8 +20,8 @@ func InitializeAccessControlEntity() {
 
 type accessControlEntity struct {
 	entity
-	KeyField   uint64 `json:"key" previous:"id" storage:"BIGINT UNSIGNED" default:"0"`
-	ValueField uint64 `json:"value" previous:"key" storage:"BIGINT UNSIGNED" default:"0"`
+	KeyField   uint64 `json:"key" storage:"BIGINT" default:"0"`
+	ValueField uint64 `json:"value" storage:"BIGINT" default:"0"`
 }
 
 func NewAccessControlEntity(id int64, key uint64, value uint64) IAccessControlEntity {

@@ -22,8 +22,8 @@ type categoryEntity struct {
 	entity
 	CategoryTypeIdField int64  `json:"category_type_id"`
 	CategoryIdField     int64  `json:"category_id"`
-	TitleField          string `json:"title" previous:"category_id" storage:"VARCHAR(64)" default:"''"`
-	DescriptionField    string `json:"description" previous:"title" storage:"VARCHAR(64)" default:"''"`
+	TitleField          string `json:"title" storage:"VARCHAR(64)" default:"''"`
+	DescriptionField    string `json:"description" storage:"VARCHAR(64)" default:"''"`
 }
 
 func NewCategoryEntity(id int64, categoryTypeId int64, categoryId int64, title string, description string) ICategoryEntity {

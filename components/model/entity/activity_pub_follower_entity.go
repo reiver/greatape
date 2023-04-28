@@ -20,11 +20,11 @@ func InitializeActivityPubFollowerEntity() {
 
 type activityPubFollowerEntity struct {
 	entity
-	HandleField   string `json:"handle" previous:"id" storage:"VARCHAR(256)" default:"''"`
-	InboxField    string `json:"inbox" previous:"handle" storage:"VARCHAR(256)" default:"''"`
-	SubjectField  string `json:"subject" previous:"inbox" storage:"VARCHAR(256)" default:"''"`
-	ActivityField string `json:"activity" previous:"subject" storage:"VARCHAR(4096)" default:"''"`
-	AcceptedField bool   `json:"accepted" previous:"activity" storage:"BIT(1)" default:"FALSE"`
+	HandleField   string `json:"handle" storage:"VARCHAR(256)" default:"''"`
+	InboxField    string `json:"inbox" storage:"VARCHAR(256)" default:"''"`
+	SubjectField  string `json:"subject" storage:"VARCHAR(256)" default:"''"`
+	ActivityField string `json:"activity" storage:"VARCHAR(4096)" default:"''"`
+	AcceptedField bool   `json:"accepted" storage:"BOOLEAN" default:"FALSE"`
 }
 
 func NewActivityPubFollowerEntity(id int64, handle string, inbox string, subject string, activity string, accepted bool) IActivityPubFollowerEntity {

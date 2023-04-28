@@ -20,7 +20,7 @@ func InitializeCategoryTypeEntity() {
 
 type categoryTypeEntity struct {
 	entity
-	DescriptionField string `json:"description" previous:"id" storage:"VARCHAR(64)" default:"''"`
+	DescriptionField string `json:"description" storage:"VARCHAR(64)" default:"''"`
 }
 
 func NewCategoryTypeEntity(id int64, description string) ICategoryTypeEntity {
