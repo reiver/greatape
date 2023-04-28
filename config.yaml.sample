@@ -2,8 +2,8 @@ environment: development
 server:
     protocol: http
     fqdn: localhost
-    hash_key: 'OKq2gLmDCYJXnPweKrM=l7dFCDxp5Ff5EupcQCU'
-    block_key: 'v1K1s+S3vWudrypR'
+    hash_key: '---INSERT-YOUR-HASH-KEY---'
+    block_key: '---INSERT-YOUR-BLOCK-KEY---'
 mysql:
     database: greatape
     username: root

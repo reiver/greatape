@@ -1,4 +1,4 @@
-package main
+package components
 
 import (
 	"flag"
@@ -20,7 +20,7 @@ import (
 
 var configFilePath = flag.String("config", "config.yaml", "Configuration File Path")
 
-func main() {
+func Run() {
 	flag.Parse()
 	if !core.Dockerized {
 		runtime.GOMAXPROCS(10)
