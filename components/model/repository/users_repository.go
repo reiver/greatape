@@ -19,7 +19,7 @@ func newUsersRepository(logger ILogger) IUsersRepository {
 }
 
 func (repository *usersRepository) Add(entity IUserEntity, editor int64) error {
-	if entity.Id() <= 0 {
+	if entity.Id() < 0 {
 		return ERROR_INVALID_PARAMETERS
 	}
 
@@ -29,7 +29,7 @@ func (repository *usersRepository) Add(entity IUserEntity, editor int64) error {
 }
 
 func (repository *usersRepository) AddAtomic(transaction IRepositoryTransaction, entity IUserEntity, editor int64) error {
-	if entity.Id() <= 0 {
+	if entity.Id() < 0 {
 		return ERROR_INVALID_PARAMETERS
 	}
 

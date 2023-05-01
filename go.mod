@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/robfig/cron v1.2.0
 	github.com/sendgrid/sendgrid-go v3.12.0+incompatible
-	github.com/xeronith/diamante v1.7.0
+	github.com/xeronith/diamante v1.7.1
 	google.golang.org/protobuf v1.28.1
 )
 

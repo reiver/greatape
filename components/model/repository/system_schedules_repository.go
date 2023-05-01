@@ -19,7 +19,7 @@ func newSystemSchedulesRepository(logger ILogger) ISystemSchedulesRepository {
 }
 
 func (repository *systemSchedulesRepository) Add(entity ISystemScheduleEntity, editor int64) error {
-	if entity.Id() <= 0 {
+	if entity.Id() < 0 {
 		return ERROR_INVALID_PARAMETERS
 	}
 
@@ -29,7 +29,7 @@ func (repository *systemSchedulesRepository) Add(entity ISystemScheduleEntity, e
 }
 
 func (repository *systemSchedulesRepository) AddAtomic(transaction IRepositoryTransaction, entity ISystemScheduleEntity, editor int64) error {
-	if entity.Id() <= 0 {
+	if entity.Id() < 0 {
 		return ERROR_INVALID_PARAMETERS
 	}
 

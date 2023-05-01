@@ -19,7 +19,7 @@ func newAccessControlsRepository(logger ILogger) IAccessControlsRepository {
 }
 
 func (repository *accessControlsRepository) Add(entity IAccessControlEntity, editor int64) error {
-	if entity.Id() <= 0 {
+	if entity.Id() < 0 {
 		return ERROR_INVALID_PARAMETERS
 	}
 
@@ -29,7 +29,7 @@ func (repository *accessControlsRepository) Add(entity IAccessControlEntity, edi
 }
 
 func (repository *accessControlsRepository) AddAtomic(transaction IRepositoryTransaction, entity IAccessControlEntity, editor int64) error {
-	if entity.Id() <= 0 {
+	if entity.Id() < 0 {
 		return ERROR_INVALID_PARAMETERS
 	}
 

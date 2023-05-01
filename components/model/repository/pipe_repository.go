@@ -13,7 +13,7 @@ func (repository *pipeRepository) GetPipeDescriptors() []*pipeDescriptor {
 		{
 			PIPE_DOCUMENT,
 			&sync.Mutex{},
-			"INSERT INTO `documents` (`id`, `content`, `editor`, `queued_at`, `payload`) VALUES (?, ?, ?, ?, ?);",
+			`INSERT INTO "documents" ("id", "content", "editor", "queued_at", "payload") VALUES ($1, $2, $3, $4, $5);`,
 			func(entity IPipeEntity) Parameters {
 				e := entity.(IDocumentPipeEntity)
 				return Parameters{e.Id(), e.Content(), e.GetEditor(), e.GetQueueTimestamp().UnixNano(), e.Payload()}
@@ -22,7 +22,7 @@ func (repository *pipeRepository) GetPipeDescriptors() []*pipeDescriptor {
 		{
 			PIPE_SYSTEM_SCHEDULE,
 			&sync.Mutex{},
-			"INSERT INTO `system_schedules` (`id`, `enabled`, `config`, `editor`, `queued_at`, `payload`) VALUES (?, ?, ?, ?, ?, ?);",
+			`INSERT INTO "system_schedules" ("id", "enabled", "config", "editor", "queued_at", "payload") VALUES ($1, $2, $3, $4, $5, $6);`,
 			func(entity IPipeEntity) Parameters {
 				e := entity.(ISystemSchedulePipeEntity)
 				return Parameters{e.Id(), e.Enabled(), e.Config(), e.GetEditor(), e.GetQueueTimestamp().UnixNano(), e.Payload()}
@@ -31,7 +31,7 @@ func (repository *pipeRepository) GetPipeDescriptors() []*pipeDescriptor {
 		{
 			PIPE_IDENTITY,
 			&sync.Mutex{},
-			"INSERT INTO `identities` (`id`, `username`, `phone_number`, `phone_number_confirmed`, `first_name`, `last_name`, `display_name`, `email`, `email_confirmed`, `avatar`, `banner`, `summary`, `token`, `multi_factor`, `hash`, `salt`, `public_key`, `private_key`, `permission`, `restriction`, `last_login`, `login_count`, `editor`, `queued_at`, `payload`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+			`INSERT INTO "identities" ("id", "username", "phone_number", "phone_number_confirmed", "first_name", "last_name", "display_name", "email", "email_confirmed", "avatar", "banner", "summary", "token", "multi_factor", "hash", "salt", "public_key", "private_key", "permission", "restriction", "last_login", "login_count", "editor", "queued_at", "payload") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25);`,
 			func(entity IPipeEntity) Parameters {
 				e := entity.(IIdentityPipeEntity)
 				return Parameters{e.Id(), e.Username(), e.PhoneNumber(), e.PhoneNumberConfirmed(), e.FirstName(), e.LastName(), e.DisplayName(), e.Email(), e.EmailConfirmed(), e.Avatar(), e.Banner(), e.Summary(), e.Token(), e.MultiFactor(), e.Hash(), e.Salt(), e.PublicKey(), e.PrivateKey(), e.Permission(), e.Restriction(), e.LastLogin(), e.LoginCount(), e.GetEditor(), e.GetQueueTimestamp().UnixNano(), e.Payload()}
@@ -40,7 +40,7 @@ func (repository *pipeRepository) GetPipeDescriptors() []*pipeDescriptor {
 		{
 			PIPE_ACCESS_CONTROL,
 			&sync.Mutex{},
-			"INSERT INTO `access_controls` (`id`, `key`, `value`, `editor`, `queued_at`, `payload`) VALUES (?, ?, ?, ?, ?, ?);",
+			`INSERT INTO "access_controls" ("id", "key", "value", "editor", "queued_at", "payload") VALUES ($1, $2, $3, $4, $5, $6);`,
 			func(entity IPipeEntity) Parameters {
 				e := entity.(IAccessControlPipeEntity)
 				return Parameters{e.Id(), e.Key(), e.Value(), e.GetEditor(), e.GetQueueTimestamp().UnixNano(), e.Payload()}
@@ -49,7 +49,7 @@ func (repository *pipeRepository) GetPipeDescriptors() []*pipeDescriptor {
 		{
 			PIPE_REMOTE_ACTIVITY,
 			&sync.Mutex{},
-			"INSERT INTO `remote_activities` (`id`, `entry_point`, `duration`, `successful`, `error_message`, `remote_address`, `user_agent`, `event_type`, `timestamp`, `editor`, `queued_at`, `payload`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+			`INSERT INTO "remote_activities" ("id", "entry_point", "duration", "successful", "error_message", "remote_address", "user_agent", "event_type", "timestamp", "editor", "queued_at", "payload") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);`,
 			func(entity IPipeEntity) Parameters {
 				e := entity.(IRemoteActivityPipeEntity)
 				return Parameters{e.Id(), e.EntryPoint(), e.Duration(), e.Successful(), e.ErrorMessage(), e.RemoteAddress(), e.UserAgent(), e.EventType(), e.Timestamp(), e.GetEditor(), e.GetQueueTimestamp().UnixNano(), e.Payload()}
@@ -58,7 +58,7 @@ func (repository *pipeRepository) GetPipeDescriptors() []*pipeDescriptor {
 		{
 			PIPE_CATEGORY_TYPE,
 			&sync.Mutex{},
-			"INSERT INTO `category_types` (`id`, `description`, `editor`, `queued_at`, `payload`) VALUES (?, ?, ?, ?, ?);",
+			`INSERT INTO "category_types" ("id", "description", "editor", "queued_at", "payload") VALUES ($1, $2, $3, $4, $5);`,
 			func(entity IPipeEntity) Parameters {
 				e := entity.(ICategoryTypePipeEntity)
 				return Parameters{e.Id(), e.Description(), e.GetEditor(), e.GetQueueTimestamp().UnixNano(), e.Payload()}
@@ -67,7 +67,7 @@ func (repository *pipeRepository) GetPipeDescriptors() []*pipeDescriptor {
 		{
 			PIPE_CATEGORY,
 			&sync.Mutex{},
-			"INSERT INTO `categories` (`id`, `category_type_id`, `category_id`, `title`, `description`, `editor`, `queued_at`, `payload`) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
+			`INSERT INTO "categories" ("id", "category_type_id", "category_id", "title", "description", "editor", "queued_at", "payload") VALUES ($1, $2, $3, $4, $5, $6, $7, $8);`,
 			func(entity IPipeEntity) Parameters {
 				e := entity.(ICategoryPipeEntity)
 				return Parameters{e.Id(), e.CategoryTypeId(), e.CategoryId(), e.Title(), e.Description(), e.GetEditor(), e.GetQueueTimestamp().UnixNano(), e.Payload()}
@@ -76,7 +76,7 @@ func (repository *pipeRepository) GetPipeDescriptors() []*pipeDescriptor {
 		{
 			PIPE_USER,
 			&sync.Mutex{},
-			"INSERT INTO `users` (`id`, `github`, `editor`, `queued_at`, `payload`) VALUES (?, ?, ?, ?, ?);",
+			`INSERT INTO "users" ("id", "github", "editor", "queued_at", "payload") VALUES ($1, $2, $3, $4, $5);`,
 			func(entity IPipeEntity) Parameters {
 				e := entity.(IUserPipeEntity)
 				return Parameters{e.Id(), e.Github(), e.GetEditor(), e.GetQueueTimestamp().UnixNano(), e.Payload()}
@@ -85,7 +85,7 @@ func (repository *pipeRepository) GetPipeDescriptors() []*pipeDescriptor {
 		{
 			PIPE_ACTIVITY_PUB_INCOMING_ACTIVITY,
 			&sync.Mutex{},
-			"INSERT INTO `activity_pub_incoming_activities` (`id`, `identity_id`, `unique_identifier`, `timestamp`, `from`, `to`, `content`, `raw`, `editor`, `queued_at`, `payload`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+			`INSERT INTO "activity_pub_incoming_activities" ("id", "identity_id", "unique_identifier", "timestamp", "from", "to", "content", "raw", "editor", "queued_at", "payload") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);`,
 			func(entity IPipeEntity) Parameters {
 				e := entity.(IActivityPubIncomingActivityPipeEntity)
 				return Parameters{e.Id(), e.IdentityId(), e.UniqueIdentifier(), e.Timestamp(), e.From(), e.To(), e.Content(), e.Raw(), e.GetEditor(), e.GetQueueTimestamp().UnixNano(), e.Payload()}
@@ -94,7 +94,7 @@ func (repository *pipeRepository) GetPipeDescriptors() []*pipeDescriptor {
 		{
 			PIPE_ACTIVITY_PUB_OUTGOING_ACTIVITY,
 			&sync.Mutex{},
-			"INSERT INTO `activity_pub_outgoing_activities` (`id`, `identity_id`, `unique_identifier`, `timestamp`, `from`, `to`, `content`, `raw`, `editor`, `queued_at`, `payload`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+			`INSERT INTO "activity_pub_outgoing_activities" ("id", "identity_id", "unique_identifier", "timestamp", "from", "to", "content", "raw", "editor", "queued_at", "payload") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);`,
 			func(entity IPipeEntity) Parameters {
 				e := entity.(IActivityPubOutgoingActivityPipeEntity)
 				return Parameters{e.Id(), e.IdentityId(), e.UniqueIdentifier(), e.Timestamp(), e.From(), e.To(), e.Content(), e.Raw(), e.GetEditor(), e.GetQueueTimestamp().UnixNano(), e.Payload()}
@@ -103,7 +103,7 @@ func (repository *pipeRepository) GetPipeDescriptors() []*pipeDescriptor {
 		{
 			PIPE_ACTIVITY_PUB_FOLLOWER,
 			&sync.Mutex{},
-			"INSERT INTO `activity_pub_followers` (`id`, `handle`, `inbox`, `subject`, `activity`, `accepted`, `editor`, `queued_at`, `payload`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",
+			`INSERT INTO "activity_pub_followers" ("id", "handle", "inbox", "subject", "activity", "accepted", "editor", "queued_at", "payload") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);`,
 			func(entity IPipeEntity) Parameters {
 				e := entity.(IActivityPubFollowerPipeEntity)
 				return Parameters{e.Id(), e.Handle(), e.Inbox(), e.Subject(), e.Activity(), e.Accepted(), e.GetEditor(), e.GetQueueTimestamp().UnixNano(), e.Payload()}

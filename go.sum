@@ -51,8 +51,8 @@ github.com/valyala/bytebufferpool v1.0.0/go.mod h1:6bBcMArwyJ5K/AmCkWv1jt77kVWyC
 github.com/valyala/fasttemplate v1.2.1/go.mod h1:KHLXt3tVN2HBp8eijSv/kGJopbvo7S+qRAEEKiv+SiQ=
 github.com/valyala/fasttemplate v1.2.2 h1:lxLXG0uE3Qnshl9QyaK6XJxMXlQZELvChBOCmQD0Loo=
 github.com/valyala/fasttemplate v1.2.2/go.mod h1:KHLXt3tVN2HBp8eijSv/kGJopbvo7S+qRAEEKiv+SiQ=
-github.com/xeronith/diamante v1.7.0 h1:/0iEPvZlvUGQuJSyFk+p3mC00i1kBnZyyun8PCcI4WE=
-github.com/xeronith/diamante v1.7.0/go.mod h1:8eBxUVrSAajFctedef0WEaOGzrRSj3ZIyFn8bEwWmzQ=
+github.com/xeronith/diamante v1.7.1 h1:nZdeuOxWN4rJBS4D9pSba2hqE942Y7qf9ISl3xVjtqE=
+github.com/xeronith/diamante v1.7.1/go.mod h1:8eBxUVrSAajFctedef0WEaOGzrRSj3ZIyFn8bEwWmzQ=
 golang.org/x/crypto v0.7.0 h1:AvwMYaRytfdeVt3u6mLaxYtErKYjxA2OXjJ1HHq6t3A=
 golang.org/x/crypto v0.7.0/go.mod h1:pYwdfH91IfpZVANVyUOhSIPZaFoJGxTFbZhFTx+dXZU=
 golang.org/x/net v0.8.0 h1:Zrh2ngAOFYneWTAIAPethzeaQLuHwhuBkuV6ZiRnUaQ=

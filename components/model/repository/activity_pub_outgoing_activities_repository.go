@@ -19,7 +19,7 @@ func newActivityPubOutgoingActivitiesRepository(logger ILogger) IActivityPubOutg
 }
 
 func (repository *activityPubOutgoingActivitiesRepository) Add(entity IActivityPubOutgoingActivityEntity, editor int64) error {
-	if entity.Id() <= 0 {
+	if entity.Id() < 0 {
 		return ERROR_INVALID_PARAMETERS
 	}
 
@@ -29,7 +29,7 @@ func (repository *activityPubOutgoingActivitiesRepository) Add(entity IActivityP
 }
 
 func (repository *activityPubOutgoingActivitiesRepository) AddAtomic(transaction IRepositoryTransaction, entity IActivityPubOutgoingActivityEntity, editor int64) error {
-	if entity.Id() <= 0 {
+	if entity.Id() < 0 {
 		return ERROR_INVALID_PARAMETERS
 	}
 

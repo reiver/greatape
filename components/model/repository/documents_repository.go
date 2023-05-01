@@ -19,7 +19,7 @@ func newDocumentsRepository(logger ILogger) IDocumentsRepository {
 }
 
 func (repository *documentsRepository) Add(entity IDocumentEntity, editor int64) error {
-	if entity.Id() <= 0 {
+	if entity.Id() < 0 {
 		return ERROR_INVALID_PARAMETERS
 	}
 
@@ -29,7 +29,7 @@ func (repository *documentsRepository) Add(entity IDocumentEntity, editor int64)
 }
 
 func (repository *documentsRepository) AddAtomic(transaction IRepositoryTransaction, entity IDocumentEntity, editor int64) error {
-	if entity.Id() <= 0 {
+	if entity.Id() < 0 {
 		return ERROR_INVALID_PARAMETERS
 	}
 

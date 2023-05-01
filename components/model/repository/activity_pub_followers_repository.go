@@ -19,7 +19,7 @@ func newActivityPubFollowersRepository(logger ILogger) IActivityPubFollowersRepo
 }
 
 func (repository *activityPubFollowersRepository) Add(entity IActivityPubFollowerEntity, editor int64) error {
-	if entity.Id() <= 0 {
+	if entity.Id() < 0 {
 		return ERROR_INVALID_PARAMETERS
 	}
 
@@ -29,7 +29,7 @@ func (repository *activityPubFollowersRepository) Add(entity IActivityPubFollowe
 }
 
 func (repository *activityPubFollowersRepository) AddAtomic(transaction IRepositoryTransaction, entity IActivityPubFollowerEntity, editor int64) error {
-	if entity.Id() <= 0 {
+	if entity.Id() < 0 {
 		return ERROR_INVALID_PARAMETERS
 	}
 

@@ -19,7 +19,7 @@ func newCategoriesRepository(logger ILogger) ICategoriesRepository {
 }
 
 func (repository *categoriesRepository) Add(entity ICategoryEntity, editor int64) error {
-	if entity.Id() <= 0 {
+	if entity.Id() < 0 {
 		return ERROR_INVALID_PARAMETERS
 	}
 
@@ -29,7 +29,7 @@ func (repository *categoriesRepository) Add(entity ICategoryEntity, editor int64
 }
 
 func (repository *categoriesRepository) AddAtomic(transaction IRepositoryTransaction, entity ICategoryEntity, editor int64) error {
-	if entity.Id() <= 0 {
+	if entity.Id() < 0 {
 		return ERROR_INVALID_PARAMETERS
 	}
 

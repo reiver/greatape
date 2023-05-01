@@ -19,7 +19,7 @@ func newRemoteActivitiesRepository(logger ILogger) IRemoteActivitiesRepository {
 }
 
 func (repository *remoteActivitiesRepository) Add(entity IRemoteActivityEntity, editor int64) error {
-	if entity.Id() <= 0 {
+	if entity.Id() < 0 {
 		return ERROR_INVALID_PARAMETERS
 	}
 
@@ -29,7 +29,7 @@ func (repository *remoteActivitiesRepository) Add(entity IRemoteActivityEntity, 
 }
 
 func (repository *remoteActivitiesRepository) AddAtomic(transaction IRepositoryTransaction, entity IRemoteActivityEntity, editor int64) error {
-	if entity.Id() <= 0 {
+	if entity.Id() < 0 {
 		return ERROR_INVALID_PARAMETERS
 	}
 
