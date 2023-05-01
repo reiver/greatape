@@ -1,0 +1,46 @@
+version: "3.9"
+
+volumes:
+  data:
+
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: H8n5opZ6ESOVQ0rHMhTLQXpcSV
+      POSTGRES_DB: greatape_dev
+    volumes:
+      - type: volume
+        source: data
+        target: /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: .
+    ports:
+      - "7080:7080"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ENVIRONMENT: development
+      PROTOCOL: https
+      FQDN: yourdomain.com
+      PORT: 7080
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: H8n5opZ6ESOVQ0rHMhTLQXpcSV
+      POSTGRES_DATABASE: greatape
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 15s
