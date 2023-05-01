@@ -1,15 +1,11 @@
+# development, staging, production
 environment: development
 
 server:
-    fqdn: localhost
-    protocol: http
+    fqdn: yourdomain.com
+    protocol: https
     ports:
         passive: 7080
-    
-    # used for secure cookie
-    # doc: https://pkg.go.dev/github.com/gorilla/securecookie@v1.1.1
-    hash_key: '---INSERT-YOUR-HASH-KEY---'
-    block_key: '---INSERT-YOUR-BLOCK-KEY---'
 
 postgres:
     host: 127.0.0.1
