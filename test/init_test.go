@@ -30,7 +30,7 @@ func TestMain(main *testing.M) {
 	logger.SetLevel(logging.LEVEL_SUPPRESS_SYS_COMP)
 	// configuration
 	configuration := settings.NewTestConfiguration()
-	configuration.GetMySQLConfiguration().SetDatabase("greatape")
+	configuration.GetPostgreSQLConfiguration().SetDatabase("greatape")
 	// factories
 	operationsFactory := operations.NewFactory()
 	handlersFactory := handlers.NewFactory()
