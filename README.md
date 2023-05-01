@@ -11,6 +11,15 @@
 
 **greatape** is a Fediverse technology that supports Federation via ActivityPub.
 
+## Running the Project
+
+1. Create an empty Postgres database.
+2. Clone the project repository: `git clone https://github.com/reiver/greatape`
+3. Navigate to the project directory: `cd greatape`
+4. Download the project dependencies: `go mod download`
+5. Update the `config.yaml` file in the project root directory with the actual values for your database.
+6. Run the project: `go run main.go`
+
 ## Team
 
 The following is a list of the people who are actively working on Great Ape (in alphabetical order):
