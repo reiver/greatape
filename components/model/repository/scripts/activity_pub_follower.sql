@@ -45,3 +45,4 @@ CREATE TABLE "activity_pub_followers"
 ##########
 
 CREATE INDEX "idx_activity_pub_followers_status" ON "activity_pub_followers" ("status");
+

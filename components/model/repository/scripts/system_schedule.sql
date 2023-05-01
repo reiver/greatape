@@ -39,3 +39,4 @@ CREATE TABLE "system_schedules"
 ##########
 
 CREATE INDEX "idx_system_schedules_status" ON "system_schedules" ("status");
+

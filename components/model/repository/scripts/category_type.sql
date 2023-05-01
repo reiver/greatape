@@ -37,3 +37,4 @@ CREATE TABLE "category_types"
 ##########
 
 CREATE INDEX "idx_category_types_status" ON "category_types" ("status");
+

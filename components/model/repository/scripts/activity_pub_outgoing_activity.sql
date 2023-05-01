@@ -50,3 +50,4 @@ CREATE TABLE "activity_pub_outgoing_activities"
 ##########
 
 CREATE INDEX "idx_activity_pub_outgoing_activities_status" ON "activity_pub_outgoing_activities" ("status");
+

@@ -45,3 +45,4 @@ CREATE TABLE "categories"
 ##########
 
 CREATE INDEX "idx_categories_status" ON "categories" ("status");
+

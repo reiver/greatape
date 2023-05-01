@@ -37,3 +37,4 @@ CREATE TABLE "documents"
 ##########
 
 CREATE INDEX "idx_documents_status" ON "documents" ("status");
+

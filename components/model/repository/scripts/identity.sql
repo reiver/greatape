@@ -77,3 +77,4 @@ CREATE TABLE "identities"
 ##########
 
 CREATE INDEX "idx_identities_status" ON "identities" ("status");
+

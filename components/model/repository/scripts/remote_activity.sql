@@ -51,3 +51,4 @@ CREATE TABLE "remote_activities"
 ##########
 
 CREATE INDEX "idx_remote_activities_status" ON "remote_activities" ("status");
+

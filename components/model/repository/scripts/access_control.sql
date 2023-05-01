@@ -39,3 +39,4 @@ CREATE TABLE "access_controls"
 ##########
 
 CREATE INDEX "idx_access_controls_status" ON "access_controls" ("status");
+
