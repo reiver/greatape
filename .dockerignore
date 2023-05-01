@@ -25,7 +25,6 @@
 go.work
 
 ### Go Patch ###
-/vendor/
 /Godeps/
 
 ### GoLand+all ###

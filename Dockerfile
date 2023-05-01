@@ -1,18 +1,29 @@
 FROM golang:1.19 AS builder
 
-WORKDIR /app
+WORKDIR /src
 
 COPY . .
 
-RUN CGO_ENABLED=1 GOOS=linux go build -a -ldflags '-linkmode external -extldflags "-static"' -o ./bin/greatape .
+RUN CGO_ENABLED=1 GOOS=linux go build \
+    -ldflags '-linkmode external -extldflags "-static" -X github.com/reiver/greatape/components/core.runningInContainer=true -w -s' \
+    -a -o ./bin/greatape .
 
 FROM scratch
 
-ENV PROTOCOL="http"
-ENV DOMAIN="localhost"
-ENV PORT=80
+# development, staging, production
+ENV ENVIRONMENT=development
 
-COPY --from=builder /app/bin /app
+ENV PROTOCOL=https
+ENV FQDN=yourdomain.com
+ENV PORT=7080
+
+ENV POSTGRES_HOST=127.0.0.1
+ENV POSTGRES_PORT=5432
+ENV POSTGRES_DATABASE=greatape
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=password
+
+COPY --from=builder /src/bin /app
 
 EXPOSE $PORT
 
