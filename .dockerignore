@@ -366,5 +366,3 @@ __debug_bin
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,intellij+all,goland+all,go,node,macos
-
-config.yaml
