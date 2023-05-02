@@ -4,6 +4,8 @@ WORKDIR /src
 
 COPY . .
 
+RUN go mod download
+
 RUN CGO_ENABLED=1 GOOS=linux go build \
     -ldflags '-linkmode external -extldflags "-static" -X github.com/reiver/greatape/components/core.runningInContainer=true -w -s' \
     -a -o ./bin/greatape .
