@@ -134,6 +134,16 @@ func TestWebfingerApi(test *testing.T) {
 	}
 }
 
+func TestGetPackagesApi(test *testing.T) {
+	input := &GetPackagesRequest{}
+
+	if output, err := api.GetPackages(input); err != nil {
+		test.Fatal(err)
+	} else if output == nil {
+		test.Fail()
+	}
+}
+
 func TestGetActorApi(test *testing.T) {
 	input := &GetActorRequest{
 		Username: "username",
