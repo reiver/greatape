@@ -38,6 +38,7 @@ func (handler *getProfileByUserHandler) HandlerFunc() HttpHandlerFunc {
 			GET_PROFILE_BY_USER_RESULT,
 			request, result,
 			onRequestUnmarshalled,
+			nil,
 			false,
 		)
 	}

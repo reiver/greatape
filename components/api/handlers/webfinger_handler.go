@@ -39,6 +39,7 @@ func (handler *webfingerHandler) HandlerFunc() HttpHandlerFunc {
 			WEBFINGER_RESULT,
 			request, result,
 			onRequestUnmarshalled,
+			nil,
 			false,
 		)
 	}

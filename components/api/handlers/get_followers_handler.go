@@ -39,6 +39,7 @@ func (handler *getFollowersHandler) HandlerFunc() HttpHandlerFunc {
 			GET_FOLLOWERS_RESULT,
 			request, result,
 			onRequestUnmarshalled,
+			nil,
 			false,
 		)
 	}

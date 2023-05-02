@@ -38,6 +38,7 @@ func (handler *verifyHandler) HandlerFunc() HttpHandlerFunc {
 			VERIFY_RESULT,
 			request, result,
 			onRequestUnmarshalled,
+			nil,
 			false,
 		)
 	}

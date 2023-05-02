@@ -38,6 +38,7 @@ func (handler *updateProfileByUserHandler) HandlerFunc() HttpHandlerFunc {
 			UPDATE_PROFILE_BY_USER_RESULT,
 			request, result,
 			onRequestUnmarshalled,
+			nil,
 			false,
 		)
 	}

@@ -39,6 +39,7 @@ func (handler *getInboxHandler) HandlerFunc() HttpHandlerFunc {
 			GET_INBOX_RESULT,
 			request, result,
 			onRequestUnmarshalled,
+			nil,
 			false,
 		)
 	}

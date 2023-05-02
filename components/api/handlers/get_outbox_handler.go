@@ -39,6 +39,7 @@ func (handler *getOutboxHandler) HandlerFunc() HttpHandlerFunc {
 			GET_OUTBOX_RESULT,
 			request, result,
 			onRequestUnmarshalled,
+			nil,
 			false,
 		)
 	}

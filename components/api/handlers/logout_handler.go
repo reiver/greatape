@@ -38,6 +38,7 @@ func (handler *logoutHandler) HandlerFunc() HttpHandlerFunc {
 			LOGOUT_RESULT,
 			request, result,
 			onRequestUnmarshalled,
+			nil,
 			false,
 		)
 	}

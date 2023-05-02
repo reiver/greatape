@@ -38,6 +38,7 @@ func (handler *echoHandler) HandlerFunc() HttpHandlerFunc {
 			ECHO_RESULT,
 			request, result,
 			onRequestUnmarshalled,
+			nil,
 			false,
 		)
 	}

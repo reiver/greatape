@@ -39,6 +39,7 @@ func (handler *getActorHandler) HandlerFunc() HttpHandlerFunc {
 			GET_ACTOR_RESULT,
 			request, result,
 			onRequestUnmarshalled,
+			nil,
 			false,
 		)
 	}

@@ -38,6 +38,7 @@ func (handler *signupHandler) HandlerFunc() HttpHandlerFunc {
 			SIGNUP_RESULT,
 			request, result,
 			onRequestUnmarshalled,
+			nil,
 			false,
 		)
 	}

@@ -39,6 +39,7 @@ func (handler *postToOutboxHandler) HandlerFunc() HttpHandlerFunc {
 			POST_TO_OUTBOX_RESULT,
 			request, result,
 			onRequestUnmarshalled,
+			nil,
 			false,
 		)
 	}

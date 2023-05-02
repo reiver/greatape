@@ -39,6 +39,7 @@ func (handler *authorizeInteractionHandler) HandlerFunc() HttpHandlerFunc {
 			AUTHORIZE_INTERACTION_RESULT,
 			request, result,
 			onRequestUnmarshalled,
+			nil,
 			false,
 		)
 	}

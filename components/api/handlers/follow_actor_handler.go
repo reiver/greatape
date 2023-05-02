@@ -40,6 +40,7 @@ func (handler *followActorHandler) HandlerFunc() HttpHandlerFunc {
 			FOLLOW_ACTOR_RESULT,
 			request, result,
 			onRequestUnmarshalled,
+			nil,
 			true,
 		); err != nil {
 			return err

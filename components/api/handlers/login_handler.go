@@ -38,6 +38,7 @@ func (handler *loginHandler) HandlerFunc() HttpHandlerFunc {
 			LOGIN_RESULT,
 			request, result,
 			onRequestUnmarshalled,
+			nil,
 			false,
 		)
 	}
