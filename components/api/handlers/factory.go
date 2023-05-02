@@ -14,6 +14,7 @@ func (factory *httpHandlerFactory) Handlers() []IHttpHandler {
 		UpdateProfileByUserHandler(),  // │ P . /api/v1/profile
 		LogoutHandler(),               // │ P . /api/v1/logout
 		WebfingerHandler(),            // │ G . /.well-known/webfinger
+		GetPackagesHandler(),          // │ G . /.well-known/packages.txt
 		GetActorHandler(),             // │ G . /u/:username
 		FollowActorHandler(),          // │ G . /u/:username/follow
 		AuthorizeInteractionHandler(), // │ G . /authorize_interaction

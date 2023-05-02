@@ -114,6 +114,15 @@ message WebfingerResult {
     string subject = 0x00000003;
 }
 
+// API: GetPackages
+//-----------------------------------------------------------
+message GetPackagesRequest {
+}
+
+message GetPackagesResult {
+    string body = 0x00000001;
+}
+
 // API: GetActor
 //-----------------------------------------------------------
 message GetActorRequest {

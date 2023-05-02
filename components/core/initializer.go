@@ -1127,6 +1127,10 @@ func (conductor *conductor) Webfinger(resource string, editor Identity) (IWebfin
 	return conductor.spiManager.Webfinger(resource, editor)
 }
 
+func (conductor *conductor) GetPackages(editor Identity) (IGetPackagesResult, error) {
+	return conductor.spiManager.GetPackages(editor)
+}
+
 func (conductor *conductor) GetActor(username string, editor Identity) (IGetActorResult, error) {
 	return conductor.spiManager.GetActor(username, editor)
 }
@@ -1261,6 +1265,10 @@ func (conductor *conductor) NewLogoutResult(_ interface{}) ILogoutResult {
 
 func (conductor *conductor) NewWebfingerResult(aliases []string, links []IActivityPubLink, subject string, _ interface{}) IWebfingerResult {
 	return NewWebfingerResult(aliases, links, subject, nil)
+}
+
+func (conductor *conductor) NewGetPackagesResult(body string, _ interface{}) IGetPackagesResult {
+	return NewGetPackagesResult(body, nil)
 }
 
 func (conductor *conductor) NewGetActorResult(context []string, id string, followers string, following string, inbox string, outbox string, name string, preferredUsername string, type_ string, url string, icon IActivityPubMedia, image IActivityPubMedia, publicKey IActivityPubPublicKey, summary string, published string, _ interface{}) IGetActorResult {

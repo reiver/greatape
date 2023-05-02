@@ -95,6 +95,16 @@ func (api *api) Webfinger(request *WebfingerRequest) (*WebfingerResult, error) {
 	}
 }
 
+func (api *api) GetPackages(request *GetPackagesRequest) (*GetPackagesResult, error) {
+	result, err := api.call(GET_PACKAGES_REQUEST, request)
+
+	if err != nil {
+		return nil, err
+	} else {
+		return result.(*GetPackagesResult), nil
+	}
+}
+
 func (api *api) GetActor(request *GetActorRequest) (*GetActorResult, error) {
 	result, err := api.call(GET_ACTOR_REQUEST, request)
 
@@ -195,6 +205,7 @@ func init() {
 	API_RESULT[UPDATE_PROFILE_BY_USER_RESULT] = UpdateProfileByUserResult{}
 	API_RESULT[LOGOUT_RESULT] = LogoutResult{}
 	API_RESULT[WEBFINGER_RESULT] = WebfingerResult{}
+	API_RESULT[GET_PACKAGES_RESULT] = GetPackagesResult{}
 	API_RESULT[GET_ACTOR_RESULT] = GetActorResult{}
 	API_RESULT[FOLLOW_ACTOR_RESULT] = FollowActorResult{}
 	API_RESULT[AUTHORIZE_INTERACTION_RESULT] = AuthorizeInteractionResult{}

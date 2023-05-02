@@ -15,6 +15,7 @@ func (factory *operationFactory) Operations() []IOperation {
 		UpdateProfileByUserOperation(),
 		LogoutOperation(),
 		WebfingerOperation(),
+		GetPackagesOperation(),
 		GetActorOperation(),
 		FollowActorOperation(),
 		AuthorizeInteractionOperation(),

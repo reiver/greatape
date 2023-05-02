@@ -267,6 +267,10 @@ func (dispatcher *dispatcher) Webfinger(resource string) (IWebfingerResult, erro
 	return dispatcher.conductor.SpiManager().Webfinger(resource, dispatcher.identity)
 }
 
+func (dispatcher *dispatcher) GetPackages() (IGetPackagesResult, error) {
+	return dispatcher.conductor.SpiManager().GetPackages(dispatcher.identity)
+}
+
 func (dispatcher *dispatcher) GetActor(username string) (IGetActorResult, error) {
 	return dispatcher.conductor.SpiManager().GetActor(username, dispatcher.identity)
 }

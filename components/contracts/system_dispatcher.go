@@ -1039,6 +1039,7 @@ type IDispatcher interface {
 	UpdateProfileByUser(displayName string, avatar string, banner string, summary string, github string) (IUpdateProfileByUserResult, error)
 	Logout() (ILogoutResult, error)
 	Webfinger(resource string) (IWebfingerResult, error)
+	GetPackages() (IGetPackagesResult, error)
 	GetActor(username string) (IGetActorResult, error)
 	FollowActor(username string, acct string) (IFollowActorResult, error)
 	AuthorizeInteraction(uri string) (IAuthorizeInteractionResult, error)
@@ -1133,6 +1134,8 @@ type IDispatcher interface {
 	NewLogoutResult() ILogoutResult
 	// NewWebfingerResult creates a new result container for 'Webfinger' system action.
 	NewWebfingerResult(aliases []string, links []IActivityPubLink, subject string) IWebfingerResult
+	// NewGetPackagesResult creates a new result container for 'Get Packages' system action.
+	NewGetPackagesResult(body string) IGetPackagesResult
 	// NewGetActorResult creates a new result container for 'Get Actor' system action.
 	NewGetActorResult(context []string, id string, followers string, following string, inbox string, outbox string, name string, preferredUsername string, type_ string, url string, icon IActivityPubMedia, image IActivityPubMedia, publicKey IActivityPubPublicKey, summary string, published string) IGetActorResult
 	// NewFollowActorResult creates a new result container for 'Follow Actor' system action.

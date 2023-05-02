@@ -265,6 +265,7 @@ type (
 		UpdateProfileByUser(displayName string, avatar string, banner string, summary string, github string, editor Identity) (IUpdateProfileByUserResult, error)
 		Logout(editor Identity) (ILogoutResult, error)
 		Webfinger(resource string, editor Identity) (IWebfingerResult, error)
+		GetPackages(editor Identity) (IGetPackagesResult, error)
 		GetActor(username string, editor Identity) (IGetActorResult, error)
 		FollowActor(username string, acct string, editor Identity) (IFollowActorResult, error)
 		AuthorizeInteraction(uri string, editor Identity) (IAuthorizeInteractionResult, error)
@@ -300,6 +301,7 @@ type (
 		NewUpdateProfileByUserResult(displayName string, avatar string, banner string, summary string, github string, ignored interface{}) IUpdateProfileByUserResult
 		NewLogoutResult(ignored interface{}) ILogoutResult
 		NewWebfingerResult(aliases []string, links []IActivityPubLink, subject string, ignored interface{}) IWebfingerResult
+		NewGetPackagesResult(body string, ignored interface{}) IGetPackagesResult
 		NewGetActorResult(context []string, id string, followers string, following string, inbox string, outbox string, name string, preferredUsername string, type_ string, url string, icon IActivityPubMedia, image IActivityPubMedia, publicKey IActivityPubPublicKey, summary string, published string, ignored interface{}) IGetActorResult
 		NewFollowActorResult(url string, ignored interface{}) IFollowActorResult
 		NewAuthorizeInteractionResult(uri string, success bool, ignored interface{}) IAuthorizeInteractionResult

@@ -585,6 +585,41 @@ func (manager *spiManager) Webfinger(resource string, editor Identity) (result I
 	}
 }
 
+//region IGetPackagesResult Implementation
+
+type getPackagesResult struct {
+	body string
+}
+
+func NewGetPackagesResult(body string, _ interface{}) IGetPackagesResult {
+	return &getPackagesResult{
+		body: body,
+	}
+}
+
+func (result getPackagesResult) Body() string {
+	return result.body
+}
+
+//endregion
+
+func (manager *spiManager) GetPackages(editor Identity) (result IGetPackagesResult, err error) {
+	defer func() {
+		if reason := recover(); reason != nil {
+			err = manager.Error(reason)
+		}
+	}()
+
+	editor.Lock(GET_PACKAGES_REQUEST)
+	defer editor.Unlock(GET_PACKAGES_REQUEST)
+
+	if result, err = commands.GetPackages(NewDispatcher(Conductor, editor)); err != nil {
+		return nil, err
+	} else {
+		return result, nil
+	}
+}
+
 //region IGetActorResult Implementation
 
 type getActorResult struct {
