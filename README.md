@@ -11,16 +11,31 @@
 
 **greatape** is a Fediverse technology that supports Federation via ActivityPub.
 
-## Running the Project
+## 🏎️ Running the Project
 
-1. Create an empty Postgres database.
-2. Clone the project repository: `git clone https://github.com/reiver/greatape`
-3. Navigate to the project directory: `cd greatape`
-4. Download the project dependencies: `go mod download`
-5. Update the `config.yaml` file in the project root directory with the actual values for your database.
+### 🚀 Using Go and Postgres
+
+1. Clone the project repository: `git clone https://github.com/reiver/greatape`
+2. Navigate to the project directory: `cd greatape`
+3. Create an empty Postgres database.
+4. Update the `config.yaml` file in the project root directory with the actual values for your database.
+5. Download the project dependencies: `go mod download`
 6. Run the project: `go run main.go`
 
-## Team
+### 🐳 Using Docker
+
+1. Clone the project repository: `git clone https://github.com/reiver/greatape`
+2. Navigate to the project directory: `cd greatape`
+3. Build the Docker image: `docker build -t greatape .`
+4. Replace the environment variables below with your own and run the Docker container: `docker run --name greatape -e PROTOCOL=https -e FQDN=yourdomain.com -e PORT=7080 -e POSTGRES_HOST=127.0.0.1 -e POSTGRES_PORT=5432 -e POSTGRES_DATABASE=greatape -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password -p 7080:7080 greatape`
+
+### 🐳 Using docker-compose
+
+1. Clone the project repository: `git clone https://github.com/reiver/greatape`
+2. Navigate to the project directory: `cd greatape`
+3. Run the Docker containers using docker-compose: `docker-compose up`
+
+## 👥 Team
 
 The following is a list of the people who are actively working on Great Ape (in alphabetical order):
 
