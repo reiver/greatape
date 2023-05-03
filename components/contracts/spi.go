@@ -68,9 +68,9 @@ type (
 		AuthorizeInteraction(uri string, editor Identity) (IAuthorizeInteractionResult, error)
 		GetFollowers(username string, editor Identity) (IGetFollowersResult, error)
 		GetFollowing(username string, editor Identity) (IGetFollowingResult, error)
-		PostToOutbox(username string, context string, activityType string, to string, attributedTo string, inReplyTo string, content string, editor Identity) (IPostToOutboxResult, error)
+		PostToOutbox(username string, body []byte, editor Identity) (IPostToOutboxResult, error)
 		GetOutbox(username string, editor Identity) (IGetOutboxResult, error)
-		PostToInbox(username string, body string, editor Identity) (IPostToInboxResult, error)
+		PostToInbox(username string, body []byte, editor Identity) (IPostToInboxResult, error)
 		GetInbox(username string, editor Identity) (IGetInboxResult, error)
 	}
 
@@ -119,7 +119,7 @@ type (
 	}
 
 	IGetPackagesResult interface {
-		Body() string
+		Body() []byte
 	}
 
 	IGetActorResult interface {
@@ -168,6 +168,7 @@ type (
 	}
 
 	IPostToOutboxResult interface {
+		Body() []byte
 	}
 
 	IGetOutboxResult interface {
@@ -180,7 +181,7 @@ type (
 	}
 
 	IPostToInboxResult interface {
-		Body() string
+		Body() []byte
 	}
 
 	IGetInboxResult interface {

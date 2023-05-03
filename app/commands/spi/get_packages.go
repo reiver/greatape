@@ -7,7 +7,7 @@ import (
 )
 
 //go:embed _packages.txt
-var packages string
+var packages []byte
 
 func GetPackages(x IDispatcher) (IGetPackagesResult, error) {
 	return x.NewGetPackagesResult(packages), nil

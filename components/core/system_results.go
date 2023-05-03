@@ -36,7 +36,7 @@ func (dispatcher *dispatcher) NewWebfingerResult(aliases []string, links []IActi
 	return NewWebfingerResult(aliases, links, subject, nil)
 }
 
-func (dispatcher *dispatcher) NewGetPackagesResult(body string) IGetPackagesResult {
+func (dispatcher *dispatcher) NewGetPackagesResult(body []byte) IGetPackagesResult {
 	return NewGetPackagesResult(body, nil)
 }
 
@@ -60,15 +60,15 @@ func (dispatcher *dispatcher) NewGetFollowingResult(context string, id string, t
 	return NewGetFollowingResult(context, id, type_, totalItems, orderedItems, first, nil)
 }
 
-func (dispatcher *dispatcher) NewPostToOutboxResult() IPostToOutboxResult {
-	return NewPostToOutboxResult(nil)
+func (dispatcher *dispatcher) NewPostToOutboxResult(body []byte) IPostToOutboxResult {
+	return NewPostToOutboxResult(body, nil)
 }
 
 func (dispatcher *dispatcher) NewGetOutboxResult(context string, id string, type_ string, totalItems int32, orderedItems []IActivityPubActivity, first string) IGetOutboxResult {
 	return NewGetOutboxResult(context, id, type_, totalItems, orderedItems, first, nil)
 }
 
-func (dispatcher *dispatcher) NewPostToInboxResult(body string) IPostToInboxResult {
+func (dispatcher *dispatcher) NewPostToInboxResult(body []byte) IPostToInboxResult {
 	return NewPostToInboxResult(body, nil)
 }
 

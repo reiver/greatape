@@ -34,7 +34,7 @@ func (handler *postToInboxHandler) HandlerFunc() HttpHandlerFunc {
 		}
 
 		onRequestProcessed := func(output *PostToInboxResult) (string, []byte) {
-			return "application/activity+json; charset=utf-8", []byte(output.Body)
+			return "application/activity+json; charset=utf-8", output.Body
 		}
 
 		return pipeline.Handle(x,

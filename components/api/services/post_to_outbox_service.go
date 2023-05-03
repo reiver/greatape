@@ -15,7 +15,7 @@ func PostToOutboxService(context IContext, input *PostToOutboxRequest) (result *
 	conductor.LogRemoteCall(context, INITIALIZE, "post_to_outbox", input, result, err)
 	defer func() { conductor.LogRemoteCall(context, FINALIZE, "post_to_outbox", input, result, err) }()
 
-	_result, _err := conductor.PostToOutbox(input.Username, input.Context, input.ActivityType, input.To, input.AttributedTo, input.InReplyTo, input.Content, context.Identity())
+	_result, _err := conductor.PostToOutbox(input.Username, input.Body, context.Identity())
 	if _err != nil {
 		err = _err
 		return nil, err
@@ -24,5 +24,6 @@ func PostToOutboxService(context IContext, input *PostToOutboxRequest) (result *
 	_ = _result
 
 	result = context.ResultContainer().(*PostToOutboxResult)
+	result.Body = _result.Body()
 	return result, nil
 }

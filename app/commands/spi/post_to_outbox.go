@@ -2,21 +2,16 @@ package spi
 
 import (
 	"encoding/json"
+	"fmt"
+	"time"
 
+	ap "github.com/go-ap/activitypub"
 	"github.com/reiver/greatape/app/activitypub"
 	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
 )
 
-func PostToOutbox(x IDispatcher,
-	username string,
-	context string,
-	activityType string,
-	to string,
-	attributedTo string,
-	inReplyTo string,
-	content string,
-) (IPostToOutboxResult, error) {
+func PostToOutbox(x IDispatcher, username string, body []byte) (IPostToOutboxResult, error) {
 	identities := x.FilterIdentities(func(identity IIdentity) bool {
 		return identity.Username() == username
 	})
@@ -24,19 +19,37 @@ func PostToOutbox(x IDispatcher,
 	x.Assert(identities.HasExactlyOneItem()).Or(ERROR_USER_NOT_FOUND)
 	identity := identities.First()
 
+	item := x.UnmarshalActivityPubObjectOrLink(body)
+
 	id := x.Format("%s/u/%s", x.PublicUrl(), identity.Username())
+
 	publicKeyId := x.Format("%s#main-key", id)
 	privateKey := identity.PrivateKey()
 
-	_ = publicKeyId
-
-	switch activityType {
-	case ACTIVITY_PUB_NOTE:
+	switch item.GetType() {
+	case ap.NoteType:
 		{
+			note := x.UnmarshalActivityPubNote(body)
+
+			content := note.Content.First().Value.String()
+			to := note.To.First().GetID().String()
+			from := note.AttributedTo.GetID().String()
+
+			if from != id {
+				return nil, ERROR_INVALID_PARAMETERS
+			}
+
 			uniqueIdentifier := x.GenerateUUID()
-			note := activitypub.NewNote(id, to, content)
-			activity := note.Wrap(identity.Username(), x.PublicUrl(), uniqueIdentifier)
-			to := activity.To.([]string)[0]
+
+			activity := &activitypub.Activity{
+				Context:   activitypub.ActivityStreams,
+				Type:      activitypub.TypeCreate,
+				ID:        fmt.Sprintf("%s/u/%s/posts/%s", x.PublicUrl(), username, uniqueIdentifier),
+				To:        note.To,
+				Actor:     fmt.Sprintf("%s/u/%s", x.PublicUrl(), username),
+				Published: time.Now(),
+				Object:    note,
+			}
 
 			if to != activitypub.Public {
 				recipient := &activitypub.Actor{}
@@ -59,15 +72,15 @@ func PostToOutbox(x IDispatcher,
 				identity.Id(),
 				uniqueIdentifier,
 				x.UnixNano(),
-				note.AttributedTo,
+				from,
 				to,
-				note.Content,
+				content,
 				string(raw),
 				"PostToOutbox",
 				EMPTY_JSON,
 			)
 
-			return x.NewPostToOutboxResult(), nil
+			return x.NewPostToOutboxResult(nil), nil
 		}
 	default:
 		return nil, ERROR_INVALID_PARAMETERS

@@ -291,15 +291,15 @@ func (dispatcher *dispatcher) GetFollowing(username string) (IGetFollowingResult
 	return dispatcher.conductor.SpiManager().GetFollowing(username, dispatcher.identity)
 }
 
-func (dispatcher *dispatcher) PostToOutbox(username string, context string, activityType string, to string, attributedTo string, inReplyTo string, content string) (IPostToOutboxResult, error) {
-	return dispatcher.conductor.SpiManager().PostToOutbox(username, context, activityType, to, attributedTo, inReplyTo, content, dispatcher.identity)
+func (dispatcher *dispatcher) PostToOutbox(username string, body []byte) (IPostToOutboxResult, error) {
+	return dispatcher.conductor.SpiManager().PostToOutbox(username, body, dispatcher.identity)
 }
 
 func (dispatcher *dispatcher) GetOutbox(username string) (IGetOutboxResult, error) {
 	return dispatcher.conductor.SpiManager().GetOutbox(username, dispatcher.identity)
 }
 
-func (dispatcher *dispatcher) PostToInbox(username string, body string) (IPostToInboxResult, error) {
+func (dispatcher *dispatcher) PostToInbox(username string, body []byte) (IPostToInboxResult, error) {
 	return dispatcher.conductor.SpiManager().PostToInbox(username, body, dispatcher.identity)
 }
 

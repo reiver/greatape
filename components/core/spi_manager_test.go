@@ -306,7 +306,7 @@ func TestSpiManager_GetFollowing(test *testing.T) {
 func TestSpiManager_PostToOutbox(test *testing.T) {
 	manager := Conductor.SpiManager()
 
-	result, err := manager.PostToOutbox("username", "context", "activity_type", "to", "attributed_to", "in_reply_to", "content", nil)
+	result, err := manager.PostToOutbox("username", nil, nil)
 	if err != nil {
 		test.Fatal(err)
 	}
@@ -328,7 +328,7 @@ func TestSpiManager_GetOutbox(test *testing.T) {
 func TestSpiManager_PostToInbox(test *testing.T) {
 	manager := Conductor.SpiManager()
 
-	result, err := manager.PostToInbox("username", "body", nil)
+	result, err := manager.PostToInbox("username", nil, nil)
 	if err != nil {
 		test.Fatal(err)
 	}

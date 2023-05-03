@@ -1,6 +1,7 @@
 package core
 
 import (
+	"encoding/json"
 	"fmt"
 	"math/rand"
 	"net/http"
@@ -8,7 +9,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/go-ap/activitypub"
 	. "github.com/reiver/greatape/components/contracts"
+	"github.com/valyala/fastjson"
 	. "github.com/xeronith/diamante/contracts/logging"
 	. "github.com/xeronith/diamante/contracts/security"
 	. "github.com/xeronith/diamante/contracts/settings"
@@ -331,6 +334,25 @@ func (dispatcher *dispatcher) GetActivityStreamSigned(url, keyId, privateKey str
 
 func (dispatcher *dispatcher) PostActivityStreamSigned(url, keyId, privateKey string, data []byte, output interface{}) error {
 	return dispatcher.conductor.RequestActivityStream(http.MethodPost, url, keyId, privateKey, data, output)
+}
+
+func (dispatcher *dispatcher) UnmarshalActivityPubObjectOrLink(data []byte) activitypub.ObjectOrLink {
+	var parser fastjson.Parser
+	value, err := parser.ParseBytes(data)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	return activitypub.JSONUnmarshalToItem(value)
+}
+
+func (dispatcher *dispatcher) UnmarshalActivityPubNote(data []byte) *activitypub.Note {
+	note := &activitypub.Note{}
+	if err := json.Unmarshal(data, note); err != nil {
+		panic(err.Error())
+	}
+
+	return note
 }
 
 //endregion

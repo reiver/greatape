@@ -33,7 +33,7 @@ func (handler *getPackagesHandler) HandlerFunc() HttpHandlerFunc {
 		}
 
 		onRequestProcessed := func(output *GetPackagesResult) (string, []byte) {
-			return "text/plain", []byte(output.Body)
+			return "text/plain", output.Body
 		}
 
 		return pipeline.Handle(x,

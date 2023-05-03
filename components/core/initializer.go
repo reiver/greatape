@@ -1151,15 +1151,15 @@ func (conductor *conductor) GetFollowing(username string, editor Identity) (IGet
 	return conductor.spiManager.GetFollowing(username, editor)
 }
 
-func (conductor *conductor) PostToOutbox(username string, context string, activityType string, to string, attributedTo string, inReplyTo string, content string, editor Identity) (IPostToOutboxResult, error) {
-	return conductor.spiManager.PostToOutbox(username, context, activityType, to, attributedTo, inReplyTo, content, editor)
+func (conductor *conductor) PostToOutbox(username string, body []byte, editor Identity) (IPostToOutboxResult, error) {
+	return conductor.spiManager.PostToOutbox(username, body, editor)
 }
 
 func (conductor *conductor) GetOutbox(username string, editor Identity) (IGetOutboxResult, error) {
 	return conductor.spiManager.GetOutbox(username, editor)
 }
 
-func (conductor *conductor) PostToInbox(username string, body string, editor Identity) (IPostToInboxResult, error) {
+func (conductor *conductor) PostToInbox(username string, body []byte, editor Identity) (IPostToInboxResult, error) {
 	return conductor.spiManager.PostToInbox(username, body, editor)
 }
 
@@ -1267,7 +1267,7 @@ func (conductor *conductor) NewWebfingerResult(aliases []string, links []IActivi
 	return NewWebfingerResult(aliases, links, subject, nil)
 }
 
-func (conductor *conductor) NewGetPackagesResult(body string, _ interface{}) IGetPackagesResult {
+func (conductor *conductor) NewGetPackagesResult(body []byte, _ interface{}) IGetPackagesResult {
 	return NewGetPackagesResult(body, nil)
 }
 
@@ -1291,15 +1291,15 @@ func (conductor *conductor) NewGetFollowingResult(context string, id string, typ
 	return NewGetFollowingResult(context, id, type_, totalItems, orderedItems, first, nil)
 }
 
-func (conductor *conductor) NewPostToOutboxResult(_ interface{}) IPostToOutboxResult {
-	return NewPostToOutboxResult(nil)
+func (conductor *conductor) NewPostToOutboxResult(body []byte, _ interface{}) IPostToOutboxResult {
+	return NewPostToOutboxResult(body, nil)
 }
 
 func (conductor *conductor) NewGetOutboxResult(context string, id string, type_ string, totalItems int32, orderedItems []IActivityPubActivity, first string, _ interface{}) IGetOutboxResult {
 	return NewGetOutboxResult(context, id, type_, totalItems, orderedItems, first, nil)
 }
 
-func (conductor *conductor) NewPostToInboxResult(body string, _ interface{}) IPostToInboxResult {
+func (conductor *conductor) NewPostToInboxResult(body []byte, _ interface{}) IPostToInboxResult {
 	return NewPostToInboxResult(body, nil)
 }
 

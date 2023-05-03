@@ -271,9 +271,9 @@ type (
 		AuthorizeInteraction(uri string, editor Identity) (IAuthorizeInteractionResult, error)
 		GetFollowers(username string, editor Identity) (IGetFollowersResult, error)
 		GetFollowing(username string, editor Identity) (IGetFollowingResult, error)
-		PostToOutbox(username string, context string, activityType string, to string, attributedTo string, inReplyTo string, content string, editor Identity) (IPostToOutboxResult, error)
+		PostToOutbox(username string, body []byte, editor Identity) (IPostToOutboxResult, error)
 		GetOutbox(username string, editor Identity) (IGetOutboxResult, error)
-		PostToInbox(username string, body string, editor Identity) (IPostToInboxResult, error)
+		PostToInbox(username string, body []byte, editor Identity) (IPostToInboxResult, error)
 		GetInbox(username string, editor Identity) (IGetInboxResult, error)
 
 		NewDocument(id int64, content string) (IDocument, error)
@@ -301,15 +301,15 @@ type (
 		NewUpdateProfileByUserResult(displayName string, avatar string, banner string, summary string, github string, ignored interface{}) IUpdateProfileByUserResult
 		NewLogoutResult(ignored interface{}) ILogoutResult
 		NewWebfingerResult(aliases []string, links []IActivityPubLink, subject string, ignored interface{}) IWebfingerResult
-		NewGetPackagesResult(body string, ignored interface{}) IGetPackagesResult
+		NewGetPackagesResult(body []byte, ignored interface{}) IGetPackagesResult
 		NewGetActorResult(context []string, id string, followers string, following string, inbox string, outbox string, name string, preferredUsername string, type_ string, url string, icon IActivityPubMedia, image IActivityPubMedia, publicKey IActivityPubPublicKey, summary string, published string, ignored interface{}) IGetActorResult
 		NewFollowActorResult(url string, ignored interface{}) IFollowActorResult
 		NewAuthorizeInteractionResult(uri string, success bool, ignored interface{}) IAuthorizeInteractionResult
 		NewGetFollowersResult(context string, id string, type_ string, totalItems int32, orderedItems []string, first string, ignored interface{}) IGetFollowersResult
 		NewGetFollowingResult(context string, id string, type_ string, totalItems int32, orderedItems []string, first string, ignored interface{}) IGetFollowingResult
-		NewPostToOutboxResult(ignored interface{}) IPostToOutboxResult
+		NewPostToOutboxResult(body []byte, ignored interface{}) IPostToOutboxResult
 		NewGetOutboxResult(context string, id string, type_ string, totalItems int32, orderedItems []IActivityPubActivity, first string, ignored interface{}) IGetOutboxResult
-		NewPostToInboxResult(body string, ignored interface{}) IPostToInboxResult
+		NewPostToInboxResult(body []byte, ignored interface{}) IPostToInboxResult
 		NewGetInboxResult(context string, id string, type_ string, totalItems int32, orderedItems []IActivityPubActivity, first string, ignored interface{}) IGetInboxResult
 	}
 

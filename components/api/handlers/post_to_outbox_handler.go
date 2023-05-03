@@ -33,13 +33,17 @@ func (handler *postToOutboxHandler) HandlerFunc() HttpHandlerFunc {
 			request.Username = x.Param("username")
 		}
 
+		onRequestProcessed := func(output *PostToOutboxResult) (string, []byte) {
+			return "application/activity+json; charset=utf-8", output.Body
+		}
+
 		return pipeline.Handle(x,
 			"post_to_outbox",
 			POST_TO_OUTBOX_REQUEST,
 			POST_TO_OUTBOX_RESULT,
 			request, result,
 			onRequestUnmarshalled,
-			nil,
+			onRequestProcessed,
 			false,
 		)
 	}

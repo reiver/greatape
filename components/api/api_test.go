@@ -207,13 +207,8 @@ func TestGetFollowingApi(test *testing.T) {
 
 func TestPostToOutboxApi(test *testing.T) {
 	input := &PostToOutboxRequest{
-		Username:     "username",
-		Context:      "context",
-		ActivityType: "activity_type",
-		To:           "to",
-		AttributedTo: "attributed_to",
-		InReplyTo:    "in_reply_to",
-		Content:      "content",
+		Username: "username",
+		Body:     nil,
 	}
 
 	if output, err := api.PostToOutbox(input); err != nil {
@@ -238,7 +233,7 @@ func TestGetOutboxApi(test *testing.T) {
 func TestPostToInboxApi(test *testing.T) {
 	input := &PostToInboxRequest{
 		Username: "username",
-		Body:     "body",
+		Body:     nil,
 	}
 
 	if output, err := api.PostToInbox(input); err != nil {

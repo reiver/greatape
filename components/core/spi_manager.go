@@ -588,16 +588,16 @@ func (manager *spiManager) Webfinger(resource string, editor Identity) (result I
 //region IGetPackagesResult Implementation
 
 type getPackagesResult struct {
-	body string
+	body []byte
 }
 
-func NewGetPackagesResult(body string, _ interface{}) IGetPackagesResult {
+func NewGetPackagesResult(body []byte, _ interface{}) IGetPackagesResult {
 	return &getPackagesResult{
 		body: body,
 	}
 }
 
-func (result getPackagesResult) Body() string {
+func (result getPackagesResult) Body() []byte {
 	return result.body
 }
 
@@ -948,15 +948,22 @@ func (manager *spiManager) GetFollowing(username string, editor Identity) (resul
 //region IPostToOutboxResult Implementation
 
 type postToOutboxResult struct {
+	body []byte
 }
 
-func NewPostToOutboxResult(_ interface{}) IPostToOutboxResult {
-	return &postToOutboxResult{}
+func NewPostToOutboxResult(body []byte, _ interface{}) IPostToOutboxResult {
+	return &postToOutboxResult{
+		body: body,
+	}
+}
+
+func (result postToOutboxResult) Body() []byte {
+	return result.body
 }
 
 //endregion
 
-func (manager *spiManager) PostToOutbox(username string, context string, activityType string, to string, attributedTo string, inReplyTo string, content string, editor Identity) (result IPostToOutboxResult, err error) {
+func (manager *spiManager) PostToOutbox(username string, body []byte, editor Identity) (result IPostToOutboxResult, err error) {
 	defer func() {
 		if reason := recover(); reason != nil {
 			err = manager.Error(reason)
@@ -966,7 +973,7 @@ func (manager *spiManager) PostToOutbox(username string, context string, activit
 	editor.Lock(POST_TO_OUTBOX_REQUEST)
 	defer editor.Unlock(POST_TO_OUTBOX_REQUEST)
 
-	if result, err = commands.PostToOutbox(NewDispatcher(Conductor, editor), username, context, activityType, to, attributedTo, inReplyTo, content); err != nil {
+	if result, err = commands.PostToOutbox(NewDispatcher(Conductor, editor), username, body); err != nil {
 		return nil, err
 	} else {
 		return result, nil
@@ -1041,22 +1048,22 @@ func (manager *spiManager) GetOutbox(username string, editor Identity) (result I
 //region IPostToInboxResult Implementation
 
 type postToInboxResult struct {
-	body string
+	body []byte
 }
 
-func NewPostToInboxResult(body string, _ interface{}) IPostToInboxResult {
+func NewPostToInboxResult(body []byte, _ interface{}) IPostToInboxResult {
 	return &postToInboxResult{
 		body: body,
 	}
 }
 
-func (result postToInboxResult) Body() string {
+func (result postToInboxResult) Body() []byte {
 	return result.body
 }
 
 //endregion
 
-func (manager *spiManager) PostToInbox(username string, body string, editor Identity) (result IPostToInboxResult, err error) {
+func (manager *spiManager) PostToInbox(username string, body []byte, editor Identity) (result IPostToInboxResult, err error) {
 	defer func() {
 		if reason := recover(); reason != nil {
 			err = manager.Error(reason)

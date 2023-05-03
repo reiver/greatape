@@ -120,7 +120,7 @@ message GetPackagesRequest {
 }
 
 message GetPackagesResult {
-    string body = 0x00000001;
+    bytes body = 0x00000001;
 }
 
 // API: GetActor
@@ -203,15 +203,11 @@ message GetFollowingResult {
 //-----------------------------------------------------------
 message PostToOutboxRequest {
     string username = 0x00000001;
-    string context = 0x00000002 [json_name = "@context"];
-    string activityType = 0x00000003 [json_name = "type"];
-    string to = 0x00000004;
-    string attributedTo = 0x00000005;
-    string inReplyTo = 0x00000006;
-    string content = 0x00000007;
+    bytes body = 0x00000002;
 }
 
 message PostToOutboxResult {
+    bytes body = 0x00000001;
 }
 
 // API: GetOutbox
@@ -233,11 +229,11 @@ message GetOutboxResult {
 //-----------------------------------------------------------
 message PostToInboxRequest {
     string username = 0x00000001;
-    string body = 0x00000002;
+    bytes body = 0x00000002;
 }
 
 message PostToInboxResult {
-    string body = 0x00000001;
+    bytes body = 0x00000001;
 }
 
 // API: GetInbox

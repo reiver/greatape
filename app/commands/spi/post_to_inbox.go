@@ -9,7 +9,7 @@ import (
 	. "github.com/reiver/greatape/components/contracts"
 )
 
-func PostToInbox(x IDispatcher, username string, body string) (IPostToInboxResult, error) {
+func PostToInbox(x IDispatcher, username string, body []byte) (IPostToInboxResult, error) {
 	identities := x.FilterIdentities(func(identity IIdentity) bool {
 		return identity.Username() == username
 	})
@@ -18,7 +18,7 @@ func PostToInbox(x IDispatcher, username string, body string) (IPostToInboxResul
 	identity := identities.First()
 
 	object := &activitypub.Object{}
-	if err := json.Unmarshal([]byte(body), object); err != nil {
+	if err := json.Unmarshal(body, object); err != nil {
 		return nil, ERROR_UNKNOWN_ACTIVITY_PUB_OBJECT
 	}
 
@@ -28,7 +28,7 @@ func PostToInbox(x IDispatcher, username string, body string) (IPostToInboxResul
 	case activitypub.TypeFollow:
 		{
 			activity := &activitypub.Activity{}
-			if err := json.Unmarshal([]byte(body), activity); err != nil {
+			if err := json.Unmarshal(body, activity); err != nil {
 				return nil, ERROR_UNKNOWN_ACTIVITY_PUB_ACTIVITY
 			}
 
@@ -74,7 +74,7 @@ func PostToInbox(x IDispatcher, username string, body string) (IPostToInboxResul
 	case activitypub.TypeCreate:
 		{
 			activity := &activitypub.Activity{}
-			if err := json.Unmarshal([]byte(body), activity); err != nil {
+			if err := json.Unmarshal(body, activity); err != nil {
 				return nil, ERROR_UNKNOWN_ACTIVITY_PUB_ACTIVITY
 			}
 
