@@ -15,7 +15,7 @@ func PostToInboxService(context IContext, input *PostToInboxRequest) (result *Po
 	conductor.LogRemoteCall(context, INITIALIZE, "post_to_inbox", input, result, err)
 	defer func() { conductor.LogRemoteCall(context, FINALIZE, "post_to_inbox", input, result, err) }()
 
-	_result, _err := conductor.PostToInbox(input.Username, context.Identity())
+	_result, _err := conductor.PostToInbox(input.Username, input.Body, context.Identity())
 	if _err != nil {
 		err = _err
 		return nil, err
@@ -24,5 +24,6 @@ func PostToInboxService(context IContext, input *PostToInboxRequest) (result *Po
 	_ = _result
 
 	result = context.ResultContainer().(*PostToInboxResult)
+	result.Body = _result.Body()
 	return result, nil
 }

@@ -33,13 +33,17 @@ func (handler *postToInboxHandler) HandlerFunc() HttpHandlerFunc {
 			request.Username = x.Param("username")
 		}
 
+		onRequestProcessed := func(output *PostToInboxResult) (string, []byte) {
+			return "application/activity+json; charset=utf-8", []byte(output.Body)
+		}
+
 		return pipeline.Handle(x,
 			"post_to_inbox",
 			POST_TO_INBOX_REQUEST,
 			POST_TO_INBOX_RESULT,
 			request, result,
 			onRequestUnmarshalled,
-			nil,
+			onRequestProcessed,
 			false,
 		)
 	}

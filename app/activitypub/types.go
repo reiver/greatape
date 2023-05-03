@@ -7,6 +7,7 @@ const (
 	TypeFollow            = "Follow"
 	TypeAccept            = "Accept"
 	TypeNote              = "Note"
+	TypeLike              = "Like"
 	TypeOrderedCollection = "OrderedCollection"
 
 	Public = ActivityStreams + "#Public"

@@ -328,7 +328,7 @@ func TestSpiManager_GetOutbox(test *testing.T) {
 func TestSpiManager_PostToInbox(test *testing.T) {
 	manager := Conductor.SpiManager()
 
-	result, err := manager.PostToInbox("username", nil)
+	result, err := manager.PostToInbox("username", "body", nil)
 	if err != nil {
 		test.Fatal(err)
 	}

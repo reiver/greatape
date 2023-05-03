@@ -22,11 +22,11 @@ func NewOrderedCollection(id string, items interface{}, length int) *OrderedColl
 }
 
 func UnmarshalOrderedCollection(data []byte) (OrderedCollection, error) {
-	var o OrderedCollection
-	err := json.Unmarshal(data, &o)
-	return o, err
+	var orderedCollection OrderedCollection
+	err := json.Unmarshal(data, &orderedCollection)
+	return orderedCollection, err
 }
 
-func (o *OrderedCollection) Marshal() ([]byte, error) {
-	return json.Marshal(o)
+func (orderedCollection *OrderedCollection) Marshal() ([]byte, error) {
+	return json.Marshal(orderedCollection)
 }

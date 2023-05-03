@@ -11,11 +11,11 @@ type Followers struct {
 }
 
 func UnmarshalFollowers(data []byte) (Followers, error) {
-	var o Followers
-	err := json.Unmarshal(data, &o)
-	return o, err
+	var followers Followers
+	err := json.Unmarshal(data, &followers)
+	return followers, err
 }
 
-func (o *Followers) Marshal() ([]byte, error) {
-	return json.Marshal(o)
+func (followers *Followers) Marshal() ([]byte, error) {
+	return json.Marshal(followers)
 }

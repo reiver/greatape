@@ -70,7 +70,7 @@ type (
 		GetFollowing(username string, editor Identity) (IGetFollowingResult, error)
 		PostToOutbox(username string, context string, activityType string, to string, attributedTo string, inReplyTo string, content string, editor Identity) (IPostToOutboxResult, error)
 		GetOutbox(username string, editor Identity) (IGetOutboxResult, error)
-		PostToInbox(username string, editor Identity) (IPostToInboxResult, error)
+		PostToInbox(username string, body string, editor Identity) (IPostToInboxResult, error)
 		GetInbox(username string, editor Identity) (IGetInboxResult, error)
 	}
 
@@ -180,6 +180,7 @@ type (
 	}
 
 	IPostToInboxResult interface {
+		Body() string
 	}
 
 	IGetInboxResult interface {

@@ -233,9 +233,11 @@ message GetOutboxResult {
 //-----------------------------------------------------------
 message PostToInboxRequest {
     string username = 0x00000001;
+    string body = 0x00000002;
 }
 
 message PostToInboxResult {
+    string body = 0x00000001;
 }
 
 // API: GetInbox

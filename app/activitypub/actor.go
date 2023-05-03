@@ -20,11 +20,11 @@ type Actor struct {
 	Url               string        `json:"url"`
 	Summary           string        `json:"summary"`
 	Published         time.Time     `json:"published"`
-	Icon              Icon          `json:"icon,omitempty"`
-	Image             Icon          `json:"image,omitempty"`
+	Icon              Media         `json:"icon,omitempty"`
+	Image             Media         `json:"image,omitempty"`
 }
 
-type Icon struct {
+type Media struct {
 	Height    int64  `json:"height,omitempty"`
 	MediaType string `json:"mediaType,omitempty"`
 	Type      string `json:"type,omitempty"`
@@ -39,11 +39,11 @@ type PublicKey struct {
 }
 
 func UnmarshalActor(data []byte) (Actor, error) {
-	var r Actor
-	err := json.Unmarshal(data, &r)
-	return r, err
+	var actor Actor
+	err := json.Unmarshal(data, &actor)
+	return actor, err
 }
 
-func (r *Actor) Marshal() ([]byte, error) {
-	return json.Marshal(r)
+func (actor *Actor) Marshal() ([]byte, error) {
+	return json.Marshal(actor)
 }

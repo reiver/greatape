@@ -1047,7 +1047,7 @@ type IDispatcher interface {
 	GetFollowing(username string) (IGetFollowingResult, error)
 	PostToOutbox(username string, context string, activityType string, to string, attributedTo string, inReplyTo string, content string) (IPostToOutboxResult, error)
 	GetOutbox(username string) (IGetOutboxResult, error)
-	PostToInbox(username string) (IPostToInboxResult, error)
+	PostToInbox(username string, body string) (IPostToInboxResult, error)
 	GetInbox(username string) (IGetInboxResult, error)
 
 	// NewDocument creates a new 'Document' instance using the provided property values.
@@ -1151,7 +1151,7 @@ type IDispatcher interface {
 	// NewGetOutboxResult creates a new result container for 'Get Outbox' system action.
 	NewGetOutboxResult(context string, id string, type_ string, totalItems int32, orderedItems []IActivityPubActivity, first string) IGetOutboxResult
 	// NewPostToInboxResult creates a new result container for 'Post To Inbox' system action.
-	NewPostToInboxResult() IPostToInboxResult
+	NewPostToInboxResult(body string) IPostToInboxResult
 	// NewGetInboxResult creates a new result container for 'Get Inbox' system action.
 	NewGetInboxResult(context string, id string, type_ string, totalItems int32, orderedItems []IActivityPubActivity, first string) IGetInboxResult
 	// Assert asserts the provided condition and panics if the assertion is not valid.

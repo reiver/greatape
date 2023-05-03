@@ -2,16 +2,6 @@ package activitypub
 
 import "encoding/json"
 
-func UnmarshalWebfinger(data []byte) (Webfinger, error) {
-	var r Webfinger
-	err := json.Unmarshal(data, &r)
-	return r, err
-}
-
-func (r *Webfinger) Marshal() ([]byte, error) {
-	return json.Marshal(r)
-}
-
 type Webfinger struct {
 	Aliases []string `json:"aliases"`
 	Links   []Link   `json:"links"`
@@ -35,4 +25,14 @@ func (webfinger *Webfinger) Self() string {
 	}
 
 	return self
+}
+
+func UnmarshalWebfinger(data []byte) (Webfinger, error) {
+	var webfinger Webfinger
+	err := json.Unmarshal(data, &webfinger)
+	return webfinger, err
+}
+
+func (webfinger *Webfinger) Marshal() ([]byte, error) {
+	return json.Marshal(webfinger)
 }

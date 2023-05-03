@@ -238,6 +238,7 @@ func TestGetOutboxApi(test *testing.T) {
 func TestPostToInboxApi(test *testing.T) {
 	input := &PostToInboxRequest{
 		Username: "username",
+		Body:     "body",
 	}
 
 	if output, err := api.PostToInbox(input); err != nil {

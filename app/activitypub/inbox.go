@@ -2,7 +2,7 @@ package activitypub
 
 import "encoding/json"
 
-type Outbox struct {
+type Inbox struct {
 	Context      string      `json:"@context"`
 	ID           string      `json:"id,omitempty"`
 	Type         string      `json:"type,omitempty"`
@@ -10,12 +10,12 @@ type Outbox struct {
 	OrderedItems interface{} `json:"orderedItems,omitempty"`
 }
 
-func UnmarshalOutbox(data []byte) (Outbox, error) {
-	var outbox Outbox
-	err := json.Unmarshal(data, &outbox)
-	return outbox, err
+func UnmarshalInbox(data []byte) (Inbox, error) {
+	var inbox Inbox
+	err := json.Unmarshal(data, &inbox)
+	return inbox, err
 }
 
-func (outbox *Outbox) Marshal() ([]byte, error) {
-	return json.Marshal(outbox)
+func (inbox *Inbox) Marshal() ([]byte, error) {
+	return json.Marshal(inbox)
 }

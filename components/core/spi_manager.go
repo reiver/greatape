@@ -1041,15 +1041,22 @@ func (manager *spiManager) GetOutbox(username string, editor Identity) (result I
 //region IPostToInboxResult Implementation
 
 type postToInboxResult struct {
+	body string
 }
 
-func NewPostToInboxResult(_ interface{}) IPostToInboxResult {
-	return &postToInboxResult{}
+func NewPostToInboxResult(body string, _ interface{}) IPostToInboxResult {
+	return &postToInboxResult{
+		body: body,
+	}
+}
+
+func (result postToInboxResult) Body() string {
+	return result.body
 }
 
 //endregion
 
-func (manager *spiManager) PostToInbox(username string, editor Identity) (result IPostToInboxResult, err error) {
+func (manager *spiManager) PostToInbox(username string, body string, editor Identity) (result IPostToInboxResult, err error) {
 	defer func() {
 		if reason := recover(); reason != nil {
 			err = manager.Error(reason)
@@ -1059,7 +1066,7 @@ func (manager *spiManager) PostToInbox(username string, editor Identity) (result
 	editor.Lock(POST_TO_INBOX_REQUEST)
 	defer editor.Unlock(POST_TO_INBOX_REQUEST)
 
-	if result, err = commands.PostToInbox(NewDispatcher(Conductor, editor), username); err != nil {
+	if result, err = commands.PostToInbox(NewDispatcher(Conductor, editor), username, body); err != nil {
 		return nil, err
 	} else {
 		return result, nil

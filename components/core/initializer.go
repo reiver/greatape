@@ -1159,8 +1159,8 @@ func (conductor *conductor) GetOutbox(username string, editor Identity) (IGetOut
 	return conductor.spiManager.GetOutbox(username, editor)
 }
 
-func (conductor *conductor) PostToInbox(username string, editor Identity) (IPostToInboxResult, error) {
-	return conductor.spiManager.PostToInbox(username, editor)
+func (conductor *conductor) PostToInbox(username string, body string, editor Identity) (IPostToInboxResult, error) {
+	return conductor.spiManager.PostToInbox(username, body, editor)
 }
 
 func (conductor *conductor) GetInbox(username string, editor Identity) (IGetInboxResult, error) {
@@ -1299,8 +1299,8 @@ func (conductor *conductor) NewGetOutboxResult(context string, id string, type_ 
 	return NewGetOutboxResult(context, id, type_, totalItems, orderedItems, first, nil)
 }
 
-func (conductor *conductor) NewPostToInboxResult(_ interface{}) IPostToInboxResult {
-	return NewPostToInboxResult(nil)
+func (conductor *conductor) NewPostToInboxResult(body string, _ interface{}) IPostToInboxResult {
+	return NewPostToInboxResult(body, nil)
 }
 
 func (conductor *conductor) NewGetInboxResult(context string, id string, type_ string, totalItems int32, orderedItems []IActivityPubActivity, first string, _ interface{}) IGetInboxResult {
