@@ -8,7 +8,7 @@ require (
 	github.com/robfig/cron v1.2.0
 	github.com/sendgrid/sendgrid-go v3.12.0+incompatible
 	github.com/valyala/fastjson v1.6.4
-	github.com/xeronith/diamante v1.8.2
+	github.com/xeronith/diamante v1.8.4
 	google.golang.org/protobuf v1.28.1
 )
 
@@ -20,6 +20,7 @@ require (
 	github.com/gofrs/uuid v3.3.0+incompatible // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/gorilla/securecookie v1.1.1 // indirect
+	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/influxdata/influxdb v1.11.0 // indirect
 	github.com/jinzhu/configor v1.2.1 // indirect
 	github.com/labstack/echo/v4 v4.10.2 // indirect
