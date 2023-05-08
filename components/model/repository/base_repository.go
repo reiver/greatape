@@ -67,12 +67,12 @@ func (repository *baseRepository) Migrate() error {
 				return fmt.Errorf("DB_MIGRATION: history.%s", repository.pluralName)
 			}
 
-			if !schema.HasTrigger(fmt.Sprintf("%s_after_update_trigger", repository.pluralName)) {
-				return fmt.Errorf("DB_MIGRATION: %s_after_update_trigger", repository.pluralName)
+			if !schema.HasTrigger(fmt.Sprintf("%s_before_update_trigger", repository.pluralName)) {
+				return fmt.Errorf("DB_MIGRATION: %s_before_update_trigger", repository.pluralName)
 			}
 
-			if !schema.HasTrigger(fmt.Sprintf("%s_after_delete_trigger", repository.pluralName)) {
-				return fmt.Errorf("DB_MIGRATION: %s_after_delete_trigger", repository.pluralName)
+			if !schema.HasTrigger(fmt.Sprintf("%s_before_delete_trigger", repository.pluralName)) {
+				return fmt.Errorf("DB_MIGRATION: %s_before_delete_trigger", repository.pluralName)
 			}
 
 			_, err := repository.database.Execute(`INSERT INTO "__system__" ("script") VALUES ($1);`, script)
@@ -96,19 +96,16 @@ func (repository *baseRepository) Migrate() error {
 			if field.Name != "entity" && !schema.HasColumn(repository.pluralName, column) {
 				changes = append(changes, fmt.Sprintf("%s.%s", repository.pluralName, column))
 
-				commands = append(commands, fmt.Sprintf(`ALTER TABLE "%s" ADD COLUMN "%s" %s NOT NULL;`, repository.pluralName, column, dbType))
-				commands = append(commands, fmt.Sprintf(`ALTER TABLE "%s" ALTER COLUMN "%s" SET DEFAULT %s;`, repository.pluralName, column, defaultValue))
-
-				historyCommands = append(historyCommands, fmt.Sprintf(`ALTER TABLE "%s_history" ADD COLUMN "%s" %s NOT NULL;`, repository.pluralName, column, dbType))
-				historyCommands = append(historyCommands, fmt.Sprintf(`ALTER TABLE "%s_history" ALTER COLUMN "%s" SET DEFAULT %s;`, repository.pluralName, column, defaultValue))
+				commands = append(commands, fmt.Sprintf(`ALTER TABLE "%s" ADD COLUMN "%s" %s NOT NULL DEFAULT %s;`, repository.pluralName, column, dbType, defaultValue))
+				historyCommands = append(historyCommands, fmt.Sprintf(`ALTER TABLE "%s_history" ADD COLUMN "%s" %s NOT NULL DEFAULT %s;`, repository.pluralName, column, dbType, defaultValue))
 			}
 		}
 
 		var scriptLines []string
 		if len(commands) > 0 {
 			scriptLines = append([]string{}, historyCommands...)
-			scriptLines = append(scriptLines, fmt.Sprintf(`DROP TRIGGER "%s_after_update_trigger" ON "%s";`, repository.pluralName, repository.pluralName))
-			scriptLines = append(scriptLines, fmt.Sprintf(`DROP TRIGGER "%s_after_delete_trigger" ON "%s";`, repository.pluralName, repository.pluralName))
+			scriptLines = append(scriptLines, fmt.Sprintf(`DROP TRIGGER "%s_before_update_trigger" ON "%s";`, repository.pluralName, repository.pluralName))
+			scriptLines = append(scriptLines, fmt.Sprintf(`DROP TRIGGER "%s_before_delete_trigger" ON "%s";`, repository.pluralName, repository.pluralName))
 			scriptLines = append(scriptLines, commands...)
 			scriptLines = append(scriptLines, createTriggersScript)
 			script := strings.Join(scriptLines, "\n##########\n")
@@ -128,12 +125,12 @@ func (repository *baseRepository) Migrate() error {
 				}
 			}
 
-			if !schema.HasTrigger(fmt.Sprintf("%s_after_update_trigger", repository.pluralName)) {
-				return fmt.Errorf("DB_MIGRATION: %s_after_update_trigger", repository.pluralName)
+			if !schema.HasTrigger(fmt.Sprintf("%s_before_update_trigger", repository.pluralName)) {
+				return fmt.Errorf("DB_MIGRATION: %s_before_update_trigger", repository.pluralName)
 			}
 
-			if !schema.HasTrigger(fmt.Sprintf("%s_after_delete_trigger", repository.pluralName)) {
-				return fmt.Errorf("DB_MIGRATION: %s_after_delete_trigger", repository.pluralName)
+			if !schema.HasTrigger(fmt.Sprintf("%s_before_delete_trigger", repository.pluralName)) {
+				return fmt.Errorf("DB_MIGRATION: %s_before_delete_trigger", repository.pluralName)
 			}
 
 			_, err := repository.database.Execute(`INSERT INTO "__system__" ("script") VALUES ($1);`, script)
