@@ -1,4 +1,4 @@
-package spi
+package commands
 
 const (
 	// ACTIVITY_PUB

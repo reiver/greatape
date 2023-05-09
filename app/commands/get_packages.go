@@ -1,4 +1,4 @@
-package spi
+package commands
 
 import (
 	_ "embed"

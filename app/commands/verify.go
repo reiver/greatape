@@ -1,27 +1,25 @@
-package spi
+package commands
 
 import (
 	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
 )
 
-func Login(x IDispatcher, email string, password string) (ILoginResult, error) {
+func Verify(x IDispatcher, email string, token string, code string) (IVerifyResult, error) {
 	identities := x.FilterIdentities(func(identity IIdentity) bool {
 		return identity.Email() == email
 	})
 
-	x.Assert(identities.HasExactlyOneItem()).Or(ERROR_INVALID_CREDENTIALS)
+	x.Assert(identities.HasExactlyOneItem()).Or(ERROR_USER_NOT_REGISTERED)
 	identity := identities.First()
 
-	if len(identity.Token()) < 10 {
-		return nil, ERROR_ACCOUNT_NOT_VERIFIED
+	if code != identity.Token() {
+		return nil, ERROR_INVALID_CONFIRMATION_CODE
 	}
 
-	if x.GenerateHash(password, identity.Salt()) != identity.Hash() {
-		return nil, ERROR_INVALID_CREDENTIALS
-	}
-
-	token := x.GenerateJwtToken()
+	err := x.VerifyJwtToken(token)
+	x.AssertNull(err).Or(ERROR_INVALID_TOKEN)
+	token = x.GenerateJwtToken()
 
 	x.Atomic(func() error {
 		count := identity.LoginCount() + 1
@@ -32,5 +30,5 @@ func Login(x IDispatcher, email string, password string) (ILoginResult, error) {
 		return nil
 	})
 
-	return x.NewLoginResult(identity.Username(), token), nil
+	return x.NewVerifyResult(token), nil
 }

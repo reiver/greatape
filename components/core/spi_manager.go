@@ -1,7 +1,7 @@
 package core
 
 import (
-	commands "github.com/reiver/greatape/app/commands/spi"
+	"github.com/reiver/greatape/app/commands"
 	"github.com/reiver/greatape/app/validators"
 	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
