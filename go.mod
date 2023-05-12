@@ -8,7 +8,7 @@ require (
 	github.com/robfig/cron v1.2.0
 	github.com/sendgrid/sendgrid-go v3.12.0+incompatible
 	github.com/valyala/fastjson v1.6.4
-	github.com/xeronith/diamante v1.8.4
+	github.com/xeronith/diamante v1.8.7
 	google.golang.org/protobuf v1.28.1
 )
 

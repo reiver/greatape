@@ -96,11 +96,14 @@ func (component *systemComponent) GenerateHash(value string, salt string) string
 }
 
 func (component *systemComponent) GenerateJwtToken() string {
-	return jwt.Generate()
+	return jwt.Generate(
+		component.configuration.GetServerConfiguration().GetJwtTokenKey(),
+		component.configuration.GetServerConfiguration().GetJwtTokenExpiration(),
+	)
 }
 
 func (component *systemComponent) VerifyJwtToken(token string) error {
-	_, err := jwt.Verify(token)
+	_, err := jwt.Verify(token, component.configuration.GetServerConfiguration().GetJwtTokenKey())
 	return err
 }
 

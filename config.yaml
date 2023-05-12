@@ -6,6 +6,13 @@ server:
     protocol: https
     ports:
         passive: 7080
+    # jwt_token_key returns the jwt token secret
+    jwt_token_key: INSERT_YOUR_KEY
+    # jwt_token_expiration returns the jwt token expiration duration.
+    # Should be time.ParseDuration string. 
+    # Source: https://golang.org/pkg/time/#ParseDuration
+    # default: 10h
+    jwt_token_expiration: 10h
 
 postgres:
     host: 127.0.0.1

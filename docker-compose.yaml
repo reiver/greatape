@@ -32,6 +32,13 @@ services:
       PROTOCOL: https
       FQDN: yourdomain.com
       PORT: 7080
+      # jwt_token_key returns the jwt token secret
+      JWT_TOKEN_KEY: INSERT_YOUR_KEY
+      # jwt_token_expiration returns the jwt token expiration duration.
+      # Should be time.ParseDuration string.
+      # Source: https://golang.org/pkg/time/#ParseDuration
+      # default: 10h
+      JWT_TOKEN_EXP: 10h
       POSTGRES_HOST: db
       POSTGRES_PORT: 5432
       POSTGRES_USER: postgres
