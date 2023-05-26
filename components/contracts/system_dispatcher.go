@@ -1204,6 +1204,12 @@ type IDispatcher interface {
 	Trim(input string) string
 	// Contains reports whether substr is within s.
 	Contains(input, substr string) bool
+	// ToUpper returns input with all Unicode letters mapped to their upper case.
+	ToUpper(input string) string
+	// MatchString reports whether the string input
+	// contains any match of the regular expression pattern.
+	// More complicated queries need to use Compile and the full Regexp interface.
+	MatchString(pattern string, input string) bool
 	// IsEmpty checks whether the provided string is empty. Trims the spaces in the string first.
 	IsEmpty(input string) bool
 	// IsNotEmpty checks whether the provided string is not empty. Trims the spaces in the string first.

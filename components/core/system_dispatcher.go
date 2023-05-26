@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"regexp"
 	"sort"
 	"strings"
 	"time"
@@ -286,6 +287,19 @@ func (dispatcher *dispatcher) Trim(input string) string {
 
 func (dispatcher *dispatcher) Contains(input, substr string) bool {
 	return strings.Contains(input, substr)
+}
+
+func (dispatcher *dispatcher) ToUpper(input string) string {
+	return strings.ToUpper(input)
+}
+
+func (dispatcher *dispatcher) MatchString(pattern string, input string) bool {
+	matched, err := regexp.MatchString(pattern, input)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	return matched
 }
 
 func (dispatcher *dispatcher) IsEmpty(input string) bool {
