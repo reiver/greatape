@@ -150,6 +150,23 @@ func (systemSchedules *systemSchedules) Append(systemSchedule ISystemSchedule) {
 	systemSchedules.collection = append(systemSchedules.collection, systemSchedule)
 }
 
+func (systemSchedules *systemSchedules) Reverse() ISystemScheduleCollection {
+	slice := systemSchedules.collection
+
+	start := 0
+	end := len(slice) - 1
+
+	for start < end {
+		slice[start], slice[end] = slice[end], slice[start]
+		start++
+		end--
+	}
+
+	systemSchedules.collection = slice
+
+	return systemSchedules
+}
+
 func (systemSchedules *systemSchedules) ForEach(iterator SystemScheduleIterator) {
 	if iterator == nil {
 		return

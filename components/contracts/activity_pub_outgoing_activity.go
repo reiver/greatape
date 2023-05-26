@@ -85,6 +85,7 @@ type (
 		First() IActivityPubOutgoingActivity
 		Append(activityPubOutgoingActivity IActivityPubOutgoingActivity)
 		ForEach(ActivityPubOutgoingActivityIterator)
+		Reverse() IActivityPubOutgoingActivityCollection
 		Array() ActivityPubOutgoingActivities
 	}
 

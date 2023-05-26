@@ -300,6 +300,23 @@ func (remoteActivities *remoteActivities) Append(remoteActivity IRemoteActivity)
 	remoteActivities.collection = append(remoteActivities.collection, remoteActivity)
 }
 
+func (remoteActivities *remoteActivities) Reverse() IRemoteActivityCollection {
+	slice := remoteActivities.collection
+
+	start := 0
+	end := len(slice) - 1
+
+	for start < end {
+		slice[start], slice[end] = slice[end], slice[start]
+		start++
+		end--
+	}
+
+	remoteActivities.collection = slice
+
+	return remoteActivities
+}
+
 func (remoteActivities *remoteActivities) ForEach(iterator RemoteActivityIterator) {
 	if iterator == nil {
 		return

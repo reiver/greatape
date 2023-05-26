@@ -116,6 +116,23 @@ func (activityPubLinks *activityPubLinks) Append(activityPubLink IActivityPubLin
 	activityPubLinks.collection = append(activityPubLinks.collection, activityPubLink)
 }
 
+func (activityPubLinks *activityPubLinks) Reverse() IActivityPubLinkCollection {
+	slice := activityPubLinks.collection
+
+	start := 0
+	end := len(slice) - 1
+
+	for start < end {
+		slice[start], slice[end] = slice[end], slice[start]
+		start++
+		end--
+	}
+
+	activityPubLinks.collection = slice
+
+	return activityPubLinks
+}
+
 func (activityPubLinks *activityPubLinks) ForEach(iterator ActivityPubLinkIterator) {
 	if iterator == nil {
 		return

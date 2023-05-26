@@ -33,6 +33,7 @@ type (
 		First() IUser
 		Append(user IUser)
 		ForEach(UserIterator)
+		Reverse() IUserCollection
 		Array() Users
 	}
 

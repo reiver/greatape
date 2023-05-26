@@ -89,6 +89,7 @@ type (
 		First() IRemoteActivity
 		Append(remoteActivity IRemoteActivity)
 		ForEach(RemoteActivityIterator)
+		Reverse() IRemoteActivityCollection
 		Array() RemoteActivities
 	}
 

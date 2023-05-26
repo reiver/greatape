@@ -80,6 +80,23 @@ func (spis *spis) Append(spi ISpi) {
 	spis.collection = append(spis.collection, spi)
 }
 
+func (spis *spis) Reverse() ISpiCollection {
+	slice := spis.collection
+
+	start := 0
+	end := len(slice) - 1
+
+	for start < end {
+		slice[start], slice[end] = slice[end], slice[start]
+		start++
+		end--
+	}
+
+	spis.collection = slice
+
+	return spis
+}
+
 func (spis *spis) ForEach(iterator SpiIterator) {
 	if iterator == nil {
 		return

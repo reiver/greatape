@@ -74,6 +74,7 @@ type (
 		First() IActivityPubActivity
 		Append(activityPubActivity IActivityPubActivity)
 		ForEach(ActivityPubActivityIterator)
+		Reverse() IActivityPubActivityCollection
 		Array() ActivityPubActivities
 	}
 

@@ -150,6 +150,23 @@ func (accessControls *accessControls) Append(accessControl IAccessControl) {
 	accessControls.collection = append(accessControls.collection, accessControl)
 }
 
+func (accessControls *accessControls) Reverse() IAccessControlCollection {
+	slice := accessControls.collection
+
+	start := 0
+	end := len(slice) - 1
+
+	for start < end {
+		slice[start], slice[end] = slice[end], slice[start]
+		start++
+		end--
+	}
+
+	accessControls.collection = slice
+
+	return accessControls
+}
+
 func (accessControls *accessControls) ForEach(iterator AccessControlIterator) {
 	if iterator == nil {
 		return

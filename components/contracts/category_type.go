@@ -33,6 +33,7 @@ type (
 		First() ICategoryType
 		Append(categoryType ICategoryType)
 		ForEach(CategoryTypeIterator)
+		Reverse() ICategoryTypeCollection
 		Array() CategoryTypes
 	}
 

@@ -214,6 +214,7 @@ type (
 		First() IIdentity
 		Append(identity IIdentity)
 		ForEach(IdentityIterator)
+		Reverse() IIdentityCollection
 		Array() Identities
 	}
 

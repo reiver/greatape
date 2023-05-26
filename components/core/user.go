@@ -125,6 +125,23 @@ func (users *users) Append(user IUser) {
 	users.collection = append(users.collection, user)
 }
 
+func (users *users) Reverse() IUserCollection {
+	slice := users.collection
+
+	start := 0
+	end := len(slice) - 1
+
+	for start < end {
+		slice[start], slice[end] = slice[end], slice[start]
+		start++
+		end--
+	}
+
+	users.collection = slice
+
+	return users
+}
+
 func (users *users) ForEach(iterator UserIterator) {
 	if iterator == nil {
 		return

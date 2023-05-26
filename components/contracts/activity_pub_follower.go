@@ -65,6 +65,7 @@ type (
 		First() IActivityPubFollower
 		Append(activityPubFollower IActivityPubFollower)
 		ForEach(ActivityPubFollowerIterator)
+		Reverse() IActivityPubFollowerCollection
 		Array() ActivityPubFollowers
 	}
 

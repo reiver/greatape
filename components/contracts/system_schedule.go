@@ -41,6 +41,7 @@ type (
 		First() ISystemSchedule
 		Append(systemSchedule ISystemSchedule)
 		ForEach(SystemScheduleIterator)
+		Reverse() ISystemScheduleCollection
 		Array() SystemSchedules
 	}
 

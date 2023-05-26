@@ -39,6 +39,7 @@ type (
 		First() IActivityPubPublicKey
 		Append(activityPubPublicKey IActivityPubPublicKey)
 		ForEach(ActivityPubPublicKeyIterator)
+		Reverse() IActivityPubPublicKeyCollection
 		Array() ActivityPubPublicKeys
 	}
 

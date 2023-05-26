@@ -63,6 +63,7 @@ type (
 		First() ICategory
 		Append(category ICategory)
 		ForEach(CategoryIterator)
+		Reverse() ICategoryCollection
 		Array() Categories
 	}
 

@@ -41,6 +41,7 @@ type (
 		First() IAccessControl
 		Append(accessControl IAccessControl)
 		ForEach(AccessControlIterator)
+		Reverse() IAccessControlCollection
 		Array() AccessControls
 	}
 

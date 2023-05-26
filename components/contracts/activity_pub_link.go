@@ -44,6 +44,7 @@ type (
 		First() IActivityPubLink
 		Append(activityPubLink IActivityPubLink)
 		ForEach(ActivityPubLinkIterator)
+		Reverse() IActivityPubLinkCollection
 		Array() ActivityPubLinks
 	}
 

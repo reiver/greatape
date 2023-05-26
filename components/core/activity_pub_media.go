@@ -125,6 +125,23 @@ func (activityPubMedias *activityPubMedias) Append(activityPubMedia IActivityPub
 	activityPubMedias.collection = append(activityPubMedias.collection, activityPubMedia)
 }
 
+func (activityPubMedias *activityPubMedias) Reverse() IActivityPubMediaCollection {
+	slice := activityPubMedias.collection
+
+	start := 0
+	end := len(slice) - 1
+
+	for start < end {
+		slice[start], slice[end] = slice[end], slice[start]
+		start++
+		end--
+	}
+
+	activityPubMedias.collection = slice
+
+	return activityPubMedias
+}
+
 func (activityPubMedias *activityPubMedias) ForEach(iterator ActivityPubMediaIterator) {
 	if iterator == nil {
 		return

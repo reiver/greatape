@@ -704,6 +704,23 @@ func (identities *identities) Append(identity IIdentity) {
 	identities.collection = append(identities.collection, identity)
 }
 
+func (identities *identities) Reverse() IIdentityCollection {
+	slice := identities.collection
+
+	start := 0
+	end := len(slice) - 1
+
+	for start < end {
+		slice[start], slice[end] = slice[end], slice[start]
+		start++
+		end--
+	}
+
+	identities.collection = slice
+
+	return identities
+}
+
 func (identities *identities) ForEach(iterator IdentityIterator) {
 	if iterator == nil {
 		return

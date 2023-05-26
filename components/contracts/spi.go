@@ -24,6 +24,7 @@ type (
 		First() ISpi
 		Append(spi ISpi)
 		ForEach(SpiIterator)
+		Reverse() ISpiCollection
 		Array() Spis
 	}
 

@@ -107,6 +107,23 @@ func (activityPubPublicKeys *activityPubPublicKeys) Append(activityPubPublicKey 
 	activityPubPublicKeys.collection = append(activityPubPublicKeys.collection, activityPubPublicKey)
 }
 
+func (activityPubPublicKeys *activityPubPublicKeys) Reverse() IActivityPubPublicKeyCollection {
+	slice := activityPubPublicKeys.collection
+
+	start := 0
+	end := len(slice) - 1
+
+	for start < end {
+		slice[start], slice[end] = slice[end], slice[start]
+		start++
+		end--
+	}
+
+	activityPubPublicKeys.collection = slice
+
+	return activityPubPublicKeys
+}
+
 func (activityPubPublicKeys *activityPubPublicKeys) ForEach(iterator ActivityPubPublicKeyIterator) {
 	if iterator == nil {
 		return

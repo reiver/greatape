@@ -213,6 +213,23 @@ func (categories *categories) Append(category ICategory) {
 	categories.collection = append(categories.collection, category)
 }
 
+func (categories *categories) Reverse() ICategoryCollection {
+	slice := categories.collection
+
+	start := 0
+	end := len(slice) - 1
+
+	for start < end {
+		slice[start], slice[end] = slice[end], slice[start]
+		start++
+		end--
+	}
+
+	categories.collection = slice
+
+	return categories
+}
+
 func (categories *categories) ForEach(iterator CategoryIterator) {
 	if iterator == nil {
 		return

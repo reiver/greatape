@@ -125,6 +125,23 @@ func (categoryTypes *categoryTypes) Append(categoryType ICategoryType) {
 	categoryTypes.collection = append(categoryTypes.collection, categoryType)
 }
 
+func (categoryTypes *categoryTypes) Reverse() ICategoryTypeCollection {
+	slice := categoryTypes.collection
+
+	start := 0
+	end := len(slice) - 1
+
+	for start < end {
+		slice[start], slice[end] = slice[end], slice[start]
+		start++
+		end--
+	}
+
+	categoryTypes.collection = slice
+
+	return categoryTypes
+}
+
 func (categoryTypes *categoryTypes) ForEach(iterator CategoryTypeIterator) {
 	if iterator == nil {
 		return

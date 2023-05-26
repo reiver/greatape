@@ -125,6 +125,23 @@ func (documents *documents) Append(document IDocument) {
 	documents.collection = append(documents.collection, document)
 }
 
+func (documents *documents) Reverse() IDocumentCollection {
+	slice := documents.collection
+
+	start := 0
+	end := len(slice) - 1
+
+	for start < end {
+		slice[start], slice[end] = slice[end], slice[start]
+		start++
+		end--
+	}
+
+	documents.collection = slice
+
+	return documents
+}
+
 func (documents *documents) ForEach(iterator DocumentIterator) {
 	if iterator == nil {
 		return

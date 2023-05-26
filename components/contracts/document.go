@@ -33,6 +33,7 @@ type (
 		First() IDocument
 		Append(document IDocument)
 		ForEach(DocumentIterator)
+		Reverse() IDocumentCollection
 		Array() Documents
 	}
 

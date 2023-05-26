@@ -284,6 +284,23 @@ func (activityPubIncomingActivities *activityPubIncomingActivities) Append(activ
 	activityPubIncomingActivities.collection = append(activityPubIncomingActivities.collection, activityPubIncomingActivity)
 }
 
+func (activityPubIncomingActivities *activityPubIncomingActivities) Reverse() IActivityPubIncomingActivityCollection {
+	slice := activityPubIncomingActivities.collection
+
+	start := 0
+	end := len(slice) - 1
+
+	for start < end {
+		slice[start], slice[end] = slice[end], slice[start]
+		start++
+		end--
+	}
+
+	activityPubIncomingActivities.collection = slice
+
+	return activityPubIncomingActivities
+}
+
 func (activityPubIncomingActivities *activityPubIncomingActivities) ForEach(iterator ActivityPubIncomingActivityIterator) {
 	if iterator == nil {
 		return

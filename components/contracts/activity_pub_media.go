@@ -49,6 +49,7 @@ type (
 		First() IActivityPubMedia
 		Append(activityPubMedia IActivityPubMedia)
 		ForEach(ActivityPubMediaIterator)
+		Reverse() IActivityPubMediaCollection
 		Array() ActivityPubMedias
 	}
 

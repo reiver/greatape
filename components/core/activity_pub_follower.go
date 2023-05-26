@@ -225,6 +225,23 @@ func (activityPubFollowers *activityPubFollowers) Append(activityPubFollower IAc
 	activityPubFollowers.collection = append(activityPubFollowers.collection, activityPubFollower)
 }
 
+func (activityPubFollowers *activityPubFollowers) Reverse() IActivityPubFollowerCollection {
+	slice := activityPubFollowers.collection
+
+	start := 0
+	end := len(slice) - 1
+
+	for start < end {
+		slice[start], slice[end] = slice[end], slice[start]
+		start++
+		end--
+	}
+
+	activityPubFollowers.collection = slice
+
+	return activityPubFollowers
+}
+
 func (activityPubFollowers *activityPubFollowers) ForEach(iterator ActivityPubFollowerIterator) {
 	if iterator == nil {
 		return
