@@ -45,6 +45,18 @@ func TestEchoApi(test *testing.T) {
 	}
 }
 
+func TestCheckUsernameAvailabilityApi(test *testing.T) {
+	input := &CheckUsernameAvailabilityRequest{
+		Username: "username",
+	}
+
+	if output, err := api.CheckUsernameAvailability(input); err != nil {
+		test.Fatal(err)
+	} else if output == nil {
+		test.Fail()
+	}
+}
+
 func TestSignupApi(test *testing.T) {
 	input := &SignupRequest{
 		Username: "username",

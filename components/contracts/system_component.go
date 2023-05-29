@@ -258,6 +258,7 @@ type (
 		RemoveSpi(id int64, editor Identity) (ISpi, error)
 		RemoveSpiAtomic(transaction ITransaction, id int64, editor Identity) (ISpi, error)
 		Echo(document IDocument, editor Identity) (IEchoResult, error)
+		CheckUsernameAvailability(username string, editor Identity) (ICheckUsernameAvailabilityResult, error)
 		Signup(username string, email string, password string, editor Identity) (ISignupResult, error)
 		Verify(email string, token string, code string, editor Identity) (IVerifyResult, error)
 		Login(email string, password string, editor Identity) (ILoginResult, error)
@@ -294,6 +295,7 @@ type (
 		NewActivityPubFollower(id int64, handle string, inbox string, subject string, activity string, accepted bool) (IActivityPubFollower, error)
 		NewSpi() (ISpi, error)
 		NewEchoResult(document IDocument, ignored interface{}) IEchoResult
+		NewCheckUsernameAvailabilityResult(isAvailable bool, ignored interface{}) ICheckUsernameAvailabilityResult
 		NewSignupResult(token string, code string, ignored interface{}) ISignupResult
 		NewVerifyResult(token string, ignored interface{}) IVerifyResult
 		NewLoginResult(username string, token string, ignored interface{}) ILoginResult

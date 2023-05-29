@@ -25,6 +25,16 @@ message EchoResult {
     Document document = 0x00000001;
 }
 
+// API: CheckUsernameAvailability
+//-----------------------------------------------------------
+message CheckUsernameAvailabilityRequest {
+    string username = 0x00000001;
+}
+
+message CheckUsernameAvailabilityResult {
+    bool isAvailable = 0x00000001;
+}
+
 // API: Signup
 //-----------------------------------------------------------
 message SignupRequest {

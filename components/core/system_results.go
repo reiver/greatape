@@ -8,6 +8,10 @@ func (dispatcher *dispatcher) NewEchoResult(document IDocument) IEchoResult {
 	return NewEchoResult(document, nil)
 }
 
+func (dispatcher *dispatcher) NewCheckUsernameAvailabilityResult(isAvailable bool) ICheckUsernameAvailabilityResult {
+	return NewCheckUsernameAvailabilityResult(isAvailable, nil)
+}
+
 func (dispatcher *dispatcher) NewSignupResult(token string, code string) ISignupResult {
 	return NewSignupResult(token, code, nil)
 }

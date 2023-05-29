@@ -8,6 +8,7 @@ type IApi interface {
 	//API Methods
 	SystemCall(*SystemCallRequest) (*SystemCallResult, error)
 	Echo(*EchoRequest) (*EchoResult, error)
+	CheckUsernameAvailability(*CheckUsernameAvailabilityRequest) (*CheckUsernameAvailabilityResult, error)
 	Signup(*SignupRequest) (*SignupResult, error)
 	Verify(*VerifyRequest) (*VerifyResult, error)
 	Login(*LoginRequest) (*LoginResult, error)

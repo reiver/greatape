@@ -25,6 +25,16 @@ func (api *api) Echo(request *EchoRequest) (*EchoResult, error) {
 	}
 }
 
+func (api *api) CheckUsernameAvailability(request *CheckUsernameAvailabilityRequest) (*CheckUsernameAvailabilityResult, error) {
+	result, err := api.call(CHECK_USERNAME_AVAILABILITY_REQUEST, request)
+
+	if err != nil {
+		return nil, err
+	} else {
+		return result.(*CheckUsernameAvailabilityResult), nil
+	}
+}
+
 func (api *api) Signup(request *SignupRequest) (*SignupResult, error) {
 	result, err := api.call(SIGNUP_REQUEST, request)
 
@@ -198,6 +208,7 @@ func (api *api) GetInbox(request *GetInboxRequest) (*GetInboxResult, error) {
 func init() {
 	API_RESULT[SYSTEM_CALL_RESULT] = SystemCallResult{}
 	API_RESULT[ECHO_RESULT] = EchoResult{}
+	API_RESULT[CHECK_USERNAME_AVAILABILITY_RESULT] = CheckUsernameAvailabilityResult{}
 	API_RESULT[SIGNUP_RESULT] = SignupResult{}
 	API_RESULT[VERIFY_RESULT] = VerifyResult{}
 	API_RESULT[LOGIN_RESULT] = LoginResult{}

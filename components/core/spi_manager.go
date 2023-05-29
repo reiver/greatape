@@ -231,6 +231,45 @@ func (manager *spiManager) Echo(document IDocument, editor Identity) (result IEc
 	}
 }
 
+//region ICheckUsernameAvailabilityResult Implementation
+
+type checkUsernameAvailabilityResult struct {
+	isAvailable bool
+}
+
+func NewCheckUsernameAvailabilityResult(isAvailable bool, _ interface{}) ICheckUsernameAvailabilityResult {
+	return &checkUsernameAvailabilityResult{
+		isAvailable: isAvailable,
+	}
+}
+
+func (result checkUsernameAvailabilityResult) IsAvailable() bool {
+	return result.isAvailable
+}
+
+//endregion
+
+func (manager *spiManager) CheckUsernameAvailability(username string, editor Identity) (result ICheckUsernameAvailabilityResult, err error) {
+	if !validators.UsernameIsValid(username) {
+		return nil, ERROR_INVALID_USERNAME_FOR_CHECK_USERNAME_AVAILABILITY
+	}
+
+	defer func() {
+		if reason := recover(); reason != nil {
+			err = manager.Error(reason)
+		}
+	}()
+
+	editor.Lock(CHECK_USERNAME_AVAILABILITY_REQUEST)
+	defer editor.Unlock(CHECK_USERNAME_AVAILABILITY_REQUEST)
+
+	if result, err = commands.CheckUsernameAvailability(NewDispatcher(Conductor, editor), username); err != nil {
+		return nil, err
+	} else {
+		return result, nil
+	}
+}
+
 //region ISignupResult Implementation
 
 type signupResult struct {
@@ -262,6 +301,10 @@ func (manager *spiManager) Signup(username string, email string, password string
 		} else if !match {
 			return nil, ERROR_INVALID_EMAIL_FOR_SIGNUP
 		}
+	}
+
+	if !validators.UsernameIsValid(username) {
+		return nil, ERROR_INVALID_USERNAME_FOR_SIGNUP
 	}
 
 	if !validators.PasswordIsValid(password) {

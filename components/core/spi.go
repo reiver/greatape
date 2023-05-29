@@ -256,6 +256,10 @@ func (dispatcher *dispatcher) Echo(document IDocument) (IEchoResult, error) {
 	return dispatcher.conductor.SpiManager().Echo(document, dispatcher.identity)
 }
 
+func (dispatcher *dispatcher) CheckUsernameAvailability(username string) (ICheckUsernameAvailabilityResult, error) {
+	return dispatcher.conductor.SpiManager().CheckUsernameAvailability(username, dispatcher.identity)
+}
+
 func (dispatcher *dispatcher) Signup(username string, email string, password string) (ISignupResult, error) {
 	return dispatcher.conductor.SpiManager().Signup(username, email, password, dispatcher.identity)
 }
