@@ -10,7 +10,6 @@ import (
 // noinspection GoUnusedParameter
 func CheckUsernameAvailabilityService(context IContext, input *CheckUsernameAvailabilityRequest) (result *CheckUsernameAvailabilityResult, err error) {
 	conductor := core.Conductor
-	_ = CHECK_USERNAME_AVAILABILITY_REQUEST
 
 	conductor.LogRemoteCall(context, INITIALIZE, "check_username_availability", input, result, err)
 	defer func() { conductor.LogRemoteCall(context, FINALIZE, "check_username_availability", input, result, err) }()

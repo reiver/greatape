@@ -10,7 +10,6 @@ import (
 // noinspection GoUnusedParameter
 func LogoutService(context IContext, input *LogoutRequest) (result *LogoutResult, err error) {
 	conductor := core.Conductor
-	_ = LOGOUT_REQUEST
 
 	conductor.LogRemoteCall(context, INITIALIZE, "logout", input, result, err)
 	defer func() { conductor.LogRemoteCall(context, FINALIZE, "logout", input, result, err) }()

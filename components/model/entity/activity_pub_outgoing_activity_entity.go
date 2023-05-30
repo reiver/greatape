@@ -5,18 +5,11 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/reiver/greatape/app/validators"
 	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts/model"
 )
 
 var ActivityPubOutgoingActivityEntityType = reflect.TypeOf(activityPubOutgoingActivityEntity{})
-
-// noinspection GoUnusedExportedFunction
-func InitializeActivityPubOutgoingActivityEntity() {
-	_ = ENABLE_CUSTOM_ERRORS
-	_ = validators.Initialize
-}
 
 type activityPubOutgoingActivityEntity struct {
 	entity

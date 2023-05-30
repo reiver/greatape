@@ -228,7 +228,7 @@ func (dispatcher *dispatcher) Format(format string, args ...interface{}) string 
 	return fmt.Sprintf(format, args...)
 }
 
-func (dispatcher *dispatcher) Sort(slice interface{}, less func(a, b int) bool) {
+func (dispatcher *dispatcher) Sort(slice interface{}, less func(x, y int) bool) {
 	sort.Slice(slice, less)
 }
 

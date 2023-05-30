@@ -10,7 +10,6 @@ import (
 // noinspection GoUnusedParameter
 func EchoService(context IContext, input *EchoRequest) (result *EchoResult, err error) {
 	conductor := core.Conductor
-	_ = ECHO_REQUEST
 
 	conductor.LogRemoteCall(context, INITIALIZE, "echo", input, result, err)
 	defer func() { conductor.LogRemoteCall(context, FINALIZE, "echo", input, result, err) }()

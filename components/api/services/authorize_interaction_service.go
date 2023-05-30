@@ -10,7 +10,6 @@ import (
 // noinspection GoUnusedParameter
 func AuthorizeInteractionService(context IContext, input *AuthorizeInteractionRequest) (result *AuthorizeInteractionResult, err error) {
 	conductor := core.Conductor
-	_ = AUTHORIZE_INTERACTION_REQUEST
 
 	conductor.LogRemoteCall(context, INITIALIZE, "authorize_interaction", input, result, err)
 	defer func() { conductor.LogRemoteCall(context, FINALIZE, "authorize_interaction", input, result, err) }()

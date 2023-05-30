@@ -10,7 +10,6 @@ import (
 // noinspection GoUnusedParameter
 func SignupService(context IContext, input *SignupRequest) (result *SignupResult, err error) {
 	conductor := core.Conductor
-	_ = SIGNUP_REQUEST
 
 	conductor.LogRemoteCall(context, INITIALIZE, "signup", input, result, err)
 	defer func() { conductor.LogRemoteCall(context, FINALIZE, "signup", input, result, err) }()

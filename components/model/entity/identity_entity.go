@@ -5,18 +5,11 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/reiver/greatape/app/validators"
 	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts/model"
 )
 
 var IdentityEntityType = reflect.TypeOf(identityEntity{})
-
-// noinspection GoUnusedExportedFunction
-func InitializeIdentityEntity() {
-	_ = ENABLE_CUSTOM_ERRORS
-	_ = validators.Initialize
-}
 
 type identityEntity struct {
 	entity

@@ -1,7 +1,6 @@
 package core
 
 import (
-	"github.com/reiver/greatape/app/validators"
 	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
 	. "github.com/xeronith/diamante/contracts/logging"
@@ -20,9 +19,6 @@ type activityPubObjectManager struct {
 }
 
 func newActivityPubObjectManager(configuration IConfiguration, logger ILogger, dependencies ...ISystemComponent) IActivityPubObjectManager {
-	_ = ENABLE_CUSTOM_ERRORS
-	_ = validators.Initialize
-
 	manager := &activityPubObjectManager{
 		systemComponent: newSystemComponent(configuration, logger),
 		cache:           NewCache(),

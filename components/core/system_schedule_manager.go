@@ -1,7 +1,6 @@
 package core
 
 import (
-	"github.com/reiver/greatape/app/validators"
 	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
 	. "github.com/reiver/greatape/components/contracts/model"
@@ -23,9 +22,6 @@ type systemScheduleManager struct {
 }
 
 func newSystemScheduleManager(configuration IConfiguration, logger ILogger, dependencies ...ISystemComponent) ISystemScheduleManager {
-	_ = ENABLE_CUSTOM_ERRORS
-	_ = validators.Initialize
-
 	manager := &systemScheduleManager{
 		systemComponent: newSystemComponent(configuration, logger),
 		cache:           NewCache(),

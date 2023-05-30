@@ -10,7 +10,6 @@ import (
 // noinspection GoUnusedParameter
 func GetPackagesService(context IContext, input *GetPackagesRequest) (result *GetPackagesResult, err error) {
 	conductor := core.Conductor
-	_ = GET_PACKAGES_REQUEST
 
 	conductor.LogRemoteCall(context, INITIALIZE, "get_packages", input, result, err)
 	defer func() { conductor.LogRemoteCall(context, FINALIZE, "get_packages", input, result, err) }()

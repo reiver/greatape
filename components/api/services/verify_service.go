@@ -10,7 +10,6 @@ import (
 // noinspection GoUnusedParameter
 func VerifyService(context IContext, input *VerifyRequest) (result *VerifyResult, err error) {
 	conductor := core.Conductor
-	_ = VERIFY_REQUEST
 
 	conductor.LogRemoteCall(context, INITIALIZE, "verify", input, result, err)
 	defer func() { conductor.LogRemoteCall(context, FINALIZE, "verify", input, result, err) }()

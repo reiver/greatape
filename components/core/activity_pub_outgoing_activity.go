@@ -3,7 +3,6 @@ package core
 import (
 	"fmt"
 
-	"github.com/reiver/greatape/app/validators"
 	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
 	. "github.com/reiver/greatape/components/contracts/model"
@@ -20,14 +19,6 @@ type activityPubOutgoingActivity struct {
 	to               string
 	content          string
 	raw              string
-}
-
-// noinspection GoUnusedExportedFunction
-func InitializeActivityPubOutgoingActivity() {
-	_ = ENABLE_SECURITY
-	_ = ENABLE_CUSTOM_ERRORS
-	_ = validators.Initialize
-	_ = repository.Initialize
 }
 
 func NewActivityPubOutgoingActivity(id int64, identityId int64, uniqueIdentifier string, timestamp int64, from string, to string, content string, raw string) (IActivityPubOutgoingActivity, error) {

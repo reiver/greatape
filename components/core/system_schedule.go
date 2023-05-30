@@ -3,8 +3,6 @@ package core
 import (
 	"fmt"
 
-	"github.com/reiver/greatape/app/validators"
-	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
 	. "github.com/reiver/greatape/components/contracts/model"
 	"github.com/reiver/greatape/components/model/repository"
@@ -15,14 +13,6 @@ type systemSchedule struct {
 	object
 	enabled bool
 	config  string
-}
-
-// noinspection GoUnusedExportedFunction
-func InitializeSystemSchedule() {
-	_ = ENABLE_SECURITY
-	_ = ENABLE_CUSTOM_ERRORS
-	_ = validators.Initialize
-	_ = repository.Initialize
 }
 
 func NewSystemSchedule(id int64, enabled bool, config string) (ISystemSchedule, error) {

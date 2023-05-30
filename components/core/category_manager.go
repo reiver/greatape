@@ -1,7 +1,6 @@
 package core
 
 import (
-	"github.com/reiver/greatape/app/validators"
 	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
 	. "github.com/reiver/greatape/components/contracts/model"
@@ -28,9 +27,6 @@ type categoryManager struct {
 }
 
 func newCategoryManager(configuration IConfiguration, logger ILogger, dependencies ...ISystemComponent) ICategoryManager {
-	_ = ENABLE_CUSTOM_ERRORS
-	_ = validators.Initialize
-
 	manager := &categoryManager{
 		systemComponent: newSystemComponent(configuration, logger),
 		cache:           NewCache(),

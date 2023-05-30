@@ -10,7 +10,6 @@ import (
 // noinspection GoUnusedParameter
 func GetProfileByUserService(context IContext, input *GetProfileByUserRequest) (result *GetProfileByUserResult, err error) {
 	conductor := core.Conductor
-	_ = GET_PROFILE_BY_USER_REQUEST
 
 	conductor.LogRemoteCall(context, INITIALIZE, "get_profile_by_user", input, result, err)
 	defer func() { conductor.LogRemoteCall(context, FINALIZE, "get_profile_by_user", input, result, err) }()

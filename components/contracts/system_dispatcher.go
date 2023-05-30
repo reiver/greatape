@@ -1175,7 +1175,7 @@ type IDispatcher interface {
 	// Format provides a wrapper around fmt.Sprintf
 	Format(format string, args ...interface{}) string
 	// Sort sorts the provided slice using the provided comparator function.
-	Sort(slice interface{}, less func(a, b int) bool)
+	Sort(slice interface{}, less func(x, y int) bool)
 	// Search searches the input for any or all of the words in criteria.
 	Search(input, criteria string) bool
 	// Email sends an email message asynchronously.

@@ -3,11 +3,7 @@ package core
 import (
 	"fmt"
 
-	"github.com/reiver/greatape/app/validators"
-	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
-	"github.com/reiver/greatape/components/model/repository"
-	. "github.com/xeronith/diamante/contracts/security"
 )
 
 type activityPubLink struct {
@@ -15,14 +11,6 @@ type activityPubLink struct {
 	rel      string
 	type_    string
 	template string
-}
-
-// noinspection GoUnusedExportedFunction
-func InitializeActivityPubLink() {
-	_ = ENABLE_SECURITY
-	_ = ENABLE_CUSTOM_ERRORS
-	_ = validators.Initialize
-	_ = repository.Initialize
 }
 
 func NewActivityPubLink() (IActivityPubLink, error) {

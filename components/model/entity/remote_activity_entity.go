@@ -5,18 +5,11 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/reiver/greatape/app/validators"
 	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts/model"
 )
 
 var RemoteActivityEntityType = reflect.TypeOf(remoteActivityEntity{})
-
-// noinspection GoUnusedExportedFunction
-func InitializeRemoteActivityEntity() {
-	_ = ENABLE_CUSTOM_ERRORS
-	_ = validators.Initialize
-}
 
 type remoteActivityEntity struct {
 	entity

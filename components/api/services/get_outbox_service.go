@@ -10,7 +10,6 @@ import (
 // noinspection GoUnusedParameter
 func GetOutboxService(context IContext, input *GetOutboxRequest) (result *GetOutboxResult, err error) {
 	conductor := core.Conductor
-	_ = GET_OUTBOX_REQUEST
 
 	conductor.LogRemoteCall(context, INITIALIZE, "get_outbox", input, result, err)
 	defer func() { conductor.LogRemoteCall(context, FINALIZE, "get_outbox", input, result, err) }()

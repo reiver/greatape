@@ -10,7 +10,6 @@ import (
 // noinspection GoUnusedParameter
 func PostToOutboxService(context IContext, input *PostToOutboxRequest) (result *PostToOutboxResult, err error) {
 	conductor := core.Conductor
-	_ = POST_TO_OUTBOX_REQUEST
 
 	conductor.LogRemoteCall(context, INITIALIZE, "post_to_outbox", input, result, err)
 	defer func() { conductor.LogRemoteCall(context, FINALIZE, "post_to_outbox", input, result, err) }()

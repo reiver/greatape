@@ -3,11 +3,7 @@ package core
 import (
 	"fmt"
 
-	"github.com/reiver/greatape/app/validators"
-	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
-	"github.com/reiver/greatape/components/model/repository"
-	. "github.com/xeronith/diamante/contracts/security"
 )
 
 type activityPubObject struct {
@@ -20,14 +16,6 @@ type activityPubObject struct {
 	inReplyTo string
 	content   string
 	published string
-}
-
-// noinspection GoUnusedExportedFunction
-func InitializeActivityPubObject() {
-	_ = ENABLE_SECURITY
-	_ = ENABLE_CUSTOM_ERRORS
-	_ = validators.Initialize
-	_ = repository.Initialize
 }
 
 func NewActivityPubObject() (IActivityPubObject, error) {

@@ -1,7 +1,6 @@
 package core
 
 import (
-	"github.com/reiver/greatape/app/validators"
 	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
 	. "github.com/reiver/greatape/components/contracts/model"
@@ -23,9 +22,6 @@ type remoteActivityManager struct {
 }
 
 func newRemoteActivityManager(configuration IConfiguration, logger ILogger, dependencies ...ISystemComponent) IRemoteActivityManager {
-	_ = ENABLE_CUSTOM_ERRORS
-	_ = validators.Initialize
-
 	manager := &remoteActivityManager{
 		systemComponent: newSystemComponent(configuration, logger),
 		cache:           NewCache(),

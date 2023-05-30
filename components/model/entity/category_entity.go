@@ -5,18 +5,11 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/reiver/greatape/app/validators"
 	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts/model"
 )
 
 var CategoryEntityType = reflect.TypeOf(categoryEntity{})
-
-// noinspection GoUnusedExportedFunction
-func InitializeCategoryEntity() {
-	_ = ENABLE_CUSTOM_ERRORS
-	_ = validators.Initialize
-}
 
 type categoryEntity struct {
 	entity

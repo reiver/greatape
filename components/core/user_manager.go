@@ -1,7 +1,6 @@
 package core
 
 import (
-	"github.com/reiver/greatape/app/validators"
 	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
 	. "github.com/reiver/greatape/components/contracts/model"
@@ -23,9 +22,6 @@ type userManager struct {
 }
 
 func newUserManager(configuration IConfiguration, logger ILogger, dependencies ...ISystemComponent) IUserManager {
-	_ = ENABLE_CUSTOM_ERRORS
-	_ = validators.Initialize
-
 	manager := &userManager{
 		systemComponent: newSystemComponent(configuration, logger),
 		cache:           NewCache(),

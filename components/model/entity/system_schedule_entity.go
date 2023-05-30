@@ -5,18 +5,11 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/reiver/greatape/app/validators"
 	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts/model"
 )
 
 var SystemScheduleEntityType = reflect.TypeOf(systemScheduleEntity{})
-
-// noinspection GoUnusedExportedFunction
-func InitializeSystemScheduleEntity() {
-	_ = ENABLE_CUSTOM_ERRORS
-	_ = validators.Initialize
-}
 
 type systemScheduleEntity struct {
 	entity

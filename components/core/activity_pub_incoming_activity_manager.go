@@ -1,7 +1,6 @@
 package core
 
 import (
-	"github.com/reiver/greatape/app/validators"
 	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
 	. "github.com/reiver/greatape/components/contracts/model"
@@ -27,9 +26,6 @@ type activityPubIncomingActivityManager struct {
 }
 
 func newActivityPubIncomingActivityManager(configuration IConfiguration, logger ILogger, dependencies ...ISystemComponent) IActivityPubIncomingActivityManager {
-	_ = ENABLE_CUSTOM_ERRORS
-	_ = validators.Initialize
-
 	manager := &activityPubIncomingActivityManager{
 		systemComponent: newSystemComponent(configuration, logger),
 		cache:           NewCache(),

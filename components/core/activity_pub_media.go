@@ -3,11 +3,7 @@ package core
 import (
 	"fmt"
 
-	"github.com/reiver/greatape/app/validators"
-	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
-	"github.com/reiver/greatape/components/model/repository"
-	. "github.com/xeronith/diamante/contracts/security"
 )
 
 type activityPubMedia struct {
@@ -16,14 +12,6 @@ type activityPubMedia struct {
 	url       string
 	width     int32
 	height    int32
-}
-
-// noinspection GoUnusedExportedFunction
-func InitializeActivityPubMedia() {
-	_ = ENABLE_SECURITY
-	_ = ENABLE_CUSTOM_ERRORS
-	_ = validators.Initialize
-	_ = repository.Initialize
 }
 
 func NewActivityPubMedia() (IActivityPubMedia, error) {

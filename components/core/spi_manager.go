@@ -21,9 +21,6 @@ type spiManager struct {
 }
 
 func newSpiManager(configuration IConfiguration, logger ILogger, dependencies ...ISystemComponent) ISpiManager {
-	_ = ENABLE_CUSTOM_ERRORS
-	_ = validators.Initialize
-
 	manager := &spiManager{
 		systemComponent: newSystemComponent(configuration, logger),
 		cache:           NewCache(),

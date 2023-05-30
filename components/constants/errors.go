@@ -3,9 +3,6 @@ package constants
 import "errors"
 
 // noinspection GoSnakeCaseUsage
-const ENABLE_CUSTOM_ERRORS = true
-
-// noinspection GoSnakeCaseUsage
 const (
 	// SYSTEM_ERRORS
 	ERROR_MESSAGE_INITIALIZE                                       = "ERROR_MESSAGE_INITIALIZE"

@@ -5,7 +5,6 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -131,7 +130,7 @@ func Initialize(configuration IConfiguration, logger ILogger) error {
 		start := time.Now()
 		componentName := component.Name()
 		if _, exists := componentsContainer[componentName]; exists {
-			return errors.New(fmt.Sprintf("%s already registered", componentName))
+			return fmt.Errorf("%s already registered", componentName)
 		}
 
 		if err := component.Load(); err != nil {
@@ -1318,10 +1317,7 @@ func (conductor *conductor) NewGetInboxResult(context string, id string, type_ s
 func (conductor *conductor) LogRemoteCall(context IContext, eventType uint32, source string, input, result interface{}, err error) {
 	errorMessage := ""
 	if err != nil {
-		errorMessage = err.Error()
-		if strings.HasPrefix(errorMessage, "ERROR_MESSAGE_") {
-			errorMessage = errorMessage[14:]
-		}
+		errorMessage = strings.TrimPrefix(err.Error(), "ERROR_MESSAGE_")
 	}
 
 	if _, marshalError := json.Marshal(input); marshalError != nil {

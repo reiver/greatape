@@ -3,8 +3,6 @@ package core
 import (
 	"fmt"
 
-	"github.com/reiver/greatape/app/validators"
-	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
 	. "github.com/reiver/greatape/components/contracts/model"
 	"github.com/reiver/greatape/components/model/repository"
@@ -21,14 +19,6 @@ type remoteActivity struct {
 	userAgent     string
 	eventType     uint32
 	timestamp     int64
-}
-
-// noinspection GoUnusedExportedFunction
-func InitializeRemoteActivity() {
-	_ = ENABLE_SECURITY
-	_ = ENABLE_CUSTOM_ERRORS
-	_ = validators.Initialize
-	_ = repository.Initialize
 }
 
 func NewRemoteActivity(id int64, entryPoint string, duration int64, successful bool, errorMessage string, remoteAddress string, userAgent string, eventType uint32, timestamp int64) (IRemoteActivity, error) {

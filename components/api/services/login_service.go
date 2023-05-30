@@ -10,7 +10,6 @@ import (
 // noinspection GoUnusedParameter
 func LoginService(context IContext, input *LoginRequest) (result *LoginResult, err error) {
 	conductor := core.Conductor
-	_ = LOGIN_REQUEST
 
 	conductor.LogRemoteCall(context, INITIALIZE, "login", input, result, err)
 	defer func() { conductor.LogRemoteCall(context, FINALIZE, "login", input, result, err) }()

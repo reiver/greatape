@@ -5,18 +5,11 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/reiver/greatape/app/validators"
 	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts/model"
 )
 
 var DocumentEntityType = reflect.TypeOf(documentEntity{})
-
-// noinspection GoUnusedExportedFunction
-func InitializeDocumentEntity() {
-	_ = ENABLE_CUSTOM_ERRORS
-	_ = validators.Initialize
-}
 
 type documentEntity struct {
 	entity

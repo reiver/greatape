@@ -3,7 +3,6 @@ package core
 import (
 	"fmt"
 
-	"github.com/reiver/greatape/app/validators"
 	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
 	. "github.com/reiver/greatape/components/contracts/model"
@@ -17,14 +16,6 @@ type category struct {
 	categoryId     int64
 	title          string
 	description    string
-}
-
-// noinspection GoUnusedExportedFunction
-func InitializeCategory() {
-	_ = ENABLE_SECURITY
-	_ = ENABLE_CUSTOM_ERRORS
-	_ = validators.Initialize
-	_ = repository.Initialize
 }
 
 func NewCategory(id int64, categoryTypeId int64, categoryId int64, title string, description string) (ICategory, error) {

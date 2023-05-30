@@ -10,7 +10,6 @@ import (
 // noinspection GoUnusedParameter
 func FollowActorService(context IContext, input *FollowActorRequest) (result *FollowActorResult, err error) {
 	conductor := core.Conductor
-	_ = FOLLOW_ACTOR_REQUEST
 
 	conductor.LogRemoteCall(context, INITIALIZE, "follow_actor", input, result, err)
 	defer func() { conductor.LogRemoteCall(context, FINALIZE, "follow_actor", input, result, err) }()

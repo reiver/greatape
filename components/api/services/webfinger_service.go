@@ -10,7 +10,6 @@ import (
 // noinspection GoUnusedParameter
 func WebfingerService(context IContext, input *WebfingerRequest) (result *WebfingerResult, err error) {
 	conductor := core.Conductor
-	_ = WEBFINGER_REQUEST
 
 	conductor.LogRemoteCall(context, INITIALIZE, "webfinger", input, result, err)
 	defer func() { conductor.LogRemoteCall(context, FINALIZE, "webfinger", input, result, err) }()

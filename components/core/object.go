@@ -9,9 +9,14 @@ import (
 )
 
 type object struct {
-	mutex    sync.RWMutex
-	id       int64
-	keychain map[uint64]*semaphore
+	mutex     sync.RWMutex
+	id        int64
+	sortOrder float32
+	keychain  map[uint64]*semaphore
+}
+
+func (object *object) SortOrder() float32 {
+	return object.sortOrder
 }
 
 func (object *object) Id() int64 {

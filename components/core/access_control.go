@@ -3,8 +3,6 @@ package core
 import (
 	"fmt"
 
-	"github.com/reiver/greatape/app/validators"
-	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
 	. "github.com/reiver/greatape/components/contracts/model"
 	"github.com/reiver/greatape/components/model/repository"
@@ -15,14 +13,6 @@ type accessControl struct {
 	object
 	key   uint64
 	value uint64
-}
-
-// noinspection GoUnusedExportedFunction
-func InitializeAccessControl() {
-	_ = ENABLE_SECURITY
-	_ = ENABLE_CUSTOM_ERRORS
-	_ = validators.Initialize
-	_ = repository.Initialize
 }
 
 func NewAccessControl(id int64, key uint64, value uint64) (IAccessControl, error) {

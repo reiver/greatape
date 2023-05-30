@@ -13,6 +13,8 @@ type (
 	IEntity interface {
 		Stringer
 		Id() int64
+		SortOrder() float32
+		SetSortOrder(float32)
 		Payload() string
 		SetPayload(string)
 		Validate() error
