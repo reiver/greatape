@@ -52,6 +52,14 @@ type (
 		// UpdateDescriptionAtomic updates 'Description' into persistent data store through a transaction and
 		// refreshes the in-memory cache after successful commit.
 		UpdateDescriptionAtomic(transaction ITransaction, description string, editor Identity)
+		// SortOrder returns 'SortOrder' of this 'Category' instance.
+		SortOrder() float32
+		// UpdateSortOrder directly updates 'SortOrder' into persistent data store and
+		// refreshes the in-memory cache after successful update.
+		UpdateSortOrder(sortOrder float32, editor Identity)
+		// UpdateSortOrderAtomic updates 'SortOrder' into persistent data store through a transaction and
+		// refreshes the in-memory cache after successful commit.
+		UpdateSortOrderAtomic(transaction ITransaction, sortOrder float32, editor Identity)
 	}
 
 	ICategoryCollection interface {

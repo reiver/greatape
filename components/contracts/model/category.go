@@ -32,5 +32,7 @@ type (
 		UpdateTitleAtomic(transaction IRepositoryTransaction, id int64, value string, editor int64) error
 		UpdateDescription(id int64, value string, editor int64) error
 		UpdateDescriptionAtomic(transaction IRepositoryTransaction, id int64, value string, editor int64) error
+		UpdateSortOrder(id int64, value float32, editor int64) error
+		UpdateSortOrderAtomic(transaction IRepositoryTransaction, id int64, value float32, editor int64) error
 	}
 )

@@ -129,32 +129,32 @@ func (manager *categoryManager) GetCategory(id int64, _ Identity) (ICategory, er
 }
 
 func (manager *categoryManager) AddCategory(categoryTypeId int64, categoryId int64, title string, description string, editor Identity) (ICategory, error) {
-	categoryEntity := NewCategoryEntity(manager.UniqueId(), categoryTypeId, categoryId, title, description)
+	categoryEntity := NewCategoryEntity(manager.UniqueId(), categoryTypeId, categoryId, title, description, 0)
 	return manager.Apply(categoryEntity, repository.Categories.Add, manager.cache.Put, editor)
 }
 
 func (manager *categoryManager) AddCategoryWithCustomId(id int64, categoryTypeId int64, categoryId int64, title string, description string, editor Identity) (ICategory, error) {
-	categoryEntity := NewCategoryEntity(id, categoryTypeId, categoryId, title, description)
+	categoryEntity := NewCategoryEntity(id, categoryTypeId, categoryId, title, description, 0)
 	return manager.Apply(categoryEntity, repository.Categories.Add, manager.cache.Put, editor)
 }
 
 func (manager *categoryManager) AddCategoryObject(category ICategory, editor Identity) (ICategory, error) {
-	categoryEntity := NewCategoryEntity(manager.UniqueId(), category.CategoryTypeId(), category.CategoryId(), category.Title(), category.Description())
+	categoryEntity := NewCategoryEntity(manager.UniqueId(), category.CategoryTypeId(), category.CategoryId(), category.Title(), category.Description(), 0)
 	return manager.Apply(categoryEntity, repository.Categories.Add, manager.cache.Put, editor)
 }
 
 func (manager *categoryManager) AddCategoryAtomic(transaction ITransaction, categoryTypeId int64, categoryId int64, title string, description string, editor Identity) (ICategory, error) {
-	categoryEntity := NewCategoryEntity(manager.UniqueId(), categoryTypeId, categoryId, title, description)
+	categoryEntity := NewCategoryEntity(manager.UniqueId(), categoryTypeId, categoryId, title, description, 0)
 	return manager.ApplyAtomic(transaction, categoryEntity, repository.Categories.AddAtomic, manager.cache.Put, editor)
 }
 
 func (manager *categoryManager) AddCategoryWithCustomIdAtomic(id int64, transaction ITransaction, categoryTypeId int64, categoryId int64, title string, description string, editor Identity) (ICategory, error) {
-	categoryEntity := NewCategoryEntity(id, categoryTypeId, categoryId, title, description)
+	categoryEntity := NewCategoryEntity(id, categoryTypeId, categoryId, title, description, 0)
 	return manager.ApplyAtomic(transaction, categoryEntity, repository.Categories.AddAtomic, manager.cache.Put, editor)
 }
 
 func (manager *categoryManager) AddCategoryObjectAtomic(transaction ITransaction, category ICategory, editor Identity) (ICategory, error) {
-	categoryEntity := NewCategoryEntity(manager.UniqueId(), category.CategoryTypeId(), category.CategoryId(), category.Title(), category.Description())
+	categoryEntity := NewCategoryEntity(manager.UniqueId(), category.CategoryTypeId(), category.CategoryId(), category.Title(), category.Description(), 0)
 	return manager.ApplyAtomic(transaction, categoryEntity, repository.Categories.AddAtomic, manager.cache.Put, editor)
 }
 
@@ -171,22 +171,22 @@ func (manager *categoryManager) Log(categoryTypeId int64, categoryId int64, titl
 }
 
 func (manager *categoryManager) UpdateCategory(id int64, categoryTypeId int64, categoryId int64, title string, description string, editor Identity) (ICategory, error) {
-	categoryEntity := NewCategoryEntity(id, categoryTypeId, categoryId, title, description)
+	categoryEntity := NewCategoryEntity(id, categoryTypeId, categoryId, title, description, 0)
 	return manager.Apply(categoryEntity, repository.Categories.Update, manager.cache.Put, editor)
 }
 
 func (manager *categoryManager) UpdateCategoryObject(id int64, category ICategory, editor Identity) (ICategory, error) {
-	categoryEntity := NewCategoryEntity(id, category.Id(), category.Id(), category.Title(), category.Description())
+	categoryEntity := NewCategoryEntity(id, category.Id(), category.Id(), category.Title(), category.Description(), 0)
 	return manager.Apply(categoryEntity, repository.Categories.Update, manager.cache.Put, editor)
 }
 
 func (manager *categoryManager) UpdateCategoryAtomic(transaction ITransaction, id int64, categoryTypeId int64, categoryId int64, title string, description string, editor Identity) (ICategory, error) {
-	categoryEntity := NewCategoryEntity(id, categoryTypeId, categoryId, title, description)
+	categoryEntity := NewCategoryEntity(id, categoryTypeId, categoryId, title, description, 0)
 	return manager.ApplyAtomic(transaction, categoryEntity, repository.Categories.UpdateAtomic, manager.cache.Put, editor)
 }
 
 func (manager *categoryManager) UpdateCategoryObjectAtomic(transaction ITransaction, id int64, category ICategory, editor Identity) (ICategory, error) {
-	categoryEntity := NewCategoryEntity(id, category.Id(), category.Id(), category.Title(), category.Description())
+	categoryEntity := NewCategoryEntity(id, category.Id(), category.Id(), category.Title(), category.Description(), 0)
 	return manager.ApplyAtomic(transaction, categoryEntity, repository.Categories.UpdateAtomic, manager.cache.Put, editor)
 }
 
@@ -207,12 +207,12 @@ func (manager *categoryManager) AddOrUpdateCategoryObjectAtomic(transaction ITra
 }
 
 func (manager *categoryManager) RemoveCategory(id int64, editor Identity) (ICategory, error) {
-	categoryEntity := NewCategoryEntity(id, 0, 0, "", "")
+	categoryEntity := NewCategoryEntity(id, 0, 0, "", "", 0)
 	return manager.Apply(categoryEntity, repository.Categories.Remove, manager.cache.Remove, editor)
 }
 
 func (manager *categoryManager) RemoveCategoryAtomic(transaction ITransaction, id int64, editor Identity) (ICategory, error) {
-	categoryEntity := NewCategoryEntity(id, 0, 0, "", "")
+	categoryEntity := NewCategoryEntity(id, 0, 0, "", "", 0)
 	return manager.ApplyAtomic(transaction, categoryEntity, repository.Categories.RemoveAtomic, manager.cache.Remove, editor)
 }
 

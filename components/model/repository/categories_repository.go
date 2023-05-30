@@ -44,7 +44,7 @@ func (repository *categoriesRepository) FetchById(id int64) (ICategoryEntity, er
 	}
 
 	// language=SQL
-	query := `SELECT "id", "category_type_id", "category_id", "title", "description" FROM "categories" WHERE "id" = $1 AND "status" = 0;`
+	query := `SELECT "id", "category_type_id", "category_id", "title", "description", "sort_order"  FROM "categories" WHERE "id" = $1 AND "status" = 0;`
 
 	var categoryEntity ICategoryEntity
 	if err := repository.database.QuerySingle(func(cursor ICursor) error {
@@ -54,13 +54,14 @@ func (repository *categoriesRepository) FetchById(id int64) (ICategoryEntity, er
 			categoryId     int64
 			title          string
 			description    string
+			sortOrder      float32
 		)
 
-		if err := cursor.Scan(&id, &categoryTypeId, &categoryId, &title, &description); err != nil {
+		if err := cursor.Scan(&id, &categoryTypeId, &categoryId, &title, &description, &sortOrder); err != nil {
 			return err
 		}
 
-		categoryEntity = NewCategoryEntity(id, categoryTypeId, categoryId, title, description)
+		categoryEntity = NewCategoryEntity(id, categoryTypeId, categoryId, title, description, sortOrder)
 		return nil
 	}, query, id); err != nil {
 		return nil, err
@@ -111,7 +112,7 @@ func (repository *categoriesRepository) RemoveAtomic(transaction IRepositoryTran
 
 func (repository *categoriesRepository) FetchAll() (CategoryEntities, error) {
 	// language=SQL
-	query := `SELECT "id", "category_type_id", "category_id", "title", "description" FROM "categories" WHERE "id" > 0 AND "status" = 0;`
+	query := `SELECT "id", "category_type_id", "category_id", "title", "description", "sort_order"  FROM "categories" WHERE "id" > 0 AND "status" = 0;`
 
 	var categoryEntities CategoryEntities
 	if err := repository.database.Query(func(cursor ICursor) error {
@@ -121,13 +122,14 @@ func (repository *categoriesRepository) FetchAll() (CategoryEntities, error) {
 			categoryId     int64
 			title          string
 			description    string
+			sortOrder      float32
 		)
 
-		if err := cursor.Scan(&id, &categoryTypeId, &categoryId, &title, &description); err != nil {
+		if err := cursor.Scan(&id, &categoryTypeId, &categoryId, &title, &description, &sortOrder); err != nil {
 			return err
 		}
 
-		categoryEntities = append(categoryEntities, NewCategoryEntity(id, categoryTypeId, categoryId, title, description))
+		categoryEntities = append(categoryEntities, NewCategoryEntity(id, categoryTypeId, categoryId, title, description, sortOrder))
 		return nil
 	}, query); err != nil {
 		return nil, err
@@ -154,7 +156,7 @@ func (repository *categoriesRepository) FetchAllByCategory(categoryId int64) (Ca
 
 func (repository *categoriesRepository) FetchAllByDependency(dependencyName string, dependencyId int64) (CategoryEntities, error) {
 	// language=SQL
-	query := `SELECT "id", "category_type_id", "category_id", "title", "description" FROM "categories" WHERE "id" > 0 AND "status" = 0`
+	query := `SELECT "id", "category_type_id", "category_id", "title", "description", "sort_order"  FROM "categories" WHERE "id" > 0 AND "status" = 0`
 	query += ` AND "` + dependencyName + `" = $1;`
 
 	var categoryEntities CategoryEntities
@@ -165,13 +167,14 @@ func (repository *categoriesRepository) FetchAllByDependency(dependencyName stri
 			categoryId     int64
 			title          string
 			description    string
+			sortOrder      float32
 		)
 
-		if err := cursor.Scan(&id, &categoryTypeId, &categoryId, &title, &description); err != nil {
+		if err := cursor.Scan(&id, &categoryTypeId, &categoryId, &title, &description, &sortOrder); err != nil {
 			return err
 		}
 
-		categoryEntities = append(categoryEntities, NewCategoryEntity(id, categoryTypeId, categoryId, title, description))
+		categoryEntities = append(categoryEntities, NewCategoryEntity(id, categoryTypeId, categoryId, title, description, sortOrder))
 		return nil
 	}, query, dependencyId); err != nil {
 		return nil, err
@@ -217,5 +220,25 @@ func (repository *categoriesRepository) UpdateDescriptionAtomic(transaction IRep
 
 	// language=SQL
 	query := `UPDATE "categories" SET "description" = $1, "editor" = $2 WHERE "id" = $3;`
+	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
+}
+
+func (repository *categoriesRepository) UpdateSortOrder(id int64, value float32, editor int64) error {
+	if id <= 0 {
+		return ERROR_INVALID_PARAMETERS
+	}
+
+	// language=SQL
+	query := `UPDATE "categories" SET "sort_order" = $1, "editor" = $2 WHERE "id" = $3;`
+	return repository.database.UpdateSingle(query, value, editor, id)
+}
+
+func (repository *categoriesRepository) UpdateSortOrderAtomic(transaction IRepositoryTransaction, id int64, value float32, editor int64) error {
+	if id <= 0 {
+		return ERROR_INVALID_PARAMETERS
+	}
+
+	// language=SQL
+	query := `UPDATE "categories" SET "sort_order" = $1, "editor" = $2 WHERE "id" = $3;`
 	return repository.database.UpdateSingleAtomic(transaction, query, value, editor, id)
 }

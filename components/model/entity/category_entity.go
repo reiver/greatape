@@ -19,9 +19,9 @@ type categoryEntity struct {
 	DescriptionField    string `json:"description" storage:"VARCHAR(64)" default:"''"`
 }
 
-func NewCategoryEntity(id int64, categoryTypeId int64, categoryId int64, title string, description string) ICategoryEntity {
+func NewCategoryEntity(id int64, categoryTypeId int64, categoryId int64, title string, description string, sortOrder float32) ICategoryEntity {
 	return &categoryEntity{
-		entity:              entity{IdField: id},
+		entity:              entity{IdField: id, SortOrderField: sortOrder},
 		CategoryTypeIdField: categoryTypeId,
 		CategoryIdField:     categoryId,
 		TitleField:          title,

@@ -14,6 +14,7 @@ func TestCategoriesRepository_Add(test *testing.T) {
 		categoryId     int64
 		title          string
 		description    string
+		sortOrder      float32
 	}
 
 	testCases := []struct {
@@ -30,6 +31,7 @@ func TestCategoriesRepository_Add(test *testing.T) {
 				categoryId:     0,
 				title:          "title",
 				description:    "description",
+				sortOrder:      0,
 			},
 		},
 		{
@@ -41,6 +43,7 @@ func TestCategoriesRepository_Add(test *testing.T) {
 				categoryId:     0,
 				title:          "title",
 				description:    "description",
+				sortOrder:      0,
 			},
 		},
 		{
@@ -52,13 +55,14 @@ func TestCategoriesRepository_Add(test *testing.T) {
 				categoryId:     0,
 				title:          "title",
 				description:    "description",
+				sortOrder:      0,
 			},
 		},
 	}
 
 	for _, testCase := range testCases {
 		test.Run(testCase.name, func(test *testing.T) {
-			entity := NewCategoryEntity(testCase.arguments.id, testCase.arguments.categoryTypeId, testCase.arguments.categoryId, testCase.arguments.title, testCase.arguments.description)
+			entity := NewCategoryEntity(testCase.arguments.id, testCase.arguments.categoryTypeId, testCase.arguments.categoryId, testCase.arguments.title, testCase.arguments.description, testCase.arguments.sortOrder)
 			if result := Categories.Add(entity, -1) == nil; result != testCase.expectation {
 				test.Errorf("Categories.Add() = %v, expected %v", result, testCase.expectation)
 			}
@@ -118,6 +122,7 @@ func TestCategoriesRepository_Update(test *testing.T) {
 		categoryId     int64
 		title          string
 		description    string
+		sortOrder      float32
 	}
 
 	testCases := []struct {
@@ -134,6 +139,7 @@ func TestCategoriesRepository_Update(test *testing.T) {
 				categoryId:     0,
 				title:          "title",
 				description:    "description",
+				sortOrder:      0,
 			},
 		},
 		{
@@ -145,6 +151,7 @@ func TestCategoriesRepository_Update(test *testing.T) {
 				categoryId:     0,
 				title:          "title",
 				description:    "description",
+				sortOrder:      0,
 			},
 		},
 		{
@@ -156,13 +163,14 @@ func TestCategoriesRepository_Update(test *testing.T) {
 				categoryId:     0,
 				title:          "title",
 				description:    "description",
+				sortOrder:      0,
 			},
 		},
 	}
 
 	for _, testCase := range testCases {
 		test.Run(testCase.name, func(test *testing.T) {
-			entity := NewCategoryEntity(testCase.arguments.id, testCase.arguments.categoryTypeId, testCase.arguments.categoryId, testCase.arguments.title, testCase.arguments.description)
+			entity := NewCategoryEntity(testCase.arguments.id, testCase.arguments.categoryTypeId, testCase.arguments.categoryId, testCase.arguments.title, testCase.arguments.description, testCase.arguments.sortOrder)
 			if result := Categories.Update(entity, -1) == nil; result != testCase.expectation {
 				test.Errorf("Categories.Update() = %v, expected %v", result, testCase.expectation)
 			}
@@ -177,6 +185,7 @@ func TestCategoriesRepository_Remove(test *testing.T) {
 		categoryId     int64
 		title          string
 		description    string
+		sortOrder      float32
 	}
 
 	testCases := []struct {
@@ -209,7 +218,7 @@ func TestCategoriesRepository_Remove(test *testing.T) {
 
 	for _, testCase := range testCases {
 		test.Run(testCase.name, func(test *testing.T) {
-			entity := NewCategoryEntity(testCase.arguments.id, testCase.arguments.categoryTypeId, testCase.arguments.categoryId, testCase.arguments.title, testCase.arguments.description)
+			entity := NewCategoryEntity(testCase.arguments.id, testCase.arguments.categoryTypeId, testCase.arguments.categoryId, testCase.arguments.title, testCase.arguments.description, testCase.arguments.sortOrder)
 			if result := Categories.Remove(entity, -1) == nil; result != testCase.expectation {
 				test.Errorf("Categories.Remove() = %v, expected %v", result, testCase.expectation)
 			}

@@ -39,7 +39,8 @@ func NewCategory(id int64, categoryTypeId int64, categoryId int64, title string,
 func NewCategoryFromEntity(entity ICategoryEntity) (ICategory, error) {
 	instance := &category{
 		object: object{
-			id: entity.Id(),
+			id:        entity.Id(),
+			sortOrder: entity.SortOrder(),
 		},
 		categoryTypeId: entity.CategoryTypeId(),
 		categoryId:     entity.CategoryId(),
@@ -151,6 +152,28 @@ func (category *category) UpdateDescriptionAtomic(transaction ITransaction, desc
 	})
 
 	if err := repository.Categories.UpdateDescriptionAtomic(transaction, category.id, description, editor.Id()); err != nil {
+		panic(err.Error())
+	}
+}
+
+func (category *category) SortOrder() float32 {
+	return category.sortOrder
+}
+
+func (category *category) UpdateSortOrder(sortOrder float32, editor Identity) {
+	if err := repository.Categories.UpdateSortOrder(category.id, sortOrder, editor.Id()); err != nil {
+		panic(err.Error())
+	}
+
+	category.sortOrder = sortOrder
+}
+
+func (category *category) UpdateSortOrderAtomic(transaction ITransaction, sortOrder float32, editor Identity) {
+	transaction.OnCommit(func() {
+		category.sortOrder = sortOrder
+	})
+
+	if err := repository.Categories.UpdateSortOrderAtomic(transaction, category.id, sortOrder, editor.Id()); err != nil {
 		panic(err.Error())
 	}
 }
