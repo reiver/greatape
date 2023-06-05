@@ -124,6 +124,19 @@ func TestUpdateProfileByUserApi(test *testing.T) {
 	}
 }
 
+func TestChangePasswordApi(test *testing.T) {
+	input := &ChangePasswordRequest{
+		CurrentPassword: "current_password",
+		NewPassword:     "new_password",
+	}
+
+	if output, err := api.ChangePassword(input); err != nil {
+		test.Fatal(err)
+	} else if output == nil {
+		test.Fail()
+	}
+}
+
 func TestLogoutApi(test *testing.T) {
 	input := &LogoutRequest{}
 

@@ -226,6 +226,17 @@ func TestSpiManager_UpdateProfileByUser(test *testing.T) {
 	_ = result
 }
 
+func TestSpiManager_ChangePassword(test *testing.T) {
+	manager := Conductor.SpiManager()
+
+	result, err := manager.ChangePassword("current_password", "new_password", nil)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	_ = result
+}
+
 func TestSpiManager_Logout(test *testing.T) {
 	manager := Conductor.SpiManager()
 
