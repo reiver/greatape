@@ -544,6 +544,42 @@ func (manager *spiManager) UpdateProfileByUser(displayName string, avatar string
 	}
 }
 
+//region IChangePasswordResult Implementation
+
+type changePasswordResult struct {
+}
+
+func NewChangePasswordResult(_ interface{}) IChangePasswordResult {
+	return &changePasswordResult{}
+}
+
+//endregion
+
+func (manager *spiManager) ChangePassword(currentPassword string, newPassword string, editor Identity) (result IChangePasswordResult, err error) {
+	if !validators.PasswordIsValid(currentPassword) {
+		return nil, ERROR_INVALID_CURRENT_PASSWORD_FOR_CHANGE_PASSWORD
+	}
+
+	if !validators.PasswordIsValid(newPassword) {
+		return nil, ERROR_INVALID_NEW_PASSWORD_FOR_CHANGE_PASSWORD
+	}
+
+	defer func() {
+		if reason := recover(); reason != nil {
+			err = manager.Error(reason)
+		}
+	}()
+
+	editor.Lock(CHANGE_PASSWORD_REQUEST)
+	defer editor.Unlock(CHANGE_PASSWORD_REQUEST)
+
+	if result, err = commands.ChangePassword(NewDispatcher(Conductor, editor), currentPassword, newPassword); err != nil {
+		return nil, err
+	} else {
+		return result, nil
+	}
+}
+
 //region ILogoutResult Implementation
 
 type logoutResult struct {

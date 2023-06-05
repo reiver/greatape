@@ -14,6 +14,7 @@ type IApi interface {
 	Login(*LoginRequest) (*LoginResult, error)
 	GetProfileByUser(*GetProfileByUserRequest) (*GetProfileByUserResult, error)
 	UpdateProfileByUser(*UpdateProfileByUserRequest) (*UpdateProfileByUserResult, error)
+	ChangePassword(*ChangePasswordRequest) (*ChangePasswordResult, error)
 	Logout(*LogoutRequest) (*LogoutResult, error)
 	Webfinger(*WebfingerRequest) (*WebfingerResult, error)
 	GetPackages(*GetPackagesRequest) (*GetPackagesResult, error)

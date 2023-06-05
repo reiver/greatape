@@ -14,7 +14,6 @@ import (
 // noinspection GoUnusedParameter
 func SystemCallService(context IContext, input *SystemCallRequest) (result *SystemCallResult, err error) {
 	conductor := core.Conductor
-	_ = SYSTEM_CALL_REQUEST
 
 	conductor.LogRemoteCall(context, INITIALIZE, "system_call", input, result, err)
 	defer func() { conductor.LogRemoteCall(context, FINALIZE, "system_call", input, result, err) }()

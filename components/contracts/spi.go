@@ -62,6 +62,7 @@ type (
 		Login(email string, password string, editor Identity) (ILoginResult, error)
 		GetProfileByUser(editor Identity) (IGetProfileByUserResult, error)
 		UpdateProfileByUser(displayName string, avatar string, banner string, summary string, github string, editor Identity) (IUpdateProfileByUserResult, error)
+		ChangePassword(currentPassword string, newPassword string, editor Identity) (IChangePasswordResult, error)
 		Logout(editor Identity) (ILogoutResult, error)
 		Webfinger(resource string, editor Identity) (IWebfingerResult, error)
 		GetPackages(editor Identity) (IGetPackagesResult, error)
@@ -113,6 +114,9 @@ type (
 		Banner() string
 		Summary() string
 		Github() string
+	}
+
+	IChangePasswordResult interface {
 	}
 
 	ILogoutResult interface {

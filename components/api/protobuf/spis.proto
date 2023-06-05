@@ -104,6 +104,16 @@ message UpdateProfileByUserResult {
     string github = 0x00000005;
 }
 
+// API: ChangePassword
+//-----------------------------------------------------------
+message ChangePasswordRequest {
+    string currentPassword = 0x00000001;
+    string newPassword = 0x00000002;
+}
+
+message ChangePasswordResult {
+}
+
 // API: Logout
 //-----------------------------------------------------------
 message LogoutRequest {

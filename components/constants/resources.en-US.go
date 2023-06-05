@@ -54,6 +54,8 @@ var Errors = Resource{
 	ERROR_MESSAGE_INVALID_EMAIL_FOR_VERIFY:                         "invalid_email",
 	ERROR_MESSAGE_INVALID_EMAIL_FOR_LOGIN:                          "invalid_email",
 	ERROR_MESSAGE_INVALID_PASSWORD_FOR_LOGIN:                       "invalid_password",
+	ERROR_MESSAGE_INVALID_CURRENT_PASSWORD_FOR_CHANGE_PASSWORD:     "invalid_current_password",
+	ERROR_MESSAGE_INVALID_NEW_PASSWORD_FOR_CHANGE_PASSWORD:         "invalid_new_password",
 	ERROR_MESSAGE_INVALID_RESOURCE_FOR_WEBFINGER:                   "invalid_resource",
 	// CUSTOM_ERRORS
 	ERROR_MESSAGE_DATA_INTEGRITY_VIOLATION:             "data_integrity_violation",
@@ -72,4 +74,6 @@ var Errors = Resource{
 func init() {
 	// CUSTOM_ERRORS
 	Errors[ERROR_MESSAGE_DATA_INTEGRITY_VIOLATION] = "data_integrity_violation"
+	Errors[ERROR_MESSAGE_INVALID_PASSWORD_FOR_SIGNUP] = "Your password should be at least 7 characters long including uppercase and lowercase letters, numbers and special characters."
+	Errors[ERROR_MESSAGE_INVALID_PASSWORD_FOR_LOGIN] = "Your password should be at least 7 characters long including uppercase and lowercase letters, numbers and special characters."
 }
