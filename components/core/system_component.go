@@ -117,8 +117,7 @@ func (component *systemComponent) GenerateRSAKeyPair() (string, string, error) {
 
 func (component *systemComponent) Email(destination string, format string, args ...interface{}) {
 	component.Async(func() {
-		message := fmt.Sprintf(format, args...)
-		component.emailProvider.Send(destination, message)
+		component.emailProvider.Send(destination, format, args...)
 	})
 }
 

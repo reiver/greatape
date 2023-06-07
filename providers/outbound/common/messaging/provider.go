@@ -4,8 +4,13 @@ import (
 	"fmt"
 
 	. "github.com/xeronith/diamante/contracts/logging"
-	. "github.com/xeronith/diamante/contracts/messaging"
 )
+
+type IMessagingHandler func(receiver string, template string, model map[string]interface{}) error
+
+type IMessagingProvider interface {
+	Send(receiver string, template string, model map[string]interface{}) error
+}
 
 type provider struct {
 	name    string
@@ -21,8 +26,8 @@ func NewProvider(name string, logger ILogger, handler IMessagingHandler) IMessag
 	}
 }
 
-func (provider *provider) Send(receiver, message string) error {
-	if err := provider.handler(receiver, message); err != nil {
+func (provider *provider) Send(receiver, message string, model map[string]interface{}) error {
+	if err := provider.handler(receiver, message, model); err != nil {
 		provider.logger.Error(fmt.Sprintf("%s: %s", provider.name, err.Error()))
 		return err
 	} else {

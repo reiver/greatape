@@ -1,4 +1,4 @@
-package email
+package sendgrid
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
-func handler(receiver, content string) error {
+func handler(receiver, content string, _ map[string]interface{}) error {
 	from := mail.NewEmail("Admin", "admin@site")
 	subject := "Subject"
 	to := mail.NewEmail(receiver, receiver)
