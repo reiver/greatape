@@ -52,9 +52,14 @@ func Signup(x IDispatcher, username string, email string, password string) (ISig
 		return nil
 	})
 
-	if x.IsProductionEnvironment() {
-		x.Email(email, "Confirmation Code: %s", code)
-		code = "Confirmation code is sent by email."
+	if x.IsStagingEnvironment() || x.IsProductionEnvironment() {
+		x.Email(email, "sign-up",
+			map[string]interface{}{
+				"app":  "GreatApe",
+				"code": code,
+			})
+
+		code = "000000"
 	}
 
 	return x.NewSignupResult(token, code), nil
