@@ -15,6 +15,7 @@ func (factory *operationFactory) Operations() []IOperation {
 		GetProfileByUserOperation(),
 		UpdateProfileByUserOperation(),
 		ChangePasswordOperation(),
+		ResetPasswordOperation(),
 		LogoutOperation(),
 		WebfingerOperation(),
 		GetPackagesOperation(),

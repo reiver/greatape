@@ -265,6 +265,7 @@ type (
 		GetProfileByUser(editor Identity) (IGetProfileByUserResult, error)
 		UpdateProfileByUser(displayName string, avatar string, banner string, summary string, github string, editor Identity) (IUpdateProfileByUserResult, error)
 		ChangePassword(currentPassword string, newPassword string, editor Identity) (IChangePasswordResult, error)
+		ResetPassword(usernameOrEmail string, editor Identity) (IResetPasswordResult, error)
 		Logout(editor Identity) (ILogoutResult, error)
 		Webfinger(resource string, editor Identity) (IWebfingerResult, error)
 		GetPackages(editor Identity) (IGetPackagesResult, error)
@@ -303,6 +304,7 @@ type (
 		NewGetProfileByUserResult(username string, displayName string, avatar string, banner string, summary string, github string, ignored interface{}) IGetProfileByUserResult
 		NewUpdateProfileByUserResult(displayName string, avatar string, banner string, summary string, github string, ignored interface{}) IUpdateProfileByUserResult
 		NewChangePasswordResult(ignored interface{}) IChangePasswordResult
+		NewResetPasswordResult(ignored interface{}) IResetPasswordResult
 		NewLogoutResult(ignored interface{}) ILogoutResult
 		NewWebfingerResult(aliases []string, links []IActivityPubLink, subject string, ignored interface{}) IWebfingerResult
 		NewGetPackagesResult(body []byte, ignored interface{}) IGetPackagesResult

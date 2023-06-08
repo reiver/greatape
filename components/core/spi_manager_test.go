@@ -237,6 +237,17 @@ func TestSpiManager_ChangePassword(test *testing.T) {
 	_ = result
 }
 
+func TestSpiManager_ResetPassword(test *testing.T) {
+	manager := Conductor.SpiManager()
+
+	result, err := manager.ResetPassword("username_or_email", nil)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	_ = result
+}
+
 func TestSpiManager_Logout(test *testing.T) {
 	manager := Conductor.SpiManager()
 

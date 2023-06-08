@@ -580,6 +580,34 @@ func (manager *spiManager) ChangePassword(currentPassword string, newPassword st
 	}
 }
 
+//region IResetPasswordResult Implementation
+
+type resetPasswordResult struct {
+}
+
+func NewResetPasswordResult(_ interface{}) IResetPasswordResult {
+	return &resetPasswordResult{}
+}
+
+//endregion
+
+func (manager *spiManager) ResetPassword(usernameOrEmail string, editor Identity) (result IResetPasswordResult, err error) {
+	defer func() {
+		if reason := recover(); reason != nil {
+			err = manager.Error(reason)
+		}
+	}()
+
+	editor.Lock(RESET_PASSWORD_REQUEST)
+	defer editor.Unlock(RESET_PASSWORD_REQUEST)
+
+	if result, err = commands.ResetPassword(NewDispatcher(Conductor, editor), usernameOrEmail); err != nil {
+		return nil, err
+	} else {
+		return result, nil
+	}
+}
+
 //region ILogoutResult Implementation
 
 type logoutResult struct {

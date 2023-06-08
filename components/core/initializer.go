@@ -1126,6 +1126,10 @@ func (conductor *conductor) ChangePassword(currentPassword string, newPassword s
 	return conductor.spiManager.ChangePassword(currentPassword, newPassword, editor)
 }
 
+func (conductor *conductor) ResetPassword(usernameOrEmail string, editor Identity) (IResetPasswordResult, error) {
+	return conductor.spiManager.ResetPassword(usernameOrEmail, editor)
+}
+
 func (conductor *conductor) Logout(editor Identity) (ILogoutResult, error) {
 	return conductor.spiManager.Logout(editor)
 }
@@ -1272,6 +1276,10 @@ func (conductor *conductor) NewUpdateProfileByUserResult(displayName string, ava
 
 func (conductor *conductor) NewChangePasswordResult(_ interface{}) IChangePasswordResult {
 	return NewChangePasswordResult(nil)
+}
+
+func (conductor *conductor) NewResetPasswordResult(_ interface{}) IResetPasswordResult {
+	return NewResetPasswordResult(nil)
 }
 
 func (conductor *conductor) NewLogoutResult(_ interface{}) ILogoutResult {

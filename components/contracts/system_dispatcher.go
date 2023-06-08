@@ -1040,6 +1040,7 @@ type IDispatcher interface {
 	GetProfileByUser() (IGetProfileByUserResult, error)
 	UpdateProfileByUser(displayName string, avatar string, banner string, summary string, github string) (IUpdateProfileByUserResult, error)
 	ChangePassword(currentPassword string, newPassword string) (IChangePasswordResult, error)
+	ResetPassword(usernameOrEmail string) (IResetPasswordResult, error)
 	Logout() (ILogoutResult, error)
 	Webfinger(resource string) (IWebfingerResult, error)
 	GetPackages() (IGetPackagesResult, error)
@@ -1137,6 +1138,8 @@ type IDispatcher interface {
 	NewUpdateProfileByUserResult(displayName string, avatar string, banner string, summary string, github string) IUpdateProfileByUserResult
 	// NewChangePasswordResult creates a new result container for 'Change Password' system action.
 	NewChangePasswordResult() IChangePasswordResult
+	// NewResetPasswordResult creates a new result container for 'Reset Password' system action.
+	NewResetPasswordResult() IResetPasswordResult
 	// NewLogoutResult creates a new result container for 'Logout' system action.
 	NewLogoutResult() ILogoutResult
 	// NewWebfingerResult creates a new result container for 'Webfinger' system action.

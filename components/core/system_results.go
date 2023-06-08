@@ -36,6 +36,10 @@ func (dispatcher *dispatcher) NewChangePasswordResult() IChangePasswordResult {
 	return NewChangePasswordResult(nil)
 }
 
+func (dispatcher *dispatcher) NewResetPasswordResult() IResetPasswordResult {
+	return NewResetPasswordResult(nil)
+}
+
 func (dispatcher *dispatcher) NewLogoutResult() ILogoutResult {
 	return NewLogoutResult(nil)
 }

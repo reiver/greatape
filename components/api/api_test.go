@@ -137,6 +137,18 @@ func TestChangePasswordApi(test *testing.T) {
 	}
 }
 
+func TestResetPasswordApi(test *testing.T) {
+	input := &ResetPasswordRequest{
+		UsernameOrEmail: "username_or_email",
+	}
+
+	if output, err := api.ResetPassword(input); err != nil {
+		test.Fatal(err)
+	} else if output == nil {
+		test.Fail()
+	}
+}
+
 func TestLogoutApi(test *testing.T) {
 	input := &LogoutRequest{}
 

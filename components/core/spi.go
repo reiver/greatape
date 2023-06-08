@@ -272,6 +272,10 @@ func (dispatcher *dispatcher) ChangePassword(currentPassword string, newPassword
 	return dispatcher.conductor.SpiManager().ChangePassword(currentPassword, newPassword, dispatcher.identity)
 }
 
+func (dispatcher *dispatcher) ResetPassword(usernameOrEmail string) (IResetPasswordResult, error) {
+	return dispatcher.conductor.SpiManager().ResetPassword(usernameOrEmail, dispatcher.identity)
+}
+
 func (dispatcher *dispatcher) Logout() (ILogoutResult, error) {
 	return dispatcher.conductor.SpiManager().Logout(dispatcher.identity)
 }

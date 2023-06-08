@@ -95,6 +95,16 @@ func (api *api) ChangePassword(request *ChangePasswordRequest) (*ChangePasswordR
 	}
 }
 
+func (api *api) ResetPassword(request *ResetPasswordRequest) (*ResetPasswordResult, error) {
+	result, err := api.call(RESET_PASSWORD_REQUEST, request)
+
+	if err != nil {
+		return nil, err
+	} else {
+		return result.(*ResetPasswordResult), nil
+	}
+}
+
 func (api *api) Logout(request *LogoutRequest) (*LogoutResult, error) {
 	result, err := api.call(LOGOUT_REQUEST, request)
 
@@ -225,6 +235,7 @@ func init() {
 	API_RESULT[GET_PROFILE_BY_USER_RESULT] = GetProfileByUserResult{}
 	API_RESULT[UPDATE_PROFILE_BY_USER_RESULT] = UpdateProfileByUserResult{}
 	API_RESULT[CHANGE_PASSWORD_RESULT] = ChangePasswordResult{}
+	API_RESULT[RESET_PASSWORD_RESULT] = ResetPasswordResult{}
 	API_RESULT[LOGOUT_RESULT] = LogoutResult{}
 	API_RESULT[WEBFINGER_RESULT] = WebfingerResult{}
 	API_RESULT[GET_PACKAGES_RESULT] = GetPackagesResult{}

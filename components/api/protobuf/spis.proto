@@ -114,6 +114,15 @@ message ChangePasswordRequest {
 message ChangePasswordResult {
 }
 
+// API: ResetPassword
+//-----------------------------------------------------------
+message ResetPasswordRequest {
+    string usernameOrEmail = 0x00000001;
+}
+
+message ResetPasswordResult {
+}
+
 // API: Logout
 //-----------------------------------------------------------
 message LogoutRequest {
