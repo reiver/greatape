@@ -93,5 +93,3 @@ The following is a list of the people who are actively working on Great Ape (in 
 | Meysam Mousavi           | engineering                |                                                                                    |
 | Nariman Movaffaghi       | engineering                |                                                                                    |
 | Nastaran Ahmadi Bonakdar | engineering                |                                                                                    |
-| Zeinab Abbasi            | ux                         |                                                                                    |
-
