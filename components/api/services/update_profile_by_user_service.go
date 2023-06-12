@@ -3,30 +3,25 @@ package services
 import (
 	. "github.com/reiver/greatape/components/api/protobuf"
 	. "github.com/reiver/greatape/components/contracts"
-	"github.com/reiver/greatape/components/core"
+	. "github.com/reiver/greatape/components/core"
 	. "github.com/xeronith/diamante/contracts/service"
 )
 
-// noinspection GoUnusedParameter
 func UpdateProfileByUserService(context IContext, input *UpdateProfileByUserRequest) (result *UpdateProfileByUserResult, err error) {
-	conductor := core.Conductor
+	source := "update_profile_by_user"
+	/* //////// */ Conductor.LogRemoteCall(context, INIT, source, input, result, err)
+	defer func() { Conductor.LogRemoteCall(context, DONE, source, input, result, err) }()
 
-	conductor.LogRemoteCall(context, INITIALIZE, "update_profile_by_user", input, result, err)
-	defer func() { conductor.LogRemoteCall(context, FINALIZE, "update_profile_by_user", input, result, err) }()
-
-	_result, _err := conductor.UpdateProfileByUser(input.DisplayName, input.Avatar, input.Banner, input.Summary, input.Github, context.Identity())
-	if _err != nil {
-		err = _err
+	commandResult, err := Conductor.UpdateProfileByUser(input.DisplayName, input.Avatar, input.Banner, input.Summary, input.Github, context.Identity())
+	if err != nil {
 		return nil, err
 	}
 
-	_ = _result
-
 	result = context.ResultContainer().(*UpdateProfileByUserResult)
-	result.DisplayName = _result.DisplayName()
-	result.Avatar = _result.Avatar()
-	result.Banner = _result.Banner()
-	result.Summary = _result.Summary()
-	result.Github = _result.Github()
+	result.DisplayName = commandResult.DisplayName()
+	result.Avatar = commandResult.Avatar()
+	result.Banner = commandResult.Banner()
+	result.Summary = commandResult.Summary()
+	result.Github = commandResult.Github()
 	return result, nil
 }

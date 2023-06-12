@@ -3,26 +3,21 @@ package services
 import (
 	. "github.com/reiver/greatape/components/api/protobuf"
 	. "github.com/reiver/greatape/components/contracts"
-	"github.com/reiver/greatape/components/core"
+	. "github.com/reiver/greatape/components/core"
 	. "github.com/xeronith/diamante/contracts/service"
 )
 
-// noinspection GoUnusedParameter
 func PostToInboxService(context IContext, input *PostToInboxRequest) (result *PostToInboxResult, err error) {
-	conductor := core.Conductor
+	source := "post_to_inbox"
+	/* //////// */ Conductor.LogRemoteCall(context, INIT, source, input, result, err)
+	defer func() { Conductor.LogRemoteCall(context, DONE, source, input, result, err) }()
 
-	conductor.LogRemoteCall(context, INITIALIZE, "post_to_inbox", input, result, err)
-	defer func() { conductor.LogRemoteCall(context, FINALIZE, "post_to_inbox", input, result, err) }()
-
-	_result, _err := conductor.PostToInbox(input.Username, input.Body, context.Identity())
-	if _err != nil {
-		err = _err
+	commandResult, err := Conductor.PostToInbox(input.Username, input.Body, context.Identity())
+	if err != nil {
 		return nil, err
 	}
 
-	_ = _result
-
 	result = context.ResultContainer().(*PostToInboxResult)
-	result.Body = _result.Body()
+	result.Body = commandResult.Body()
 	return result, nil
 }

@@ -3,71 +3,66 @@ package services
 import (
 	. "github.com/reiver/greatape/components/api/protobuf"
 	. "github.com/reiver/greatape/components/contracts"
-	"github.com/reiver/greatape/components/core"
+	. "github.com/reiver/greatape/components/core"
 	. "github.com/xeronith/diamante/contracts/service"
 )
 
-// noinspection GoUnusedParameter
 func GetActorService(context IContext, input *GetActorRequest) (result *GetActorResult, err error) {
-	conductor := core.Conductor
+	source := "get_actor"
+	/* //////// */ Conductor.LogRemoteCall(context, INIT, source, input, result, err)
+	defer func() { Conductor.LogRemoteCall(context, DONE, source, input, result, err) }()
 
-	conductor.LogRemoteCall(context, INITIALIZE, "get_actor", input, result, err)
-	defer func() { conductor.LogRemoteCall(context, FINALIZE, "get_actor", input, result, err) }()
-
-	_result, _err := conductor.GetActor(input.Username, context.Identity())
-	if _err != nil {
-		err = _err
+	commandResult, err := Conductor.GetActor(input.Username, context.Identity())
+	if err != nil {
 		return nil, err
 	}
 
-	_ = _result
-
 	var outputIcon *ActivityPubMedia = nil
-	if _result.Icon() != nil {
+	if commandResult.Icon() != nil {
 		outputIcon = &ActivityPubMedia{
-			MediaType: _result.Icon().MediaType(),
-			Type:      _result.Icon().Type(),
-			Url:       _result.Icon().Url(),
-			Width:     _result.Icon().Width(),
-			Height:    _result.Icon().Height(),
+			MediaType: commandResult.Icon().MediaType(),
+			Type:      commandResult.Icon().Type(),
+			Url:       commandResult.Icon().Url(),
+			Width:     commandResult.Icon().Width(),
+			Height:    commandResult.Icon().Height(),
 		}
 	}
 
 	var outputImage *ActivityPubMedia = nil
-	if _result.Image() != nil {
+	if commandResult.Image() != nil {
 		outputImage = &ActivityPubMedia{
-			MediaType: _result.Image().MediaType(),
-			Type:      _result.Image().Type(),
-			Url:       _result.Image().Url(),
-			Width:     _result.Image().Width(),
-			Height:    _result.Image().Height(),
+			MediaType: commandResult.Image().MediaType(),
+			Type:      commandResult.Image().Type(),
+			Url:       commandResult.Image().Url(),
+			Width:     commandResult.Image().Width(),
+			Height:    commandResult.Image().Height(),
 		}
 	}
 
 	var outputPublicKey *ActivityPubPublicKey = nil
-	if _result.PublicKey() != nil {
+	if commandResult.PublicKey() != nil {
 		outputPublicKey = &ActivityPubPublicKey{
-			Id:           _result.PublicKey().Id(),
-			Owner:        _result.PublicKey().Owner(),
-			PublicKeyPem: _result.PublicKey().PublicKeyPem(),
+			Id:           commandResult.PublicKey().Id(),
+			Owner:        commandResult.PublicKey().Owner(),
+			PublicKeyPem: commandResult.PublicKey().PublicKeyPem(),
 		}
 	}
 
 	result = context.ResultContainer().(*GetActorResult)
-	result.Context = _result.Context()
-	result.Id = _result.Id()
-	result.Followers = _result.Followers()
-	result.Following = _result.Following()
-	result.Inbox = _result.Inbox()
-	result.Outbox = _result.Outbox()
-	result.Name = _result.Name()
-	result.PreferredUsername = _result.PreferredUsername()
-	result.Type = _result.Type()
-	result.Url = _result.Url()
+	result.Context = commandResult.Context()
+	result.Id = commandResult.Id()
+	result.Followers = commandResult.Followers()
+	result.Following = commandResult.Following()
+	result.Inbox = commandResult.Inbox()
+	result.Outbox = commandResult.Outbox()
+	result.Name = commandResult.Name()
+	result.PreferredUsername = commandResult.PreferredUsername()
+	result.Type = commandResult.Type()
+	result.Url = commandResult.Url()
 	result.Icon = outputIcon
 	result.Image = outputImage
 	result.PublicKey = outputPublicKey
-	result.Summary = _result.Summary()
-	result.Published = _result.Published()
+	result.Summary = commandResult.Summary()
+	result.Published = commandResult.Published()
 	return result, nil
 }

@@ -3,39 +3,34 @@ package services
 import (
 	. "github.com/reiver/greatape/components/api/protobuf"
 	. "github.com/reiver/greatape/components/contracts"
-	"github.com/reiver/greatape/components/core"
+	. "github.com/reiver/greatape/components/core"
 	. "github.com/xeronith/diamante/contracts/service"
 )
 
-// noinspection GoUnusedParameter
 func EchoService(context IContext, input *EchoRequest) (result *EchoResult, err error) {
-	conductor := core.Conductor
-
-	conductor.LogRemoteCall(context, INITIALIZE, "echo", input, result, err)
-	defer func() { conductor.LogRemoteCall(context, FINALIZE, "echo", input, result, err) }()
+	source := "echo"
+	/* //////// */ Conductor.LogRemoteCall(context, INIT, source, input, result, err)
+	defer func() { Conductor.LogRemoteCall(context, DONE, source, input, result, err) }()
 
 	var inputDocument IDocument
 	if input.Document != nil {
 		var err error
-		if inputDocument, err = conductor.NewDocument(input.Document.Id, input.Document.Content); err == nil {
+		if inputDocument, err = Conductor.NewDocument(input.Document.Id, input.Document.Content); err == nil {
 		} else {
 			return nil, err
 		}
 	}
 
-	_result, _err := conductor.Echo(inputDocument, context.Identity())
-	if _err != nil {
-		err = _err
+	commandResult, err := Conductor.Echo(inputDocument, context.Identity())
+	if err != nil {
 		return nil, err
 	}
 
-	_ = _result
-
 	var outputDocument *Document = nil
-	if _result.Document() != nil {
+	if commandResult.Document() != nil {
 		outputDocument = &Document{
-			Id:      _result.Document().Id(),
-			Content: _result.Document().Content(),
+			Id:      commandResult.Document().Id(),
+			Content: commandResult.Document().Content(),
 		}
 	}
 

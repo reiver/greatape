@@ -3,26 +3,21 @@ package services
 import (
 	. "github.com/reiver/greatape/components/api/protobuf"
 	. "github.com/reiver/greatape/components/contracts"
-	"github.com/reiver/greatape/components/core"
+	. "github.com/reiver/greatape/components/core"
 	. "github.com/xeronith/diamante/contracts/service"
 )
 
-// noinspection GoUnusedParameter
 func PostToOutboxService(context IContext, input *PostToOutboxRequest) (result *PostToOutboxResult, err error) {
-	conductor := core.Conductor
+	source := "post_to_outbox"
+	/* //////// */ Conductor.LogRemoteCall(context, INIT, source, input, result, err)
+	defer func() { Conductor.LogRemoteCall(context, DONE, source, input, result, err) }()
 
-	conductor.LogRemoteCall(context, INITIALIZE, "post_to_outbox", input, result, err)
-	defer func() { conductor.LogRemoteCall(context, FINALIZE, "post_to_outbox", input, result, err) }()
-
-	_result, _err := conductor.PostToOutbox(input.Username, input.Body, context.Identity())
-	if _err != nil {
-		err = _err
+	commandResult, err := Conductor.PostToOutbox(input.Username, input.Body, context.Identity())
+	if err != nil {
 		return nil, err
 	}
 
-	_ = _result
-
 	result = context.ResultContainer().(*PostToOutboxResult)
-	result.Body = _result.Body()
+	result.Body = commandResult.Body()
 	return result, nil
 }

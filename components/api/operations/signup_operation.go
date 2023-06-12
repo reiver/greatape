@@ -37,15 +37,3 @@ func (operation *signupOperation) OutputContainer() Pointer {
 func (operation *signupOperation) Execute(context IContext, payload Pointer) (Pointer, error) {
 	return operation.run(context, payload.(*SignupRequest))
 }
-
-/*
-func (operation *signupOperation) ExecutionTimeLimits() (Duration, Duration, Duration) {
-	var (
-		TIME_LIMIT_WARNING  Duration = 20_000_000
-		TIME_LIMIT_ALERT    Duration = 35_000_000
-		TIME_LIMIT_CRITICAL Duration = 50_000_000
-	)
-
-	return TIME_LIMIT_WARNING, TIME_LIMIT_ALERT, TIME_LIMIT_CRITICAL
-}
-*/

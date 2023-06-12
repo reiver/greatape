@@ -3,27 +3,22 @@ package services
 import (
 	. "github.com/reiver/greatape/components/api/protobuf"
 	. "github.com/reiver/greatape/components/contracts"
-	"github.com/reiver/greatape/components/core"
+	. "github.com/reiver/greatape/components/core"
 	. "github.com/xeronith/diamante/contracts/service"
 )
 
-// noinspection GoUnusedParameter
 func WebfingerService(context IContext, input *WebfingerRequest) (result *WebfingerResult, err error) {
-	conductor := core.Conductor
+	source := "webfinger"
+	/* //////// */ Conductor.LogRemoteCall(context, INIT, source, input, result, err)
+	defer func() { Conductor.LogRemoteCall(context, DONE, source, input, result, err) }()
 
-	conductor.LogRemoteCall(context, INITIALIZE, "webfinger", input, result, err)
-	defer func() { conductor.LogRemoteCall(context, FINALIZE, "webfinger", input, result, err) }()
-
-	_result, _err := conductor.Webfinger(input.Resource, context.Identity())
-	if _err != nil {
-		err = _err
+	commandResult, err := Conductor.Webfinger(input.Resource, context.Identity())
+	if err != nil {
 		return nil, err
 	}
 
-	_ = _result
-
 	outputLinks := make([]*ActivityPubLink, 0)
-	for _, link := range _result.Links() {
+	for _, link := range commandResult.Links() {
 		if link == nil {
 			continue
 		}
@@ -37,8 +32,8 @@ func WebfingerService(context IContext, input *WebfingerRequest) (result *Webfin
 	}
 
 	result = context.ResultContainer().(*WebfingerResult)
-	result.Aliases = _result.Aliases()
+	result.Aliases = commandResult.Aliases()
 	result.Links = outputLinks
-	result.Subject = _result.Subject()
+	result.Subject = commandResult.Subject()
 	return result, nil
 }

@@ -7,16 +7,14 @@ import (
 	. "github.com/reiver/greatape/components/api/protobuf"
 	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
-	"github.com/reiver/greatape/components/core"
+	. "github.com/reiver/greatape/components/core"
 	. "github.com/xeronith/diamante/contracts/service"
 )
 
-// noinspection GoUnusedParameter
 func SystemCallService(context IContext, input *SystemCallRequest) (result *SystemCallResult, err error) {
-	conductor := core.Conductor
-
-	conductor.LogRemoteCall(context, INITIALIZE, "system_call", input, result, err)
-	defer func() { conductor.LogRemoteCall(context, FINALIZE, "system_call", input, result, err) }()
+	source := "system_call"
+	/* //////// */ Conductor.LogRemoteCall(context, INIT, source, input, result, err)
+	defer func() { Conductor.LogRemoteCall(context, DONE, source, input, result, err) }()
 
 	context.Logger().SysCall(fmt.Sprintf("SYSCALL: %s", input.Command))
 
@@ -34,7 +32,7 @@ func SystemCallService(context IContext, input *SystemCallRequest) (result *Syst
 		}
 
 		componentName := args[1]
-		if component := conductor.GetSystemComponent(componentName); component == nil {
+		if component := Conductor.GetSystemComponent(componentName); component == nil {
 			return nil, ERROR_SYSTEM_COMPONENT_NOT_FOUND
 		} else if err := component.Reload(); err != nil {
 			return nil, err

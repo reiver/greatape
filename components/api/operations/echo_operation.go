@@ -37,15 +37,3 @@ func (operation *echoOperation) OutputContainer() Pointer {
 func (operation *echoOperation) Execute(context IContext, payload Pointer) (Pointer, error) {
 	return operation.run(context, payload.(*EchoRequest))
 }
-
-/*
-func (operation *echoOperation) ExecutionTimeLimits() (Duration, Duration, Duration) {
-	var (
-		TIME_LIMIT_WARNING  Duration = 20_000_000
-		TIME_LIMIT_ALERT    Duration = 35_000_000
-		TIME_LIMIT_CRITICAL Duration = 50_000_000
-	)
-
-	return TIME_LIMIT_WARNING, TIME_LIMIT_ALERT, TIME_LIMIT_CRITICAL
-}
-*/

@@ -3,26 +3,21 @@ package services
 import (
 	. "github.com/reiver/greatape/components/api/protobuf"
 	. "github.com/reiver/greatape/components/contracts"
-	"github.com/reiver/greatape/components/core"
+	. "github.com/reiver/greatape/components/core"
 	. "github.com/xeronith/diamante/contracts/service"
 )
 
-// noinspection GoUnusedParameter
 func CheckUsernameAvailabilityService(context IContext, input *CheckUsernameAvailabilityRequest) (result *CheckUsernameAvailabilityResult, err error) {
-	conductor := core.Conductor
+	source := "check_username_availability"
+	/* //////// */ Conductor.LogRemoteCall(context, INIT, source, input, result, err)
+	defer func() { Conductor.LogRemoteCall(context, DONE, source, input, result, err) }()
 
-	conductor.LogRemoteCall(context, INITIALIZE, "check_username_availability", input, result, err)
-	defer func() { conductor.LogRemoteCall(context, FINALIZE, "check_username_availability", input, result, err) }()
-
-	_result, _err := conductor.CheckUsernameAvailability(input.Username, context.Identity())
-	if _err != nil {
-		err = _err
+	commandResult, err := Conductor.CheckUsernameAvailability(input.Username, context.Identity())
+	if err != nil {
 		return nil, err
 	}
 
-	_ = _result
-
 	result = context.ResultContainer().(*CheckUsernameAvailabilityResult)
-	result.IsAvailable = _result.IsAvailable()
+	result.IsAvailable = commandResult.IsAvailable()
 	return result, nil
 }

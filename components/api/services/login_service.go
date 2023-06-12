@@ -3,28 +3,23 @@ package services
 import (
 	. "github.com/reiver/greatape/components/api/protobuf"
 	. "github.com/reiver/greatape/components/contracts"
-	"github.com/reiver/greatape/components/core"
+	. "github.com/reiver/greatape/components/core"
 	. "github.com/xeronith/diamante/contracts/service"
 )
 
-// noinspection GoUnusedParameter
 func LoginService(context IContext, input *LoginRequest) (result *LoginResult, err error) {
-	conductor := core.Conductor
+	source := "login"
+	/* //////// */ Conductor.LogRemoteCall(context, INIT, source, input, result, err)
+	defer func() { Conductor.LogRemoteCall(context, DONE, source, input, result, err) }()
 
-	conductor.LogRemoteCall(context, INITIALIZE, "login", input, result, err)
-	defer func() { conductor.LogRemoteCall(context, FINALIZE, "login", input, result, err) }()
-
-	_result, _err := conductor.Login(input.Email, input.Password, context.Identity())
-	if _err != nil {
-		err = _err
+	commandResult, err := Conductor.Login(input.Email, input.Password, context.Identity())
+	if err != nil {
 		return nil, err
 	}
 
-	_ = _result
-
-	context.SetCookie("Diamante", _result.Token())
+	context.SetCookie("Diamante", commandResult.Token())
 	result = context.ResultContainer().(*LoginResult)
-	result.Username = _result.Username()
-	result.Token = _result.Token()
+	result.Username = commandResult.Username()
+	result.Token = commandResult.Token()
 	return result, nil
 }

@@ -3,27 +3,22 @@ package services
 import (
 	. "github.com/reiver/greatape/components/api/protobuf"
 	. "github.com/reiver/greatape/components/contracts"
-	"github.com/reiver/greatape/components/core"
+	. "github.com/reiver/greatape/components/core"
 	. "github.com/xeronith/diamante/contracts/service"
 )
 
-// noinspection GoUnusedParameter
 func AuthorizeInteractionService(context IContext, input *AuthorizeInteractionRequest) (result *AuthorizeInteractionResult, err error) {
-	conductor := core.Conductor
+	source := "authorize_interaction"
+	/* //////// */ Conductor.LogRemoteCall(context, INIT, source, input, result, err)
+	defer func() { Conductor.LogRemoteCall(context, DONE, source, input, result, err) }()
 
-	conductor.LogRemoteCall(context, INITIALIZE, "authorize_interaction", input, result, err)
-	defer func() { conductor.LogRemoteCall(context, FINALIZE, "authorize_interaction", input, result, err) }()
-
-	_result, _err := conductor.AuthorizeInteraction(input.Uri, context.Identity())
-	if _err != nil {
-		err = _err
+	commandResult, err := Conductor.AuthorizeInteraction(input.Uri, context.Identity())
+	if err != nil {
 		return nil, err
 	}
 
-	_ = _result
-
 	result = context.ResultContainer().(*AuthorizeInteractionResult)
-	result.Uri = _result.Uri()
-	result.Success = _result.Success()
+	result.Uri = commandResult.Uri()
+	result.Success = commandResult.Success()
 	return result, nil
 }

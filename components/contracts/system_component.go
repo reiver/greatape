@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	INITIALIZE = 0
-	FINALIZE   = 100
+	INIT = 0
+	DONE = 100
 )
 
 type (

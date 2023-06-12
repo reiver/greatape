@@ -3,27 +3,22 @@ package services
 import (
 	. "github.com/reiver/greatape/components/api/protobuf"
 	. "github.com/reiver/greatape/components/contracts"
-	"github.com/reiver/greatape/components/core"
+	. "github.com/reiver/greatape/components/core"
 	. "github.com/xeronith/diamante/contracts/service"
 )
 
-// noinspection GoUnusedParameter
 func GetOutboxService(context IContext, input *GetOutboxRequest) (result *GetOutboxResult, err error) {
-	conductor := core.Conductor
+	source := "get_outbox"
+	/* //////// */ Conductor.LogRemoteCall(context, INIT, source, input, result, err)
+	defer func() { Conductor.LogRemoteCall(context, DONE, source, input, result, err) }()
 
-	conductor.LogRemoteCall(context, INITIALIZE, "get_outbox", input, result, err)
-	defer func() { conductor.LogRemoteCall(context, FINALIZE, "get_outbox", input, result, err) }()
-
-	_result, _err := conductor.GetOutbox(input.Username, context.Identity())
-	if _err != nil {
-		err = _err
+	commandResult, err := Conductor.GetOutbox(input.Username, context.Identity())
+	if err != nil {
 		return nil, err
 	}
 
-	_ = _result
-
 	outputOrderedItems := make([]*ActivityPubActivity, 0)
-	for _, orderedItem := range _result.OrderedItems() {
+	for _, orderedItem := range commandResult.OrderedItems() {
 		if orderedItem == nil {
 			continue
 		}
@@ -58,11 +53,11 @@ func GetOutboxService(context IContext, input *GetOutboxRequest) (result *GetOut
 	}
 
 	result = context.ResultContainer().(*GetOutboxResult)
-	result.Context = _result.Context()
-	result.Id = _result.Id()
-	result.Type = _result.Type()
-	result.TotalItems = _result.TotalItems()
+	result.Context = commandResult.Context()
+	result.Id = commandResult.Id()
+	result.Type = commandResult.Type()
+	result.TotalItems = commandResult.TotalItems()
 	result.OrderedItems = outputOrderedItems
-	result.First = _result.First()
+	result.First = commandResult.First()
 	return result, nil
 }

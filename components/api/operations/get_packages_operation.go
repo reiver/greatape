@@ -37,15 +37,3 @@ func (operation *getPackagesOperation) OutputContainer() Pointer {
 func (operation *getPackagesOperation) Execute(context IContext, payload Pointer) (Pointer, error) {
 	return operation.run(context, payload.(*GetPackagesRequest))
 }
-
-/*
-func (operation *getPackagesOperation) ExecutionTimeLimits() (Duration, Duration, Duration) {
-	var (
-		TIME_LIMIT_WARNING  Duration = 20_000_000
-		TIME_LIMIT_ALERT    Duration = 35_000_000
-		TIME_LIMIT_CRITICAL Duration = 50_000_000
-	)
-
-	return TIME_LIMIT_WARNING, TIME_LIMIT_ALERT, TIME_LIMIT_CRITICAL
-}
-*/
