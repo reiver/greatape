@@ -1,5 +1,7 @@
 # development, staging, production
 environment: development
+allowed_origins:
+    - http://localhost:*
 
 server:
     fqdn: yourdomain.com
