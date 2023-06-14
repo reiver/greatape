@@ -62,8 +62,8 @@ github.com/valyala/fastjson v1.6.4/go.mod h1:CLCAqky6SMuOcxStkYQvblddUtoRxhYMGLr
 github.com/valyala/fasttemplate v1.2.1/go.mod h1:KHLXt3tVN2HBp8eijSv/kGJopbvo7S+qRAEEKiv+SiQ=
 github.com/valyala/fasttemplate v1.2.2 h1:lxLXG0uE3Qnshl9QyaK6XJxMXlQZELvChBOCmQD0Loo=
 github.com/valyala/fasttemplate v1.2.2/go.mod h1:KHLXt3tVN2HBp8eijSv/kGJopbvo7S+qRAEEKiv+SiQ=
-github.com/xeronith/diamante v1.9.3 h1:NxidAoxUMiOT10fihcFNzTODNWKMDCXR+jP3l3H4tEY=
-github.com/xeronith/diamante v1.9.3/go.mod h1:DSw8TsKcdU+Lg+cmgx8aDjRbu2NSOcJRQtialnKHoOU=
+github.com/xeronith/diamante v1.9.4 h1:KiyTHqV23MJ2nP5UXuyVXuZ8NcOQ0bZfPBXwMUQSH1Y=
+github.com/xeronith/diamante v1.9.4/go.mod h1:DSw8TsKcdU+Lg+cmgx8aDjRbu2NSOcJRQtialnKHoOU=
 github.com/yuin/goldmark v1.4.13/go.mod h1:6yULJ656Px+3vBD8DxQVa3kxgyrAnzto9xy5taEt/CY=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20210921155107-089bfa567519/go.mod h1:GvvjBRRGRdwPK5ydBHafDWAxML/pGHZbMvKqRZ5+Abc=
