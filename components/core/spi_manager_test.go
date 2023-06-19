@@ -182,6 +182,17 @@ func TestSpiManager_Signup(test *testing.T) {
 	_ = result
 }
 
+func TestSpiManager_ResendVerificationCode(test *testing.T) {
+	manager := Conductor.SpiManager()
+
+	result, err := manager.ResendVerificationCode("email", nil)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	_ = result
+}
+
 func TestSpiManager_Verify(test *testing.T) {
 	manager := Conductor.SpiManager()
 

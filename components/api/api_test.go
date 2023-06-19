@@ -71,6 +71,18 @@ func TestSignupApi(test *testing.T) {
 	}
 }
 
+func TestResendVerificationCodeApi(test *testing.T) {
+	input := &ResendVerificationCodeRequest{
+		Email: "email",
+	}
+
+	if output, err := api.ResendVerificationCode(input); err != nil {
+		test.Fatal(err)
+	} else if output == nil {
+		test.Fail()
+	}
+}
+
 func TestVerifyApi(test *testing.T) {
 	input := &VerifyRequest{
 		Email: "email",
