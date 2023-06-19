@@ -1035,6 +1035,7 @@ type IDispatcher interface {
 	Echo(document IDocument) (IEchoResult, error)
 	CheckUsernameAvailability(username string) (ICheckUsernameAvailabilityResult, error)
 	Signup(username string, email string, password string) (ISignupResult, error)
+	ResendVerificationCode(email string) (IResendVerificationCodeResult, error)
 	Verify(email string, token string, code string) (IVerifyResult, error)
 	Login(email string, password string) (ILoginResult, error)
 	GetProfileByUser() (IGetProfileByUserResult, error)
@@ -1128,6 +1129,8 @@ type IDispatcher interface {
 	NewCheckUsernameAvailabilityResult(isAvailable bool) ICheckUsernameAvailabilityResult
 	// NewSignupResult creates a new result container for 'Signup' system action.
 	NewSignupResult(token string, code string) ISignupResult
+	// NewResendVerificationCodeResult creates a new result container for 'Resend Verification Code' system action.
+	NewResendVerificationCodeResult(code string) IResendVerificationCodeResult
 	// NewVerifyResult creates a new result container for 'Verify' system action.
 	NewVerifyResult(token string) IVerifyResult
 	// NewLoginResult creates a new result container for 'Login' system action.

@@ -48,6 +48,16 @@ message SignupResult {
     string code = 0x00000002;
 }
 
+// API: ResendVerificationCode
+//-----------------------------------------------------------
+message ResendVerificationCodeRequest {
+    string email = 0x00000001;
+}
+
+message ResendVerificationCodeResult {
+    string code = 0x00000001;
+}
+
 // API: Verify
 //-----------------------------------------------------------
 message VerifyRequest {

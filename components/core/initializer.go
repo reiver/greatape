@@ -1106,6 +1106,10 @@ func (conductor *conductor) Signup(username string, email string, password strin
 	return conductor.spiManager.Signup(username, email, password, editor)
 }
 
+func (conductor *conductor) ResendVerificationCode(email string, editor Identity) (IResendVerificationCodeResult, error) {
+	return conductor.spiManager.ResendVerificationCode(email, editor)
+}
+
 func (conductor *conductor) Verify(email string, token string, code string, editor Identity) (IVerifyResult, error) {
 	return conductor.spiManager.Verify(email, token, code, editor)
 }
@@ -1256,6 +1260,10 @@ func (conductor *conductor) NewCheckUsernameAvailabilityResult(isAvailable bool,
 
 func (conductor *conductor) NewSignupResult(token string, code string, _ interface{}) ISignupResult {
 	return NewSignupResult(token, code, nil)
+}
+
+func (conductor *conductor) NewResendVerificationCodeResult(code string, _ interface{}) IResendVerificationCodeResult {
+	return NewResendVerificationCodeResult(code, nil)
 }
 
 func (conductor *conductor) NewVerifyResult(token string, _ interface{}) IVerifyResult {

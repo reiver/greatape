@@ -10,6 +10,7 @@ type IApi interface {
 	Echo(*EchoRequest) (*EchoResult, error)
 	CheckUsernameAvailability(*CheckUsernameAvailabilityRequest) (*CheckUsernameAvailabilityResult, error)
 	Signup(*SignupRequest) (*SignupResult, error)
+	ResendVerificationCode(*ResendVerificationCodeRequest) (*ResendVerificationCodeResult, error)
 	Verify(*VerifyRequest) (*VerifyResult, error)
 	Login(*LoginRequest) (*LoginResult, error)
 	GetProfileByUser(*GetProfileByUserRequest) (*GetProfileByUserResult, error)

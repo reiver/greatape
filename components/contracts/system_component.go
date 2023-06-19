@@ -260,6 +260,7 @@ type (
 		Echo(document IDocument, editor Identity) (IEchoResult, error)
 		CheckUsernameAvailability(username string, editor Identity) (ICheckUsernameAvailabilityResult, error)
 		Signup(username string, email string, password string, editor Identity) (ISignupResult, error)
+		ResendVerificationCode(email string, editor Identity) (IResendVerificationCodeResult, error)
 		Verify(email string, token string, code string, editor Identity) (IVerifyResult, error)
 		Login(email string, password string, editor Identity) (ILoginResult, error)
 		GetProfileByUser(editor Identity) (IGetProfileByUserResult, error)
@@ -299,6 +300,7 @@ type (
 		NewEchoResult(document IDocument, ignored interface{}) IEchoResult
 		NewCheckUsernameAvailabilityResult(isAvailable bool, ignored interface{}) ICheckUsernameAvailabilityResult
 		NewSignupResult(token string, code string, ignored interface{}) ISignupResult
+		NewResendVerificationCodeResult(code string, ignored interface{}) IResendVerificationCodeResult
 		NewVerifyResult(token string, ignored interface{}) IVerifyResult
 		NewLoginResult(username string, token string, ignored interface{}) ILoginResult
 		NewGetProfileByUserResult(username string, displayName string, avatar string, banner string, summary string, github string, ignored interface{}) IGetProfileByUserResult

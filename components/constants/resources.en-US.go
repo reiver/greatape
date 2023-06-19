@@ -51,6 +51,7 @@ var Errors = Resource{
 	ERROR_MESSAGE_INVALID_USERNAME_FOR_SIGNUP:                      "invalid_username",
 	ERROR_MESSAGE_INVALID_EMAIL_FOR_SIGNUP:                         "invalid_email",
 	ERROR_MESSAGE_INVALID_PASSWORD_FOR_SIGNUP:                      "invalid_password",
+	ERROR_MESSAGE_INVALID_EMAIL_FOR_RESEND_VERIFICATION_CODE:       "invalid_email",
 	ERROR_MESSAGE_INVALID_EMAIL_FOR_VERIFY:                         "invalid_email",
 	ERROR_MESSAGE_INVALID_EMAIL_FOR_LOGIN:                          "invalid_email",
 	ERROR_MESSAGE_INVALID_PASSWORD_FOR_LOGIN:                       "invalid_password",

@@ -45,6 +45,16 @@ func (api *api) Signup(request *SignupRequest) (*SignupResult, error) {
 	}
 }
 
+func (api *api) ResendVerificationCode(request *ResendVerificationCodeRequest) (*ResendVerificationCodeResult, error) {
+	result, err := api.call(RESEND_VERIFICATION_CODE_REQUEST, request)
+
+	if err != nil {
+		return nil, err
+	} else {
+		return result.(*ResendVerificationCodeResult), nil
+	}
+}
+
 func (api *api) Verify(request *VerifyRequest) (*VerifyResult, error) {
 	result, err := api.call(VERIFY_REQUEST, request)
 
@@ -230,6 +240,7 @@ func init() {
 	API_RESULT[ECHO_RESULT] = EchoResult{}
 	API_RESULT[CHECK_USERNAME_AVAILABILITY_RESULT] = CheckUsernameAvailabilityResult{}
 	API_RESULT[SIGNUP_RESULT] = SignupResult{}
+	API_RESULT[RESEND_VERIFICATION_CODE_RESULT] = ResendVerificationCodeResult{}
 	API_RESULT[VERIFY_RESULT] = VerifyResult{}
 	API_RESULT[LOGIN_RESULT] = LoginResult{}
 	API_RESULT[GET_PROFILE_BY_USER_RESULT] = GetProfileByUserResult{}

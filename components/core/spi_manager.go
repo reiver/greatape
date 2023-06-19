@@ -324,6 +324,49 @@ func (manager *spiManager) Signup(username string, email string, password string
 	}
 }
 
+//region IResendVerificationCodeResult Implementation
+
+type resendVerificationCodeResult struct {
+	code string
+}
+
+func NewResendVerificationCodeResult(code string, _ interface{}) IResendVerificationCodeResult {
+	return &resendVerificationCodeResult{
+		code: code,
+	}
+}
+
+func (result resendVerificationCodeResult) Code() string {
+	return result.code
+}
+
+//endregion
+
+func (manager *spiManager) ResendVerificationCode(email string, editor Identity) (result IResendVerificationCodeResult, err error) {
+	if email != "" {
+		if match, err := manager.Match(EMAIL, email); err != nil {
+			return nil, err
+		} else if !match {
+			return nil, ERROR_INVALID_EMAIL_FOR_RESEND_VERIFICATION_CODE
+		}
+	}
+
+	defer func() {
+		if reason := recover(); reason != nil {
+			err = manager.Error(reason)
+		}
+	}()
+
+	editor.Lock(RESEND_VERIFICATION_CODE_REQUEST)
+	defer editor.Unlock(RESEND_VERIFICATION_CODE_REQUEST)
+
+	if result, err = commands.ResendVerificationCode(NewDispatcher(Conductor, editor), email); err != nil {
+		return nil, err
+	} else {
+		return result, nil
+	}
+}
+
 //region IVerifyResult Implementation
 
 type verifyResult struct {

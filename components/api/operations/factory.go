@@ -10,6 +10,7 @@ func (factory *operationFactory) Operations() []IOperation {
 		EchoOperation(),
 		CheckUsernameAvailabilityOperation(),
 		SignupOperation(),
+		ResendVerificationCodeOperation(),
 		VerifyOperation(),
 		LoginOperation(),
 		GetProfileByUserOperation(),

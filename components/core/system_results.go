@@ -16,6 +16,10 @@ func (dispatcher *dispatcher) NewSignupResult(token string, code string) ISignup
 	return NewSignupResult(token, code, nil)
 }
 
+func (dispatcher *dispatcher) NewResendVerificationCodeResult(code string) IResendVerificationCodeResult {
+	return NewResendVerificationCodeResult(code, nil)
+}
+
 func (dispatcher *dispatcher) NewVerifyResult(token string) IVerifyResult {
 	return NewVerifyResult(token, nil)
 }

@@ -252,6 +252,10 @@ func (dispatcher *dispatcher) Signup(username string, email string, password str
 	return dispatcher.conductor.SpiManager().Signup(username, email, password, dispatcher.identity)
 }
 
+func (dispatcher *dispatcher) ResendVerificationCode(email string) (IResendVerificationCodeResult, error) {
+	return dispatcher.conductor.SpiManager().ResendVerificationCode(email, dispatcher.identity)
+}
+
 func (dispatcher *dispatcher) Verify(email string, token string, code string) (IVerifyResult, error) {
 	return dispatcher.conductor.SpiManager().Verify(email, token, code, dispatcher.identity)
 }

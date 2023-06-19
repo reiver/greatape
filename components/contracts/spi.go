@@ -58,6 +58,7 @@ type (
 		Echo(document IDocument, editor Identity) (IEchoResult, error)
 		CheckUsernameAvailability(username string, editor Identity) (ICheckUsernameAvailabilityResult, error)
 		Signup(username string, email string, password string, editor Identity) (ISignupResult, error)
+		ResendVerificationCode(email string, editor Identity) (IResendVerificationCodeResult, error)
 		Verify(email string, token string, code string, editor Identity) (IVerifyResult, error)
 		Login(email string, password string, editor Identity) (ILoginResult, error)
 		GetProfileByUser(editor Identity) (IGetProfileByUserResult, error)
@@ -88,6 +89,10 @@ type (
 
 	ISignupResult interface {
 		Token() string
+		Code() string
+	}
+
+	IResendVerificationCodeResult interface {
 		Code() string
 	}
 
