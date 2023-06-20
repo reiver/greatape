@@ -17,7 +17,8 @@ func LoginService(context IContext, input *LoginRequest) (result *LoginResult, e
 		return nil, err
 	}
 
-	context.SetCookie("Diamante", commandResult.Token())
+	context.SetAuthCookie(commandResult.Token())
+
 	result = context.ResultContainer().(*LoginResult)
 	result.Username = commandResult.Username()
 	result.Token = commandResult.Token()

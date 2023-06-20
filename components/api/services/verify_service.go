@@ -17,7 +17,8 @@ func VerifyService(context IContext, input *VerifyRequest) (result *VerifyResult
 		return nil, err
 	}
 
-	context.SetCookie("Diamante", commandResult.Token())
+	context.SetAuthCookie(commandResult.Token())
+
 	result = context.ResultContainer().(*VerifyResult)
 	result.Token = commandResult.Token()
 	return result, nil

@@ -17,7 +17,8 @@ func SignupService(context IContext, input *SignupRequest) (result *SignupResult
 		return nil, err
 	}
 
-	context.SetCookie("Diamante", commandResult.Token())
+	context.SetAuthCookie(commandResult.Token())
+
 	result = context.ResultContainer().(*SignupResult)
 	result.Token = commandResult.Token()
 	result.Code = commandResult.Code()
