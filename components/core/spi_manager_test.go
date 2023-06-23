@@ -160,6 +160,17 @@ func TestSpiManager_Echo(test *testing.T) {
 	_ = result
 }
 
+func TestSpiManager_GetServerConfiguration(test *testing.T) {
+	manager := Conductor.SpiManager()
+
+	result, err := manager.GetServerConfiguration(nil)
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	_ = result
+}
+
 func TestSpiManager_CheckUsernameAvailability(test *testing.T) {
 	manager := Conductor.SpiManager()
 

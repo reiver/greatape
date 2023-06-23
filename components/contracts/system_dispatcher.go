@@ -1033,6 +1033,7 @@ type IDispatcher interface {
 	// the transaction if used in an x.Atomic context. This method is synchronous.
 	RemoveSpi(id int64) ISpi
 	Echo(document IDocument) (IEchoResult, error)
+	GetServerConfiguration() (IGetServerConfigurationResult, error)
 	CheckUsernameAvailability(username string) (ICheckUsernameAvailabilityResult, error)
 	Signup(username string, email string, password string) (ISignupResult, error)
 	ResendVerificationCode(email string) (IResendVerificationCodeResult, error)
@@ -1125,6 +1126,8 @@ type IDispatcher interface {
 	NewSpis() ISpiCollection
 	// NewEchoResult creates a new result container for 'Echo' system action.
 	NewEchoResult(document IDocument) IEchoResult
+	// NewGetServerConfigurationResult creates a new result container for 'Get Server Configuration' system action.
+	NewGetServerConfigurationResult(product string, environment string, fqdn string) IGetServerConfigurationResult
 	// NewCheckUsernameAvailabilityResult creates a new result container for 'Check Username Availability' system action.
 	NewCheckUsernameAvailabilityResult(isAvailable bool) ICheckUsernameAvailabilityResult
 	// NewSignupResult creates a new result container for 'Signup' system action.

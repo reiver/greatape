@@ -25,6 +25,16 @@ func (api *api) Echo(request *EchoRequest) (*EchoResult, error) {
 	}
 }
 
+func (api *api) GetServerConfiguration(request *GetServerConfigurationRequest) (*GetServerConfigurationResult, error) {
+	result, err := api.call(GET_SERVER_CONFIGURATION_REQUEST, request)
+
+	if err != nil {
+		return nil, err
+	} else {
+		return result.(*GetServerConfigurationResult), nil
+	}
+}
+
 func (api *api) CheckUsernameAvailability(request *CheckUsernameAvailabilityRequest) (*CheckUsernameAvailabilityResult, error) {
 	result, err := api.call(CHECK_USERNAME_AVAILABILITY_REQUEST, request)
 
@@ -238,6 +248,7 @@ func (api *api) GetInbox(request *GetInboxRequest) (*GetInboxResult, error) {
 func init() {
 	API_RESULT[SYSTEM_CALL_RESULT] = SystemCallResult{}
 	API_RESULT[ECHO_RESULT] = EchoResult{}
+	API_RESULT[GET_SERVER_CONFIGURATION_RESULT] = GetServerConfigurationResult{}
 	API_RESULT[CHECK_USERNAME_AVAILABILITY_RESULT] = CheckUsernameAvailabilityResult{}
 	API_RESULT[SIGNUP_RESULT] = SignupResult{}
 	API_RESULT[RESEND_VERIFICATION_CODE_RESULT] = ResendVerificationCodeResult{}

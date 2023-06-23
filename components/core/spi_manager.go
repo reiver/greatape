@@ -228,6 +228,53 @@ func (manager *spiManager) Echo(document IDocument, editor Identity) (result IEc
 	}
 }
 
+//region IGetServerConfigurationResult Implementation
+
+type getServerConfigurationResult struct {
+	product     string
+	environment string
+	fqdn        string
+}
+
+func NewGetServerConfigurationResult(product string, environment string, fqdn string, _ interface{}) IGetServerConfigurationResult {
+	return &getServerConfigurationResult{
+		product:     product,
+		environment: environment,
+		fqdn:        fqdn,
+	}
+}
+
+func (result getServerConfigurationResult) Product() string {
+	return result.product
+}
+
+func (result getServerConfigurationResult) Environment() string {
+	return result.environment
+}
+
+func (result getServerConfigurationResult) Fqdn() string {
+	return result.fqdn
+}
+
+//endregion
+
+func (manager *spiManager) GetServerConfiguration(editor Identity) (result IGetServerConfigurationResult, err error) {
+	defer func() {
+		if reason := recover(); reason != nil {
+			err = manager.Error(reason)
+		}
+	}()
+
+	editor.Lock(GET_SERVER_CONFIGURATION_REQUEST)
+	defer editor.Unlock(GET_SERVER_CONFIGURATION_REQUEST)
+
+	if result, err = commands.GetServerConfiguration(NewDispatcher(Conductor, editor)); err != nil {
+		return nil, err
+	} else {
+		return result, nil
+	}
+}
+
 //region ICheckUsernameAvailabilityResult Implementation
 
 type checkUsernameAvailabilityResult struct {

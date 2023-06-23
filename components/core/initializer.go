@@ -1098,6 +1098,10 @@ func (conductor *conductor) Echo(document IDocument, editor Identity) (IEchoResu
 	return conductor.spiManager.Echo(document, editor)
 }
 
+func (conductor *conductor) GetServerConfiguration(editor Identity) (IGetServerConfigurationResult, error) {
+	return conductor.spiManager.GetServerConfiguration(editor)
+}
+
 func (conductor *conductor) CheckUsernameAvailability(username string, editor Identity) (ICheckUsernameAvailabilityResult, error) {
 	return conductor.spiManager.CheckUsernameAvailability(username, editor)
 }
@@ -1252,6 +1256,10 @@ func (conductor *conductor) NewSpi() (ISpi, error) {
 
 func (conductor *conductor) NewEchoResult(document IDocument, _ interface{}) IEchoResult {
 	return NewEchoResult(document, nil)
+}
+
+func (conductor *conductor) NewGetServerConfigurationResult(product string, environment string, fqdn string, _ interface{}) IGetServerConfigurationResult {
+	return NewGetServerConfigurationResult(product, environment, fqdn, nil)
 }
 
 func (conductor *conductor) NewCheckUsernameAvailabilityResult(isAvailable bool, _ interface{}) ICheckUsernameAvailabilityResult {

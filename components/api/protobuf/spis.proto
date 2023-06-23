@@ -25,6 +25,17 @@ message EchoResult {
     Document document = 0x00000001;
 }
 
+// API: GetServerConfiguration
+//-----------------------------------------------------------
+message GetServerConfigurationRequest {
+}
+
+message GetServerConfigurationResult {
+    string product = 0x00000001;
+    string environment = 0x00000002;
+    string fqdn = 0x00000003;
+}
+
 // API: CheckUsernameAvailability
 //-----------------------------------------------------------
 message CheckUsernameAvailabilityRequest {

@@ -244,6 +244,10 @@ func (dispatcher *dispatcher) Echo(document IDocument) (IEchoResult, error) {
 	return dispatcher.conductor.SpiManager().Echo(document, dispatcher.identity)
 }
 
+func (dispatcher *dispatcher) GetServerConfiguration() (IGetServerConfigurationResult, error) {
+	return dispatcher.conductor.SpiManager().GetServerConfiguration(dispatcher.identity)
+}
+
 func (dispatcher *dispatcher) CheckUsernameAvailability(username string) (ICheckUsernameAvailabilityResult, error) {
 	return dispatcher.conductor.SpiManager().CheckUsernameAvailability(username, dispatcher.identity)
 }

@@ -56,6 +56,7 @@ type (
 		Filter(predicate SpiFilterPredicate) ISpiCollection
 		Map(predicate SpiMapPredicate) ISpiCollection
 		Echo(document IDocument, editor Identity) (IEchoResult, error)
+		GetServerConfiguration(editor Identity) (IGetServerConfigurationResult, error)
 		CheckUsernameAvailability(username string, editor Identity) (ICheckUsernameAvailabilityResult, error)
 		Signup(username string, email string, password string, editor Identity) (ISignupResult, error)
 		ResendVerificationCode(email string, editor Identity) (IResendVerificationCodeResult, error)
@@ -81,6 +82,12 @@ type (
 
 	IEchoResult interface {
 		Document() IDocument
+	}
+
+	IGetServerConfigurationResult interface {
+		Product() string
+		Environment() string
+		Fqdn() string
 	}
 
 	ICheckUsernameAvailabilityResult interface {
