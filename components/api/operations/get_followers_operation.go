@@ -3,6 +3,7 @@ package operations
 import (
 	. "github.com/reiver/greatape/components/api/protobuf"
 	. "github.com/reiver/greatape/components/api/services"
+	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
 	. "github.com/xeronith/diamante/contracts/operation"
 	. "github.com/xeronith/diamante/contracts/service"
@@ -10,16 +11,27 @@ import (
 	. "github.com/xeronith/diamante/operation"
 )
 
-type getFollowersOperation struct {
-	Operation
+type (
+	GetFollowersRunner  func(IContext, *GetFollowersRequest) (*GetFollowersResult, error)
+	GetFollowersRunners []GetFollowersRunner
 
-	run func(IContext, *GetFollowersRequest) (*GetFollowersResult, error)
-}
+	getFollowersOperation struct {
+		Operation
+
+		runners GetFollowersRunners
+	}
+)
 
 func GetFollowersOperation() IOperation {
 	return &getFollowersOperation{
-		run: GetFollowersService,
+		runners: GetFollowersRunners{
+			GetFollowersService,
+		},
 	}
+}
+
+func (operation *getFollowersOperation) Tag() string {
+	return "GET_FOLLOWERS"
 }
 
 func (operation *getFollowersOperation) Id() (ID, ID) {
@@ -35,5 +47,14 @@ func (operation *getFollowersOperation) OutputContainer() Pointer {
 }
 
 func (operation *getFollowersOperation) Execute(context IContext, payload Pointer) (Pointer, error) {
-	return operation.run(context, payload.(*GetFollowersRequest))
+	if len(operation.runners) <= int(operation.ActiveRunner()) {
+		return nil, ERROR_OPERATION_RUNNER_NOT_AVAILABLE
+	}
+
+	service := operation.runners[operation.ActiveRunner()]
+	if input, valid := payload.(*GetFollowersRequest); valid {
+		return service(context, input)
+	}
+
+	return nil, ERROR_OPERATION_PAYLOAD_NOT_SUPPORTED
 }

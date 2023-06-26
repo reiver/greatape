@@ -3,6 +3,7 @@ package operations
 import (
 	. "github.com/reiver/greatape/components/api/protobuf"
 	. "github.com/reiver/greatape/components/api/services"
+	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
 	. "github.com/xeronith/diamante/contracts/operation"
 	. "github.com/xeronith/diamante/contracts/service"
@@ -10,16 +11,27 @@ import (
 	. "github.com/xeronith/diamante/operation"
 )
 
-type signupOperation struct {
-	Operation
+type (
+	SignupRunner  func(IContext, *SignupRequest) (*SignupResult, error)
+	SignupRunners []SignupRunner
 
-	run func(IContext, *SignupRequest) (*SignupResult, error)
-}
+	signupOperation struct {
+		Operation
+
+		runners SignupRunners
+	}
+)
 
 func SignupOperation() IOperation {
 	return &signupOperation{
-		run: SignupService,
+		runners: SignupRunners{
+			SignupService,
+		},
 	}
+}
+
+func (operation *signupOperation) Tag() string {
+	return "SIGNUP"
 }
 
 func (operation *signupOperation) Id() (ID, ID) {
@@ -35,5 +47,14 @@ func (operation *signupOperation) OutputContainer() Pointer {
 }
 
 func (operation *signupOperation) Execute(context IContext, payload Pointer) (Pointer, error) {
-	return operation.run(context, payload.(*SignupRequest))
+	if len(operation.runners) <= int(operation.ActiveRunner()) {
+		return nil, ERROR_OPERATION_RUNNER_NOT_AVAILABLE
+	}
+
+	service := operation.runners[operation.ActiveRunner()]
+	if input, valid := payload.(*SignupRequest); valid {
+		return service(context, input)
+	}
+
+	return nil, ERROR_OPERATION_PAYLOAD_NOT_SUPPORTED
 }

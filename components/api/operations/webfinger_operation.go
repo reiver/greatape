@@ -3,6 +3,7 @@ package operations
 import (
 	. "github.com/reiver/greatape/components/api/protobuf"
 	. "github.com/reiver/greatape/components/api/services"
+	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
 	. "github.com/xeronith/diamante/contracts/operation"
 	. "github.com/xeronith/diamante/contracts/service"
@@ -10,16 +11,27 @@ import (
 	. "github.com/xeronith/diamante/operation"
 )
 
-type webfingerOperation struct {
-	Operation
+type (
+	WebfingerRunner  func(IContext, *WebfingerRequest) (*WebfingerResult, error)
+	WebfingerRunners []WebfingerRunner
 
-	run func(IContext, *WebfingerRequest) (*WebfingerResult, error)
-}
+	webfingerOperation struct {
+		Operation
+
+		runners WebfingerRunners
+	}
+)
 
 func WebfingerOperation() IOperation {
 	return &webfingerOperation{
-		run: WebfingerService,
+		runners: WebfingerRunners{
+			WebfingerService,
+		},
 	}
+}
+
+func (operation *webfingerOperation) Tag() string {
+	return "WEBFINGER"
 }
 
 func (operation *webfingerOperation) Id() (ID, ID) {
@@ -35,5 +47,14 @@ func (operation *webfingerOperation) OutputContainer() Pointer {
 }
 
 func (operation *webfingerOperation) Execute(context IContext, payload Pointer) (Pointer, error) {
-	return operation.run(context, payload.(*WebfingerRequest))
+	if len(operation.runners) <= int(operation.ActiveRunner()) {
+		return nil, ERROR_OPERATION_RUNNER_NOT_AVAILABLE
+	}
+
+	service := operation.runners[operation.ActiveRunner()]
+	if input, valid := payload.(*WebfingerRequest); valid {
+		return service(context, input)
+	}
+
+	return nil, ERROR_OPERATION_PAYLOAD_NOT_SUPPORTED
 }

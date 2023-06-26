@@ -10,16 +10,27 @@ import (
 	. "github.com/xeronith/diamante/operation"
 )
 
-type systemCallOperation struct {
-	AdminOperation
+type (
+	SystemCallRunner  func(IContext, *SystemCallRequest) (*SystemCallResult, error)
+	SystemCallRunners []SystemCallRunner
 
-	run func(IContext, *SystemCallRequest) (*SystemCallResult, error)
-}
+	systemCallOperation struct {
+		AdminOperation
+
+		runners SystemCallRunners
+	}
+)
 
 func SystemCallOperation() IOperation {
 	return &systemCallOperation{
-		run: SystemCallService,
+		runners: SystemCallRunners{
+			SystemCallService,
+		},
 	}
+}
+
+func (operation *systemCallOperation) Tag() string {
+	return "SYSTEM_CALL"
 }
 
 func (operation *systemCallOperation) Id() (ID, ID) {
@@ -35,5 +46,5 @@ func (operation *systemCallOperation) OutputContainer() Pointer {
 }
 
 func (operation *systemCallOperation) Execute(context IContext, payload Pointer) (Pointer, error) {
-	return operation.run(context, payload.(*SystemCallRequest))
+	return operation.runners[0](context, payload.(*SystemCallRequest))
 }

@@ -3,6 +3,7 @@ package operations
 import (
 	. "github.com/reiver/greatape/components/api/protobuf"
 	. "github.com/reiver/greatape/components/api/services"
+	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
 	. "github.com/xeronith/diamante/contracts/operation"
 	. "github.com/xeronith/diamante/contracts/service"
@@ -10,16 +11,27 @@ import (
 	. "github.com/xeronith/diamante/operation"
 )
 
-type getServerConfigurationOperation struct {
-	Operation
+type (
+	GetServerConfigurationRunner  func(IContext, *GetServerConfigurationRequest) (*GetServerConfigurationResult, error)
+	GetServerConfigurationRunners []GetServerConfigurationRunner
 
-	run func(IContext, *GetServerConfigurationRequest) (*GetServerConfigurationResult, error)
-}
+	getServerConfigurationOperation struct {
+		Operation
+
+		runners GetServerConfigurationRunners
+	}
+)
 
 func GetServerConfigurationOperation() IOperation {
 	return &getServerConfigurationOperation{
-		run: GetServerConfigurationService,
+		runners: GetServerConfigurationRunners{
+			GetServerConfigurationService,
+		},
 	}
+}
+
+func (operation *getServerConfigurationOperation) Tag() string {
+	return "GET_SERVER_CONFIGURATION"
 }
 
 func (operation *getServerConfigurationOperation) Id() (ID, ID) {
@@ -35,5 +47,14 @@ func (operation *getServerConfigurationOperation) OutputContainer() Pointer {
 }
 
 func (operation *getServerConfigurationOperation) Execute(context IContext, payload Pointer) (Pointer, error) {
-	return operation.run(context, payload.(*GetServerConfigurationRequest))
+	if len(operation.runners) <= int(operation.ActiveRunner()) {
+		return nil, ERROR_OPERATION_RUNNER_NOT_AVAILABLE
+	}
+
+	service := operation.runners[operation.ActiveRunner()]
+	if input, valid := payload.(*GetServerConfigurationRequest); valid {
+		return service(context, input)
+	}
+
+	return nil, ERROR_OPERATION_PAYLOAD_NOT_SUPPORTED
 }

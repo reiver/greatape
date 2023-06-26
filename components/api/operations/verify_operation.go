@@ -3,6 +3,7 @@ package operations
 import (
 	. "github.com/reiver/greatape/components/api/protobuf"
 	. "github.com/reiver/greatape/components/api/services"
+	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
 	. "github.com/xeronith/diamante/contracts/operation"
 	. "github.com/xeronith/diamante/contracts/service"
@@ -10,16 +11,27 @@ import (
 	. "github.com/xeronith/diamante/operation"
 )
 
-type verifyOperation struct {
-	Operation
+type (
+	VerifyRunner  func(IContext, *VerifyRequest) (*VerifyResult, error)
+	VerifyRunners []VerifyRunner
 
-	run func(IContext, *VerifyRequest) (*VerifyResult, error)
-}
+	verifyOperation struct {
+		Operation
+
+		runners VerifyRunners
+	}
+)
 
 func VerifyOperation() IOperation {
 	return &verifyOperation{
-		run: VerifyService,
+		runners: VerifyRunners{
+			VerifyService,
+		},
 	}
+}
+
+func (operation *verifyOperation) Tag() string {
+	return "VERIFY"
 }
 
 func (operation *verifyOperation) Id() (ID, ID) {
@@ -35,5 +47,14 @@ func (operation *verifyOperation) OutputContainer() Pointer {
 }
 
 func (operation *verifyOperation) Execute(context IContext, payload Pointer) (Pointer, error) {
-	return operation.run(context, payload.(*VerifyRequest))
+	if len(operation.runners) <= int(operation.ActiveRunner()) {
+		return nil, ERROR_OPERATION_RUNNER_NOT_AVAILABLE
+	}
+
+	service := operation.runners[operation.ActiveRunner()]
+	if input, valid := payload.(*VerifyRequest); valid {
+		return service(context, input)
+	}
+
+	return nil, ERROR_OPERATION_PAYLOAD_NOT_SUPPORTED
 }

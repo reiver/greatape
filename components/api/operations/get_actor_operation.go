@@ -3,6 +3,7 @@ package operations
 import (
 	. "github.com/reiver/greatape/components/api/protobuf"
 	. "github.com/reiver/greatape/components/api/services"
+	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
 	. "github.com/xeronith/diamante/contracts/operation"
 	. "github.com/xeronith/diamante/contracts/service"
@@ -10,16 +11,27 @@ import (
 	. "github.com/xeronith/diamante/operation"
 )
 
-type getActorOperation struct {
-	Operation
+type (
+	GetActorRunner  func(IContext, *GetActorRequest) (*GetActorResult, error)
+	GetActorRunners []GetActorRunner
 
-	run func(IContext, *GetActorRequest) (*GetActorResult, error)
-}
+	getActorOperation struct {
+		Operation
+
+		runners GetActorRunners
+	}
+)
 
 func GetActorOperation() IOperation {
 	return &getActorOperation{
-		run: GetActorService,
+		runners: GetActorRunners{
+			GetActorService,
+		},
 	}
+}
+
+func (operation *getActorOperation) Tag() string {
+	return "GET_ACTOR"
 }
 
 func (operation *getActorOperation) Id() (ID, ID) {
@@ -35,5 +47,14 @@ func (operation *getActorOperation) OutputContainer() Pointer {
 }
 
 func (operation *getActorOperation) Execute(context IContext, payload Pointer) (Pointer, error) {
-	return operation.run(context, payload.(*GetActorRequest))
+	if len(operation.runners) <= int(operation.ActiveRunner()) {
+		return nil, ERROR_OPERATION_RUNNER_NOT_AVAILABLE
+	}
+
+	service := operation.runners[operation.ActiveRunner()]
+	if input, valid := payload.(*GetActorRequest); valid {
+		return service(context, input)
+	}
+
+	return nil, ERROR_OPERATION_PAYLOAD_NOT_SUPPORTED
 }

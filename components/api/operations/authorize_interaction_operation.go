@@ -3,6 +3,7 @@ package operations
 import (
 	. "github.com/reiver/greatape/components/api/protobuf"
 	. "github.com/reiver/greatape/components/api/services"
+	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
 	. "github.com/xeronith/diamante/contracts/operation"
 	. "github.com/xeronith/diamante/contracts/service"
@@ -10,16 +11,27 @@ import (
 	. "github.com/xeronith/diamante/operation"
 )
 
-type authorizeInteractionOperation struct {
-	Operation
+type (
+	AuthorizeInteractionRunner  func(IContext, *AuthorizeInteractionRequest) (*AuthorizeInteractionResult, error)
+	AuthorizeInteractionRunners []AuthorizeInteractionRunner
 
-	run func(IContext, *AuthorizeInteractionRequest) (*AuthorizeInteractionResult, error)
-}
+	authorizeInteractionOperation struct {
+		Operation
+
+		runners AuthorizeInteractionRunners
+	}
+)
 
 func AuthorizeInteractionOperation() IOperation {
 	return &authorizeInteractionOperation{
-		run: AuthorizeInteractionService,
+		runners: AuthorizeInteractionRunners{
+			AuthorizeInteractionService,
+		},
 	}
+}
+
+func (operation *authorizeInteractionOperation) Tag() string {
+	return "AUTHORIZE_INTERACTION"
 }
 
 func (operation *authorizeInteractionOperation) Id() (ID, ID) {
@@ -35,5 +47,14 @@ func (operation *authorizeInteractionOperation) OutputContainer() Pointer {
 }
 
 func (operation *authorizeInteractionOperation) Execute(context IContext, payload Pointer) (Pointer, error) {
-	return operation.run(context, payload.(*AuthorizeInteractionRequest))
+	if len(operation.runners) <= int(operation.ActiveRunner()) {
+		return nil, ERROR_OPERATION_RUNNER_NOT_AVAILABLE
+	}
+
+	service := operation.runners[operation.ActiveRunner()]
+	if input, valid := payload.(*AuthorizeInteractionRequest); valid {
+		return service(context, input)
+	}
+
+	return nil, ERROR_OPERATION_PAYLOAD_NOT_SUPPORTED
 }
