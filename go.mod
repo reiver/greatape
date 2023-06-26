@@ -8,7 +8,7 @@ require (
 	github.com/robfig/cron v1.2.0
 	github.com/sendgrid/sendgrid-go v3.12.0+incompatible
 	github.com/valyala/fastjson v1.6.4
-	github.com/xeronith/diamante v1.9.7
+	github.com/xeronith/diamante v1.15.2
 	google.golang.org/protobuf v1.28.1
 )
 
@@ -18,6 +18,7 @@ require (
 	github.com/disintegration/imaging v1.6.2 // indirect
 	github.com/go-ap/errors v0.0.0-20221205040414-01c1adfc98ea // indirect
 	github.com/go-ap/jsonld v0.0.0-20221030091449-f2a191312c73 // indirect
+	github.com/go-faster/city v1.0.1 // indirect
 	github.com/gofrs/uuid v3.3.0+incompatible // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/gorilla/securecookie v1.1.1 // indirect
