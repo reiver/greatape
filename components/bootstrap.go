@@ -7,7 +7,6 @@ import (
 	"github.com/reiver/greatape/components/api/handlers"
 	"github.com/reiver/greatape/components/api/operations"
 	. "github.com/reiver/greatape/components/constants"
-	. "github.com/reiver/greatape/components/contracts"
 	"github.com/reiver/greatape/components/core"
 	"github.com/reiver/greatape/components/model/repository"
 	"github.com/reiver/greatape/providers/outbound/email"
@@ -39,7 +38,7 @@ func Run() {
 	emailProvider := email.NewProvider(logger)
 	smsProvider := sms.NewProvider(logger)
 
-	if mainServer, err := server.New(configuration, operationsFactory, handlersFactory, OPCODES); err != nil {
+	if mainServer, err := server.New(configuration, operationsFactory, handlersFactory); err != nil {
 		logger.Fatal(err)
 	} else {
 		if err := repository.Initialize(configuration, logger); err != nil {

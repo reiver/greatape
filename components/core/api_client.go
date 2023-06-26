@@ -6,13 +6,14 @@ import (
 	"reflect"
 	"time"
 
-	. "github.com/reiver/greatape/components/api/protobuf"
 	. "github.com/reiver/greatape/components/contracts"
 	. "github.com/xeronith/diamante/client"
 	. "github.com/xeronith/diamante/contracts/client"
 	. "github.com/xeronith/diamante/contracts/logging"
 	. "github.com/xeronith/diamante/contracts/operation"
 	. "github.com/xeronith/diamante/contracts/system"
+	. "github.com/xeronith/diamante/protobuf"
+	. "github.com/xeronith/diamante/serialization"
 	. "github.com/xeronith/diamante/server"
 )
 
@@ -48,7 +49,7 @@ func NewApi(endpoint string, logger ILogger) IApi {
 		logger: logger,
 	}
 
-	api.client.SetBinaryOperationResultListener(api.handler)
+	api.client.SetOperationResultListener(api.handler)
 	return api
 }
 
@@ -63,7 +64,7 @@ func (api *api) SetDebugMode(enabled bool) {
 func (api *api) call(operation uint64, payload Pointer) (Pointer, error) {
 	requestId := uint64(time.Now().UnixNano())
 	if api.debugMode {
-		api.logger.Debug(fmt.Sprintf("REQ { ID: %d, OP: %s }", requestId, OPCODES[operation]))
+		api.logger.Debug(fmt.Sprintf("REQ { ID: %d, OP: %d }", requestId, operation))
 	}
 
 	if err := api.client.Send(requestId, operation, payload); err != nil {
@@ -72,13 +73,13 @@ func (api *api) call(operation uint64, payload Pointer) (Pointer, error) {
 
 	result := <-api.output
 	if result.isError {
-		return nil, errors.New(result.payload.(*Error).Message)
+		return nil, errors.New(result.payload.(*ServerError).Message)
 	}
 
 	return result.payload, nil
 }
 
-func (api *api) handler(bundle IBinaryOperationResult) {
+func (api *api) handler(bundle IOperationResult) {
 	isError := false
 	var result Pointer
 
@@ -89,14 +90,14 @@ func (api *api) handler(bundle IBinaryOperationResult) {
 	} else {
 		switch bundle.Type() {
 		case ERROR:
-			result = new(Error)
+			result = new(ServerError)
 			isError = true
 		default:
 			api.logger.Fatal("unregistered_result_type")
 		}
 	}
 
-	if err := DefaultBinarySerializer.Deserialize(bundle.Payload(), result); err != nil {
+	if err := NewProtobufSerializer().Deserialize(bundle.Payload(), result); err != nil {
 		api.logger.Fatal(err)
 	}
 

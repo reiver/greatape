@@ -325,7 +325,7 @@ func TestMain(main *testing.M) {
 	emailProvider := email.NewProvider(logger)
 	smsProvider := sms.NewProvider(logger)
 
-	if testServer, err := server.New(configuration, operationsFactory, handlersFactory, OPCODES); err != nil {
+	if testServer, err := server.New(configuration, operationsFactory, handlersFactory); err != nil {
 		logger.Fatal(err)
 	} else {
 		if err := repository.Initialize(configuration, logger); err != nil {
