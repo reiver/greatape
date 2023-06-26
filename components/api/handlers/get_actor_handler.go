@@ -34,7 +34,6 @@ func (handler *getActorHandler) HandlerFunc() HttpHandlerFunc {
 		}
 
 		return pipeline.Handle(x,
-			"get_actor",
 			GET_ACTOR_REQUEST,
 			GET_ACTOR_RESULT,
 			request, result,

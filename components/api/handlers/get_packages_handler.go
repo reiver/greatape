@@ -37,7 +37,6 @@ func (handler *getPackagesHandler) HandlerFunc() HttpHandlerFunc {
 		}
 
 		return pipeline.Handle(x,
-			"get_packages",
 			GET_PACKAGES_REQUEST,
 			GET_PACKAGES_RESULT,
 			request, result,

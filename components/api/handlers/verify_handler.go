@@ -33,7 +33,6 @@ func (handler *verifyHandler) HandlerFunc() HttpHandlerFunc {
 		}
 
 		return pipeline.Handle(x,
-			"verify",
 			VERIFY_REQUEST,
 			VERIFY_RESULT,
 			request, result,

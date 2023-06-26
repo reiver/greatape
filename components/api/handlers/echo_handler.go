@@ -33,7 +33,6 @@ func (handler *echoHandler) HandlerFunc() HttpHandlerFunc {
 		}
 
 		return pipeline.Handle(x,
-			"echo",
 			ECHO_REQUEST,
 			ECHO_RESULT,
 			request, result,

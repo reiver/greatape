@@ -34,7 +34,6 @@ func (handler *authorizeInteractionHandler) HandlerFunc() HttpHandlerFunc {
 		}
 
 		return pipeline.Handle(x,
-			"authorize_interaction",
 			AUTHORIZE_INTERACTION_REQUEST,
 			AUTHORIZE_INTERACTION_RESULT,
 			request, result,

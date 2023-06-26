@@ -34,7 +34,6 @@ func (handler *getInboxHandler) HandlerFunc() HttpHandlerFunc {
 		}
 
 		return pipeline.Handle(x,
-			"get_inbox",
 			GET_INBOX_REQUEST,
 			GET_INBOX_RESULT,
 			request, result,

@@ -33,7 +33,6 @@ func (handler *logoutHandler) HandlerFunc() HttpHandlerFunc {
 		}
 
 		return pipeline.Handle(x,
-			"logout",
 			LOGOUT_REQUEST,
 			LOGOUT_RESULT,
 			request, result,

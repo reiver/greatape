@@ -33,7 +33,6 @@ func (handler *checkUsernameAvailabilityHandler) HandlerFunc() HttpHandlerFunc {
 		}
 
 		return pipeline.Handle(x,
-			"check_username_availability",
 			CHECK_USERNAME_AVAILABILITY_REQUEST,
 			CHECK_USERNAME_AVAILABILITY_RESULT,
 			request, result,

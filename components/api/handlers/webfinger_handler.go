@@ -34,7 +34,6 @@ func (handler *webfingerHandler) HandlerFunc() HttpHandlerFunc {
 		}
 
 		return pipeline.Handle(x,
-			"webfinger",
 			WEBFINGER_REQUEST,
 			WEBFINGER_RESULT,
 			request, result,

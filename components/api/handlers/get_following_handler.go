@@ -34,7 +34,6 @@ func (handler *getFollowingHandler) HandlerFunc() HttpHandlerFunc {
 		}
 
 		return pipeline.Handle(x,
-			"get_following",
 			GET_FOLLOWING_REQUEST,
 			GET_FOLLOWING_RESULT,
 			request, result,

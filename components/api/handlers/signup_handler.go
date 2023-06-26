@@ -33,7 +33,6 @@ func (handler *signupHandler) HandlerFunc() HttpHandlerFunc {
 		}
 
 		return pipeline.Handle(x,
-			"signup",
 			SIGNUP_REQUEST,
 			SIGNUP_RESULT,
 			request, result,

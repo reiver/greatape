@@ -34,7 +34,6 @@ func (handler *getOutboxHandler) HandlerFunc() HttpHandlerFunc {
 		}
 
 		return pipeline.Handle(x,
-			"get_outbox",
 			GET_OUTBOX_REQUEST,
 			GET_OUTBOX_RESULT,
 			request, result,

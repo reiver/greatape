@@ -35,7 +35,6 @@ func (handler *followActorHandler) HandlerFunc() HttpHandlerFunc {
 		}
 
 		if err := pipeline.Handle(x,
-			"follow_actor",
 			FOLLOW_ACTOR_REQUEST,
 			FOLLOW_ACTOR_RESULT,
 			request, result,

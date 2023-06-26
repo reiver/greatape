@@ -38,7 +38,6 @@ func (handler *postToInboxHandler) HandlerFunc() HttpHandlerFunc {
 		}
 
 		return pipeline.Handle(x,
-			"post_to_inbox",
 			POST_TO_INBOX_REQUEST,
 			POST_TO_INBOX_RESULT,
 			request, result,

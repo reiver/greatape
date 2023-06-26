@@ -33,7 +33,6 @@ func (handler *getProfileByUserHandler) HandlerFunc() HttpHandlerFunc {
 		}
 
 		return pipeline.Handle(x,
-			"get_profile_by_user",
 			GET_PROFILE_BY_USER_REQUEST,
 			GET_PROFILE_BY_USER_RESULT,
 			request, result,

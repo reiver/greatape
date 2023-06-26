@@ -38,7 +38,6 @@ func (handler *postToOutboxHandler) HandlerFunc() HttpHandlerFunc {
 		}
 
 		return pipeline.Handle(x,
-			"post_to_outbox",
 			POST_TO_OUTBOX_REQUEST,
 			POST_TO_OUTBOX_RESULT,
 			request, result,
