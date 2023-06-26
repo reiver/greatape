@@ -2,12 +2,7 @@ syntax = "proto3";
 
 package protobuf;
 
-option go_package = "./";
-
-message Error {
-    string message = 0x00000001;
-    string description = 0x00000002;
-}
+option go_package = "../protobuf";
 
 message Document {
     int64 id = 0x00000001;
