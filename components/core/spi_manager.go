@@ -221,11 +221,12 @@ func (manager *spiManager) Echo(document IDocument, editor Identity) (result IEc
 	editor.Lock(ECHO_REQUEST)
 	defer editor.Unlock(ECHO_REQUEST)
 
-	if result, err = commands.Echo(NewDispatcher(Conductor, editor), document); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.Echo(dispatcher, document); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
 
 //region IGetServerConfigurationResult Implementation
@@ -268,11 +269,12 @@ func (manager *spiManager) GetServerConfiguration(editor Identity) (result IGetS
 	editor.Lock(GET_SERVER_CONFIGURATION_REQUEST)
 	defer editor.Unlock(GET_SERVER_CONFIGURATION_REQUEST)
 
-	if result, err = commands.GetServerConfiguration(NewDispatcher(Conductor, editor)); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.GetServerConfiguration(dispatcher); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
 
 //region ICheckUsernameAvailabilityResult Implementation
@@ -307,11 +309,12 @@ func (manager *spiManager) CheckUsernameAvailability(username string, editor Ide
 	editor.Lock(CHECK_USERNAME_AVAILABILITY_REQUEST)
 	defer editor.Unlock(CHECK_USERNAME_AVAILABILITY_REQUEST)
 
-	if result, err = commands.CheckUsernameAvailability(NewDispatcher(Conductor, editor), username); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.CheckUsernameAvailability(dispatcher, username); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
 
 //region ISignupResult Implementation
@@ -339,16 +342,12 @@ func (result signupResult) Code() string {
 //endregion
 
 func (manager *spiManager) Signup(username string, email string, password string, editor Identity) (result ISignupResult, err error) {
-	if email != "" {
-		if match, err := manager.Match(EMAIL, email); err != nil {
-			return nil, err
-		} else if !match {
-			return nil, ERROR_INVALID_EMAIL_FOR_SIGNUP
-		}
-	}
-
 	if !validators.UsernameIsValid(username) {
 		return nil, ERROR_INVALID_USERNAME_FOR_SIGNUP
+	}
+
+	if !validators.EmailIsValid(email) {
+		return nil, ERROR_INVALID_EMAIL_FOR_SIGNUP
 	}
 
 	if !validators.PasswordIsValid(password) {
@@ -364,11 +363,12 @@ func (manager *spiManager) Signup(username string, email string, password string
 	editor.Lock(SIGNUP_REQUEST)
 	defer editor.Unlock(SIGNUP_REQUEST)
 
-	if result, err = commands.Signup(NewDispatcher(Conductor, editor), username, email, password); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.Signup(dispatcher, username, email, password); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
 
 //region IResendVerificationCodeResult Implementation
@@ -390,12 +390,8 @@ func (result resendVerificationCodeResult) Code() string {
 //endregion
 
 func (manager *spiManager) ResendVerificationCode(email string, editor Identity) (result IResendVerificationCodeResult, err error) {
-	if email != "" {
-		if match, err := manager.Match(EMAIL, email); err != nil {
-			return nil, err
-		} else if !match {
-			return nil, ERROR_INVALID_EMAIL_FOR_RESEND_VERIFICATION_CODE
-		}
+	if !validators.EmailIsValid(email) {
+		return nil, ERROR_INVALID_EMAIL_FOR_RESEND_VERIFICATION_CODE
 	}
 
 	defer func() {
@@ -407,11 +403,12 @@ func (manager *spiManager) ResendVerificationCode(email string, editor Identity)
 	editor.Lock(RESEND_VERIFICATION_CODE_REQUEST)
 	defer editor.Unlock(RESEND_VERIFICATION_CODE_REQUEST)
 
-	if result, err = commands.ResendVerificationCode(NewDispatcher(Conductor, editor), email); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.ResendVerificationCode(dispatcher, email); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
 
 //region IVerifyResult Implementation
@@ -433,12 +430,8 @@ func (result verifyResult) Token() string {
 //endregion
 
 func (manager *spiManager) Verify(email string, token string, code string, editor Identity) (result IVerifyResult, err error) {
-	if email != "" {
-		if match, err := manager.Match(EMAIL, email); err != nil {
-			return nil, err
-		} else if !match {
-			return nil, ERROR_INVALID_EMAIL_FOR_VERIFY
-		}
+	if !validators.EmailIsValid(email) {
+		return nil, ERROR_INVALID_EMAIL_FOR_VERIFY
 	}
 
 	defer func() {
@@ -450,11 +443,12 @@ func (manager *spiManager) Verify(email string, token string, code string, edito
 	editor.Lock(VERIFY_REQUEST)
 	defer editor.Unlock(VERIFY_REQUEST)
 
-	if result, err = commands.Verify(NewDispatcher(Conductor, editor), email, token, code); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.Verify(dispatcher, email, token, code); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
 
 //region ILoginResult Implementation
@@ -482,12 +476,8 @@ func (result loginResult) Token() string {
 //endregion
 
 func (manager *spiManager) Login(email string, password string, editor Identity) (result ILoginResult, err error) {
-	if email != "" {
-		if match, err := manager.Match(EMAIL, email); err != nil {
-			return nil, err
-		} else if !match {
-			return nil, ERROR_INVALID_EMAIL_FOR_LOGIN
-		}
+	if !validators.EmailIsValid(email) {
+		return nil, ERROR_INVALID_EMAIL_FOR_LOGIN
 	}
 
 	if !validators.PasswordIsValid(password) {
@@ -503,11 +493,12 @@ func (manager *spiManager) Login(email string, password string, editor Identity)
 	editor.Lock(LOGIN_REQUEST)
 	defer editor.Unlock(LOGIN_REQUEST)
 
-	if result, err = commands.Login(NewDispatcher(Conductor, editor), email, password); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.Login(dispatcher, email, password); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
 
 //region IGetProfileByUserResult Implementation
@@ -568,11 +559,12 @@ func (manager *spiManager) GetProfileByUser(editor Identity) (result IGetProfile
 	editor.Lock(GET_PROFILE_BY_USER_REQUEST)
 	defer editor.Unlock(GET_PROFILE_BY_USER_REQUEST)
 
-	if result, err = commands.GetProfileByUser(NewDispatcher(Conductor, editor)); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.GetProfileByUser(dispatcher); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
 
 //region IUpdateProfileByUserResult Implementation
@@ -627,11 +619,12 @@ func (manager *spiManager) UpdateProfileByUser(displayName string, avatar string
 	editor.Lock(UPDATE_PROFILE_BY_USER_REQUEST)
 	defer editor.Unlock(UPDATE_PROFILE_BY_USER_REQUEST)
 
-	if result, err = commands.UpdateProfileByUser(NewDispatcher(Conductor, editor), displayName, avatar, banner, summary, github); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.UpdateProfileByUser(dispatcher, displayName, avatar, banner, summary, github); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
 
 //region IChangePasswordResult Implementation
@@ -663,11 +656,12 @@ func (manager *spiManager) ChangePassword(currentPassword string, newPassword st
 	editor.Lock(CHANGE_PASSWORD_REQUEST)
 	defer editor.Unlock(CHANGE_PASSWORD_REQUEST)
 
-	if result, err = commands.ChangePassword(NewDispatcher(Conductor, editor), currentPassword, newPassword); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.ChangePassword(dispatcher, currentPassword, newPassword); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
 
 //region IResetPasswordResult Implementation
@@ -691,11 +685,12 @@ func (manager *spiManager) ResetPassword(usernameOrEmail string, editor Identity
 	editor.Lock(RESET_PASSWORD_REQUEST)
 	defer editor.Unlock(RESET_PASSWORD_REQUEST)
 
-	if result, err = commands.ResetPassword(NewDispatcher(Conductor, editor), usernameOrEmail); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.ResetPassword(dispatcher, usernameOrEmail); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
 
 //region ILogoutResult Implementation
@@ -719,11 +714,12 @@ func (manager *spiManager) Logout(editor Identity) (result ILogoutResult, err er
 	editor.Lock(LOGOUT_REQUEST)
 	defer editor.Unlock(LOGOUT_REQUEST)
 
-	if result, err = commands.Logout(NewDispatcher(Conductor, editor)); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.Logout(dispatcher); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
 
 //region IWebfingerResult Implementation
@@ -757,9 +753,7 @@ func (result webfingerResult) Subject() string {
 //endregion
 
 func (manager *spiManager) Webfinger(resource string, editor Identity) (result IWebfingerResult, err error) {
-	if match, err := manager.Match(WEBFINGER, resource); err != nil {
-		return nil, err
-	} else if !match {
+	if !validators.WebfingerIsValid(resource) {
 		return nil, ERROR_INVALID_RESOURCE_FOR_WEBFINGER
 	}
 
@@ -772,11 +766,12 @@ func (manager *spiManager) Webfinger(resource string, editor Identity) (result I
 	editor.Lock(WEBFINGER_REQUEST)
 	defer editor.Unlock(WEBFINGER_REQUEST)
 
-	if result, err = commands.Webfinger(NewDispatcher(Conductor, editor), resource); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.Webfinger(dispatcher, resource); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
 
 //region IGetPackagesResult Implementation
@@ -807,11 +802,12 @@ func (manager *spiManager) GetPackages(editor Identity) (result IGetPackagesResu
 	editor.Lock(GET_PACKAGES_REQUEST)
 	defer editor.Unlock(GET_PACKAGES_REQUEST)
 
-	if result, err = commands.GetPackages(NewDispatcher(Conductor, editor)); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.GetPackages(dispatcher); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
 
 //region IGetActorResult Implementation
@@ -926,11 +922,12 @@ func (manager *spiManager) GetActor(username string, editor Identity) (result IG
 	editor.Lock(GET_ACTOR_REQUEST)
 	defer editor.Unlock(GET_ACTOR_REQUEST)
 
-	if result, err = commands.GetActor(NewDispatcher(Conductor, editor), username); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.GetActor(dispatcher, username); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
 
 //region IFollowActorResult Implementation
@@ -961,11 +958,12 @@ func (manager *spiManager) FollowActor(username string, acct string, editor Iden
 	editor.Lock(FOLLOW_ACTOR_REQUEST)
 	defer editor.Unlock(FOLLOW_ACTOR_REQUEST)
 
-	if result, err = commands.FollowActor(NewDispatcher(Conductor, editor), username, acct); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.FollowActor(dispatcher, username, acct); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
 
 //region IAuthorizeInteractionResult Implementation
@@ -1002,11 +1000,12 @@ func (manager *spiManager) AuthorizeInteraction(uri string, editor Identity) (re
 	editor.Lock(AUTHORIZE_INTERACTION_REQUEST)
 	defer editor.Unlock(AUTHORIZE_INTERACTION_REQUEST)
 
-	if result, err = commands.AuthorizeInteraction(NewDispatcher(Conductor, editor), uri); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.AuthorizeInteraction(dispatcher, uri); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
 
 //region IGetFollowersResult Implementation
@@ -1067,11 +1066,12 @@ func (manager *spiManager) GetFollowers(username string, editor Identity) (resul
 	editor.Lock(GET_FOLLOWERS_REQUEST)
 	defer editor.Unlock(GET_FOLLOWERS_REQUEST)
 
-	if result, err = commands.GetFollowers(NewDispatcher(Conductor, editor), username); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.GetFollowers(dispatcher, username); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
 
 //region IGetFollowingResult Implementation
@@ -1132,11 +1132,12 @@ func (manager *spiManager) GetFollowing(username string, editor Identity) (resul
 	editor.Lock(GET_FOLLOWING_REQUEST)
 	defer editor.Unlock(GET_FOLLOWING_REQUEST)
 
-	if result, err = commands.GetFollowing(NewDispatcher(Conductor, editor), username); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.GetFollowing(dispatcher, username); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
 
 //region IPostToOutboxResult Implementation
@@ -1167,11 +1168,12 @@ func (manager *spiManager) PostToOutbox(username string, body []byte, editor Ide
 	editor.Lock(POST_TO_OUTBOX_REQUEST)
 	defer editor.Unlock(POST_TO_OUTBOX_REQUEST)
 
-	if result, err = commands.PostToOutbox(NewDispatcher(Conductor, editor), username, body); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.PostToOutbox(dispatcher, username, body); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
 
 //region IGetOutboxResult Implementation
@@ -1232,11 +1234,12 @@ func (manager *spiManager) GetOutbox(username string, editor Identity) (result I
 	editor.Lock(GET_OUTBOX_REQUEST)
 	defer editor.Unlock(GET_OUTBOX_REQUEST)
 
-	if result, err = commands.GetOutbox(NewDispatcher(Conductor, editor), username); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.GetOutbox(dispatcher, username); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
 
 //region IPostToInboxResult Implementation
@@ -1267,11 +1270,12 @@ func (manager *spiManager) PostToInbox(username string, body []byte, editor Iden
 	editor.Lock(POST_TO_INBOX_REQUEST)
 	defer editor.Unlock(POST_TO_INBOX_REQUEST)
 
-	if result, err = commands.PostToInbox(NewDispatcher(Conductor, editor), username, body); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.PostToInbox(dispatcher, username, body); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
 
 //region IGetInboxResult Implementation
@@ -1332,9 +1336,10 @@ func (manager *spiManager) GetInbox(username string, editor Identity) (result IG
 	editor.Lock(GET_INBOX_REQUEST)
 	defer editor.Unlock(GET_INBOX_REQUEST)
 
-	if result, err = commands.GetInbox(NewDispatcher(Conductor, editor), username); err != nil {
+	dispatcher := NewDispatcher(Conductor, editor)
+	if result, err = commands.GetInbox(dispatcher, username); err != nil {
 		return nil, err
-	} else {
-		return result, nil
 	}
+
+	return result, nil
 }
