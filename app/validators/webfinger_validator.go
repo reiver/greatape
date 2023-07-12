@@ -1,11 +1,7 @@
 package validators
 
-import (
-	"regexp"
-
-	. "github.com/reiver/greatape/components/constants"
-)
+import . "github.com/reiver/greatape/components/constants"
 
 func WebfingerIsValid(webfinger string) bool {
-	return regexp.MustCompile(WEBFINGER).MatchString(webfinger)
+	return REGEXP_WEBFINGER.MatchString(webfinger)
 }

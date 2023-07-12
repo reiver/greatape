@@ -1,13 +1,9 @@
 package validators
 
-import (
-	"regexp"
-
-	. "github.com/reiver/greatape/components/constants"
-)
+import . "github.com/reiver/greatape/components/constants"
 
 func UsernameIsValid(username string) bool {
-	if !regexp.MustCompile(USERNAME).MatchString(username) {
+	if !REGEXP_USERNAME.MatchString(username) {
 		return false
 	}
 

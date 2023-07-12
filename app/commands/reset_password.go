@@ -7,7 +7,7 @@ import (
 )
 
 func ResetPassword(x IDispatcher, usernameOrEmail string) (IResetPasswordResult, error) {
-	isEmail := x.MatchString(EMAIL, usernameOrEmail)
+	isEmail := REGEXP_EMAIL.MatchString(usernameOrEmail)
 	if !isEmail && !UsernameIsValid(usernameOrEmail) {
 		return nil, ERROR_INVALID_PARAMETERS
 	}
