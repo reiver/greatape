@@ -1,11 +1,9 @@
 package commands
 
 import (
-	"encoding/json"
 	"fmt"
 	"time"
 
-	ap "github.com/go-ap/activitypub"
 	"github.com/reiver/greatape/app/activitypub"
 	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
@@ -21,21 +19,21 @@ func PostToOutbox(x IDispatcher, username string, body []byte) (IPostToOutboxRes
 
 	item := x.UnmarshalActivityPubObjectOrLink(body)
 
-	id := x.Format("%s/u/%s", x.PublicUrl(), identity.Username())
-
-	publicKeyId := x.Format("%s#main-key", id)
-	privateKey := identity.PrivateKey()
+	actorId := x.GetActorId()
 
 	switch item.GetType() {
-	case ap.NoteType:
+	case activitypub.TypeNote:
 		{
-			note := x.UnmarshalActivityPubNote(body)
+			note, err := activitypub.UnmarshalNote(body)
+			if err != nil {
+				return nil, ERROR_INVALID_PARAMETERS
+			}
 
-			content := note.Content.First().Value.String()
-			to := note.To.First().GetID().String()
-			from := note.AttributedTo.GetID().String()
+			content := note.Content
+			to := note.To[0]
+			from := note.AttributedTo
 
-			if from != id {
+			if from != actorId {
 				return nil, ERROR_INVALID_PARAMETERS
 			}
 
@@ -51,22 +49,18 @@ func PostToOutbox(x IDispatcher, username string, body []byte) (IPostToOutboxRes
 				Object:    note,
 			}
 
-			if to != activitypub.Public {
+			if to != ACTIVITY_PUB_PUBLIC {
 				recipient := &activitypub.Actor{}
-				if err := x.GetActivityStreamSigned(to, publicKeyId, privateKey, nil, recipient); err != nil {
+				if err := x.GetActivityStreamSigned(to, nil, recipient); err != nil {
 					return nil, err
 				}
 
 				to = recipient.ID
 
-				data, _ := json.Marshal(activity)
-				output := &struct{}{}
-				if err := x.PostActivityStreamSigned(recipient.Inbox, publicKeyId, privateKey, data, output); err != nil {
+				if err := x.PostActivityStreamSigned(recipient.Inbox, activity, nil); err != nil {
 					return nil, err
 				}
 			}
-
-			raw, _ := json.Marshal(note)
 
 			x.LogActivityPubOutgoingActivity(
 				identity.Id(),
@@ -75,7 +69,7 @@ func PostToOutbox(x IDispatcher, username string, body []byte) (IPostToOutboxRes
 				from,
 				to,
 				content,
-				string(raw),
+				string(body),
 				"PostToOutbox",
 				EMPTY_JSON,
 			)

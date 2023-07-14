@@ -1,9 +1,6 @@
 package commands
 
 import (
-	"encoding/json"
-
-	"github.com/mitchellh/mapstructure"
 	"github.com/reiver/greatape/app/activitypub"
 	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
@@ -18,54 +15,72 @@ func PostToInbox(x IDispatcher, username string, body []byte) (IPostToInboxResul
 	identity := identities.First()
 
 	object := &activitypub.Object{}
-	if err := json.Unmarshal(body, object); err != nil {
-		return nil, ERROR_UNKNOWN_ACTIVITY_PUB_OBJECT
-	}
-
-	keyId := x.Format("%s/u/%s#main-key", x.PublicUrl(), username)
+	x.UnmarshalJson(body, object)
 
 	switch object.Type {
-	case activitypub.TypeFollow:
+	case activitypub.TypeAccept:
 		{
 			activity := &activitypub.Activity{}
-			if err := json.Unmarshal(body, activity); err != nil {
-				return nil, ERROR_UNKNOWN_ACTIVITY_PUB_ACTIVITY
+			x.UnmarshalJson(body, activity)
+
+			switch activity.Object.(map[string]interface{})["type"] {
+			case activitypub.TypeFollow:
+				follow := &activitypub.Follow{}
+				x.DecodeMapStructure(activity.Object, follow)
+
+				x.Atomic(func() error {
+					x.ForEachActivityPubFollower(func(record IActivityPubFollower) {
+						if record.Handle() == follow.Actor && record.Subject() == follow.Object {
+							record.UpdateAcceptedAtomic(x.Transaction(), true, x.Identity())
+						}
+					})
+
+					x.AddActivityPubIncomingActivity(
+						identity.Id(),
+						x.GenerateUUID(),
+						x.UnixNano(),
+						follow.Object,
+						follow.Actor,
+						activitypub.TypeAccept,
+						string(body),
+					)
+
+					return nil
+				})
+
+			default:
+				return nil, ERROR_INVALID_PARAMETERS
 			}
+		}
+	case activitypub.TypeFollow:
+		{
+			follow := &activitypub.Follow{}
+			x.UnmarshalJson(body, follow)
 
-			url := activity.Actor
-			var inbox string
+			url := follow.Actor
 
-			{
-				actor := &activitypub.Actor{}
-				if err := x.GetActivityStreamSigned(url, keyId, identity.PrivateKey(), nil, actor); err != nil {
-					return nil, err
-				}
-
-				inbox = actor.Inbox
-			}
-
-			data, err := json.Marshal(activity)
-			if err != nil {
+			actor := &activitypub.Actor{}
+			if err := x.GetActivityStreamSigned(url, nil, actor); err != nil {
 				return nil, err
 			}
 
 			follower := x.AddActivityPubFollower(
-				activity.Actor,
-				inbox,
+				follow.Actor,
+				actor.Inbox,
 				x.Format("%s/u/%s", x.PublicUrl(), username),
-				string(data),
+				x.MarshalJson(follow),
 				false,
 			)
 
-			data, _ = json.Marshal(&activitypub.Activity{
+			activity := &activitypub.Activity{
 				Context: activitypub.ActivityStreams,
 				ID:      x.Format("%s/%s", x.PublicUrl(), x.GenerateUUID()),
 				Type:    activitypub.TypeAccept,
 				Actor:   x.Format("%s/u/%s", x.PublicUrl(), username),
-				Object:  activity,
-			})
+				Object:  follow,
+			}
 
-			if err := x.PostActivityStreamSigned(inbox, keyId, identity.PrivateKey(), data, nil); err != nil {
+			if err := x.PostActivityStreamSigned(actor.Inbox, activity, nil); err != nil {
 				return nil, err
 			}
 
@@ -74,18 +89,12 @@ func PostToInbox(x IDispatcher, username string, body []byte) (IPostToInboxResul
 	case activitypub.TypeCreate:
 		{
 			activity := &activitypub.Activity{}
-			if err := json.Unmarshal(body, activity); err != nil {
-				return nil, ERROR_UNKNOWN_ACTIVITY_PUB_ACTIVITY
-			}
+			x.UnmarshalJson(body, activity)
 
 			switch activity.Object.(map[string]interface{})["type"] {
 			case activitypub.TypeNote:
 				note := &activitypub.Note{}
-				if err := mapstructure.Decode(activity.Object, note); err != nil {
-					return nil, ERROR_UNKNOWN_ACTIVITY_PUB_ACTIVITY
-				}
-
-				raw, _ := json.Marshal(note)
+				x.DecodeMapStructure(activity.Object, note)
 
 				x.AddActivityPubIncomingActivity(
 					identity.Id(),
@@ -94,16 +103,14 @@ func PostToInbox(x IDispatcher, username string, body []byte) (IPostToInboxResul
 					note.AttributedTo,
 					note.To[0],
 					note.Content,
-					string(raw),
+					string(body),
 				)
 			default:
 				return nil, ERROR_INVALID_PARAMETERS
 			}
 		}
 	default:
-		{
-			return nil, ERROR_INVALID_PARAMETERS
-		}
+		return nil, ERROR_INVALID_PARAMETERS
 	}
 
 	return x.NewPostToInboxResult(body), nil

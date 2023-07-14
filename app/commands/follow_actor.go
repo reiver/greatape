@@ -1,10 +1,8 @@
 package commands
 
 import (
-	"fmt"
 	"io"
 	"net/http"
-	"net/url"
 	"strings"
 
 	"github.com/reiver/greatape/app/activitypub"
@@ -26,20 +24,62 @@ func FollowActor(x IDispatcher, username string, acct string) (IFollowActorResul
 	webfinger, err := activitypub.UnmarshalWebfinger(data)
 	x.AssertNoError(err)
 
-	template := ""
+	subject := ""
 	for _, link := range webfinger.Links {
-		if link.Rel == OSTATUS_SUBSCRIPTION {
-			template = *link.Template
+		if link.Rel == "self" {
+			subject = *link.Href
 			break
 		}
 	}
 
-	if template == "" {
-		return nil, fmt.Errorf("remote_account_lookup_failed")
+	if x.IsEmpty(subject) {
+		return nil, ERROR_INVALID_PARAMETERS
 	}
 
-	uri := url.QueryEscape(x.Format("%s/u/%s", x.PublicUrl(), username))
-	template = strings.Replace(template, "{uri}", uri, -1)
+	identities := x.FilterIdentities(func(identity IIdentity) bool {
+		return identity.Username() == username
+	})
 
-	return x.NewFollowActorResult(template), nil
+	x.Assert(identities.HasExactlyOneItem()).Or(ERROR_USER_NOT_FOUND)
+	identity := identities.First()
+
+	follower := x.GetActorId()
+
+	followee := &activitypub.Actor{}
+	if err := x.GetActivityStreamSigned(subject, nil, followee); err != nil {
+		return nil, err
+	}
+
+	uniqueIdentifier := x.GenerateUUID()
+	follow := activitypub.NewFollow(follower, followee.ID, uniqueIdentifier)
+
+	x.Atomic(func() error {
+		activity := x.MarshalJson(follow)
+
+		x.AddActivityPubOutgoingActivity(
+			identity.Id(),
+			uniqueIdentifier,
+			x.UnixNano(),
+			follower,
+			followee.ID,
+			activitypub.TypeFollow,
+			activity,
+		)
+
+		x.AddActivityPubFollower(
+			follower,
+			followee.Inbox,
+			followee.ID,
+			activity,
+			false,
+		)
+
+		if err := x.PostActivityStreamSigned(followee.Inbox, follow, nil); err != nil {
+			return err
+		}
+
+		return nil
+	})
+
+	return x.NewFollowActorResult(follow.Id), nil
 }
