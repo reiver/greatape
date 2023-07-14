@@ -238,7 +238,19 @@ func (conductor *conductor) SignRequest(keyId, privateKey string, data []byte, r
 	return nil
 }
 
-func (conductor *conductor) RequestActivityStream(method, url, keyId, privateKey string, data []byte, output interface{}) error {
+func (conductor *conductor) RequestActivityStream(method, url, publicKeyId, privateKey string, input, output interface{}) error {
+	var (
+		data []byte
+		err  error
+	)
+
+	if input != nil {
+		data, err = json.Marshal(input)
+		if err != nil {
+			return err
+		}
+	}
+
 	var reader io.Reader
 	if data != nil {
 		reader = bytes.NewBuffer(data)
@@ -252,7 +264,7 @@ func (conductor *conductor) RequestActivityStream(method, url, keyId, privateKey
 	req.Header.Set("Accept", "application/activity+json")
 
 	if privateKey != "" {
-		if err := conductor.SignRequest(keyId, privateKey, data, req); err != nil {
+		if err := conductor.SignRequest(publicKeyId, privateKey, data, req); err != nil {
 			return err
 		}
 	}

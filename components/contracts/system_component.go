@@ -26,7 +26,7 @@ type (
 		Atomic(handler TransactionHandler) error
 		Schedule(spec string, callback func()) error
 		GetSystemComponent(name string) ISystemComponent
-		RequestActivityStream(method, url, keyId, privateKey string, data []byte, output interface{}) error
+		RequestActivityStream(method, url, publicKeyId, privateKey string, input, output interface{}) error
 		LogRemoteCall(context IContext, eventType uint32, source string, input, result interface{}, err error)
 
 		// Document

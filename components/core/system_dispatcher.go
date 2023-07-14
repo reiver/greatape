@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/go-ap/activitypub"
+	"github.com/mitchellh/mapstructure"
 	. "github.com/reiver/greatape/components/contracts"
 	"github.com/valyala/fastjson"
 	. "github.com/xeronith/diamante/contracts/logging"
@@ -318,6 +319,27 @@ func (dispatcher *dispatcher) Join(elements []string, separator string) string {
 	return strings.Join(elements, separator)
 }
 
+func (dispatcher *dispatcher) MarshalJson(input any) string {
+	data, err := json.Marshal(input)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	return string(data)
+}
+
+func (dispatcher *dispatcher) UnmarshalJson(data []byte, output any) {
+	if err := json.Unmarshal(data, output); err != nil {
+		panic(err.Error())
+	}
+}
+
+func (dispatcher *dispatcher) DecodeMapStructure(input, output interface{}) {
+	if err := mapstructure.Decode(input, output); err != nil {
+		panic(err.Error())
+	}
+}
+
 func (dispatcher *dispatcher) IsTestEnvironment() bool {
 	return dispatcher.conductor.IdentityManager().IsTestEnvironment()
 }
@@ -334,20 +356,34 @@ func (dispatcher *dispatcher) IsProductionEnvironment() bool {
 	return dispatcher.conductor.IdentityManager().IsProductionEnvironment()
 }
 
-func (dispatcher *dispatcher) GetActivityStream(url string, data []byte, output interface{}) error {
-	return dispatcher.conductor.RequestActivityStream(http.MethodGet, url, "", "", data, output)
+func (dispatcher *dispatcher) GetActorId() string {
+	config := dispatcher.conductor.Configuration().GetServerConfiguration()
+	return fmt.Sprintf("%s://%s/u/%s", config.GetProtocol(), config.GetFQDN(), dispatcher.identity.Username())
 }
 
-func (dispatcher *dispatcher) PostActivityStream(url string, data []byte, output interface{}) error {
-	return dispatcher.conductor.RequestActivityStream(http.MethodPost, url, "", "", data, output)
+func (dispatcher *dispatcher) GetPublicKeyId(identity Identity) string {
+	config := dispatcher.conductor.Configuration().GetServerConfiguration()
+	return fmt.Sprintf("%s://%s/u/%s#main-key", config.GetProtocol(), config.GetFQDN(), identity.Username())
 }
 
-func (dispatcher *dispatcher) GetActivityStreamSigned(url, keyId, privateKey string, data []byte, output interface{}) error {
-	return dispatcher.conductor.RequestActivityStream(http.MethodGet, url, keyId, privateKey, data, output)
+func (dispatcher *dispatcher) GetActivityStream(url string, input, output interface{}) error {
+	return dispatcher.conductor.RequestActivityStream(http.MethodGet, url, "", "", input, output)
 }
 
-func (dispatcher *dispatcher) PostActivityStreamSigned(url, keyId, privateKey string, data []byte, output interface{}) error {
-	return dispatcher.conductor.RequestActivityStream(http.MethodPost, url, keyId, privateKey, data, output)
+func (dispatcher *dispatcher) PostActivityStream(url string, input, output interface{}) error {
+	return dispatcher.conductor.RequestActivityStream(http.MethodPost, url, "", "", input, output)
+}
+
+func (dispatcher *dispatcher) GetActivityStreamSigned(url string, input, output interface{}) error {
+	identity := dispatcher.identity
+	keyId := dispatcher.GetPublicKeyId(identity)
+	return dispatcher.conductor.RequestActivityStream(http.MethodGet, url, keyId, identity.PrivateKey(), input, output)
+}
+
+func (dispatcher *dispatcher) PostActivityStreamSigned(url string, input, output interface{}) error {
+	identity := dispatcher.identity
+	keyId := dispatcher.GetPublicKeyId(identity)
+	return dispatcher.conductor.RequestActivityStream(http.MethodPost, url, keyId, identity.PrivateKey(), input, output)
 }
 
 func (dispatcher *dispatcher) UnmarshalActivityPubObjectOrLink(data []byte) activitypub.ObjectOrLink {

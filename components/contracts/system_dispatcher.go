@@ -1234,16 +1234,26 @@ type IDispatcher interface {
 	// Join concatenates the elements of its first argument to create a single string. The separator
 	// string is placed between elements in the resulting string.
 	Join(elements []string, separator string) string
+	// MarshalJson returns the JSON representation of input and panics in case of an error.
+	MarshalJson(input any) string
+	// UnmarshalJson parses the JSON-encoded data and stores the result in the
+	// value pointed to by output. If output is nil or not a pointer, it panics.
+	UnmarshalJson(data []byte, output any)
+	// DecodeMapStructure takes an input structure and uses reflection to
+	// translate it to the output structure. output must be a pointer to a
+	// map or struct. It panics in case of an error.
+	DecodeMapStructure(input, output interface{})
 
 	IsTestEnvironment() bool
 	IsDevelopmentEnvironment() bool
 	IsStagingEnvironment() bool
 	IsProductionEnvironment() bool
 
-	GetActivityStream(url string, data []byte, output interface{}) error
-	PostActivityStream(url string, data []byte, output interface{}) error
-	GetActivityStreamSigned(url, keyId, privateKey string, data []byte, output interface{}) error
-	PostActivityStreamSigned(url, keyId, privateKey string, data []byte, output interface{}) error
+	GetActorId() string
+	GetActivityStream(url string, input, output interface{}) error
+	PostActivityStream(url string, input, output interface{}) error
+	GetActivityStreamSigned(url string, input, output interface{}) error
+	PostActivityStreamSigned(url string, input, output interface{}) error
 	UnmarshalActivityPubObjectOrLink([]byte) activitypub.ObjectOrLink
 	UnmarshalActivityPubNote([]byte) *activitypub.Note
 }
