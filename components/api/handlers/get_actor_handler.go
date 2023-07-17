@@ -21,7 +21,7 @@ func (handler *getActorHandler) Method() string {
 }
 
 func (handler *getActorHandler) Path() string {
-	return "/u/:username"
+	return "/users/:username"
 }
 
 func (handler *getActorHandler) HandlerFunc() HttpHandlerFunc {

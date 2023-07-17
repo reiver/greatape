@@ -21,7 +21,7 @@ func (handler *postToInboxHandler) Method() string {
 }
 
 func (handler *postToInboxHandler) Path() string {
-	return "/u/:username/inbox"
+	return "/users/:username/inbox"
 }
 
 func (handler *postToInboxHandler) HandlerFunc() HttpHandlerFunc {

@@ -21,7 +21,7 @@ func (handler *getInboxHandler) Method() string {
 }
 
 func (handler *getInboxHandler) Path() string {
-	return "/u/:username/inbox"
+	return "/users/:username/inbox"
 }
 
 func (handler *getInboxHandler) HandlerFunc() HttpHandlerFunc {

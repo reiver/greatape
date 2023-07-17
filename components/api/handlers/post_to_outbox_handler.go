@@ -21,7 +21,7 @@ func (handler *postToOutboxHandler) Method() string {
 }
 
 func (handler *postToOutboxHandler) Path() string {
-	return "/u/:username/outbox"
+	return "/users/:username/outbox"
 }
 
 func (handler *postToOutboxHandler) HandlerFunc() HttpHandlerFunc {

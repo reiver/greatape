@@ -21,7 +21,7 @@ func (handler *getFollowingHandler) Method() string {
 }
 
 func (handler *getFollowingHandler) Path() string {
-	return "/u/:username/following"
+	return "/users/:username/following"
 }
 
 func (handler *getFollowingHandler) HandlerFunc() HttpHandlerFunc {

@@ -16,15 +16,15 @@ func (factory *httpHandlerFactory) Handlers() []IHttpHandler {
 		LogoutHandler(),                    // │ P . /api/v1/logout
 		WebfingerHandler(),                 // │ G . /.well-known/webfinger
 		GetPackagesHandler(),               // │ G . /.well-known/packages.txt
-		GetActorHandler(),                  // │ G . /u/:username
-		FollowActorHandler(),               // │ G . /u/:username/follow
+		GetActorHandler(),                  // │ G . /users/:username
+		FollowActorHandler(),               // │ G . /users/:username/follow
 		AuthorizeInteractionHandler(),      // │ G . /authorize_interaction
-		GetFollowersHandler(),              // │ G . /u/:username/followers
-		GetFollowingHandler(),              // │ G . /u/:username/following
-		PostToOutboxHandler(),              // │ P . /u/:username/outbox
-		GetOutboxHandler(),                 // │ G . /u/:username/outbox
-		PostToInboxHandler(),               // │ P . /u/:username/inbox
-		GetInboxHandler(),                  // │ G . /u/:username/inbox
+		GetFollowersHandler(),              // │ G . /users/:username/followers
+		GetFollowingHandler(),              // │ G . /users/:username/following
+		PostToOutboxHandler(),              // │ P . /users/:username/outbox
+		GetOutboxHandler(),                 // │ G . /users/:username/outbox
+		PostToInboxHandler(),               // │ P . /users/:username/inbox
+		GetInboxHandler(),                  // │ G . /users/:username/inbox
 	}
 }
 

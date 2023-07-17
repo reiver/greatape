@@ -21,7 +21,7 @@ func (handler *followActorHandler) Method() string {
 }
 
 func (handler *followActorHandler) Path() string {
-	return "/u/:username/follow"
+	return "/users/:username/follow"
 }
 
 func (handler *followActorHandler) HandlerFunc() HttpHandlerFunc {
@@ -31,21 +31,16 @@ func (handler *followActorHandler) HandlerFunc() HttpHandlerFunc {
 
 		onRequestUnmarshalled := func(request *FollowActorRequest) {
 			request.Username = x.Param("username")
-			request.Acct = x.Query("acct")
+			request.Account = x.Query("account")
 		}
 
-		if err := pipeline.Handle(x,
+		return pipeline.Handle(x,
 			FOLLOW_ACTOR_REQUEST,
 			FOLLOW_ACTOR_RESULT,
 			request, result,
 			onRequestUnmarshalled,
 			nil,
-			true,
-		); err != nil {
-			return err
-		}
-
-		x.Redirect(result.Url)
-		return nil
+			false,
+		)
 	}
 }
