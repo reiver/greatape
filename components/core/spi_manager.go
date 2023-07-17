@@ -933,22 +933,15 @@ func (manager *spiManager) GetActor(username string, editor Identity) (result IG
 //region IFollowActorResult Implementation
 
 type followActorResult struct {
-	url string
 }
 
-func NewFollowActorResult(url string, _ interface{}) IFollowActorResult {
-	return &followActorResult{
-		url: url,
-	}
-}
-
-func (result followActorResult) Url() string {
-	return result.url
+func NewFollowActorResult(_ interface{}) IFollowActorResult {
+	return &followActorResult{}
 }
 
 //endregion
 
-func (manager *spiManager) FollowActor(username string, acct string, editor Identity) (result IFollowActorResult, err error) {
+func (manager *spiManager) FollowActor(username string, account string, editor Identity) (result IFollowActorResult, err error) {
 	defer func() {
 		if reason := recover(); reason != nil {
 			err = manager.Error(reason)
@@ -959,7 +952,7 @@ func (manager *spiManager) FollowActor(username string, acct string, editor Iden
 	defer editor.Unlock(FOLLOW_ACTOR_REQUEST)
 
 	dispatcher := NewDispatcher(Conductor, editor)
-	if result, err = commands.FollowActor(dispatcher, username, acct); err != nil {
+	if result, err = commands.FollowActor(dispatcher, username, account); err != nil {
 		return nil, err
 	}
 

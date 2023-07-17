@@ -3,6 +3,7 @@ package core
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"math/rand"
 	"net/http"
 	"regexp"
@@ -14,9 +15,11 @@ import (
 	"github.com/mitchellh/mapstructure"
 	. "github.com/reiver/greatape/components/contracts"
 	"github.com/valyala/fastjson"
+	. "github.com/xeronith/diamante/contracts/federation"
 	. "github.com/xeronith/diamante/contracts/logging"
 	. "github.com/xeronith/diamante/contracts/security"
 	. "github.com/xeronith/diamante/contracts/settings"
+	"github.com/xeronith/diamante/federation"
 	"github.com/xeronith/diamante/utility/search"
 )
 
@@ -229,6 +232,10 @@ func (dispatcher *dispatcher) Format(format string, args ...interface{}) string 
 	return fmt.Sprintf(format, args...)
 }
 
+func (dispatcher *dispatcher) ReplaceAll(input, old, new string) string {
+	return strings.ReplaceAll(input, old, new)
+}
+
 func (dispatcher *dispatcher) Sort(slice interface{}, less func(x, y int) bool) {
 	sort.Slice(slice, less)
 }
@@ -356,34 +363,32 @@ func (dispatcher *dispatcher) IsProductionEnvironment() bool {
 	return dispatcher.conductor.IdentityManager().IsProductionEnvironment()
 }
 
-func (dispatcher *dispatcher) GetActorId() string {
+func (dispatcher *dispatcher) GetActorId(identity Identity) string {
 	config := dispatcher.conductor.Configuration().GetServerConfiguration()
-	return fmt.Sprintf("%s://%s/u/%s", config.GetProtocol(), config.GetFQDN(), dispatcher.identity.Username())
+	return fmt.Sprintf("%s://%s/users/%s", config.GetProtocol(), config.GetFQDN(), identity.Username())
 }
 
 func (dispatcher *dispatcher) GetPublicKeyId(identity Identity) string {
 	config := dispatcher.conductor.Configuration().GetServerConfiguration()
-	return fmt.Sprintf("%s://%s/u/%s#main-key", config.GetProtocol(), config.GetFQDN(), identity.Username())
+	return fmt.Sprintf("%s://%s/users/%s#main-key", config.GetProtocol(), config.GetFQDN(), identity.Username())
 }
 
-func (dispatcher *dispatcher) GetActivityStream(url string, input, output interface{}) error {
-	return dispatcher.conductor.RequestActivityStream(http.MethodGet, url, "", "", input, output)
+func (dispatcher *dispatcher) GetActivityStream(url string, output interface{}) error {
+	return dispatcher.conductor.RequestActivityStream(http.MethodGet, url, "", "", nil, output)
 }
 
-func (dispatcher *dispatcher) PostActivityStream(url string, input, output interface{}) error {
-	return dispatcher.conductor.RequestActivityStream(http.MethodPost, url, "", "", input, output)
+func (dispatcher *dispatcher) PostActivityStream(url string, input interface{}) error {
+	return dispatcher.conductor.RequestActivityStream(http.MethodPost, url, "", "", input, nil)
 }
 
-func (dispatcher *dispatcher) GetActivityStreamSigned(url string, input, output interface{}) error {
-	identity := dispatcher.identity
+func (dispatcher *dispatcher) GetSignedActivityStream(url string, output interface{}, identity Identity) error {
 	keyId := dispatcher.GetPublicKeyId(identity)
-	return dispatcher.conductor.RequestActivityStream(http.MethodGet, url, keyId, identity.PrivateKey(), input, output)
+	return dispatcher.conductor.RequestActivityStream(http.MethodGet, url, keyId, identity.PrivateKey(), nil, output)
 }
 
-func (dispatcher *dispatcher) PostActivityStreamSigned(url string, input, output interface{}) error {
-	identity := dispatcher.identity
+func (dispatcher *dispatcher) PostSignedActivityStream(url string, input interface{}, identity Identity) error {
 	keyId := dispatcher.GetPublicKeyId(identity)
-	return dispatcher.conductor.RequestActivityStream(http.MethodPost, url, keyId, identity.PrivateKey(), input, output)
+	return dispatcher.conductor.RequestActivityStream(http.MethodPost, url, keyId, identity.PrivateKey(), input, nil)
 }
 
 func (dispatcher *dispatcher) UnmarshalActivityPubObjectOrLink(data []byte) activitypub.ObjectOrLink {
@@ -403,6 +408,33 @@ func (dispatcher *dispatcher) UnmarshalActivityPubNote(data []byte) *activitypub
 	}
 
 	return note
+}
+
+func (dispatcher *dispatcher) ResolveWebfinger(account string) (IWebfinger, error) {
+	parts := strings.Split(account, "@")
+	if len(parts) != 2 {
+		return nil, fmt.Errorf("invalid_account")
+	}
+
+	url := fmt.Sprintf("https://%s/.well-known/webfinger?resource=acct:%s", parts[1], account)
+	resp, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+
+	data, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	webfinger := federation.NewWebfinger()
+	if err := webfinger.Unmarshal(data); err != nil {
+		return nil, err
+	}
+
+	return webfinger, nil
 }
 
 //endregion

@@ -317,7 +317,7 @@ func TestSpiManager_GetActor(test *testing.T) {
 func TestSpiManager_FollowActor(test *testing.T) {
 	manager := Conductor.SpiManager()
 
-	result, err := manager.FollowActor("username", "acct", nil)
+	result, err := manager.FollowActor("username", "account", nil)
 	if err != nil {
 		test.Fatal(err)
 	}

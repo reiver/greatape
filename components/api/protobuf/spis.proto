@@ -201,11 +201,10 @@ message GetActorResult {
 //-----------------------------------------------------------
 message FollowActorRequest {
     string username = 0x00000001;
-    string acct = 0x00000002;
+    string account = 0x00000002;
 }
 
 message FollowActorResult {
-    string url = 0x00000001;
 }
 
 // API: AuthorizeInteraction

@@ -402,6 +402,10 @@ func (conductor *conductor) GetIdentity(id int64, editor Identity) (IIdentity, e
 	return conductor.identityManager.GetIdentity(id, editor)
 }
 
+func (conductor *conductor) GetIdentityByUsername(username string, editor Identity) (IIdentity, error) {
+	return conductor.identityManager.GetIdentityByUsername(username, editor)
+}
+
 func (conductor *conductor) AddIdentity(username string, phoneNumber string, phoneNumberConfirmed bool, firstName string, lastName string, displayName string, email string, emailConfirmed bool, avatar string, banner string, summary string, token string, multiFactor bool, hash string, salt string, publicKey string, privateKey string, permission uint64, restriction uint32, lastLogin int64, loginCount uint32, editor Identity) (IIdentity, error) {
 	return conductor.identityManager.AddIdentity(username, phoneNumber, phoneNumberConfirmed, firstName, lastName, displayName, email, emailConfirmed, avatar, banner, summary, token, multiFactor, hash, salt, publicKey, privateKey, permission, restriction, lastLogin, loginCount, editor)
 }
@@ -1166,8 +1170,8 @@ func (conductor *conductor) GetActor(username string, editor Identity) (IGetActo
 	return conductor.spiManager.GetActor(username, editor)
 }
 
-func (conductor *conductor) FollowActor(username string, acct string, editor Identity) (IFollowActorResult, error) {
-	return conductor.spiManager.FollowActor(username, acct, editor)
+func (conductor *conductor) FollowActor(username string, account string, editor Identity) (IFollowActorResult, error) {
+	return conductor.spiManager.FollowActor(username, account, editor)
 }
 
 func (conductor *conductor) AuthorizeInteraction(uri string, editor Identity) (IAuthorizeInteractionResult, error) {
@@ -1326,8 +1330,8 @@ func (conductor *conductor) NewGetActorResult(context []string, id string, follo
 	return NewGetActorResult(context, id, followers, following, inbox, outbox, name, preferredUsername, type_, url, icon, image, publicKey, summary, published, nil)
 }
 
-func (conductor *conductor) NewFollowActorResult(url string, _ interface{}) IFollowActorResult {
-	return NewFollowActorResult(url, nil)
+func (conductor *conductor) NewFollowActorResult(_ interface{}) IFollowActorResult {
+	return NewFollowActorResult(nil)
 }
 
 func (conductor *conductor) NewAuthorizeInteractionResult(uri string, success bool, _ interface{}) IAuthorizeInteractionResult {

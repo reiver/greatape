@@ -60,6 +60,7 @@ type (
 		IdentityExists(id int64) bool
 		ListIdentities(pageIndex uint32, pageSize uint32, criteria string, editor Identity) IIdentityCollection
 		GetIdentity(id int64, editor Identity) (IIdentity, error)
+		GetIdentityByUsername(username string, editor Identity) (IIdentity, error)
 		AddIdentity(username string, phoneNumber string, phoneNumberConfirmed bool, firstName string, lastName string, displayName string, email string, emailConfirmed bool, avatar string, banner string, summary string, token string, multiFactor bool, hash string, salt string, publicKey string, privateKey string, permission uint64, restriction uint32, lastLogin int64, loginCount uint32, editor Identity) (IIdentity, error)
 		AddIdentityAtomic(transaction ITransaction, username string, phoneNumber string, phoneNumberConfirmed bool, firstName string, lastName string, displayName string, email string, emailConfirmed bool, avatar string, banner string, summary string, token string, multiFactor bool, hash string, salt string, publicKey string, privateKey string, permission uint64, restriction uint32, lastLogin int64, loginCount uint32, editor Identity) (IIdentity, error)
 		LogIdentity(username string, phoneNumber string, phoneNumberConfirmed bool, firstName string, lastName string, displayName string, email string, emailConfirmed bool, avatar string, banner string, summary string, token string, multiFactor bool, hash string, salt string, publicKey string, privateKey string, permission uint64, restriction uint32, lastLogin int64, loginCount uint32, source string, editor Identity, payload string)
@@ -272,7 +273,7 @@ type (
 		Webfinger(resource string, editor Identity) (IWebfingerResult, error)
 		GetPackages(editor Identity) (IGetPackagesResult, error)
 		GetActor(username string, editor Identity) (IGetActorResult, error)
-		FollowActor(username string, acct string, editor Identity) (IFollowActorResult, error)
+		FollowActor(username string, account string, editor Identity) (IFollowActorResult, error)
 		AuthorizeInteraction(uri string, editor Identity) (IAuthorizeInteractionResult, error)
 		GetFollowers(username string, editor Identity) (IGetFollowersResult, error)
 		GetFollowing(username string, editor Identity) (IGetFollowingResult, error)
@@ -313,7 +314,7 @@ type (
 		NewWebfingerResult(aliases []string, links []IActivityPubLink, subject string, ignored interface{}) IWebfingerResult
 		NewGetPackagesResult(body []byte, ignored interface{}) IGetPackagesResult
 		NewGetActorResult(context []string, id string, followers string, following string, inbox string, outbox string, name string, preferredUsername string, type_ string, url string, icon IActivityPubMedia, image IActivityPubMedia, publicKey IActivityPubPublicKey, summary string, published string, ignored interface{}) IGetActorResult
-		NewFollowActorResult(url string, ignored interface{}) IFollowActorResult
+		NewFollowActorResult(ignored interface{}) IFollowActorResult
 		NewAuthorizeInteractionResult(uri string, success bool, ignored interface{}) IAuthorizeInteractionResult
 		NewGetFollowersResult(context string, id string, type_ string, totalItems int32, orderedItems []string, first string, ignored interface{}) IGetFollowersResult
 		NewGetFollowingResult(context string, id string, type_ string, totalItems int32, orderedItems []string, first string, ignored interface{}) IGetFollowingResult

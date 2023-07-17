@@ -2,6 +2,7 @@ package contracts
 
 import (
 	"github.com/go-ap/activitypub"
+	. "github.com/xeronith/diamante/contracts/federation"
 	. "github.com/xeronith/diamante/contracts/logging"
 	. "github.com/xeronith/diamante/contracts/security"
 	. "github.com/xeronith/diamante/contracts/settings"
@@ -164,6 +165,8 @@ type IDispatcher interface {
 	// GetIdentity finds a specific 'Identity' instance using
 	// the provided unique identifier or 'Id'.
 	GetIdentity(id int64) IIdentity
+	// GetIdentityByUsername finds a specific 'Identity' instance using the provided username.
+	GetIdentityByUsername(username string) IIdentity
 	// AddIdentity creates a new 'Identity' instance with an auto-generated unique identifier using the
 	// provided property values and adds it to persistent data store and system cache.
 	// The method is smart enough to respect the transaction if used in an
@@ -1047,7 +1050,7 @@ type IDispatcher interface {
 	Webfinger(resource string) (IWebfingerResult, error)
 	GetPackages() (IGetPackagesResult, error)
 	GetActor(username string) (IGetActorResult, error)
-	FollowActor(username string, acct string) (IFollowActorResult, error)
+	FollowActor(username string, account string) (IFollowActorResult, error)
 	AuthorizeInteraction(uri string) (IAuthorizeInteractionResult, error)
 	GetFollowers(username string) (IGetFollowersResult, error)
 	GetFollowing(username string) (IGetFollowingResult, error)
@@ -1155,7 +1158,7 @@ type IDispatcher interface {
 	// NewGetActorResult creates a new result container for 'Get Actor' system action.
 	NewGetActorResult(context []string, id string, followers string, following string, inbox string, outbox string, name string, preferredUsername string, type_ string, url string, icon IActivityPubMedia, image IActivityPubMedia, publicKey IActivityPubPublicKey, summary string, published string) IGetActorResult
 	// NewFollowActorResult creates a new result container for 'Follow Actor' system action.
-	NewFollowActorResult(url string) IFollowActorResult
+	NewFollowActorResult() IFollowActorResult
 	// NewAuthorizeInteractionResult creates a new result container for 'Authorize Interaction' system action.
 	NewAuthorizeInteractionResult(uri string, success bool) IAuthorizeInteractionResult
 	// NewGetFollowersResult creates a new result container for 'Get Followers' system action.
@@ -1186,6 +1189,12 @@ type IDispatcher interface {
 	AssertNotEmpty(input string) IAssertionResult
 	// Format provides a wrapper around fmt.Sprintf
 	Format(format string, args ...interface{}) string
+	// ReplaceAll returns a copy of the input string with all
+	// non-overlapping instances of old replaced by new.
+	// If old is empty, it matches at the beginning of the string
+	// and after each UTF-8 sequence, yielding up to k+1 replacements
+	// for a k-rune string.
+	ReplaceAll(input, old, new string) string
 	// Sort sorts the provided slice using the provided comparator function.
 	Sort(slice interface{}, less func(x, y int) bool)
 	// Search searches the input for any or all of the words in criteria.
@@ -1249,11 +1258,14 @@ type IDispatcher interface {
 	IsStagingEnvironment() bool
 	IsProductionEnvironment() bool
 
-	GetActorId() string
-	GetActivityStream(url string, input, output interface{}) error
-	PostActivityStream(url string, input, output interface{}) error
-	GetActivityStreamSigned(url string, input, output interface{}) error
-	PostActivityStreamSigned(url string, input, output interface{}) error
+	GetActorId(Identity) string
+	GetPublicKeyId(Identity) string
+	GetActivityStream(url string, output interface{}) error
+	PostActivityStream(url string, input interface{}) error
+	GetSignedActivityStream(url string, output interface{}, identity Identity) error
+	PostSignedActivityStream(url string, input interface{}, identity Identity) error
 	UnmarshalActivityPubObjectOrLink([]byte) activitypub.ObjectOrLink
 	UnmarshalActivityPubNote([]byte) *activitypub.Note
+
+	ResolveWebfinger(account string) (IWebfinger, error)
 }

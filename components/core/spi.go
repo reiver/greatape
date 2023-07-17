@@ -300,8 +300,8 @@ func (dispatcher *dispatcher) GetActor(username string) (IGetActorResult, error)
 	return dispatcher.conductor.SpiManager().GetActor(username, dispatcher.identity)
 }
 
-func (dispatcher *dispatcher) FollowActor(username string, acct string) (IFollowActorResult, error) {
-	return dispatcher.conductor.SpiManager().FollowActor(username, acct, dispatcher.identity)
+func (dispatcher *dispatcher) FollowActor(username string, account string) (IFollowActorResult, error) {
+	return dispatcher.conductor.SpiManager().FollowActor(username, account, dispatcher.identity)
 }
 
 func (dispatcher *dispatcher) AuthorizeInteraction(uri string) (IAuthorizeInteractionResult, error) {

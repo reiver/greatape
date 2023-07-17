@@ -227,6 +227,7 @@ type (
 		ExistsWhich(condition IdentityCondition) bool
 		ListIdentities(pageIndex uint32, pageSize uint32, criteria string, editor Identity) IIdentityCollection
 		GetIdentity(id int64, editor Identity) (IIdentity, error)
+		GetIdentityByUsername(username string, editor Identity) (IIdentity, error)
 		AddIdentity(username string, phoneNumber string, phoneNumberConfirmed bool, firstName string, lastName string, displayName string, email string, emailConfirmed bool, avatar string, banner string, summary string, token string, multiFactor bool, hash string, salt string, publicKey string, privateKey string, permission uint64, restriction uint32, lastLogin int64, loginCount uint32, editor Identity) (IIdentity, error)
 		AddIdentityWithCustomId(id int64, username string, phoneNumber string, phoneNumberConfirmed bool, firstName string, lastName string, displayName string, email string, emailConfirmed bool, avatar string, banner string, summary string, token string, multiFactor bool, hash string, salt string, publicKey string, privateKey string, permission uint64, restriction uint32, lastLogin int64, loginCount uint32, editor Identity) (IIdentity, error)
 		AddIdentityObject(identity IIdentity, editor Identity) (IIdentity, error)

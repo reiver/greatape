@@ -760,6 +760,13 @@ func (dispatcher *dispatcher) GetIdentity(id int64) IIdentity {
 	}
 }
 
+func (dispatcher *dispatcher) GetIdentityByUsername(username string) IIdentity {
+	if identity, err := dispatcher.conductor.IdentityManager().GetIdentityByUsername(username, dispatcher.identity); err != nil {
+		panic(err.Error())
+	} else {
+		return identity
+	}
+}
 func (dispatcher *dispatcher) AddIdentity(username string, phoneNumber string, phoneNumberConfirmed bool, firstName string, lastName string, displayName string, email string, emailConfirmed bool, avatar string, banner string, summary string, token string, multiFactor bool, hash string, salt string, publicKey string, privateKey string, permission uint64, restriction uint32, lastLogin int64, loginCount uint32) IIdentity {
 	transaction := dispatcher.transaction
 	if transaction != nil {

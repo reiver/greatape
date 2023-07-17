@@ -101,6 +101,14 @@ func (manager *identityManager) GetIdentity(id int64, _ Identity) (IIdentity, er
 	}
 }
 
+func (manager *identityManager) GetIdentityByUsername(username string, _ Identity) (IIdentity, error) {
+	if object, exists := manager.cache.GetByUsername(username); !exists {
+		return nil, ERROR_IDENTITY_NOT_FOUND
+	} else {
+		return object.(IIdentity), nil
+	}
+}
+
 func (manager *identityManager) AddIdentity(username string, phoneNumber string, phoneNumberConfirmed bool, firstName string, lastName string, displayName string, email string, emailConfirmed bool, avatar string, banner string, summary string, token string, multiFactor bool, hash string, salt string, publicKey string, privateKey string, permission uint64, restriction uint32, lastLogin int64, loginCount uint32, editor Identity) (IIdentity, error) {
 	identityEntity := NewIdentityEntity(manager.UniqueId(), username, phoneNumber, phoneNumberConfirmed, firstName, lastName, displayName, email, emailConfirmed, avatar, banner, summary, token, multiFactor, hash, salt, publicKey, privateKey, permission, restriction, lastLogin, loginCount)
 	return manager.Apply(identityEntity, repository.Identities.Add, manager.cache.Put, editor)

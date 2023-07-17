@@ -7,17 +7,10 @@ import (
 )
 
 func PostToInbox(x IDispatcher, username string, body []byte) (IPostToInboxResult, error) {
-	identities := x.FilterIdentities(func(identity IIdentity) bool {
-		return identity.Username() == username
-	})
+	identity := x.GetIdentityByUsername(username)
+	object := x.UnmarshalActivityPubObjectOrLink(body)
 
-	x.Assert(identities.HasExactlyOneItem()).Or(ERROR_USER_NOT_FOUND)
-	identity := identities.First()
-
-	object := &activitypub.Object{}
-	x.UnmarshalJson(body, object)
-
-	switch object.Type {
+	switch object.GetType() {
 	case activitypub.TypeAccept:
 		{
 			activity := &activitypub.Activity{}
@@ -57,17 +50,17 @@ func PostToInbox(x IDispatcher, username string, body []byte) (IPostToInboxResul
 			follow := &activitypub.Follow{}
 			x.UnmarshalJson(body, follow)
 
-			url := follow.Actor
+			actorId := x.GetActorId(identity)
 
 			actor := &activitypub.Actor{}
-			if err := x.GetActivityStreamSigned(url, nil, actor); err != nil {
+			if err := x.GetSignedActivityStream(follow.Actor, actor, identity); err != nil {
 				return nil, err
 			}
 
 			follower := x.AddActivityPubFollower(
 				follow.Actor,
 				actor.Inbox,
-				x.Format("%s/u/%s", x.PublicUrl(), username),
+				actorId,
 				x.MarshalJson(follow),
 				false,
 			)
@@ -76,11 +69,11 @@ func PostToInbox(x IDispatcher, username string, body []byte) (IPostToInboxResul
 				Context: activitypub.ActivityStreams,
 				ID:      x.Format("%s/%s", x.PublicUrl(), x.GenerateUUID()),
 				Type:    activitypub.TypeAccept,
-				Actor:   x.Format("%s/u/%s", x.PublicUrl(), username),
+				Actor:   actorId,
 				Object:  follow,
 			}
 
-			if err := x.PostActivityStreamSigned(actor.Inbox, activity, nil); err != nil {
+			if err := x.PostSignedActivityStream(actor.Inbox, activity, identity); err != nil {
 				return nil, err
 			}
 

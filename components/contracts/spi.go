@@ -70,7 +70,7 @@ type (
 		Webfinger(resource string, editor Identity) (IWebfingerResult, error)
 		GetPackages(editor Identity) (IGetPackagesResult, error)
 		GetActor(username string, editor Identity) (IGetActorResult, error)
-		FollowActor(username string, acct string, editor Identity) (IFollowActorResult, error)
+		FollowActor(username string, account string, editor Identity) (IFollowActorResult, error)
 		AuthorizeInteraction(uri string, editor Identity) (IAuthorizeInteractionResult, error)
 		GetFollowers(username string, editor Identity) (IGetFollowersResult, error)
 		GetFollowing(username string, editor Identity) (IGetFollowingResult, error)
@@ -167,7 +167,6 @@ type (
 	}
 
 	IFollowActorResult interface {
-		Url() string
 	}
 
 	IAuthorizeInteractionResult interface {

@@ -1,37 +1,27 @@
 package commands
 
 import (
-	"fmt"
 	"time"
 
+	ap "github.com/go-ap/activitypub"
 	"github.com/reiver/greatape/app/activitypub"
 	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
 )
 
 func PostToOutbox(x IDispatcher, username string, body []byte) (IPostToOutboxResult, error) {
-	identities := x.FilterIdentities(func(identity IIdentity) bool {
-		return identity.Username() == username
-	})
+	identity := x.GetIdentityByUsername(username)
+	object := x.UnmarshalActivityPubObjectOrLink(body)
 
-	x.Assert(identities.HasExactlyOneItem()).Or(ERROR_USER_NOT_FOUND)
-	identity := identities.First()
-
-	item := x.UnmarshalActivityPubObjectOrLink(body)
-
-	actorId := x.GetActorId()
-
-	switch item.GetType() {
+	switch object.GetType() {
 	case activitypub.TypeNote:
 		{
-			note, err := activitypub.UnmarshalNote(body)
-			if err != nil {
-				return nil, ERROR_INVALID_PARAMETERS
-			}
+			note := object.(*ap.Note)
 
-			content := note.Content
-			to := note.To[0]
-			from := note.AttributedTo
+			actorId := x.GetActorId(identity)
+			content := note.Content.First().String()
+			to := note.To[0].GetID().String()
+			from := note.AttributedTo.GetID().String()
 
 			if from != actorId {
 				return nil, ERROR_INVALID_PARAMETERS
@@ -42,22 +32,22 @@ func PostToOutbox(x IDispatcher, username string, body []byte) (IPostToOutboxRes
 			activity := &activitypub.Activity{
 				Context:   activitypub.ActivityStreams,
 				Type:      activitypub.TypeCreate,
-				ID:        fmt.Sprintf("%s/u/%s/posts/%s", x.PublicUrl(), username, uniqueIdentifier),
+				ID:        x.Format("%s/posts/%s", actorId, uniqueIdentifier),
 				To:        note.To,
-				Actor:     fmt.Sprintf("%s/u/%s", x.PublicUrl(), username),
+				Actor:     actorId,
 				Published: time.Now(),
 				Object:    note,
 			}
 
 			if to != ACTIVITY_PUB_PUBLIC {
 				recipient := &activitypub.Actor{}
-				if err := x.GetActivityStreamSigned(to, nil, recipient); err != nil {
+				if err := x.GetSignedActivityStream(to, recipient, identity); err != nil {
 					return nil, err
 				}
 
-				to = recipient.ID
+				to = recipient.Id
 
-				if err := x.PostActivityStreamSigned(recipient.Inbox, activity, nil); err != nil {
+				if err := x.PostSignedActivityStream(recipient.Inbox, activity, identity); err != nil {
 					return nil, err
 				}
 			}

@@ -1,85 +1,61 @@
 package commands
 
 import (
-	"io"
-	"net/http"
-	"strings"
-
 	"github.com/reiver/greatape/app/activitypub"
-	. "github.com/reiver/greatape/components/constants"
 	. "github.com/reiver/greatape/components/contracts"
 )
 
-func FollowActor(x IDispatcher, username string, acct string) (IFollowActorResult, error) {
-	parts := strings.Split(acct, "@")
-	x.Assert(len(parts) == 2).Or(ERROR_INVALID_PARAMETERS)
-
-	webfingerUrl := x.Format("https://%s/.well-known/webfinger?resource=acct:%s", parts[1], acct)
-	resp, err := http.Get(webfingerUrl)
+func FollowActor(x IDispatcher, username string, account string) (IFollowActorResult, error) {
+	webfinger, err := x.ResolveWebfinger(account)
 	x.AssertNoError(err)
 
-	data, err := io.ReadAll(resp.Body)
-	x.AssertNoError(err)
-
-	webfinger, err := activitypub.UnmarshalWebfinger(data)
-	x.AssertNoError(err)
-
-	subject := ""
-	for _, link := range webfinger.Links {
-		if link.Rel == "self" {
-			subject = *link.Href
-			break
-		}
-	}
-
-	if x.IsEmpty(subject) {
-		return nil, ERROR_INVALID_PARAMETERS
-	}
-
-	identities := x.FilterIdentities(func(identity IIdentity) bool {
-		return identity.Username() == username
-	})
-
-	x.Assert(identities.HasExactlyOneItem()).Or(ERROR_USER_NOT_FOUND)
-	identity := identities.First()
-
-	follower := x.GetActorId()
-
+	identity := x.GetIdentityByUsername(username)
+	follower := x.GetActorId(identity)
 	followee := &activitypub.Actor{}
-	if err := x.GetActivityStreamSigned(subject, nil, followee); err != nil {
+
+	if err := x.GetSignedActivityStream(webfinger.Self(), followee, identity); err != nil {
 		return nil, err
 	}
 
-	uniqueIdentifier := x.GenerateUUID()
-	follow := activitypub.NewFollow(follower, followee.ID, uniqueIdentifier)
+	followers := x.FilterActivityPubFollowers(func(follow IActivityPubFollower) bool {
+		return follow.Handle() == follower && follow.Subject() == followee.Id
+	})
+
+	if followers.HasAtLeastOneItem() && followers.First().Accepted() {
+		return x.NewFollowActorResult(), nil
+	}
+
+	follow := activitypub.NewFollow(follower, followee.Id)
 
 	x.Atomic(func() error {
-		activity := x.MarshalJson(follow)
+		if followers.IsEmpty() {
+			activity := x.MarshalJson(follow)
 
-		x.AddActivityPubOutgoingActivity(
-			identity.Id(),
-			uniqueIdentifier,
-			x.UnixNano(),
-			follower,
-			followee.ID,
-			activitypub.TypeFollow,
-			activity,
-		)
+			x.AddActivityPubOutgoingActivity(
+				identity.Id(),
+				follow.UniqueIdentifier,
+				x.UnixNano(),
+				follower,
+				followee.Id,
+				activitypub.TypeFollow,
+				activity,
+			)
 
-		x.AddActivityPubFollower(
-			follower,
-			followee.Inbox,
-			followee.ID,
-			activity,
-			false,
-		)
+			x.AddActivityPubFollower(
+				follower,
+				followee.Inbox,
+				followee.Id,
+				activity,
+				false,
+			)
+		}
 
-		if err := x.PostActivityStreamSigned(followee.Inbox, follow, nil); err != nil {
+		if err := x.PostSignedActivityStream(followee.Inbox, follow, identity); err != nil {
 			return err
 		}
 
 		return nil
 	})
 
-	return x.NewFollowActorResult(follow.Id), nil
+	return x.NewFollowActorResult(), nil
 }

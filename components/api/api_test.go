@@ -218,7 +218,7 @@ func TestGetActorApi(test *testing.T) {
 func TestFollowActorApi(test *testing.T) {
 	input := &FollowActorRequest{
 		Username: "username",
-		Acct:     "acct",
+		Account:  "account",
 	}
 
 	if output, err := api.FollowActor(input); err != nil {
