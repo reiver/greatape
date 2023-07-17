@@ -9,7 +9,7 @@ type Actor struct {
 	Context           []interface{} `json:"@context"`
 	Followers         string        `json:"followers"`
 	Following         string        `json:"following"`
-	ID                string        `json:"id"`
+	Id                string        `json:"id"`
 	Type              string        `json:"type"`
 	PreferredUsername string        `json:"preferredUsername"`
 	Inbox             string        `json:"inbox"`
