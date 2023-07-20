@@ -1,6 +1,8 @@
 package core
 
 import (
+	"strings"
+
 	"github.com/reiver/greatape/app/commands"
 	"github.com/reiver/greatape/app/validators"
 	. "github.com/reiver/greatape/components/constants"
@@ -360,6 +362,9 @@ func (manager *spiManager) Signup(username string, email string, password string
 		}
 	}()
 
+	username = strings.ToLower(username)
+	email = strings.ToLower(email)
+
 	editor.Lock(SIGNUP_REQUEST)
 	defer editor.Unlock(SIGNUP_REQUEST)
 
@@ -400,6 +405,8 @@ func (manager *spiManager) ResendVerificationCode(email string, editor Identity)
 		}
 	}()
 
+	email = strings.ToLower(email)
+
 	editor.Lock(RESEND_VERIFICATION_CODE_REQUEST)
 	defer editor.Unlock(RESEND_VERIFICATION_CODE_REQUEST)
 
@@ -439,6 +446,8 @@ func (manager *spiManager) Verify(email string, token string, code string, edito
 			err = manager.Error(reason)
 		}
 	}()
+
+	email = strings.ToLower(email)
 
 	editor.Lock(VERIFY_REQUEST)
 	defer editor.Unlock(VERIFY_REQUEST)
@@ -489,6 +498,8 @@ func (manager *spiManager) Login(email string, password string, editor Identity)
 			err = manager.Error(reason)
 		}
 	}()
+
+	email = strings.ToLower(email)
 
 	editor.Lock(LOGIN_REQUEST)
 	defer editor.Unlock(LOGIN_REQUEST)
@@ -681,6 +692,8 @@ func (manager *spiManager) ResetPassword(usernameOrEmail string, editor Identity
 			err = manager.Error(reason)
 		}
 	}()
+
+	usernameOrEmail = strings.ToLower(usernameOrEmail)
 
 	editor.Lock(RESET_PASSWORD_REQUEST)
 	defer editor.Unlock(RESET_PASSWORD_REQUEST)
