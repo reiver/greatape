@@ -344,6 +344,10 @@ func (result signupResult) Code() string {
 //endregion
 
 func (manager *spiManager) Signup(username string, email string, password string, editor Identity) (result ISignupResult, err error) {
+	username = strings.ToLower(username)
+
+	email = strings.ToLower(email)
+
 	if !validators.UsernameIsValid(username) {
 		return nil, ERROR_INVALID_USERNAME_FOR_SIGNUP
 	}
@@ -361,9 +365,6 @@ func (manager *spiManager) Signup(username string, email string, password string
 			err = manager.Error(reason)
 		}
 	}()
-
-	username = strings.ToLower(username)
-	email = strings.ToLower(email)
 
 	editor.Lock(SIGNUP_REQUEST)
 	defer editor.Unlock(SIGNUP_REQUEST)
@@ -395,6 +396,8 @@ func (result resendVerificationCodeResult) Code() string {
 //endregion
 
 func (manager *spiManager) ResendVerificationCode(email string, editor Identity) (result IResendVerificationCodeResult, err error) {
+	email = strings.ToLower(email)
+
 	if !validators.EmailIsValid(email) {
 		return nil, ERROR_INVALID_EMAIL_FOR_RESEND_VERIFICATION_CODE
 	}
@@ -404,8 +407,6 @@ func (manager *spiManager) ResendVerificationCode(email string, editor Identity)
 			err = manager.Error(reason)
 		}
 	}()
-
-	email = strings.ToLower(email)
 
 	editor.Lock(RESEND_VERIFICATION_CODE_REQUEST)
 	defer editor.Unlock(RESEND_VERIFICATION_CODE_REQUEST)
@@ -437,6 +438,8 @@ func (result verifyResult) Token() string {
 //endregion
 
 func (manager *spiManager) Verify(email string, token string, code string, editor Identity) (result IVerifyResult, err error) {
+	email = strings.ToLower(email)
+
 	if !validators.EmailIsValid(email) {
 		return nil, ERROR_INVALID_EMAIL_FOR_VERIFY
 	}
@@ -446,8 +449,6 @@ func (manager *spiManager) Verify(email string, token string, code string, edito
 			err = manager.Error(reason)
 		}
 	}()
-
-	email = strings.ToLower(email)
 
 	editor.Lock(VERIFY_REQUEST)
 	defer editor.Unlock(VERIFY_REQUEST)
@@ -485,6 +486,8 @@ func (result loginResult) Token() string {
 //endregion
 
 func (manager *spiManager) Login(email string, password string, editor Identity) (result ILoginResult, err error) {
+	email = strings.ToLower(email)
+
 	if !validators.EmailIsValid(email) {
 		return nil, ERROR_INVALID_EMAIL_FOR_LOGIN
 	}
@@ -498,8 +501,6 @@ func (manager *spiManager) Login(email string, password string, editor Identity)
 			err = manager.Error(reason)
 		}
 	}()
-
-	email = strings.ToLower(email)
 
 	editor.Lock(LOGIN_REQUEST)
 	defer editor.Unlock(LOGIN_REQUEST)
@@ -687,13 +688,13 @@ func NewResetPasswordResult(_ interface{}) IResetPasswordResult {
 //endregion
 
 func (manager *spiManager) ResetPassword(usernameOrEmail string, editor Identity) (result IResetPasswordResult, err error) {
+	usernameOrEmail = strings.ToLower(usernameOrEmail)
+
 	defer func() {
 		if reason := recover(); reason != nil {
 			err = manager.Error(reason)
 		}
 	}()
-
-	usernameOrEmail = strings.ToLower(usernameOrEmail)
 
 	editor.Lock(RESET_PASSWORD_REQUEST)
 	defer editor.Unlock(RESET_PASSWORD_REQUEST)
