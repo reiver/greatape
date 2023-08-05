@@ -21,6 +21,6 @@ func LoginService(context IContext, input *LoginRequest) (result *LoginResult, e
 
 	result = context.ResultContainer().(*LoginResult)
 	result.Username = commandResult.Username()
-	result.Token = commandResult.Token()
+	result.Token = "Automatic"
 	return result, nil
 }

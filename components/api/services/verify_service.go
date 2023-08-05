@@ -20,6 +20,6 @@ func VerifyService(context IContext, input *VerifyRequest) (result *VerifyResult
 	context.SetAuthCookie(commandResult.Token())
 
 	result = context.ResultContainer().(*VerifyResult)
-	result.Token = commandResult.Token()
+	result.Token = "Automatic"
 	return result, nil
 }

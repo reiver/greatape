@@ -20,7 +20,7 @@ func SignupService(context IContext, input *SignupRequest) (result *SignupResult
 	context.SetAuthCookie(commandResult.Token())
 
 	result = context.ResultContainer().(*SignupResult)
-	result.Token = commandResult.Token()
+	result.Token = "Automatic"
 	result.Code = commandResult.Code()
 	return result, nil
 }
